@@ -120,6 +120,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
 STATIC_URL = 'static/'
+STATIC_ROOT = "/var/www/augmego.com/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
