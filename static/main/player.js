@@ -1,7 +1,8 @@
 // import * as THREE from '../three/three.module.min.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
-import { objectScene, camera } from '../main/main.js';
+import { objectScene, camera, mainCanvas } from '../main/main.js';
+import { selectedObject } from '../main/raycaster.js';
 
 // Instantiate a loader
 let gltf_loader = new GLTFLoader();
@@ -25,3 +26,24 @@ gltf_loader.load(
         objectScene.add( myPlayer.scene );
     }
 );
+
+export let myPlayerTargetPosition = undefined;
+
+function singleClick(event) {
+    // Moves Player
+    event.preventDefault();
+    event.stopPropagation();
+    // If there's exactly one finger inside this element
+    if (event.targetTouches && event.targetTouches.length == 1) {
+      return event.targetTouches[0];
+    } else {
+      return event;
+    }
+}
+
+mainCanvas.onmousedown = function(event) {
+    event = singleClick(event);
+    event = selectedObject(event);
+    myPlayerTargetPosition = event.point;
+    myPlayer.scene.lookAt(event.point.x, 0.0, event.point.z);
+}
