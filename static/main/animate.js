@@ -1,5 +1,5 @@
 import { myPlayer, myPlayerTargetPosition } from '../main/player.js';
-import { objectScene, camera, controls, renderer } from '../main/main.js';
+import { objectScene, camera, renderer } from '../main/main.js';
 
 const stepDistance = 0.01;
 
@@ -13,7 +13,7 @@ function animate() {
     }
 
     // required if controls.enableDamping or controls.autoRotate are set to true
-	controls.update();
+	// controls.update();
 
 	renderer.render( objectScene, camera );
 }

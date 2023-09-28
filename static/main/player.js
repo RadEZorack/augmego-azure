@@ -21,6 +21,7 @@ gltf_loader.load(
     function ( gltf ) {
         myPlayer = gltf;
 
+        camera.lookAt(myPlayer.scene.position);
         myPlayer.scene.add(camera);
 
         objectScene.add( myPlayer.scene );
