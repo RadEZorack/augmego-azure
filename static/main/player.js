@@ -1,4 +1,4 @@
-// import * as THREE from '../three/three.module.min.js';
+import * as THREE from '../three/three.module.min.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
 import { objectScene, camera, mainCanvas } from '../main/main.js';
@@ -45,5 +45,14 @@ mainCanvas.onmousedown = function(event) {
     event = singleClick(event);
     event = selectedObject(event);
     myPlayerTargetPosition = event.point;
-    myPlayer.scene.lookAt(event.point.x, 0.0, event.point.z);
+    myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
+
+    // const mixer = new THREE.AnimationMixer(myPlayer.scene);
+    // const clip = myPlayer.animations[0]
+    // console.log(clip);
+    // const action = mixer.clipAction( clip );
+    // action.play();
+    // if (mixer){
+    //     mixer.update( 2 * clock.getDelta() );
+    // }
 }
