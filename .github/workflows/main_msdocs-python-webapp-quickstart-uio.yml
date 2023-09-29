@@ -58,6 +58,14 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Get and use ID Token
+        shell: bash
+        env:
+          ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ secrets.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
+        run: |
+          ID_TOKEN=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"audience\": \"YOUR_AUDIENCE\"}" "${ACTIONS_ID_TOKEN_REQUEST_URL}")
+          # Now you have ID_TOKEN, you can use it to authenticate against your service
+
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
