@@ -8,20 +8,14 @@
 <html>
    <body>
      <main>
-        <div class="px-4 py-3 my-2 text-center">
-            <img class="d-block mx-auto mb-4" src="{% static 'images/azure-icon.svg' %}" alt="Azure Logo" width="192" height="192"/>
-            <!-- <img  src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
-            <h1 class="display-6 fw-bold">Hello {{name}}</h1>
-            <p class="fs-5">
-                It is nice to meet you!
-            </p>
-            <a href="{% url 'index' %}" class="btn btn-primary btn-lg px-4 gap-3">Back home</a>
-          </div>
+        <div id="threeJSContainer"></div>
      </main>
+     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
      <script src="{% static 'three/three.module.min.js' %}" type="module"></script>
      <script src="{% static 'three/OrbitControls.js' %}" type="module"></script>
      <script src="{% static 'three/DRACOLoader.js' %}" type="module"></script>
      <script src="{% static 'three/GLTFLoader.js' %}" type="module"></script>
+     <script src="{% static 'three/CSS3DRenderer.js' %}" type="module"></script>
      <script src="{% static 'main/main.js' %}" type="module"></script>
      <script src="{% static 'main/terrain.js' %}" type="module"></script>
      <script src="{% static 'main/player.js' %}" type="module"></script>

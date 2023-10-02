@@ -1,26 +1,61 @@
 import * as THREE from '../three/three.module.min.js';
-// import { OrbitControls } from '../three/OrbitControls.js';
 
-export const objectScene = new THREE.Scene();
 export const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10000 );
-// const camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 1000 );
 
-export const renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-export const mainCanvas = document.body.appendChild( renderer.domElement );
+export const scene = new THREE.Scene();
+export const objectScene = new THREE.Scene();
+objectScene.background = new THREE.Color(0xB1E1FF);
+scene.add(objectScene)
+export const cssScene = new THREE.Scene();
 
-// export const controls = new OrbitControls( camera, renderer.domElement );
+const sun = new THREE.SpotLight();
+sun.castShadow = true;
+sun.position.set(40, 40, 40);
+sun.target.position.set(-4, -4, -4);
+  // window.sun.shadowCameraVisible = true;
+objectScene.add(sun)
 
-//controls.update() must be called after any manual changes to the camera's transform
+console.log("Creating renderer");
+
+  export const rendererBackground = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+  rendererBackground.shadowMap.enabled = true;
+  rendererBackground.setPixelRatio(window.devicePixelRatio);
+  rendererBackground.setSize(window.innerWidth, window.innerHeight);
+  rendererBackground.domElement.style.position = 'absolute';
+  rendererBackground.domElement.style.top = 0;
+  rendererBackground.domElement.style.left = 0;
+  rendererBackground.domElement.style.zIndex = -1;
+  rendererBackground.domElement.style.pointerEvents = 'none';
+
+  export const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+  renderer.shadowMap.enabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.domElement.style.position = 'absolute';
+  renderer.domElement.style.top = 0;
+  renderer.domElement.style.left = 0;
+  renderer.domElement.style.zIndex = 2;
+//   renderer.domElement.style.pointerEvents = 'none';
+
+  export const rendererColor = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+  rendererColor.setPixelRatio(window.devicePixelRatio);
+  rendererColor.setSize(window.innerWidth, window.innerHeight);
+  rendererColor.domElement.style.position = 'absolute';
+  rendererColor.domElement.style.top = 0;
+  rendererColor.domElement.style.left = 0;
+  rendererColor.domElement.style.zIndex = 3;
+  rendererColor.domElement.style.pointerEvents = 'none';
+
+  // cssRenderer.domElement.appendChild(rendererColor.domElement);
+  // cssRenderer.domElement.appendChild(renderer.domElement);
+  // cssRenderer.domElement.appendChild(rendererBackground.domElement);
+
+  export const threeJSContainer = document.getElementById("threeJSContainer");
+  threeJSContainer.appendChild(rendererColor.domElement);
+  export const mainCanvas = threeJSContainer.appendChild(renderer.domElement);
+  threeJSContainer.appendChild(rendererBackground.domElement);
+
 camera.position.set( 0, 5, -5 );
-// controls.update();
-
-// const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-// const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-// const cube = new THREE.Mesh( geometry, material );
-// objectScene.add( cube );
-
-
 
 const light = new THREE.HemisphereLight( 0xffffff, 0x888888, 3 );
 light.position.set( 0, 1, 0 );
