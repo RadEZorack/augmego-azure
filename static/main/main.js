@@ -4,7 +4,7 @@ export const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / windo
 
 export const scene = new THREE.Scene();
 export const objectScene = new THREE.Scene();
-objectScene.background = new THREE.Color(0xB1E1FF);
+objectScene.background = new THREE.Color(0xB1E1FF); // light blue for sky
 scene.add(objectScene)
 export const cssScene = new THREE.Scene();
 
@@ -46,6 +46,7 @@ console.log("Creating renderer");
   rendererColor.domElement.style.zIndex = 3;
   rendererColor.domElement.style.pointerEvents = 'none';
 
+  // Moved to animate.js
   // cssRenderer.domElement.appendChild(rendererColor.domElement);
   // cssRenderer.domElement.appendChild(renderer.domElement);
   // cssRenderer.domElement.appendChild(rendererBackground.domElement);

@@ -8,7 +8,7 @@ const stepDistance = 0.01;
 const cssRenderer = createCssRenderer();
 threeJSContainer.appendChild(cssRenderer.domElement);
 
-const firstWebPage = create3dPage(1,1,1, new THREE.Vector3(5,1,5), new THREE.Vector3(0,0,0), "https://courseware.cemc.uwaterloo.ca/", "")
+const firstWebPage = create3dPage(100,100,0.01, new THREE.Vector3(5,1,5), new THREE.Vector3(0,0,0), "https://courseware.cemc.uwaterloo.ca/", "")
 
 function animate() {
 	requestAnimationFrame( animate );
@@ -25,7 +25,7 @@ function animate() {
     cssRenderer.render(cssScene, camera);
 
     renderer.setRenderTarget(null);
-	renderer.render( objectScene, camera );
+	renderer.render( scene, camera );
 
     rendererBackground.setRenderTarget(null);
     rendererBackground.render(objectScene, camera);

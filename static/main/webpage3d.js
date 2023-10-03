@@ -6,7 +6,7 @@ import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 // Creates WebGL Renderer
 //
 ///////////////////////////////////////////////////////////////////
-function createGlRenderer() {
+export function createGlRenderer() {
   const glRenderer = new THREE.WebGLRenderer({ alpha: true });
 
   glRenderer.setClearColor(0xecf8ff);
@@ -118,10 +118,12 @@ export function create3dPage(w, h, s, position, rotation, url, html) {
   const plane = createPlane(w, h, s, position, rotation);
 
   // Manually call this when you want.
+  console.log(plane);
   objectScene.add(plane);
 
   const cssObject = createCssObject(w, h, s, position, rotation, url, html);
 
+  console.log(cssObject);
   cssScene.add(cssObject);
 
   return { plane: plane, cssObject: cssObject, scale: s };
