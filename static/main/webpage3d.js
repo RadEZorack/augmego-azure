@@ -33,6 +33,7 @@ export function createCssRenderer() {
   cssRenderer.domElement.style.position = "absolute";
   cssRenderer.domElement.style.zIndex = 1;
   cssRenderer.domElement.style.top = 0;
+  // cssRenderer.domElement.style.top = 0;
 
   return cssRenderer;
 }
@@ -73,14 +74,14 @@ function createCssObject(w, h, s, position, rotation, url, html) {
   // w *= 100
   // h *= 100
   if (url) {
-    (html =
+    html =
       '<iframe src="' +
       url +
       '" width="' +
       w +
-      '" height="' +
+      'px" height="' +
       h +
-      '" allow="autoplay">'),
+      'px" allow="autoplay">' +
       "</iframe>";
   }
   html = [
