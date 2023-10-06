@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.min.js';
+import * as THREE from '../three/three.module.js';
 import { objectScene } from '../main/main.js';
 
 const quadGeometry = new THREE.BufferGeometry();
@@ -41,6 +41,14 @@ quadGeometry.setIndex(new THREE.BufferAttribute(indices, 1));
 const quadMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff } );
 
 const instanceCount = 1000*1000; // Example: 100 instances
+
+const colors = new Float32Array(instanceCount * 3); // 3 for RGB
+for (let i = 0; i < instanceCount; i++) {
+  colors[i * 3] = Math.random(); // R
+  colors[i * 3 + 1] = Math.random(); // G
+  colors[i * 3 + 2] = Math.random(); // B
+}
+quadGeometry.setAttribute('instanceColor', new THREE.InstancedBufferAttribute(colors, 3));
 
 let quadMesh = new THREE.InstancedMesh( quadGeometry, quadMaterial, instanceCount);
 
@@ -86,7 +94,7 @@ for (let i = 0.0; i < instanceCount; i++) {
     // matrix.compose(position, new THREE.Quaternion().setFromEuler(rotation), scale);
     matrix.setPosition(position);
     quadMesh.setMatrixAt(i, matrix);
-    quadMesh.setColorAt( i, color );
+    // quadMesh.setColorAt( i, color );
 }
 
 quadMesh.instanceMatrix.needsUpdate = true; // Important!

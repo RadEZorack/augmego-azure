@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.min.js';
+import * as THREE from '../three/three.module.js';
 import { objectScene, camera } from '../main/main.js';
 
 const clickPosition = new THREE.Vector2();

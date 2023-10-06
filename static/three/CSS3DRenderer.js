@@ -8,7 +8,7 @@ import {
 	Matrix4,
 	Object3D,
 	Vector3
-} from '../three/three.module.min.js';
+} from '../three/three.module.js';
 
 class CSS3DObject extends Object3D {
 

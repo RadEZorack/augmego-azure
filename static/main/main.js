@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.min.js';
+import * as THREE from '../three/three.module.js';
 
 export const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10000 );
 

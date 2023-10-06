@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.min.js';
+import * as THREE from '../three/three.module.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
 import { objectScene, camera, mainCanvas } from '../main/main.js';

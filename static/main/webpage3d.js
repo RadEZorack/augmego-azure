@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.min.js';
+import * as THREE from '../three/three.module.js';
 import { objectScene, cssScene } from '../main/main.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 
@@ -79,9 +79,9 @@ function createCssObject(w, h, s, position, rotation, url, html) {
       url +
       '" width="' +
       w +
-      'px" height="' +
+      '" height="' +
       h +
-      'px" allow="autoplay">' +
+      '" allow="autoplay">' +
       "</iframe>";
   }
   html = [
