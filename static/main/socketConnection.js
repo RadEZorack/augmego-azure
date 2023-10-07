@@ -1,12 +1,13 @@
 console.log(window.location.host)
 
-let socket = undefined
-let peerConnections = {}
+export let socket = undefined
+export let peerConnections = {}
+export let message_que = []
 
 function initSocketConnection(){
   socket = new WebSocket(
       'wss://' + window.location.host +
-      '/ws/game/' + room_name + '/'
+      '/ws/game/room_name/' // TODO make multiple rooms
   );
 
   // WebRTC
@@ -22,7 +23,7 @@ function initSocketConnection(){
       message_que.push({
           'type': 'my_keys',
           'my_name': my_name,
-          'myUuid': myUuid,
+          // 'myUuid': myUuid,
           'keys': [],
           'time': now.getTime(),
           })
@@ -46,7 +47,11 @@ function initSocketConnection(){
   }
 
   socket.onclose = function(e) {
-      console.error('Chat socket closed unexpectedly');
+      console.error('Chat socket closed unexpectedly', e);
+  };
+
+  socket.onerror = function(e) {
+    console.error('Chat socket errored unexpectedly', e);
   };
 
   socket.onmessage = async function(e) {
@@ -295,3 +300,4 @@ function initSocketConnection(){
   };
 }
 
+initSocketConnection();

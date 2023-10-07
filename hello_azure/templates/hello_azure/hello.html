@@ -16,10 +16,17 @@
      <script src="{% static 'three/DRACOLoader.js' %}" type="module"></script>
      <script src="{% static 'three/GLTFLoader.js' %}" type="module"></script>
      <script src="{% static 'three/CSS3DRenderer.js' %}" type="module"></script>
+     <!-- Context specific variables-->
+         <script type="text/javascript">
+            const webcamUrl = '{% url "game:webcam" %}';
+            let my_name = "Bob-"+Math.random().toString();
+         </script>
+      <!-- Scripts -->
      <script src="{% static 'main/main.js' %}" type="module"></script>
      <script src="{% static 'main/terrain.js' %}" type="module"></script>
      <script src="{% static 'main/player.js' %}" type="module"></script>
      <script src="{% static 'main/raycaster.js' %}" type="module"></script>
      <script src="{% static 'main/animate.js' %}" type="module"></script>
+     <script src="{% static 'main/socketConnection.js' %}" type="module"></script>
    </body>
 </html>

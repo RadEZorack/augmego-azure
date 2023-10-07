@@ -7,3 +7,24 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+
+  augmego-django:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      REDIS_HOST: augmego-redis
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+
+  augmego-ngrok:
+    container_name: augmego-ngrok
+    image: wernight/ngrok
+    environment:
+      NGROK_PORT: "8000"
+      NGROK_DEBUG: "true"
+      NGROK_AUTH: "1m9OJapnAWad5yE5CxK8Woo9gkU_62VCktHhMGu3D1ycmM2aH"
+      NGROK_HOSTNAME: "369de4cfa06e-7199118840071997290.ngrok-free.app"
+      NGROK_LOOK_DOMAIN: "kubernetes.docker.internal"
+    

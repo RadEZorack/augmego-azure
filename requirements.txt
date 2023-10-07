@@ -2,3 +2,5 @@ Django
 whitenoise
 channels[daphne]
 channels_redis
+requests
+redis[hiredis]
