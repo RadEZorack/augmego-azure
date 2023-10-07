@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "accounts",
     'hello_azure',
     'chat',
+    'game',
 ]
 
 MIDDLEWARE = [

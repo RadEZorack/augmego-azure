@@ -1,0 +1,139 @@
+function initWebcamPage(myUuid, entityUuid){
+    console.log("4.a initWebcamPage")
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const { RTCPeerConnection, RTCSessionDescription, RTCIceCandidate } = window;
+    const configuration = {
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true,
+        iceServers: [     // Information about ICE servers - Use your own!
+            {
+            'urls':'stun:stun.l.google.com:19302'
+            },{
+            'urls':'stun:stun1.l.google.com:19302'
+            },{
+            'urls':'stun:stun2.l.google.com:19302'
+            },{
+            'urls':'stun:stun3.l.google.com:19302'
+            },{
+            'urls':'stun:stun4.l.google.com:19302'
+            }
+    ]};
+    if (peerConnections[entityUuid] == undefined){
+        peerConnections[entityUuid] =  {peerConnection: new RTCPeerConnection(configuration)};
+    }
+    peerConnection = peerConnections[entityUuid].peerConnection;
+
+    peerConnection.ondatachannel = (event) => {
+        let receiveChannel = event.channel;
+        console.log("received channel", receiveChannel)
+
+        receiveChannel.onerror = (error) => {
+            console.log("Data Channel Error:", error);
+        };
+
+        receiveChannel.onmessage = (event) => {
+            // console.log("Got webcam receive Channel Message:", event.data);
+            let edata = event.data;
+            try{
+            edata = JSON.parse(edata);
+            if("type" in edata && edata.type == "playermove"){
+                // console.log("playermove")
+                update_entity(edata)
+            }
+            }catch{
+                // this is not json
+            }
+        };
+
+        receiveChannel.onopen = () => {
+            console.log("Webcam Data receive opened")
+            receiveChannel.send("Webcam opened your data channel!");
+            function sendKeepAlive(){
+            const keep_alive_xhr = setTimeout(function(){
+                // console.log("keep alive")
+                try {
+                    receiveChannel.send("keep alive")
+                    
+                } catch (error) {
+                    console.log("receiveChannel closed")
+                    return null;
+                }
+                sendKeepAlive()
+            }, 50)
+            }
+            sendKeepAlive()
+        };
+
+        receiveChannel.onclose = () => {
+            console.log("The Data Channel is Closed");
+        };
+    };
+    // END ondatachannel
+
+    peerConnection.ontrack = function(event) {
+        console.log("received media", event)
+        let remoteVideo = document.getElementById("remote-video-"+entityUuid);
+        remoteVideo.onloadedmetadata = function(e) {
+            console.log("play the video")
+            remoteVideo.play();
+        };
+        console.log(remoteVideo)
+        if (remoteVideo) {
+        remoteVideo.srcObject = event.streams[0];
+        console.log(remoteVideo, remoteVideo.srcObject)
+        }
+    };
+    // End ontrack
+
+    peerConnection.onicecandidate = function(event) {
+        // console.log("onicecandidate", event)
+      if (event.candidate) {
+        // Send the candidate to the remote peer
+        socket.send(JSON.stringify({"send-candidate": {
+          candidate: event.candidate,
+          to: entityUuid,
+          onBehalfOf: myUuid
+        }}));
+      } else {
+        console.log("All ICE candidates have been sent");
+      }
+    }
+    // End onicecanfidate
+
+    peerConnection.onnegotiationneeded = function(){
+        console.log("renegotiating")
+        peerConnection.createOffer({offerToReceiveAudio: true, offerToReceiveVideo: true,}).then(function(offer) {
+            return peerConnection.setLocalDescription(offer);
+          })
+          .then(function() {
+            socket.send(JSON.stringify({"call-user": {
+              offer: peerConnection.localDescription,
+              to: entityUuid,
+              onBehalfOf: myUuid
+            }}));
+          })
+          .catch(function(err){
+            console.log(err)
+          });
+    };
+    // End onnegotiationneeded
+
+    console.log("5.a calling:", entityUuid)
+    
+    message_que.push({
+        'type': 'my_keys',
+        'my_name': my_name,
+        'myUuid': myUuid,
+        'keys': [],
+        'time': now.getTime(),
+        })
+    socket.send(JSON.stringify({'message_que': message_que}));
+    socket.send(JSON.stringify({"request-media": {
+        to: entityUuid,
+        onBehalfOf: myUuid
+    }}));
+    
+}
