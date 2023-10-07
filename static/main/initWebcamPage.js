@@ -1,4 +1,7 @@
-function initWebcamPage(myUuid, entityUuid){
+import { peerConnections, message_que, socket } from '../main/socketConnection.js';
+import { update_entity } from '../main/entity.js';
+
+export function initWebcamPage(myUuid, entityUuid){
     console.log("4.a initWebcamPage")
 
     const queryString = window.location.search;
@@ -24,7 +27,7 @@ function initWebcamPage(myUuid, entityUuid){
     if (peerConnections[entityUuid] == undefined){
         peerConnections[entityUuid] =  {peerConnection: new RTCPeerConnection(configuration)};
     }
-    peerConnection = peerConnections[entityUuid].peerConnection;
+    let peerConnection = peerConnections[entityUuid].peerConnection;
 
     peerConnection.ondatachannel = (event) => {
         let receiveChannel = event.channel;
@@ -40,11 +43,12 @@ function initWebcamPage(myUuid, entityUuid){
             try{
             edata = JSON.parse(edata);
             if("type" in edata && edata.type == "playermove"){
-                // console.log("playermove")
+                console.log("playermove")
                 update_entity(edata)
             }
-            }catch{
+            }catch(e){
                 // this is not json
+                console.error("data channel error", e);
             }
         };
 
@@ -75,6 +79,7 @@ function initWebcamPage(myUuid, entityUuid){
 
     peerConnection.ontrack = function(event) {
         console.log("received media", event)
+        console.log("remote-video-"+entityUuid)
         let remoteVideo = document.getElementById("remote-video-"+entityUuid);
         remoteVideo.onloadedmetadata = function(e) {
             console.log("play the video")
@@ -122,7 +127,9 @@ function initWebcamPage(myUuid, entityUuid){
     // End onnegotiationneeded
 
     console.log("5.a calling:", entityUuid)
-    
+
+    const now = new Date();
+
     message_que.push({
         'type': 'my_keys',
         'my_name': my_name,

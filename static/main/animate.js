@@ -4,6 +4,8 @@ import { scene, objectScene, cssScene, camera, renderer, rendererBackground, thr
 import { create3dPage, createCssRenderer, createGlRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { selectedObject } from '../main/raycaster.js';
+import { sendPlayerPeerData } from '../main/sendPlayerData.js';
+
 
 const stepDistance = 0.01;
 
@@ -88,6 +90,8 @@ function animate() {
         myPlayer.scene.position.y += stepDistance * (myPlayerTargetPosition.y - myPlayer.scene.position.y);
         myPlayer.scene.position.z += stepDistance * (myPlayerTargetPosition.z - myPlayer.scene.position.z);
     }
+
+    sendPlayerPeerData();
 
     // required if controls.enableDamping or controls.autoRotate are set to true
 	// controls.update();

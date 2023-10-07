@@ -1,4 +1,4 @@
-import { entities } from '../main/entity.js';
+import { entities, update_entity, remove_entity } from '../main/entity.js';
 
 console.log(window.location.host)
 
@@ -95,7 +95,7 @@ function initSocketConnection(){
                       'rz': message.message_que[i].rz,
                       'keys': {},
                   }
-                  // console.log("initialize player", update)
+                  console.log("initialize player", update)
                   if (!(update.entity_key in entities)){
                     update_entity(update)
                   }
@@ -105,6 +105,8 @@ function initSocketConnection(){
       }
 
       let entity_key = "player:"+from
+      console.log(entities);
+      console.log(entity_key);
       if (!(entity_key in entities)){
         console.log("short circuit: ", entity_key);
         return;
@@ -178,7 +180,7 @@ function initSocketConnection(){
         console.log("5.b call-made", from)
         let peerConnection = peerConnections[from].peerConnection;
 
-        data = message["call-made"]
+        const data = message["call-made"]
         await peerConnection.setRemoteDescription(
             new RTCSessionDescription(data.offer)
         );
@@ -198,7 +200,7 @@ function initSocketConnection(){
 
         sendChannel.onopen = () => {
           console.log("Data send opened")
-          sendChannel.send("Hello World!");
+          sendChannel.send(JSON.stringify({"type": "Hello World!"}));
         };
 
         sendChannel.onclose = () => {

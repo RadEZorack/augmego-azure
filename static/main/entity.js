@@ -1,6 +1,10 @@
 import * as THREE from '../three/three.module.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
+import { create3dPage } from '../main/webpage3d.js';
+import { objectScene, cssScene, camera } from '../main/main.js';
+import { initWebcamPage } from '../main/initWebcamPage.js';
+
 
 export var entities = {}
 var my_position = undefined
@@ -11,7 +15,7 @@ var gltf_loader = new GLTFLoader();
 var dracoLoader = new DRACOLoader();
 // dracoLoader.setDecoderPath( dracoLoaderUrl );
 gltf_loader.setDRACOLoader( dracoLoader );
-function update_entity(entity_data){
+export function update_entity(entity_data){
   // console.log(entity_data.time, entity_data.z, entity_data.type)
     let entity_key = entity_data['entity_key']
     let name = entity_data['name']
@@ -22,6 +26,9 @@ function update_entity(entity_data){
     let ry = entity_data['ry']
     let rz = entity_data['rz']
     let animation = entity_data['animation']
+
+    // console.log("----here");
+    // console.log(entity_key);
 
     if (entity_key == "player:undefined" ){
         return
@@ -57,7 +64,7 @@ function update_entity(entity_data){
             // 1.5m wide
             100, 100,
             0.005,
-            new THREE.Vector3(x, y+ 1, z),
+            new THREE.Vector3(x, y + 2, z),
             new THREE.Vector3(0, ry, 0),
             "",
             webcamHtml);
@@ -71,7 +78,7 @@ function update_entity(entity_data){
             // called when the resource is loaded
             function ( gltf ) {
                 // console.log('gltf', gltf)
-                window.objectScene.add( gltf.scene );
+                objectScene.add( gltf.scene );
 
 
                 entities[entity_key] = {
@@ -84,7 +91,7 @@ function update_entity(entity_data){
                 // console.log("passed")
 
                 gltf.scene.position.x = x
-                gltf.scene.position.y = y - 1.1
+                gltf.scene.position.y = y
                 gltf.scene.position.z = z
 
                 // gltf.scene.rotation.x = rx
@@ -142,7 +149,7 @@ function update_entity(entity_data){
         const gltf = entities[entity_key]['gltf']
 
         gltf.scene.position.x = x
-        gltf.scene.position.y = y - 1.1
+        gltf.scene.position.y = y
         gltf.scene.position.z = z
 
         const gltfEuler = new THREE.Euler(0, 0, 0, "YXZ")
@@ -152,21 +159,24 @@ function update_entity(entity_data){
         gltf.scene.rotation.z = rz
 
         // flip around
-        gltfEuler.setFromQuaternion(gltf.scene.quaternion)
-        gltfEuler.x = 0;
-        gltfEuler.y += Math.PI;
-        gltfEuler.z = 0;
-        gltf.scene.quaternion.setFromEuler(gltfEuler)
+        // not needed
+        // gltfEuler.setFromQuaternion(gltf.scene.quaternion)
+        // gltfEuler.x = 0;
+        // gltfEuler.y += Math.PI;
+        // gltfEuler.z = 0;
+        // gltf.scene.quaternion.setFromEuler(gltfEuler)
+
+
         // gltf.scene.rotation.x = 0
         // gltf.scene.rotation.z = 0
 
         const plane = entities[entity_key]['plane']
 
         plane.position.x = x
-        plane.position.y = y + 1;
+        plane.position.y = y + 2;
         plane.position.z = z
 
-        plane.lookAt(window.camera.position)
+        plane.lookAt(camera.position)
         // plane.rotation.x = rx;
         // plane.rotation.y = ry;
         // // plane.rotation.y += Math.PI;
@@ -200,16 +210,16 @@ function update_entity(entity_data){
     }
 }
 
-function remove_entity(entity_key){
+export function remove_entity(entity_key){
     // let entity_key = entity_data['entity_key']
     console.log("removing:", entity_key, entities[entity_key])
     if (entities[entity_key] && !(entities[entity_key] == "loading")){
         gltf = entities[entity_key]['gltf']
-        window.objectScene.remove( gltf.scene );
+        objectScene.remove( gltf.scene );
         plane = entities[entity_key]['plane']
-        window.objectScene.remove(plane);
+        objectScene.remove(plane);
         cssObject = entities[entity_key]['cssObject']
-        window.cssScene.remove(cssObject);
+        cssScene.remove(cssObject);
 
         // When changing names we need to give some time tolerance before readding the same player.
         entities[entity_key] = "loading"
