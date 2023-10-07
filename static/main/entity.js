@@ -4,6 +4,7 @@ import { DRACOLoader } from '../three/DRACOLoader.js';
 import { create3dPage } from '../main/webpage3d.js';
 import { objectScene, cssScene, camera } from '../main/main.js';
 import { initWebcamPage } from '../main/initWebcamPage.js';
+import { myPlayer } from '../main/player.js';
 
 
 export var entities = {}
@@ -173,14 +174,17 @@ export function update_entity(entity_data){
         const plane = entities[entity_key]['plane']
 
         plane.position.x = x
-        plane.position.y = y + 2;
+        plane.position.y = y + 2.5;
         plane.position.z = z
 
-        plane.lookAt(camera.position)
-        // plane.rotation.x = rx;
-        // plane.rotation.y = ry;
-        // // plane.rotation.y += Math.PI;
-        // plane.rotation.z = rz;
+        // planeLookAt + camera.position
+
+        // plane.lookAt(myPlayer.scene.position)
+
+        plane.rotation.x = rx;
+        plane.rotation.y = ry;
+        // plane.rotation.y += Math.PI;
+        plane.rotation.z = rz;
 
         // flip around
         // Enable this to keep the web cam level.

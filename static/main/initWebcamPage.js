@@ -43,7 +43,7 @@ export function initWebcamPage(myUuid, entityUuid){
             try{
             edata = JSON.parse(edata);
             if("type" in edata && edata.type == "playermove"){
-                console.log("playermove")
+                // console.log("playermove")
                 update_entity(edata)
             }
             }catch(e){

@@ -105,10 +105,10 @@ function initSocketConnection(){
       }
 
       let entity_key = "player:"+from
-      console.log(entities);
-      console.log(entity_key);
+      // console.log(entities);
+      // console.log(entity_key);
       if (!(entity_key in entities)){
-        console.log("short circuit: ", entity_key);
+        // console.log("short circuit: ", entity_key);
         return;
       }
 
