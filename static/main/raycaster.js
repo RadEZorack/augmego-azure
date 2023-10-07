@@ -17,7 +17,7 @@ export function selectedObject(e, preview = false) {
     Array.from(objectScene.children),
     true
   ); //array
-  // console.log("intersects", intersects);
+  console.log("intersects", intersects);
   if (intersects.length > 0) {
     const selectedObject = intersects[0];
     // console.log("selectedObject", selectedObject);

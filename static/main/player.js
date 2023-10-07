@@ -1,7 +1,7 @@
 import * as THREE from '../three/three.module.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
-import { objectScene, camera, mainCanvas } from '../main/main.js';
+import { objectScene, camera, backgroundCanvas } from '../main/main.js';
 import { selectedObject } from '../main/raycaster.js';
 
 // Instantiate a loader
@@ -28,12 +28,12 @@ gltf_loader.load(
     }
 );
 
-export let myPlayerTargetPosition = undefined;
+// export let myPlayerTargetPosition = undefined;
 
-function singleClick(event) {
+export function singleClick(event) {
     // Moves Player
-    event.preventDefault();
-    event.stopPropagation();
+    // event.preventDefault();
+    // event.stopPropagation();
     // If there's exactly one finger inside this element
     if (event.targetTouches && event.targetTouches.length == 1) {
       return event.targetTouches[0];
@@ -42,18 +42,19 @@ function singleClick(event) {
     }
 }
 
-mainCanvas.onmousedown = function(event) {
-    event = singleClick(event);
-    event = selectedObject(event);
-    myPlayerTargetPosition = event.point;
-    myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
+// threeJSContainer.onmousedown = function(event) {
+//   console.log(event);
+//     event = singleClick(event);
+//     event = selectedObject(event);
+//     myPlayerTargetPosition = event.point;
+//     myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
 
-    // const mixer = new THREE.AnimationMixer(myPlayer.scene);
-    // const clip = myPlayer.animations[0]
-    // console.log(clip);
-    // const action = mixer.clipAction( clip );
-    // action.play();
-    // if (mixer){
-    //     mixer.update( 2 * clock.getDelta() );
-    // }
-}
+//     // const mixer = new THREE.AnimationMixer(myPlayer.scene);
+//     // const clip = myPlayer.animations[0]
+//     // console.log(clip);
+//     // const action = mixer.clipAction( clip );
+//     // action.play();
+//     // if (mixer){
+//     //     mixer.update( 2 * clock.getDelta() );
+//     // }
+// }

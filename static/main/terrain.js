@@ -39,7 +39,7 @@ quadGeometry.setIndex(new THREE.BufferAttribute(indices, 1));
 // quadGeometry.setAttribute( 'normal', new THREE.BufferAttribute( quadNormals, 3 ) );
 // quadGeometry.setAttribute( 'uv', new THREE.BufferAttribute( triangleUVs, 2 ) );
 
-const quadMaterial = new THREE.MeshBasicMaterial( { color: 0x00aa00 } );
+const quadMaterial = new THREE.MeshBasicMaterial( { color: 0x007700 } );
 
 const instanceCount = 1000*1000; // Example: 100 instances
 

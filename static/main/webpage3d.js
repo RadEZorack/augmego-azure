@@ -16,7 +16,7 @@ export function createGlRenderer() {
   glRenderer.domElement.style.position = "absolute";
   glRenderer.domElement.style.zIndex = 1;
   glRenderer.domElement.style.top = 0;
-  glRenderer.domElement.style.pointerEvents = "none";
+  // glRenderer.domElement.style.pointerEvents = "none";
 
   return glRenderer;
 }

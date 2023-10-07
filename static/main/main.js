@@ -25,7 +25,7 @@ console.log("Creating renderer");
   rendererBackground.domElement.style.top = 0;
   rendererBackground.domElement.style.left = 0;
   rendererBackground.domElement.style.zIndex = -1;
-  rendererBackground.domElement.style.pointerEvents = 'none';
+  // rendererBackground.domElement.style.pointerEvents = 'none';
 
   export const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
   renderer.shadowMap.enabled = true;
@@ -35,16 +35,17 @@ console.log("Creating renderer");
   renderer.domElement.style.top = 0;
   renderer.domElement.style.left = 0;
   renderer.domElement.style.zIndex = 2;
-//   renderer.domElement.style.pointerEvents = 'none';
+  renderer.domElement.style.pointerEvents = 'none';
 
-  export const rendererColor = new THREE.WebGLRenderer({ antialias: false, alpha: true });
-  rendererColor.setPixelRatio(window.devicePixelRatio);
-  rendererColor.setSize(window.innerWidth, window.innerHeight);
-  rendererColor.domElement.style.position = 'absolute';
-  rendererColor.domElement.style.top = 0;
-  rendererColor.domElement.style.left = 0;
-  rendererColor.domElement.style.zIndex = 3;
-  rendererColor.domElement.style.pointerEvents = 'none';
+  // Not used
+  // export const rendererColor = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+  // rendererColor.setPixelRatio(window.devicePixelRatio);
+  // rendererColor.setSize(window.innerWidth, window.innerHeight);
+  // rendererColor.domElement.style.position = 'absolute';
+  // rendererColor.domElement.style.top = 0;
+  // rendererColor.domElement.style.left = 0;
+  // rendererColor.domElement.style.zIndex = 3;
+  // rendererColor.domElement.style.pointerEvents = 'none';
 
   // Moved to animate.js
   // cssRenderer.domElement.appendChild(rendererColor.domElement);
@@ -52,9 +53,9 @@ console.log("Creating renderer");
   // cssRenderer.domElement.appendChild(rendererBackground.domElement);
 
   export const threeJSContainer = document.getElementById("threeJSContainer");
-  threeJSContainer.appendChild(rendererColor.domElement);
+  // threeJSContainer.appendChild(rendererColor.domElement);
   export const mainCanvas = threeJSContainer.appendChild(renderer.domElement);
-  threeJSContainer.appendChild(rendererBackground.domElement);
+  export const backgroundCanvas = threeJSContainer.appendChild(rendererBackground.domElement);
 
 camera.position.set( 0, 5, -5 );
 

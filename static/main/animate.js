@@ -1,8 +1,9 @@
 import * as THREE from '../three/three.module.js';
-import { myPlayer, myPlayerTargetPosition } from '../main/player.js';
-import { scene, objectScene, cssScene, camera, renderer, rendererBackground, rendererColor, threeJSContainer } from '../main/main.js';
+import { myPlayer, singleClick } from '../main/player.js';
+import { scene, objectScene, cssScene, camera, renderer, rendererBackground, threeJSContainer } from '../main/main.js';
 import { create3dPage, createCssRenderer, createGlRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
+import { selectedObject } from '../main/raycaster.js';
 
 const stepDistance = 0.01;
 
@@ -42,7 +43,29 @@ const cssRenderer = new CSS3DRenderer();
 cssRenderer.setSize(window.innerWidth, window.innerHeight);
 
 // add the output of the renderer to the html element
-document.body.appendChild(cssRenderer.domElement);
+let cssDiv = document.body.appendChild(cssRenderer.domElement);
+
+let myPlayerTargetPosition = undefined;
+
+cssDiv.onmousedown = function(event) {
+    // console.log(event);
+      event = singleClick(event);
+      event = selectedObject(event);
+      myPlayerTargetPosition = event.point;
+      myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
+  
+      // const mixer = new THREE.AnimationMixer(myPlayer.scene);
+      // const clip = myPlayer.animations[0]
+      // console.log(clip);
+      // const action = mixer.clipAction( clip );
+      // action.play();
+      // if (mixer){
+      //     mixer.update( 2 * clock.getDelta() );
+      // }
+  }
+
+
+
 // let cssElement = createCSS3DObject(string);
 create3dPage(
     1200,
