@@ -1,11 +1,15 @@
-var entities = {}
+import * as THREE from '../three/three.module.js';
+import { GLTFLoader } from '../three/GLTFLoader.js';
+import { DRACOLoader } from '../three/DRACOLoader.js';
+
+export var entities = {}
 var my_position = undefined
 // Instantiate a loader
-var gltf_loader = new THREE.GLTFLoader();
+var gltf_loader = new GLTFLoader();
 
 // // Optional: Provide a DRACOLoader instance to decode compressed mesh data
-var dracoLoader = new THREE.DRACOLoader();
-dracoLoader.setDecoderPath( dracoLoaderUrl );
+var dracoLoader = new DRACOLoader();
+// dracoLoader.setDecoderPath( dracoLoaderUrl );
 gltf_loader.setDRACOLoader( dracoLoader );
 function update_entity(entity_data){
   // console.log(entity_data.time, entity_data.z, entity_data.type)
@@ -63,7 +67,7 @@ function update_entity(entity_data){
 
         gltf_loader.load(
             // resource URL
-            cesiumManUrl,
+            "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
             // called when the resource is loaded
             function ( gltf ) {
                 // console.log('gltf', gltf)

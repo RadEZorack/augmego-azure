@@ -1,3 +1,5 @@
+import { entities } from '../main/entity.js';
+
 console.log(window.location.host)
 
 export let socket = undefined
@@ -16,6 +18,7 @@ function initSocketConnection(){
 
   console.log("1. ", socket)
 
+  let send_message_que_xhr;
 
   function send_message_que(){
       // Send an instant message, reset que, then try sending another message
@@ -23,7 +26,7 @@ function initSocketConnection(){
       message_que.push({
           'type': 'my_keys',
           'my_name': my_name,
-          // 'myUuid': myUuid,
+          'myUuid': myUuid,
           'keys': [],
           'time': now.getTime(),
           })
