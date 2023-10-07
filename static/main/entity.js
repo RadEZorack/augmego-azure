@@ -192,13 +192,13 @@ export function update_entity(entity_data){
 
         const cssObject = entities[entity_key]['cssObject']
 
-        cssObject.position.x = x
-        cssObject.position.y = y + 1;
-        cssObject.position.z = z
+        cssObject.position.x = plane.position.x;
+        cssObject.position.y = plane.position.y;
+        cssObject.position.z = plane.position.z;
 
-        cssObject.rotation.x = plane.rotation.x
-        cssObject.rotation.y = plane.rotation.y
-        cssObject.rotation.z = plane.rotation.z
+        cssObject.rotation.x = plane.rotation.x;
+        cssObject.rotation.y = plane.rotation.y;
+        cssObject.rotation.z = plane.rotation.z;
 
         // plane.translateZ(-50)
         // plane.translateY(325)
