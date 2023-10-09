@@ -13,6 +13,8 @@ let dracoLoader = new DRACOLoader();
 gltf_loader.setDRACOLoader( dracoLoader );
 
 export let myPlayer = undefined;
+export const cameraController = new THREE.Object3D;
+export const playerWrapper = new THREE.Object3D;
 
 gltf_loader.load(
     // resource URL
@@ -21,10 +23,16 @@ gltf_loader.load(
     function ( gltf ) {
         myPlayer = gltf;
 
+        playerWrapper.add(myPlayer.scene);
+        playerWrapper.add(cameraController);
+        
+        // cameraController.position.x = myPlayer.scene.position.x;
+        // cameraController.position.y = myPlayer.scene.position.y;
+        // cameraController.position.z = myPlayer.scene.position.z;
+        cameraController.add(camera);
         camera.lookAt(myPlayer.scene.position);
-        myPlayer.scene.add(camera);
 
-        objectScene.add( myPlayer.scene );
+        objectScene.add( playerWrapper );
     }
 );
 

@@ -1,5 +1,5 @@
 import * as THREE from '../three/three.module.js';
-import { myPlayer, singleClick } from '../main/player.js';
+import { myPlayer, singleClick, cameraController, playerWrapper } from '../main/player.js';
 import { scene, objectScene, cssScene, camera, renderer, rendererBackground, threeJSContainer } from '../main/main.js';
 import { create3dPage, createCssRenderer, createGlRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
@@ -51,10 +51,50 @@ let myPlayerTargetPosition = undefined;
 
 cssDiv.onmousedown = function(event) {
     // console.log(event);
+      let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
+    //   let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
+      const mouseSensitivity = 0.05; // Adjust to your liking
+
       event = singleClick(event);
       event = selectedObject(event);
-      myPlayerTargetPosition = event.point;
-      myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
+    //   console.log(event);
+    //   console.log(myPlayer);
+    //   console.log(event.object.parent.parent.uuid);
+    //   console.log(myPlayer.scene.uuid);
+
+      if ( !(event.object == undefined)
+        && !(event.object.parent == undefined)
+        && !(event.object.parent.parent == undefined)
+        && !(myPlayer.scene == undefined)
+        // && !(myPlayer.scene.parent == undefined)
+        // && !(myPlayer.scene.parent.parent == undefined)
+        && event.object.parent.parent.uuid == myPlayer.scene.uuid){
+                cssDiv.onmousemove = function(event) {
+                    let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
+                    if(!(prevScreenPosition.x == currentScreenPosition.x)){
+
+                        const deltaX = prevScreenPosition.x - currentScreenPosition.x
+                        const sensitivity = 0.01;
+                        cameraController.rotateY(sensitivity * Math.PI * deltaX);
+
+                        camera.lookAt(playerWrapper.position);
+                    }
+                    prevScreenPosition = currentScreenPosition;
+                    cssDiv.onmouseup = function(event) {
+                        cssDiv.onmousemove = undefined;
+                    }
+                }
+
+        return;
+      }else{
+        myPlayerTargetPosition = event.point;
+        // const previousRotation = new THREE.Euler(myPlayer.scene.rotation);
+        myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
+        // const currentRotation = new THREE.Euler(myPlayer.scene.rotation);
+        // cameraController.setRotationFromEuler(previousRotation - currentRotation);
+        
+      }
+      
   
       // const mixer = new THREE.AnimationMixer(myPlayer.scene);
       // const clip = myPlayer.animations[0]
@@ -85,10 +125,17 @@ create3dPage(
 function animate() {
 	requestAnimationFrame( animate );
     
-    if (!(myPlayerTargetPosition === undefined) && !(myPlayer === undefined)){
-        myPlayer.scene.position.x += stepDistance * (myPlayerTargetPosition.x - myPlayer.scene.position.x);
-        myPlayer.scene.position.y += stepDistance * (myPlayerTargetPosition.y - myPlayer.scene.position.y);
-        myPlayer.scene.position.z += stepDistance * (myPlayerTargetPosition.z - myPlayer.scene.position.z);
+    if (!(myPlayerTargetPosition === undefined) && !(playerWrapper === undefined)){
+        playerWrapper.position.x += stepDistance * (myPlayerTargetPosition.x - playerWrapper.position.x);
+        playerWrapper.position.y += stepDistance * (myPlayerTargetPosition.y - playerWrapper.position.y);
+        playerWrapper.position.z += stepDistance * (myPlayerTargetPosition.z - playerWrapper.position.z);
+
+        // cameraController.rotation.x = 0;
+        // cameraController.rotation.y = 0;
+        // cameraController.rotation.z = 0;
+        // cameraController.position.x += stepDistance * (myPlayerTargetPosition.x - myPlayer.scene.position.x);
+        // cameraController.position.y += stepDistance * (myPlayerTargetPosition.y - myPlayer.scene.position.y);
+        // cameraController.position.z += stepDistance * (myPlayerTargetPosition.z - myPlayer.scene.position.z);
     }
 
     sendPlayerPeerData();
