@@ -49,7 +49,9 @@ let cssDiv = document.body.appendChild(cssRenderer.domElement);
 
 let myPlayerTargetPosition = undefined;
 
-cssDiv.onmousedown = function(event) {
+cssDiv.onmousedown = onMouseDown;
+
+function onMouseDown(event) {
     // console.log(event);
       let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
     //   let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
@@ -70,6 +72,8 @@ cssDiv.onmousedown = function(event) {
         // && !(myPlayer.scene.parent.parent == undefined)
         && event.object.parent.parent.uuid == myPlayer.scene.uuid){
                 cssDiv.onmousemove = function(event) {
+                  cssDiv.onmousedown = undefined;
+                  $('iframe').css('pointer-events','none');
                     let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
                     if(!(prevScreenPosition.x == currentScreenPosition.x)){
                         const sensitivityX = 0.01;
@@ -90,6 +94,8 @@ cssDiv.onmousedown = function(event) {
                     prevScreenPosition = currentScreenPosition;
                     cssDiv.onmouseup = function(event) {
                         cssDiv.onmousemove = undefined;
+                        cssDiv.onmousedown = onMouseDown;
+                        $('iframe').css('pointer-events','');
                     }
                 }
 
