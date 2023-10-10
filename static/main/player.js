@@ -14,6 +14,7 @@ gltf_loader.setDRACOLoader( dracoLoader );
 
 export let myPlayer = undefined;
 export const cameraController = new THREE.Object3D;
+export const cameraRotator = new THREE.Object3D;
 export const playerWrapper = new THREE.Object3D;
 
 gltf_loader.load(
@@ -25,12 +26,16 @@ gltf_loader.load(
 
         playerWrapper.add(myPlayer.scene);
         playerWrapper.add(cameraController);
+        // playerWrapper.add(cameraRotator);
         
         // cameraController.position.x = myPlayer.scene.position.x;
         // cameraController.position.y = myPlayer.scene.position.y;
         // cameraController.position.z = myPlayer.scene.position.z;
-        cameraController.add(camera);
+        cameraController.add(cameraRotator);
+        cameraRotator.add(camera);
+
         camera.lookAt(myPlayer.scene.position);
+        // cameraRotator.lookAt(camera);
 
         objectScene.add( playerWrapper );
     }

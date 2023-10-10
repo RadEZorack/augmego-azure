@@ -1,5 +1,5 @@
 import * as THREE from '../three/three.module.js';
-import { myPlayer, singleClick, cameraController, playerWrapper } from '../main/player.js';
+import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
 import { scene, objectScene, cssScene, camera, renderer, rendererBackground, threeJSContainer } from '../main/main.js';
 import { create3dPage, createCssRenderer, createGlRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
@@ -72,13 +72,21 @@ cssDiv.onmousedown = function(event) {
                 cssDiv.onmousemove = function(event) {
                     let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
                     if(!(prevScreenPosition.x == currentScreenPosition.x)){
+                        const sensitivityX = 0.01;
 
                         const deltaX = prevScreenPosition.x - currentScreenPosition.x
-                        const sensitivity = 0.01;
-                        cameraController.rotateY(sensitivity * Math.PI * deltaX);
+                        cameraController.rotateY(sensitivityX * Math.PI * deltaX);
 
                         camera.lookAt(playerWrapper.position);
                     }
+                    if(!(prevScreenPosition.y == currentScreenPosition.y)){
+                      const sensitivityY = 0.01;
+
+                      const deltaY = prevScreenPosition.y - currentScreenPosition.y;
+                      cameraRotator.rotateX(- sensitivityY * Math.PI * deltaY);
+
+                      camera.lookAt(playerWrapper.position);
+                  }
                     prevScreenPosition = currentScreenPosition;
                     cssDiv.onmouseup = function(event) {
                         cssDiv.onmousemove = undefined;
