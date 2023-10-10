@@ -57,7 +57,7 @@ console.log("Creating renderer");
   export const mainCanvas = threeJSContainer.appendChild(renderer.domElement);
   export const backgroundCanvas = threeJSContainer.appendChild(rendererBackground.domElement);
 
-camera.position.set( 0, 5, -5 );
+camera.position.set( 0, 2, -5 );
 
 const light = new THREE.HemisphereLight( 0xffffff, 0x888888, 3 );
 light.position.set( 0, 1, 0 );

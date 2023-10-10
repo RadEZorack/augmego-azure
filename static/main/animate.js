@@ -1,6 +1,6 @@
 import * as THREE from '../three/three.module.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
-import { scene, objectScene, cssScene, camera, renderer, rendererBackground, threeJSContainer } from '../main/main.js';
+import { scene, objectScene, cssScene, camera, renderer, rendererBackground, threeJSContainer, backgroundCanvas } from '../main/main.js';
 import { create3dPage, createCssRenderer, createGlRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { selectedObject } from '../main/raycaster.js';
@@ -49,27 +49,36 @@ let cssDiv = document.body.appendChild(cssRenderer.domElement);
 
 let myPlayerTargetPosition = undefined;
 
+cssDiv.onmousemove = onMouseMove;
+function onMouseMove(event){
+  event = singleClick(event);
+  event = selectedObject(event);
+
+  if ( !(event == undefined)
+    && !(event.object == undefined)
+    && !(event.object.parent == undefined)
+    && !(event.object.parent.parent == undefined)
+    && !(myPlayer.scene == undefined)
+    && event.object.parent.parent.uuid == myPlayer.scene.uuid){
+      $('iframe').css('pointer-events','none');
+  }else{
+    $('iframe').css('pointer-events','');
+  }
+}
+
 cssDiv.onmousedown = onMouseDown;
 
 function onMouseDown(event) {
-    // console.log(event);
       let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
-    //   let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
-      const mouseSensitivity = 0.05; // Adjust to your liking
 
       event = singleClick(event);
       event = selectedObject(event);
-    //   console.log(event);
-    //   console.log(myPlayer);
-    //   console.log(event.object.parent.parent.uuid);
-    //   console.log(myPlayer.scene.uuid);
 
-      if ( !(event.object == undefined)
+      if ( !(event == undefined)
+        && !(event.object == undefined)
         && !(event.object.parent == undefined)
         && !(event.object.parent.parent == undefined)
         && !(myPlayer.scene == undefined)
-        // && !(myPlayer.scene.parent == undefined)
-        // && !(myPlayer.scene.parent.parent == undefined)
         && event.object.parent.parent.uuid == myPlayer.scene.uuid){
                 cssDiv.onmousemove = function(event) {
                   cssDiv.onmousedown = undefined;
@@ -93,7 +102,7 @@ function onMouseDown(event) {
                   }
                     prevScreenPosition = currentScreenPosition;
                     cssDiv.onmouseup = function(event) {
-                        cssDiv.onmousemove = undefined;
+                        cssDiv.onmousemove = onMouseMove;
                         cssDiv.onmousedown = onMouseDown;
                         $('iframe').css('pointer-events','');
                     }

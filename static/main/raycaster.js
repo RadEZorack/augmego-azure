@@ -9,7 +9,7 @@ export function selectedObject(e, preview = false) {
   clickPosition.x = (e.clientX / window.innerWidth) * 2 - 1;
   clickPosition.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-  // console.log(clickPosition);
+  console.log(clickPosition);
   raycaster.setFromCamera(clickPosition, camera);
   // console.log(Array.from(objectScene.children));
   // console.log(raycaster);
