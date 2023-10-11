@@ -49,6 +49,23 @@ let cssDiv = document.body.appendChild(cssRenderer.domElement);
 
 let myPlayerTargetPosition = undefined;
 
+
+let scale = 0.5;
+function onWheel(event) {
+  if( event.deltaY < 0.0){
+    scale = 0.5;
+  }else{
+    scale = -0.5;
+  }
+
+  // Apply scale transform
+  camera.position.z += scale;
+  if (camera.position.z >= -0.5){
+    camera.position.z = -0.5;
+  }else if (camera.position.z <= -10){
+    camera.position.z = -10;
+  }
+}
 cssDiv.onmousemove = onMouseMove;
 function onMouseMove(event){
   event = singleClick(event);
@@ -61,8 +78,10 @@ function onMouseMove(event){
     && !(myPlayer.scene == undefined)
     && event.object.parent.parent.uuid == myPlayer.scene.uuid){
       $('iframe').css('pointer-events','none');
+      cssDiv.onwheel = onWheel;
   }else{
     $('iframe').css('pointer-events','');
+    cssDiv.onwheel = undefined;
   }
 }
 
