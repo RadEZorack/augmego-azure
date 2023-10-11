@@ -70,15 +70,9 @@ function onWheel(event) {
 }
 cssDiv.onmousemove = onMouseMove;
 function onMouseMove(event){
-  event = singleClick(event);
-  event = selectedObject(event);
-
-  if ( !(event == undefined)
-    && !(event.object == undefined)
-    && !(event.object.parent == undefined)
-    && !(event.object.parent.parent == undefined)
-    && !(myPlayer.scene == undefined)
-    && event.object.parent.parent.uuid == myPlayer.scene.uuid){
+// Check if the mouse is in the middle of the screen.
+if (Math.abs(window.innerWidth / 2 - event.clientX) <= window.innerWidth / 10
+  && Math.abs(window.innerHeight / 2 - window.innerHeight / 5 - event.clientY) <= window.innerHeight / 10){
       $('iframe').css('pointer-events','none');
       cssDiv.onwheel = onWheel;
   }else{
