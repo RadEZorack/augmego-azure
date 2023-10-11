@@ -65,6 +65,8 @@ function onWheel(event) {
   }else if (camera.position.z <= -10){
     camera.position.z = -10;
   }
+
+  camera.lookAt(playerWrapper.position);
 }
 cssDiv.onmousemove = onMouseMove;
 function onMouseMove(event){
