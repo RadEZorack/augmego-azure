@@ -34,7 +34,7 @@ gltf_loader.load(
         cameraController.add(cameraRotator);
         cameraRotator.add(camera);
 
-        camera.lookAt(myPlayer.scene.position);
+        camera.lookAt(new THREE.Vector3(myPlayer.scene.position.x, myPlayer.scene.position.y + 2, myPlayer.scene.position.z));
         // cameraRotator.lookAt(camera);
 
         objectScene.add( playerWrapper );

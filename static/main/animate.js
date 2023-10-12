@@ -67,7 +67,9 @@ function onWheel(event) {
     camera.position.z = -10;
   }
 
-  camera.lookAt(playerWrapper.position);
+  // camera.lookAt(playerWrapper.position);
+  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, playerWrapper.position.y + 2, playerWrapper.position.z));
+
 }
 
 deadZone.onmousedown = onMouseDown;
@@ -83,7 +85,9 @@ function onMouseDown(event) {
           const deltaX = prevScreenPosition.x - currentScreenPosition.x
           cameraController.rotateY(sensitivityX * Math.PI * deltaX);
 
-          camera.lookAt(playerWrapper.position);
+          // camera.lookAt(playerWrapper.position);
+  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, playerWrapper.position.y + 2, playerWrapper.position.z));
+
       }
       if(!(prevScreenPosition.y == currentScreenPosition.y)){
         const sensitivityY = 0.01;
@@ -91,7 +95,9 @@ function onMouseDown(event) {
         const deltaY = prevScreenPosition.y - currentScreenPosition.y;
         cameraRotator.rotateX(- sensitivityY * Math.PI * deltaY);
 
-        camera.lookAt(playerWrapper.position);
+        // camera.lookAt(playerWrapper.position);
+  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, playerWrapper.position.y + 2, playerWrapper.position.z));
+
     }
       prevScreenPosition = currentScreenPosition;
       deadZone.onmouseup = function(event) {
