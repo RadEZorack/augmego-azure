@@ -68,7 +68,7 @@ function onWheel(event) {
   }
 
   // camera.lookAt(playerWrapper.position);
-  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, playerWrapper.position.y + 2, playerWrapper.position.z));
+  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
 
 }
 
@@ -86,7 +86,7 @@ function onMouseDown(event) {
           cameraController.rotateY(sensitivityX * Math.PI * deltaX);
 
           // camera.lookAt(playerWrapper.position);
-  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, playerWrapper.position.y + 2, playerWrapper.position.z));
+  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
 
       }
       if(!(prevScreenPosition.y == currentScreenPosition.y)){
@@ -96,7 +96,7 @@ function onMouseDown(event) {
         cameraRotator.rotateX(- sensitivityY * Math.PI * deltaY);
 
         // camera.lookAt(playerWrapper.position);
-  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, playerWrapper.position.y + 2, playerWrapper.position.z));
+  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
 
     }
       prevScreenPosition = currentScreenPosition;
