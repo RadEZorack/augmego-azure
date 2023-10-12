@@ -44,13 +44,14 @@ const stepDistance = 0.01;
 const cssRenderer = new CSS3DRenderer();
 cssRenderer.setSize(window.innerWidth, window.innerHeight);
 
-// add the output of the renderer to the html element
 let cssDiv = document.body.appendChild(cssRenderer.domElement);
+let deadZone = document.getElementById("deadZone");
 
 let myPlayerTargetPosition = undefined;
 
 
 let scale = 0.5;
+deadZone.onwheel = onWheel;
 function onWheel(event) {
   if( event.deltaY < 0.0){
     scale = 0.5;
@@ -60,92 +61,60 @@ function onWheel(event) {
 
   // Apply scale transform
   camera.position.z += scale;
-  if (camera.position.z >= -0.5){
-    camera.position.z = -0.5;
+  if (camera.position.z >= 0.5){
+    camera.position.z = 0.5;
   }else if (camera.position.z <= -10){
     camera.position.z = -10;
   }
 
   camera.lookAt(playerWrapper.position);
 }
-cssDiv.onmousemove = onMouseMove;
-function onMouseMove(event){
-// Check if the mouse is in the middle of the screen.
-if (Math.abs(window.innerWidth / 2 - event.clientX) <= window.innerWidth / 10
-  && Math.abs(window.innerHeight / 2 - window.innerHeight / 5 - event.clientY) <= window.innerHeight / 10){
-      $('iframe').css('pointer-events','none');
-      cssDiv.onwheel = onWheel;
-  }else{
-    $('iframe').css('pointer-events','');
-    cssDiv.onwheel = undefined;
+
+deadZone.onmousedown = onMouseDown;
+function onMouseDown(event) {
+  let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
+  deadZone.onmousemove = function(event) {
+  //   cssDiv.onmousedown = undefined;
+    // $('iframe').css('pointer-events','none');
+      let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
+      if(!(prevScreenPosition.x == currentScreenPosition.x)){
+          const sensitivityX = 0.01;
+
+          const deltaX = prevScreenPosition.x - currentScreenPosition.x
+          cameraController.rotateY(sensitivityX * Math.PI * deltaX);
+
+          camera.lookAt(playerWrapper.position);
+      }
+      if(!(prevScreenPosition.y == currentScreenPosition.y)){
+        const sensitivityY = 0.01;
+
+        const deltaY = prevScreenPosition.y - currentScreenPosition.y;
+        cameraRotator.rotateX(- sensitivityY * Math.PI * deltaY);
+
+        camera.lookAt(playerWrapper.position);
+    }
+      prevScreenPosition = currentScreenPosition;
+      deadZone.onmouseup = function(event) {
+        deadZone.onmousemove = undefined;
+      }
+      deadZone.onmouseout = function(event) {
+        deadZone.onmousemove = undefined;
+      }
   }
 }
 
-cssDiv.onmousedown = onMouseDown;
-
-function onMouseDown(event) {
-      let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
-
-      event = singleClick(event);
+cssDiv.onmousedown = onMouseDown2;
+function onMouseDown2(event) {
+  event = singleClick(event);
       event = selectedObject(event);
-
-      if ( !(event == undefined)
-        && !(event.object == undefined)
-        && !(event.object.parent == undefined)
-        && !(event.object.parent.parent == undefined)
-        && !(myPlayer.scene == undefined)
-        && event.object.parent.parent.uuid == myPlayer.scene.uuid){
-                cssDiv.onmousemove = function(event) {
-                  cssDiv.onmousedown = undefined;
-                  $('iframe').css('pointer-events','none');
-                    let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
-                    if(!(prevScreenPosition.x == currentScreenPosition.x)){
-                        const sensitivityX = 0.01;
-
-                        const deltaX = prevScreenPosition.x - currentScreenPosition.x
-                        cameraController.rotateY(sensitivityX * Math.PI * deltaX);
-
-                        camera.lookAt(playerWrapper.position);
-                    }
-                    if(!(prevScreenPosition.y == currentScreenPosition.y)){
-                      const sensitivityY = 0.01;
-
-                      const deltaY = prevScreenPosition.y - currentScreenPosition.y;
-                      cameraRotator.rotateX(- sensitivityY * Math.PI * deltaY);
-
-                      camera.lookAt(playerWrapper.position);
-                  }
-                    prevScreenPosition = currentScreenPosition;
-                    cssDiv.onmouseup = function(event) {
-                        cssDiv.onmousemove = onMouseMove;
-                        cssDiv.onmousedown = onMouseDown;
-                        $('iframe').css('pointer-events','');
-                    }
-                }
-
-        return;
-      }else{
         myPlayerTargetPosition = event.point;
-        // const previousRotation = new THREE.Euler(myPlayer.scene.rotation);
         myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
-        // const currentRotation = new THREE.Euler(myPlayer.scene.rotation);
-        // cameraController.setRotationFromEuler(previousRotation - currentRotation);
-        
-      }
-      
-  
-      // const mixer = new THREE.AnimationMixer(myPlayer.scene);
-      // const clip = myPlayer.animations[0]
-      // console.log(clip);
-      // const action = mixer.clipAction( clip );
-      // action.play();
-      // if (mixer){
-      //     mixer.update( 2 * clock.getDelta() );
-      // }
-  }
+}
 
 
-
+// const imageHtml = `
+//   <img src="${favicon}" alt="" width="1200" height="1200">
+// `
 // let cssElement = createCSS3DObject(string);
 create3dPage(
     1200,
@@ -156,8 +125,6 @@ create3dPage(
     "https://courseware.cemc.uwaterloo.ca/",
     ""
   )
-// cssElement.position.set(5, 1, 5);
-// cssScene.add(cssElement);
 
 
 function animate() {
