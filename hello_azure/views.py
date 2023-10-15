@@ -23,4 +23,4 @@ def hello(request):
             context = {'name': name }
             return render(request, 'hello_azure/hello.html', context)
     else:
-        return redirect('index')
+        return redirect('home')

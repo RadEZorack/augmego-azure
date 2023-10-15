@@ -28,6 +28,10 @@
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
          </script>
+      <!-- Webcam feed and iframes require the user interact with the oage first -->
+         <script type="text/javascript">
+            window.alert("I agree I am 18 years or older or have parental consent.");
+         </script>
       <!-- Scripts -->
      <script src="{% static 'main/main.js' %}" type="module"></script>
      <script src="{% static 'main/terrain.js' %}" type="module"></script>

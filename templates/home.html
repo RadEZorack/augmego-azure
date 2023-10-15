@@ -1,16 +1,21 @@
 <!-- templates/home.html -->
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Augmego{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
+  <div style="position: absolute;">
+    <div>Hi {{ user.username }}!</div>
+    <div><a href="{% url 'logout' %}">Log Out</a></div>
+    <div><a href="{% url 'password_reset' %}">Reset Password</a></div>
+  </div>
+  {% block game %}
+  {% endblock %}
 {% else %}
-  <p>You are not logged in</p>
-  <p><a href="{% url 'login' %}">Log In</a></p>
-  <p><a href="{% url 'signup' %}">Sign Up</a></p>
+  <div>You are not logged in</div>
+  <div><a href="{% url 'login' %}">Log In</a></div>
+  <div><a href="{% url 'signup' %}">Sign Up</a></div>
+  <div><a href="{% url 'password_reset' %}">Reset Password</a></div>
 {% endif %}
-<p><a href="{% url 'password_reset' %}">Reset Password</a></p>
 {% endblock %}
