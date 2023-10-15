@@ -1,5 +1,6 @@
 import * as THREE from '../three/three.module.js';
 import { objectScene } from '../main/main.js';
+import { vs, fs } from '../main/shaders.js';
 
 const quadGeometry = new THREE.BufferGeometry();
 
@@ -21,13 +22,14 @@ const quadNormals = new Float32Array( [
 // const triangleUVs = new Float32Array([0.0, 0.0, 0.0, 1.0, 1.0, 0.0])
 const quadColorPickers = new Float32Array( [
     0.0,
+    1.0,
     0.0,
     0.0
 ] );
 
 // 2. Create a BufferGeometry and set the position attribute
 quadGeometry.setAttribute( 'position', new THREE.BufferAttribute( quadVertices, 3 ) );
-quadGeometry.setAttribute( 'color', new THREE.BufferAttribute( quadColorPickers, 3 ) );
+// quadGeometry.setAttribute( 'rgba', new THREE.InstancedBufferAttribute( quadColorPickers, 4 ) );
 
 // 3. (Optionally) Define indices for the quad
 const indices = new Uint16Array([
@@ -39,17 +41,24 @@ quadGeometry.setIndex(new THREE.BufferAttribute(indices, 1));
 // quadGeometry.setAttribute( 'normal', new THREE.BufferAttribute( quadNormals, 3 ) );
 // quadGeometry.setAttribute( 'uv', new THREE.BufferAttribute( triangleUVs, 2 ) );
 
-const quadMaterial = new THREE.MeshBasicMaterial( { color: 0x007700 } );
+// const quadMaterial = new THREE.MeshBasicMaterial( { color: 0x007700 } );
+const quadMaterial = new THREE.ShaderMaterial( {
+
+	vertexShader: vs,
+	fragmentShader: fs
+
+} );
 
 const instanceCount = 1000*1000; // Example: 100 instances
 
-const colors = new Float32Array(instanceCount * 3); // 3 for RGB
+const colors = new Float32Array(instanceCount * 4); // 4 for RGBA
 for (let i = 0; i < instanceCount; i++) {
   colors[i * 3] = Math.random(); // R
   colors[i * 3 + 1] = Math.random(); // G
   colors[i * 3 + 2] = Math.random(); // B
+  colors[i * 3 + 3] = 1.0;
 }
-quadGeometry.setAttribute('instanceColor', new THREE.InstancedBufferAttribute(colors, 3));
+quadGeometry.setAttribute('rgba', new THREE.InstancedBufferAttribute(colors, 4));
 
 let quadMesh = new THREE.InstancedMesh( quadGeometry, quadMaterial, instanceCount);
 
