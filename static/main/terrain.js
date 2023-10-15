@@ -53,10 +53,10 @@ const instanceCount = 1000*1000; // Example: 100 instances
 
 const colors = new Float32Array(instanceCount * 4); // 4 for RGBA
 for (let i = 0; i < instanceCount; i++) {
-  colors[i * 3] = Math.random(); // R
-  colors[i * 3 + 1] = Math.random(); // G
-  colors[i * 3 + 2] = Math.random(); // B
-  colors[i * 3 + 3] = 1.0;
+  colors[i * 4] = Math.random(); // R
+  colors[i * 4 + 1] = Math.random(); // G
+  colors[i * 4 + 2] = Math.random(); // B
+  colors[i * 4 + 3] = 1.0;
 }
 quadGeometry.setAttribute('rgba', new THREE.InstancedBufferAttribute(colors, 4));
 
@@ -70,8 +70,8 @@ const color = new THREE.Color();
 
 
 for (let i = 0.0; i < instanceCount; i++) {
-    let x = i % 1000;
-    let y = Math.round(i / 1000);
+    let x = i % 1000 - 500;
+    let y = Math.round(i / 1000) - 500;
 
     // Set random positions as an example
     position.set(
@@ -98,7 +98,7 @@ for (let i = 0.0; i < instanceCount; i++) {
         0.0
     );
 
-    color.setHex( Math.random() * 0xffffff );
+    // color.setHex( Math.random() * 0xffffff );
 
     // matrix.compose(position, rotation, scale);
     // matrix.compose(position, new THREE.Quaternion().setFromEuler(rotation), scale);
