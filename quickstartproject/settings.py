@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -92,12 +93,24 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DJANGO_DB_ENGINE', 'django.db.backends.postgresql'),
+            'NAME': os.environ.get('DJANGO_DB_NAME', 'augmego-postgres'),
+            'USER': os.environ.get('DJANGO_DB_USER', 'augmego-postgres'),
+            'PASSWORD': os.environ.get('DJANGO_DB_PASS', 'changeme'),
+            'HOST': os.environ.get('DJANGO_DB_HOST', 'augmego-postgres'),
+            'PORT': os.environ.get('DJANGO_DB_PORT', '5432'),
+        }
+    }
 
 
 # Password validation

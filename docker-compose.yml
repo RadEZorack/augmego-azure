@@ -8,6 +8,16 @@ services:
     ports:
       - "6379:6379"
 
+  augmego-postgres:
+    container_name: augmego-postgres
+    environment:
+      POSTGRES_DB: augmego-postgres
+      POSTGRES_USER: augmego-postgres
+      POSTGRES_PASSWORD: changeme
+    image: postgres:15
+    expose:
+      - "5432"
+
   augmego-django:
     build: .
     command: python manage.py runserver 0.0.0.0:8000

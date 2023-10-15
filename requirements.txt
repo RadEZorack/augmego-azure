@@ -4,3 +4,4 @@ channels[daphne]
 channels_redis
 requests
 redis[hiredis]
+psycopg
