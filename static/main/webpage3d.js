@@ -129,3 +129,6 @@ export function create3dPage(w, h, s, position, rotation, url, html) {
 
   return { plane: plane, cssObject: cssObject, scale: s };
 }
+
+export const cssRenderer = new CSS3DRenderer();
+cssRenderer.setSize(window.innerWidth, window.innerHeight);

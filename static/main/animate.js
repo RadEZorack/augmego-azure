@@ -1,13 +1,16 @@
 import * as THREE from '../three/three.module.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
 import { scene, objectScene, cssScene, camera, renderer, rendererBackground, threeJSContainer, backgroundCanvas } from '../main/main.js';
-import { create3dPage, createCssRenderer, createGlRenderer } from '../main/webpage3d.js';
+import { create3dPage, cssRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
-import { selectedObject } from '../main/raycaster.js';
+import { myPlayerTargetPosition } from '../main/mouseClicks.js';
 import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 
 
 const stepDistance = 0.01;
+
+
+
 
 // const imageHtml = `
 //   <img src="${favicon}" alt="" width="1200" height="1200">

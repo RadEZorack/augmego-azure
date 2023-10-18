@@ -1,21 +1,49 @@
 import * as THREE from '../three/three.module.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
 import { camera, threeJSContainer } from '../main/main.js';
-import { CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { selectedObject } from '../main/raycaster.js';
+import { cssRenderer } from '../main/webpage3d.js';
 
-const cssRenderer = new CSS3DRenderer();
-cssRenderer.setSize(window.innerWidth, window.innerHeight);
 
+export let myPlayerTargetPosition = undefined;
 let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 let deadZone = document.getElementById("deadZone");
+let toggleMouse = document.getElementById("toggleMouse");
+let toggleMouseState = "walk";
 
-let myPlayerTargetPosition = undefined;
+toggleMouse.onclick = function(event){
+    if (toggleMouseState == "walk"){
+        // WWWW
+        toggleMouseState = "www";
+        toggleMouse.innerHTML = "www";
+
+        $('.css3ddiv').css('pointer-events', 'auto');
+        threeJSContainer.onwheel = undefined;
+
+    }else if (toggleMouseState == "www"){
+        // CREATE
+        toggleMouseState = "create";
+        toggleMouse.innerHTML = "create";
+
+        $('.css3ddiv').css('pointer-events', 'none');
+
+    }else if (toggleMouseState == "create"){
+        // WALK
+        toggleMouseState = "walk";
+        toggleMouse.innerHTML = "walk";
+
+        $('.css3ddiv').css('pointer-events', 'none');
+        threeJSContainer.onwheel = onWheel;
+    }
+}
+
 
 
 let scale = 0.5;
-deadZone.onwheel = onWheel;
+// deadZone.onwheel = onWheel;
 function onWheel(event) {
+    event.preventDefault();
+    event.stopPropagation();
   if( event.deltaY < 0.0){
     scale = 0.5;
   }else{
