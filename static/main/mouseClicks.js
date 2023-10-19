@@ -7,24 +7,38 @@ import { cssRenderer } from '../main/webpage3d.js';
 
 export let myPlayerTargetPosition = undefined;
 let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
-let deadZone = document.getElementById("deadZone");
+// let deadZone = document.getElementById("deadZone");
 let toggleMouse = document.getElementById("toggleMouse");
 let toggleMouseState = "walk";
 
-toggleMouse.onclick = function(event){
+// Turn on WALK state
+threeJSContainer.onwheel = onWheel;
+threeJSContainer.onmousedown = onMouseDown;
+threeJSContainer.addEventListener("contextmenu", (event) => {
+  // Prevent the right click menu
+  event.preventDefault();
+});
+
+toggleMouse.onmousedown = function(event){
+  event.preventDefault();
+  event.stopPropagation();
     if (toggleMouseState == "walk"){
         // WWWW
         toggleMouseState = "www";
         toggleMouse.innerHTML = '<img src="'+wwwWebp+'" alt="Walk" width="100%" height="100%">';
 
+        // Turn on WWW state
         $('.css3ddiv').css('pointer-events', 'auto');
+        // Turn off WALK state
         threeJSContainer.onwheel = undefined;
+        threeJSContainer.onmousedown = undefined;
 
     }else if (toggleMouseState == "www"){
         // CREATE
         toggleMouseState = "create";
         toggleMouse.innerHTML = '<img src="'+blockWebp+'" alt="Walk" width="100%" height="100%">';
 
+        // Turn off WWW state
         $('.css3ddiv').css('pointer-events', 'none');
 
     }else if (toggleMouseState == "create"){
@@ -32,8 +46,13 @@ toggleMouse.onclick = function(event){
         toggleMouseState = "walk";
         toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
 
-        $('.css3ddiv').css('pointer-events', 'none');
+        // Turn on WALK state
         threeJSContainer.onwheel = onWheel;
+        threeJSContainer.onmousedown = onMouseDown;
+        threeJSContainer.addEventListener("contextmenu", (event) => {
+          // Prevent the right click menu
+          event.preventDefault();
+       });
     }
 }
 
@@ -63,10 +82,23 @@ function onWheel(event) {
 
 }
 
-deadZone.onmousedown = onMouseDown;
+// deadZone.onmousedown = onMouseDown;
 function onMouseDown(event) {
+  event = singleClick(event);
+  if (event.which == 1) {
+      onMouseDownLeft(event);
+    // case 2:
+    //     alert('Middle Mouse button pressed.');
+    //     break;
+  }else if (event.which == 3) {
+      onMouseDownRight(event);
+  }
+}
+
+function onMouseDownRight(event){
+  
   let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
-  deadZone.onmousemove = function(event) {
+  threeJSContainer.onmousemove = function(event) {
   //   cssDiv.onmousedown = undefined;
     // $('iframe').css('pointer-events','none');
       let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
@@ -91,19 +123,18 @@ function onMouseDown(event) {
 
     }
       prevScreenPosition = currentScreenPosition;
-      deadZone.onmouseup = function(event) {
-        deadZone.onmousemove = undefined;
+      threeJSContainer.onmouseup = function(event) {
+        threeJSContainer.onmousemove = undefined;
       }
-      deadZone.onmouseout = function(event) {
-        deadZone.onmousemove = undefined;
+      threeJSContainer.onmouseout = function(event) {
+        threeJSContainer.onmousemove = undefined;
       }
   }
 }
 
-cssDiv.onmousedown = onMouseDown2;
-function onMouseDown2(event) {
-  event = singleClick(event);
-      event = selectedObject(event);
-        myPlayerTargetPosition = event.point;
-        myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
+// cssDiv.onmousedown = onMouseDown2;
+function onMouseDownLeft(event) {
+  event = selectedObject(event);
+  myPlayerTargetPosition = event.point;
+  myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
 }
