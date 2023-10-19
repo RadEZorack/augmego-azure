@@ -15,7 +15,7 @@ toggleMouse.onclick = function(event){
     if (toggleMouseState == "walk"){
         // WWWW
         toggleMouseState = "www";
-        toggleMouse.innerHTML = "www";
+        toggleMouse.innerHTML = '<img src="'+wwwWebp+'" alt="Walk" width="100%" height="100%">';
 
         $('.css3ddiv').css('pointer-events', 'auto');
         threeJSContainer.onwheel = undefined;
@@ -23,14 +23,14 @@ toggleMouse.onclick = function(event){
     }else if (toggleMouseState == "www"){
         // CREATE
         toggleMouseState = "create";
-        toggleMouse.innerHTML = "create";
+        toggleMouse.innerHTML = '<img src="'+blockWebp+'" alt="Walk" width="100%" height="100%">';
 
         $('.css3ddiv').css('pointer-events', 'none');
 
     }else if (toggleMouseState == "create"){
         // WALK
         toggleMouseState = "walk";
-        toggleMouse.innerHTML = "walk";
+        toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
 
         $('.css3ddiv').css('pointer-events', 'none');
         threeJSContainer.onwheel = onWheel;
