@@ -119,12 +119,12 @@ export function create3dPage(w, h, s, position, rotation, url, html) {
   const plane = createPlane(w, h, s, position, rotation);
 
   // Manually call this when you want.
-  console.log(plane);
+  // console.log(plane);
   objectScene.add(plane);
 
   const cssObject = createCssObject(w, h, s, position, rotation, url, html);
 
-  console.log(cssObject);
+  // console.log(cssObject);
   cssScene.add(cssObject);
 
   return { plane: plane, cssObject: cssObject, scale: s };

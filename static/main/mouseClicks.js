@@ -9,13 +9,15 @@ export let myPlayerTargetPosition = undefined;
 let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
 let toggleMouse = document.getElementById("toggleMouse");
-let toggleMouseState = "walk";
+// Initial State is WWW... because turning off pointer events before loading doesn't work very well.
+let toggleMouseState = "www";
 
-// Turn on WALK state
-threeJSContainer.onwheel = onWheel;
-threeJSContainer.onmousedown = onMouseDown;
+// Turn on WWW state
+threeJSContainer.onwheel = undefined;
+threeJSContainer.onmousedown = undefined;
 threeJSContainer.addEventListener("contextmenu", (event) => {
   // Prevent the right click menu
+  // Question is how to turn back on if needed.
   event.preventDefault();
 });
 
@@ -49,10 +51,6 @@ toggleMouse.onmousedown = function(event){
         // Turn on WALK state
         threeJSContainer.onwheel = onWheel;
         threeJSContainer.onmousedown = onMouseDown;
-        threeJSContainer.addEventListener("contextmenu", (event) => {
-          // Prevent the right click menu
-          event.preventDefault();
-       });
     }
 }
 
