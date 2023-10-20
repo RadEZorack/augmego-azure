@@ -5,6 +5,7 @@ import { create3dPage, cssRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { myPlayerTargetPosition } from '../main/mouseClicks.js';
 import { sendPlayerPeerData } from '../main/sendPlayerData.js';
+import { redrawObjects } from '../main/redrawObjects.js';
 
 
 const stepDistance = 0.01;
@@ -25,6 +26,8 @@ create3dPage(
     "https://courseware.cemc.uwaterloo.ca/",
     ""
   )
+
+redrawObjects();
 
 
 function animate() {

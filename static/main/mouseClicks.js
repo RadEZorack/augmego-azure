@@ -3,6 +3,8 @@ import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator }
 import { camera, threeJSContainer } from '../main/main.js';
 import { selectedObject } from '../main/raycaster.js';
 import { cssRenderer } from '../main/webpage3d.js';
+import { triangleMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redrawObjects.js';
+
 
 
 export let myPlayerTargetPosition = undefined;
@@ -135,4 +137,21 @@ function onMouseDownLeft(event) {
   event = selectedObject(event);
   myPlayerTargetPosition = event.point;
   myPlayer.scene.lookAt(event.point.x, myPlayer.scene.position.y, event.point.z);
+}
+
+
+function onCreateMouseDownLeft(event){
+  event = selectedObject(event);
+}
+
+function onCreateMouseDownRight(event){
+  data = selectedObject(event);
+
+  if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
+    const index = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
+    gameObjects.splice(index, 1);
+    // console.log(index, gameObjects)
+
+    redrawObjects();
+  }
 }

@@ -16547,6 +16547,8 @@ function WebGLObjects( gl, geometries, attributes, info ) {
 		if ( object.isInstancedMesh ) {
 
 			attributes.update( object.instanceMatrix, 34962 );
+			attributes.update( object.instanceUVMatrix, 34962 );
+			attributes.update( object.instanceNormalMatrix, 34962 );
 
 		}
 
@@ -18063,6 +18065,8 @@ function WebGLProgram( renderer, cacheKey, parameters ) {
 			'#ifdef USE_INSTANCING',
 
 			' attribute mat4 instanceMatrix;',
+			' attribute mat4 instanceUVMatrix;',
+            ' attribute mat4 instanceNormalMatrix;',
 
 			'#endif',
 
@@ -24193,6 +24197,52 @@ function WebGLRenderer( parameters ) {
 					_gl.vertexAttribPointer( programAttribute + 1, 4, type, false, 64, 16 );
 					_gl.vertexAttribPointer( programAttribute + 2, 4, type, false, 64, 32 );
 					_gl.vertexAttribPointer( programAttribute + 3, 4, type, false, 64, 48 );
+				
+				} else if ( name === 'instanceUVMatrix' ) {
+
+					var attribute = attributes.get( object.instanceUVMatrix );
+
+					// TODO Attribute may not be available on context restore
+
+					if ( attribute === undefined ) { continue; }
+
+					var buffer = attribute.buffer;
+					var type = attribute.type;
+
+					state.enableAttributeAndDivisor( programAttribute + 0, 1 );
+					state.enableAttributeAndDivisor( programAttribute + 1, 1 );
+					state.enableAttributeAndDivisor( programAttribute + 2, 1 );
+					state.enableAttributeAndDivisor( programAttribute + 3, 1 );
+
+					_gl.bindBuffer( 34962, buffer );
+
+					_gl.vertexAttribPointer( programAttribute + 0, 4, type, false, 64, 0 );
+					_gl.vertexAttribPointer( programAttribute + 1, 4, type, false, 64, 16 );
+					_gl.vertexAttribPointer( programAttribute + 2, 4, type, false, 64, 32 );
+					_gl.vertexAttribPointer( programAttribute + 3, 4, type, false, 64, 48 );
+
+				} else if ( name === 'instanceNormalMatrix' ) {
+
+					var attribute = attributes.get( object.instanceNormalMatrix );
+
+					// TODO Attribute may not be available on context restore
+
+					if ( attribute === undefined ) { continue; }
+
+					var buffer = attribute.buffer;
+					var type = attribute.type;
+
+					state.enableAttributeAndDivisor( programAttribute + 0, 1 );
+					state.enableAttributeAndDivisor( programAttribute + 1, 1 );
+					state.enableAttributeAndDivisor( programAttribute + 2, 1 );
+					state.enableAttributeAndDivisor( programAttribute + 3, 1 );
+
+					_gl.bindBuffer( 34962, buffer );
+
+					_gl.vertexAttribPointer( programAttribute + 0, 4, type, false, 64, 0 );
+					_gl.vertexAttribPointer( programAttribute + 1, 4, type, false, 64, 16 );
+					_gl.vertexAttribPointer( programAttribute + 2, 4, type, false, 64, 32 );
+					_gl.vertexAttribPointer( programAttribute + 3, 4, type, false, 64, 48 );
 
 				} else if ( materialDefaultAttributeValues !== undefined ) {
 
@@ -27076,6 +27126,8 @@ function InstancedMesh( geometry, material, count ) {
 	Mesh.call( this, geometry, material );
 
 	this.instanceMatrix = new BufferAttribute( new Float32Array( count * 16 ), 16 );
+	this.instanceUVMatrix = new BufferAttribute( new Float32Array( count * 16 ), 16 );
+    this.instanceNormalMatrix = new BufferAttribute( new Float32Array( count * 16 ), 16 );
 
 	this.count = count;
 
