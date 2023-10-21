@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     "accounts",
     'hello_azure',
+    'quickstartproject',
     'chat',
     'game',
 ]

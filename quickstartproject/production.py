@@ -1,10 +1,14 @@
 from .settings import *
 import os
+import socket
+hostname = socket.gethostname()
+ip_address = socket.gethostbyname(hostname)
 
 # Configure the domain name using the environment variable
 # that Azure automatically creates for us.
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'augmego.com www.augmego.com').split()
 ALLOWED_HOSTS += [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+ALLOWED_HOSTS += [ip_address,]
 # WhiteNoise configuration
 MIDDLEWARE = [                                                                   
     'django.middleware.security.SecurityMiddleware',
