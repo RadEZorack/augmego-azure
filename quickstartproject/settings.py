@@ -29,12 +29,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',"localhost augmego-django augmego.ngrok.io 369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
 INSTALLED_APPS = [
     "daphne",
     "whitenoise.runserver_nostatic",
+    "corsheaders",
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,6 +52,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -93,7 +97,7 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if 'test' in sys.argv:
+if True or 'test' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

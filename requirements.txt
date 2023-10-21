@@ -5,3 +5,4 @@ channels_redis
 requests
 redis[hiredis]
 psycopg
+django-cors-headers
