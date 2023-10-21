@@ -48,12 +48,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     "accounts",
     'hello_azure',
     'quickstartproject',
     'chat',
     'game',
+
+    'channels',
 ]
 
 MIDDLEWARE = [
