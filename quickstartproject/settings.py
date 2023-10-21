@@ -27,7 +27,11 @@ SECRET_KEY = '1234567890'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+import socket
+hostname = socket.gethostname()
+ip_address = socket.gethostbyname(hostname)
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',"localhost augmego-django augmego.ngrok.io 369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
+ALLOWED_HOSTS += [ip_address,]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
