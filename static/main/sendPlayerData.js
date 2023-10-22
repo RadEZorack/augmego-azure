@@ -1,4 +1,4 @@
-import { myPlayer } from '../main/player.js';
+import { myPlayer, playerWrapper } from '../main/player.js';
 import { peerConnections, message_que } from '../main/socketConnection.js';
 
 function sendPlayerGlobalData(){
@@ -10,9 +10,9 @@ function sendPlayerGlobalData(){
                 'type': 'playerping',
                 'name': my_name,
                 'myUuid': myUuid,
-                'x': myPlayer.scene.position.x,
-                'y': myPlayer.scene.position.y,
-                'z': myPlayer.scene.position.z,
+                'x': playerWrapper.position.x,
+                'y': playerWrapper.position.y,
+                'z': playerWrapper.position.z,
                 'rx': myPlayer.scene.rotation.x,
                 'ry': myPlayer.scene.rotation.y,
                 'rz': myPlayer.scene.rotation.z,
@@ -36,9 +36,9 @@ export function sendPlayerPeerData(){
                     'name': my_name,
                     'entity_key': "player:"+myUuid,
                     'myUuid': myUuid,
-                    'x': myPlayer.scene.position.x,
-                    'y': myPlayer.scene.position.y,
-                    'z': myPlayer.scene.position.z,
+                    'x': playerWrapper.position.x,
+                    'y': playerWrapper.position.y,
+                    'z': playerWrapper.position.z,
                     'rx': myPlayer.scene.rotation.x,
                     'ry': myPlayer.scene.rotation.y,
                     'rz': myPlayer.scene.rotation.z,
