@@ -218,11 +218,11 @@ export function remove_entity(entity_key){
     // let entity_key = entity_data['entity_key']
     console.log("removing:", entity_key, entities[entity_key])
     if (entities[entity_key] && !(entities[entity_key] == "loading")){
-        gltf = entities[entity_key]['gltf']
+        const gltf = entities[entity_key]['gltf']
         objectScene.remove( gltf.scene );
-        plane = entities[entity_key]['plane']
+        const plane = entities[entity_key]['plane']
         objectScene.remove(plane);
-        cssObject = entities[entity_key]['cssObject']
+        const cssObject = entities[entity_key]['cssObject']
         cssScene.remove(cssObject);
 
         // When changing names we need to give some time tolerance before readding the same player.
