@@ -44,6 +44,7 @@ toggleMouse.onmousedown = function(event){
 
         // Turn off WWW state
         $('.css3ddiv').css('pointer-events', 'none');
+        threeJSContainer.onmousedown = onCreateMouseDown;
 
     }else if (toggleMouseState == "create"){
         // WALK
@@ -140,18 +141,31 @@ function onMouseDownLeft(event) {
 }
 
 
-function onCreateMouseDownLeft(event){
-  event = selectedObject(event);
+function onCreateMouseDown(event) {
+  event = singleClick(event);
+  if (event.which == 1) {
+    onCreateMouseDownLeft(event);
+    // case 2:
+    //     alert('Middle Mouse button pressed.');
+    //     break;
+  }else if (event.which == 3) {
+    onCreateMouseDownRight(event);
+  }
 }
 
-function onCreateMouseDownRight(event){
-  data = selectedObject(event);
+function onCreateMouseDownLeft(event){
+  const data = selectedObject(event);
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
     const index = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
     gameObjects.splice(index, 1);
-    // console.log(index, gameObjects)
 
     redrawObjects();
   }
+}
+
+function onCreateMouseDownRight(event){
+  const data = selectedObject(event);
+
+  
 }
