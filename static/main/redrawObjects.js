@@ -233,6 +233,7 @@ export function redrawObjects() {
   // const allBlocks = gameObjects;
 
   const length = Math.min(gameObjects.length, drawInstances);
+  // console.log(length);
 
 
 
@@ -245,6 +246,7 @@ export function redrawObjects() {
   }
 
   let visibleCount = 0;
+
 
   for (let i = 0, il = length; i < il; i++) {
     const gameObject = gameObjects[i]
@@ -308,7 +310,7 @@ export function redrawObjects() {
         // triangleGeometry.setAttribute( 'offset', new THREE.InstancedBufferAttribute( new Float32Array(triangleOffsets), 3 ) );
         // triangleGeometry.setAttribute( 'uvalt', new THREE.BufferAttribute( new Float32Array(triangleUvs), 2 ) );
         // triangleGeometry.setAttribute( 'rgba', new THREE.InstancedBufferAttribute( new Float32Array(triangleRgbas), 4 ) );
-        triangleMesh = new THREE.InstancedMesh( triangleGeometry, triangleMaterial, length);
+        triangleMesh = new THREE.InstancedMesh( triangleGeometry, triangleMaterial, drawInstances);
         triangleMesh.castShadow = true;
         triangleMesh.receiveShadow = true;
         // triangleMesh.instanceUVMatrix = new THREE.BufferAttribute( new Float32Array( length * 16 ), 16 );
