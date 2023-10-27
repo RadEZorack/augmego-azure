@@ -9,10 +9,21 @@
    <body>
       <div allow="autoplay">
          <div id="threeJSContainer">
+            <button id="welcomePage" class="btn btn-success"
+               style="position: absolute; top: 50vh; left: 50vw;
+               transform: translate(-50%, -50%);
+               width: 70vw;
+               height: 70vh;
+               border: solid 3px black; z-index: 10;
+            "
+            onclick="onClickStart();">
+               Click me to start!
+            </button>
             <div id="toggleMouse" style="position: absolute;
             bottom: 0; right: 0; width: 20vh; height: 20vh;
-            z-index: 10;;">
-               <img src="{% static 'images/www.webp' %}" alt="Walk" width="100%" height="100%">
+            z-index: 10; display: none;">
+               <img style="position: absolute;" src="{% static 'images/www.webp' %}" alt="Walk" width="100%" height="100%">
+               <span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>
             </div>
          </div>
       </div>
@@ -35,6 +46,17 @@
             const dirtTexture = "{% static 'images/dirt-texture.png' %}";
             const barkTexture = "{% static 'images/bark-texture.png' %}";
             const pineTreeLeavesTexture = "{% static 'images/pine-tree-leaves-texture.png' %}";
+         </script>
+      <!-- Start script-->
+         <script type="text/javascript">
+            let stopAnimate = true;
+            function onClickStart(){
+               stopAnimate = false;
+               let welcomePage = document.getElementById("welcomePage");
+               welcomePage.style.display = "none";
+               let toggleMouse = document.getElementById("toggleMouse");
+               toggleMouse.style.display = "block";
+            }
          </script>
       <!-- Scripts -->
      <script src="{% static 'main/main.js' %}" type="module"></script>

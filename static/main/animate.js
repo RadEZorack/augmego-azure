@@ -31,6 +31,14 @@ redrawObjects();
 
 
 function animate() {
+    if (stopAnimate){
+        // We need the player to interact with the page before things will work correctly.
+        // So we loop until we get the flag to start, which can be found on the main page.
+        const stopAnimateXHR = setTimeout(function(){
+            animate()
+        }, 1000)
+        return null
+    }
 	requestAnimationFrame( animate );
     
     if (!(myPlayerTargetPosition === undefined) && !(playerWrapper === undefined)){

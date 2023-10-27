@@ -29,7 +29,8 @@ toggleMouse.onmousedown = function(event){
     if (toggleMouseState == "walk"){
         // WWWW
         toggleMouseState = "www";
-        toggleMouse.innerHTML = '<img src="'+wwwWebp+'" alt="Walk" width="100%" height="100%">';
+        // toggleMouse.innerHTML = '<img src="'+wwwWebp+'" alt="Walk" width="100%" height="100%">';
+        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+wwwWebp+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
 
         // Turn on WWW state
         $('.css3ddiv').css('pointer-events', 'auto');
@@ -49,7 +50,9 @@ toggleMouse.onmousedown = function(event){
     }else if (toggleMouseState == "www"){
         // WALK
         toggleMouseState = "walk";
-        toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
+        // toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
+        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+walkJpg+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
+
 
         // Turn off WWW state
         $('.css3ddiv').css('pointer-events', 'none');
