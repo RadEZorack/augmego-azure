@@ -37,19 +37,22 @@ toggleMouse.onmousedown = function(event){
         threeJSContainer.onwheel = undefined;
         threeJSContainer.onmousedown = undefined;
 
+    // }else if (toggleMouseState == "www"){
+    //     // CREATE
+    //     toggleMouseState = "create";
+    //     toggleMouse.innerHTML = '<img src="'+blockWebp+'" alt="Walk" width="100%" height="100%">';
+
+    //     // Turn off WWW state
+    //     $('.css3ddiv').css('pointer-events', 'none');
+    //     threeJSContainer.onmousedown = onCreateMouseDown;
+
     }else if (toggleMouseState == "www"){
-        // CREATE
-        toggleMouseState = "create";
-        toggleMouse.innerHTML = '<img src="'+blockWebp+'" alt="Walk" width="100%" height="100%">';
-
-        // Turn off WWW state
-        $('.css3ddiv').css('pointer-events', 'none');
-        threeJSContainer.onmousedown = onCreateMouseDown;
-
-    }else if (toggleMouseState == "create"){
         // WALK
         toggleMouseState = "walk";
         toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
+
+        // Turn off WWW state
+        $('.css3ddiv').css('pointer-events', 'none');
 
         // Turn on WALK state
         threeJSContainer.onwheel = onWheel;

@@ -35,11 +35,11 @@ function initObjectsForTesting() {
         // Grass or dirt
         let id = Math.floor(12 * Math.random());
         let textureUrl = favicon;
-        // if (perlin2(x/5,z/5) >= 0){
-        //   textureUrl = grass1Url
-        // }else{
-        //   textureUrl = dirt1Url
-        // }
+        if (perlin2(x/5,z/5) >= 0){
+          textureUrl = grassTexture
+        }else{
+          textureUrl = dirtTexture
+        }
 
         gameObjects.push({
           key: `initBlock:${x},${y},${z}:0`,
@@ -66,11 +66,11 @@ function initObjectsForTesting() {
           uv3y: 1.0,
           weightChance: Math.random(),
         });
-        // if (perlin2((x+1)/5,(z+1)/5) >= 0){
-        //   textureUrl = grass1Url
-        // }else{
-        //   textureUrl = dirt1Url
-        // }
+        if (perlin2((x+1)/5,(z+1)/5) >= 0){
+          textureUrl = grassTexture
+        }else{
+          textureUrl = dirtTexture
+        }
         gameObjects.push({
           key: `initBlock:${x},${y},${z}:1`,
           textureUrl: textureUrl,
@@ -107,7 +107,7 @@ function initObjectsForTesting() {
               // Bark
               gameObjects.push({
                 key: `initBlock:${x},${y2},${z},${t}:1`,
-                textureUrl: textureUrl,
+                textureUrl: barkTexture,
 
                 p1x: x+Math.sin(t)/(y2+2),
                 p1y: ymin + y2,
@@ -135,7 +135,7 @@ function initObjectsForTesting() {
               // Bark
               gameObjects.push({
                 key: `initBlock:${x},${y2},${z},${t}:2`,
-                textureUrl: textureUrl,
+                textureUrl: barkTexture,
 
                 p1x: x+Math.sin(t)/(y2+2),
                 p1y: ymin + y2,
@@ -165,7 +165,7 @@ function initObjectsForTesting() {
               if (y2 != 0){
                 gameObjects.push({
                   key: `initBlock:${x},${y},${z}:0`,
-                  textureUrl: textureUrl,
+                  textureUrl: pineTreeLeavesTexture,
                   p1x: x,
                   p1y: y2+3 + 3*perlin2((x)/10,(z)/10),
                   p1z: z,
