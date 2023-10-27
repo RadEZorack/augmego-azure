@@ -130,10 +130,14 @@ function onMouseDownRight(event){
 
     }
       prevScreenPosition = currentScreenPosition;
+      
       threeJSContainer.onmouseup = function(event) {
+        // Finished!
         threeJSContainer.onmousemove = undefined;
       }
-      threeJSContainer.onmouseout = function(event) {
+
+      threeJSContainer.onmouseleave = function(event) {
+        // Stop the mouse from depring out when leaving the web page.
         threeJSContainer.onmousemove = undefined;
       }
   }
