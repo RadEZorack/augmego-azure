@@ -75,7 +75,7 @@ function createCssObject(w, h, s, position, rotation, url, html) {
   // h *= 100
   if (url) {
     html =
-      '<iframe src="' +
+      '<iframe src="' + // When the course is set, this could be a good time to diable the iframe rather than waiting for the onload event...
       url +
       '" width="' +
       w +
