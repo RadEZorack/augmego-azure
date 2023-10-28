@@ -11,12 +11,15 @@ export let myPlayerTargetPosition = undefined;
 let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
 let toggleMouse = document.getElementById("toggleMouse");
-// Initial State is WWW... because turning off pointer events before loading doesn't work very well.
-let toggleMouseState = "www";
+// Initial State is WALK
+let toggleMouseState = "walk";
 
-// Turn on WWW state
-threeJSContainer.onwheel = undefined;
-threeJSContainer.onmousedown = undefined;
+// Turn off WWW state
+$('iframe').css('pointer-events', 'none');
+
+// Turn on WALK state
+threeJSContainer.onwheel = onWheel;
+threeJSContainer.onmousedown = onMouseDown;
 threeJSContainer.addEventListener("contextmenu", (event) => {
   // Prevent the right click menu
   // Question is how to turn back on if needed.
@@ -33,7 +36,7 @@ toggleMouse.onmousedown = function(event){
         toggleMouse.innerHTML = '<img style="position: absolute;" src="'+wwwWebp+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
 
         // Turn on WWW state
-        $('.css3ddiv').css('pointer-events', 'auto');
+        $('iframe').css('pointer-events', 'auto');
         // Turn off WALK state
         threeJSContainer.onwheel = undefined;
         threeJSContainer.onmousedown = undefined;
@@ -55,7 +58,7 @@ toggleMouse.onmousedown = function(event){
 
 
         // Turn off WWW state
-        $('.css3ddiv').css('pointer-events', 'none');
+        $('iframe').css('pointer-events', 'none');
 
         // Turn on WALK state
         threeJSContainer.onwheel = onWheel;

@@ -22,7 +22,7 @@
             <div id="toggleMouse" style="position: absolute;
             bottom: 0; right: 0; width: 20vh; height: 20vh;
             z-index: 10; display: none;">
-               <img style="position: absolute;" src="{% static 'images/www.webp' %}" alt="Walk" width="100%" height="100%">
+               <img style="position: absolute;" src="{% static 'images/walk.jpg' %}" alt="Walk" width="100%" height="100%">
                <span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>
             </div>
          </div>
@@ -56,6 +56,11 @@
                welcomePage.style.display = "none";
                let toggleMouse = document.getElementById("toggleMouse");
                toggleMouse.style.display = "block";
+            }
+            function disabledIframeClicks(obj){
+               // Stop the mouse from interacting with iframes when they first load.
+               // It's located here because iframes are outside the scope of modules.
+               $(obj).css('pointer-events', 'none');
             }
          </script>
       <!-- Scripts -->

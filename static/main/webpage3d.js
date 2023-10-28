@@ -81,7 +81,8 @@ function createCssObject(w, h, s, position, rotation, url, html) {
       w +
       '" height="' +
       h +
-      '" allow="autoplay">' +
+      '" allow="autoplay"' +
+      'onload="disabledIframeClicks(this)">' +
       "</iframe>";
   }
   html = [
