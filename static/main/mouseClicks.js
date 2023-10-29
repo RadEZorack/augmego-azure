@@ -150,6 +150,9 @@ function onMouseDownRight(event){
 function onMouseDownLeft(event) {
   event = selectedObject(event);
   myPlayerTargetPosition = event.point;
+  if (myPlayer == undefined){
+    return null
+  }
   myPlayer.scene.lookAt(event.point.x, playerWrapper.position.y, event.point.z);
 }
 

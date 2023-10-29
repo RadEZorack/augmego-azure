@@ -14,9 +14,9 @@
                transform: translate(-50%, -50%);
                width: 70vw;
                height: 70vh;
-               border: solid 3px black; z-index: 10;
+               border: solid 3px black; z-index: 11;
             "
-            onclick="onClickStart();">
+            onclick="onClickStart">
                Click me to start!
             </button>
             <div id="toggleMouse" style="position: absolute;
@@ -50,9 +50,12 @@
       <!-- Start script-->
          <script type="text/javascript">
             let stopAnimate = true;
-            function onClickStart(){
+            let welcomePage = document.getElementById("welcomePage");
+            welcomePage.onclick = onClickStart;
+            function onClickStart(event){
+               event.preventDefault();
+               event.stopPropagation();
                stopAnimate = false;
-               let welcomePage = document.getElementById("welcomePage");
                welcomePage.style.display = "none";
                let toggleMouse = document.getElementById("toggleMouse");
                toggleMouse.style.display = "block";
