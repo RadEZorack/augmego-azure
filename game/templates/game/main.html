@@ -15,8 +15,7 @@
                width: 70vw;
                height: 70vh;
                border: solid 3px black; z-index: 11;
-            "
-            onclick="onClickStart">
+            ">
                Click me to start!
             </button>
             <div id="toggleMouse" style="position: absolute;
@@ -50,14 +49,16 @@
          <script type="text/javascript">
             let stopAnimate = true;
             let welcomePage = document.getElementById("welcomePage");
-            welcomePage.onclick = onClickStart;
+            welcomePage.onmousedown = onClickStart;
             function onClickStart(event){
                event.preventDefault();
                event.stopPropagation();
-               stopAnimate = false;
+               
                welcomePage.style.display = "none";
                let toggleMouse = document.getElementById("toggleMouse");
                toggleMouse.style.display = "block";
+
+               stopAnimate = false;
             }
             function disabledIframeClicks(obj){
                // Stop the mouse from interacting with iframes when they first load.
