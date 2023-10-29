@@ -75,7 +75,8 @@ export function update_entity(entity_data){
 
         gltf_loader.load(
             // resource URL
-            "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
+            // "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
+            cesiumManUrl,
             // called when the resource is loaded
             function ( gltf ) {
                 // console.log('gltf', gltf)
@@ -210,7 +211,7 @@ export function update_entity(entity_data){
         // cssobject.translateZ(-50)
         // cssobject.translateY(325)
 
-        // entities[entity_key]['animation'] = animation
+        entities[entity_key]['animation'] = animation
     }
 }
 

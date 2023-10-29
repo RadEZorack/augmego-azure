@@ -6,6 +6,7 @@ import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { myPlayerTargetPosition } from '../main/mouseClicks.js';
 import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { redrawObjects } from '../main/redrawObjects.js';
+import { entities } from '../main/entity.js';
 
 
 const stepDistance = 0.01;
@@ -29,7 +30,7 @@ create3dPage(
 
 redrawObjects();
 
-
+const clock = new THREE.Clock()
 function animate() {
     if (stopAnimate){
         // We need the player to interact with the page before things will work correctly.
@@ -66,5 +67,22 @@ function animate() {
 
     rendererBackground.setRenderTarget(null);
     rendererBackground.render(objectScene, camera);
+
+    const clockDelta = clock.getDelta()
+
+    for (const entity_key in entities){
+        let animation = entities[entity_key]['animation']
+        if (animation != undefined){
+          // console.log("animating")
+          const gltf = entities[entity_key]['gltf']
+            let mixer = entities[entity_key]['mixer']
+            let clip = gltf.animations[animation]
+            let action = mixer.clipAction( clip );
+            action.play();
+            if (mixer){
+                mixer.update( 2 * clockDelta );
+            }
+        }
+    }
 }
 animate();

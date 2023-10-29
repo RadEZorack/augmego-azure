@@ -2,7 +2,7 @@ import * as THREE from '../three/three.module.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
 import { objectScene, camera, backgroundCanvas } from '../main/main.js';
-import { selectedObject } from '../main/raycaster.js';
+import { entities } from '../main/entity.js';
 
 // Instantiate a loader
 let gltf_loader = new GLTFLoader();
@@ -19,10 +19,19 @@ export const playerWrapper = new THREE.Object3D;
 
 gltf_loader.load(
     // resource URL
-    "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
+    // "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
+    cesiumManUrl,
     // called when the resource is loaded
     function ( gltf ) {
         myPlayer = gltf;
+
+        entities["player:"+myUuid] = {
+          'gltf': gltf,
+          // 'plane': page.plane,
+          // 'cssObject': page.cssObject,
+          'mixer': new THREE.AnimationMixer(gltf.scene),
+          'animation': 0,
+        }
 
         playerWrapper.add(myPlayer.scene);
         playerWrapper.add(cameraController);
