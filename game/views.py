@@ -2,8 +2,9 @@ import requests
 import json
 import uuid
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.views.decorators.csrf import csrf_exempt
 
 from quickstartproject import settings
 
@@ -40,3 +41,7 @@ def room(request, room_name):
         'user_name': user_name,
         # 'node_url': settings.NODE_URL
     })
+
+@csrf_exempt
+def main(request):
+    return render(request, 'game/main.html', {})

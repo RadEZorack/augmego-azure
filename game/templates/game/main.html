@@ -1,0 +1,81 @@
+{% load static %}
+<!doctype html>
+<head>
+    <title>Hello Azure - Python Quickstart</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="icon"href="{% static 'favicon.ico' %}">
+</head>
+<html>
+   <body>
+      <div allow="autoplay">
+         <div id="threeJSContainer">
+            <button id="welcomePage" class="btn btn-success"
+               style="position: absolute; top: 50vh; left: 50vw;
+               transform: translate(-50%, -50%);
+               width: 70vw;
+               height: 70vh;
+               border: solid 3px black; z-index: 11;
+            "
+            onclick="onClickStart">
+               Click me to start!
+            </button>
+            <div id="toggleMouse" style="position: absolute;
+            bottom: 0; right: 0; width: 20vh; height: 20vh;
+            z-index: 10; display: none;">
+               <img style="position: absolute;" src="{% static 'images/walk.png' %}" alt="Walk" width="100%" height="100%">
+               <span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>
+            </div>
+         </div>
+      </div>
+     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+     <script src="{% static 'three/three.module.js' %}" type="module"></script>
+     <script src="{% static 'three/OrbitControls.js' %}" type="module"></script>
+     <script src="{% static 'three/DRACOLoader.js' %}" type="module"></script>
+     <script src="{% static 'three/GLTFLoader.js' %}" type="module"></script>
+     <script src="{% static 'three/CSS3DRenderer.js' %}" type="module"></script>
+     <!-- Context specific variables-->
+         <script type="text/javascript">
+            const webcamUrl = '{% url "game:webcam" %}';
+            let my_name = "Bob-"+Math.random().toString();
+            let myUuid = Math.random().toString();
+            let favicon = "{% static 'favicon.ico' %}";
+            const walkPng = "{% static 'images/walk.png' %}";
+            const atSymbolPng = "{% static 'images/at-symbol.png' %}";
+            const grassTexture = "{% static 'images/grass-texture.png' %}";
+            const dirtTexture = "{% static 'images/dirt-texture.png' %}";
+            const barkTexture = "{% static 'images/bark-texture.png' %}";
+            const pineTreeLeavesTexture = "{% static 'images/pine-tree-leaves-texture.png' %}";
+         </script>
+      <!-- Start script-->
+         <script type="text/javascript">
+            let stopAnimate = true;
+            let welcomePage = document.getElementById("welcomePage");
+            welcomePage.onclick = onClickStart;
+            function onClickStart(event){
+               event.preventDefault();
+               event.stopPropagation();
+               stopAnimate = false;
+               welcomePage.style.display = "none";
+               let toggleMouse = document.getElementById("toggleMouse");
+               toggleMouse.style.display = "block";
+            }
+            function disabledIframeClicks(obj){
+               // Stop the mouse from interacting with iframes when they first load.
+               // It's located here because iframes are outside the scope of modules.
+               $(obj).css('pointer-events', 'none');
+            }
+         </script>
+      <!-- Scripts -->
+     <script src="{% static 'main/main.js' %}" type="module"></script>
+     <script src="{% static 'main/shaders.js' %}" type="module"></script>
+     <script src="{% static 'main/perlin.js' %}" type="module"></script>
+     <script src="{% static 'main/redrawObjects.js' %}" type="module"></script>
+     <script src="{% static 'main/player.js' %}" type="module"></script>
+     <script src="{% static 'main/raycaster.js' %}" type="module"></script>
+     <script src="{% static 'main/animate.js' %}" type="module"></script>
+     <script src="{% static 'main/entity.js' %}" type="module"></script>
+     <script src="{% static 'main/socketConnection.js' %}" type="module"></script>
+     <script src="{% static 'main/sendPlayerData.js' %}" type="module"></script>
+     <script src="{% static 'main/mouseClicks.js' %}" type="module"></script>
+   </body>
+</html>
