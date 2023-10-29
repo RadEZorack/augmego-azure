@@ -33,7 +33,7 @@ toggleMouse.onmousedown = function(event){
         // WWWW
         toggleMouseState = "www";
         // toggleMouse.innerHTML = '<img src="'+wwwWebp+'" alt="Walk" width="100%" height="100%">';
-        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+wwwWebp+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
+        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+atSymbolPng+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
 
         // Turn on WWW state
         $('iframe').css('pointer-events', 'auto');
@@ -54,7 +54,7 @@ toggleMouse.onmousedown = function(event){
         // WALK
         toggleMouseState = "walk";
         // toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
-        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+walkJpg+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
+        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+walkPng+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
 
 
         // Turn off WWW state
@@ -148,11 +148,11 @@ function onMouseDownRight(event){
 
 // cssDiv.onmousedown = onMouseDown2;
 function onMouseDownLeft(event) {
-  event = selectedObject(event);
-  myPlayerTargetPosition = event.point;
-  if (myPlayer == undefined){
+  if (myPlayer == undefined || event == undefined){
     return null
   }
+  event = selectedObject(event);
+  myPlayerTargetPosition = event.point;
   myPlayer.scene.lookAt(event.point.x, playerWrapper.position.y, event.point.z);
 }
 
