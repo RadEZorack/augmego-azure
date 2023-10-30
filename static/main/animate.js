@@ -11,23 +11,6 @@ import { entities } from '../main/entity.js';
 
 const stepDistance = 0.01;
 
-
-
-
-// const imageHtml = `
-//   <img src="${favicon}" alt="" width="1200" height="1200">
-// `
-// let cssElement = createCSS3DObject(string);
-create3dPage(
-    1200,
-    1200,
-    0.004,
-    new THREE.Vector3(3.5, 1.5, 5),
-    new THREE.Vector3(0, Math.PI, 0),
-    "https://courseware.cemc.uwaterloo.ca/",
-    ""
-  )
-
 redrawObjects();
 
 const clock = new THREE.Clock()

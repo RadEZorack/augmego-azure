@@ -14,6 +14,8 @@ import os
 import sys
 from pathlib import Path
 
+SITE_ID = 1
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
     'quickstartproject',
     'chat',
     'game',
+    'webpage',
 
     'channels',
 ]

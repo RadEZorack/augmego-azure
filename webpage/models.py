@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class WebPage(models.Model):
     # create3dPage(w, h, s, position, rotation, url, html)
+    name = models.CharField(max_length=100, default="My Web Page")
     # width
     w = models.FloatField()
     # height
@@ -18,6 +19,6 @@ class WebPage(models.Model):
     r2 = models.FloatField()
     r3 = models.FloatField()
     # url
-    url = models.CharField()
+    url = models.TextField(blank=True)
     # html
-    html = models.TextField()
+    html = models.TextField(blank=True)

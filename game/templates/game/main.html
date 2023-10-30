@@ -26,7 +26,7 @@
             </div>
          </div>
       </div>
-     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
      <script src="{% static 'three/three.module.js' %}" type="module"></script>
      <script src="{% static 'three/OrbitControls.js' %}" type="module"></script>
      <script src="{% static 'three/DRACOLoader.js' %}" type="module"></script>
@@ -35,6 +35,7 @@
      <!-- Context specific variables-->
          <script type="text/javascript">
             const webcamUrl = '{% url "game:webcam" %}';
+            const webPageLoadURL = '{% url "webpage:list" %}'
             let my_name = "Bob-"+Math.random().toString();
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
@@ -79,5 +80,6 @@
      <script src="{% static 'main/socketConnection.js' %}" type="module"></script>
      <script src="{% static 'main/sendPlayerData.js' %}" type="module"></script>
      <script src="{% static 'main/mouseClicks.js' %}" type="module"></script>
+     <script src="{% static 'main/webpage3dload.js' %}" type="module"></script>
    </body>
 </html>
