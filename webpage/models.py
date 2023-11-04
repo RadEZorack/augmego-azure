@@ -29,7 +29,7 @@ class WebPage(models.Model):
     r2 = models.FloatField()
     r3 = models.FloatField()
     # image
-    image = models.ImageField(upload_to="media/webpage-image/%Y/%m/%d/", null=True, blank=True)
+    image = models.ImageField(upload_to="media/webpage-image/", null=True, blank=True)
     # url
     url = models.TextField(blank=True)
     # html

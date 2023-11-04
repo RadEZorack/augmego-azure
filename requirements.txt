@@ -7,3 +7,4 @@ redis[hiredis]
 psycopg
 django-cors-headers
 pillow
+django-storages[azure]
