@@ -1,7 +1,7 @@
 import * as THREE from '../three/three.module.js';
 import { create3dPage } from '../main/webpage3d.js';
 
-// Exmaple
+// Example
 // create3dPage(
 //     1200,
 //     1200,
