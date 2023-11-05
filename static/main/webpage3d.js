@@ -70,12 +70,12 @@ function createPlane(w, h, s, position, rotation) {
 // Creates CSS object
 //
 ///////////////////////////////////////////////////////////////////
-function createCssObject(w, h, s, position, rotation, url, html) {
+function createCssObject(w, h, s, position, rotation, url, html, image) {
   // w *= 100
   // h *= 100
   if (url) {
     html =
-      '<iframe src="' + // When the course is set, this could be a good time to diable the iframe rather than waiting for the onload event...
+      '<iframe src="' + // When the src is set, this could be a good time to diable the iframe rather than waiting for the onload event...
       url +
       '" width="' +
       w +
@@ -92,8 +92,20 @@ function createCssObject(w, h, s, position, rotation, url, html) {
   ].join("\n");
 
   const div = document.createElement("div");
+  const divImage = document.createElement("div");
+  divImage.style.pointerEvents = "none";
+  divImage.className = "divImage";
 
-  $(div).append(html);
+  const imagePlaceholder = `
+    <h1 style="text-align: center;"><img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;">${url}<img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;"></h1>
+    <img src="${image}" alt="Iframe Placeholder">
+  `
+  $(div).append(divImage);
+  $(divImage).append(imagePlaceholder);
+  $(divImage).on( "click", function() {
+    $(div).html(html);
+  })
+  
 
   const cssObject = new CSS3DObject(div);
 
@@ -114,7 +126,7 @@ function createCssObject(w, h, s, position, rotation, url, html) {
 // Creates 3d webpage object
 //
 ///////////////////////////////////////////////////////////////////
-export function create3dPage(w, h, s, position, rotation, url, html) {
+export function create3dPage(w, h, s, position, rotation, url, html, image) {
   // console.log(html)
 
   const plane = createPlane(w, h, s, position, rotation);
@@ -123,7 +135,7 @@ export function create3dPage(w, h, s, position, rotation, url, html) {
   // console.log(plane);
   objectScene.add(plane);
 
-  const cssObject = createCssObject(w, h, s, position, rotation, url, html);
+  const cssObject = createCssObject(w, h, s, position, rotation, url, html, image);
 
   // console.log(cssObject);
   cssScene.add(cssObject);

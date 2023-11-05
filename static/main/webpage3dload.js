@@ -27,7 +27,8 @@ $.ajax({
                 new THREE.Vector3(fields.p1, fields.p2, fields.p3),
                 new THREE.Vector3(fields.r1, fields.r2, fields.r3),
                 fields.url,
-                fields.html
+                fields.html,
+                fields.image
             )
         }
     }

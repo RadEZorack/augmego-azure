@@ -37,6 +37,7 @@ toggleMouse.onmousedown = function(event){
 
         // Turn on WWW state
         $('iframe').css('pointer-events', 'auto');
+        $('.divImage').css('pointer-events', 'auto');
         // Turn off WALK state
         threeJSContainer.onwheel = undefined;
         threeJSContainer.onmousedown = undefined;
@@ -59,6 +60,7 @@ toggleMouse.onmousedown = function(event){
 
         // Turn off WWW state
         $('iframe').css('pointer-events', 'none');
+        $('.divImage').css('pointer-events', 'none');
 
         // Turn on WALK state
         threeJSContainer.onwheel = onWheel;
