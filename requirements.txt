@@ -8,3 +8,4 @@ psycopg
 django-cors-headers
 pillow
 django-storages[azure]
+djangorestframework
