@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from rest_framework import serializers
+import json
 
 from webpage.models import WebPage
 
@@ -14,4 +15,4 @@ def list_webpages(request):
 
     serializer = WebPageSerializer(webpages, many=True, context={"request":request})
 
-    return HttpResponse(serializer.data, content_type='application/json')
+    return HttpResponse(json.dumps(serializer.data), content_type='application/json')
