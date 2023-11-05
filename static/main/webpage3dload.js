@@ -16,9 +16,9 @@ $.ajax({
     url: webPageLoadURL,
     type: 'GET',
     success: function(resp) {
-        console.log(resp);
+        // console.log(resp);
         for(const i in resp){
-            console.log(resp[i]);
+            // console.log(resp[i]);
             const fields = resp[i]
             create3dPage(
                 fields.h,
