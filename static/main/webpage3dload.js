@@ -19,7 +19,7 @@ $.ajax({
         console.log(resp);
         for(const i in resp){
             console.log(resp[i]);
-            const fields = resp[i].fields
+            const fields = resp[i]
             create3dPage(
                 fields.h,
                 fields.w,
