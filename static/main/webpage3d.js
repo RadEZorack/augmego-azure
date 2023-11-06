@@ -92,20 +92,25 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
   ].join("\n");
 
   const div = document.createElement("div");
-  const divImage = document.createElement("div");
-  divImage.style.pointerEvents = "none";
-  divImage.className = "divImage";
 
-  const imagePlaceholder = `
-    <h1 style="text-align: center;"><img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;">${url}<img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;"></h1>
-    <img src="${image}" alt="Iframe Placeholder">
-  `
-  $(div).append(divImage);
-  $(divImage).append(imagePlaceholder);
-  $(divImage).on( "click", function() {
+  if (image != undefined){
+    const divImage = document.createElement("div");
+    divImage.style.pointerEvents = "none";
+    divImage.className = "divImage";
+
+    const imagePlaceholder = `
+      <h1 style="text-align: center;"><img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;">${url}<img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;"></h1>
+      <img src="${image}" alt="Iframe Placeholder">
+    `
+    $(div).append(divImage);
+    $(divImage).append(imagePlaceholder);
+    $(divImage).on( "click", function() {
+      $(div).html(html);
+      $('iframe').css('pointer-events', 'auto');
+    })
+  } else{
     $(div).html(html);
-    $('iframe').css('pointer-events', 'auto');
-  })
+  }
   
 
   const cssObject = new CSS3DObject(div);
