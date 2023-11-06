@@ -180,12 +180,12 @@ export function update_entity(entity_data){
 
         // planeLookAt + camera.position
 
-        // plane.lookAt(myPlayer.scene.position)
+        plane.lookAt(camera.position)
 
-        plane.rotation.x = rx;
-        plane.rotation.y = ry;
-        // plane.rotation.y += Math.PI;
-        plane.rotation.z = rz;
+        // plane.rotation.x = rx;
+        // plane.rotation.y = ry;
+        // // plane.rotation.y += Math.PI;
+        // plane.rotation.z = rz;
 
         // flip around
         // Enable this to keep the web cam level.

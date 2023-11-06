@@ -100,7 +100,7 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
 
     const imagePlaceholder = `
       <h1 style="text-align: center;"><img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;">${url}<img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;"></h1>
-      <img src="${image}" alt="Iframe Placeholder">
+      <img src="${image}" alt="Iframe Placeholder" style="width: 100%; height: 100%;">
     `
     $(div).append(divImage);
     $(divImage).append(imagePlaceholder);
