@@ -104,6 +104,7 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
   $(divImage).append(imagePlaceholder);
   $(divImage).on( "click", function() {
     $(div).html(html);
+    $('iframe').css('pointer-events', 'auto');
   })
   
 
