@@ -176,6 +176,7 @@ function onCreateMouseDownLeft(event){
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
     const index = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
+    // TODO Fix
     gameObjects.splice(index, 1);
 
     redrawObjects();

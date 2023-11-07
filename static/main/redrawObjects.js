@@ -3,7 +3,7 @@ import { objectScene } from '../main/main.js';
 import { perlin2 } from '../main/perlin.js';
 import { vs, fs } from '../main/shaders.js';
 
-export let gameObjects = [];
+export let gameObjects = {};
 export let triangleMeshInstanceIDKeys = {};
 let drawInstances = 1000 * 1000;
 let triangleMeshs = {};
@@ -248,8 +248,9 @@ export function redrawObjects() {
   let visibleCount = 0;
 
 
-  for (let i = 0, il = length; i < il; i++) {
-    const gameObject = gameObjects[i]
+  // for (let i = 0, il = length; i < il; i++) {
+  for (const key in gameObjects){
+    const gameObject = gameObjects[key]
       // visibleCount += 1;
       // if (visibleCount > instances){
       //   break
