@@ -203,7 +203,7 @@ function initObjectsForTesting() {
   }
 }
 
-initObjectsForTesting();
+// initObjectsForTesting();
 
 let triangleOffsets = [];
 let triangleUvs = [];
@@ -232,7 +232,7 @@ export function redrawObjects() {
   // console.log("starting fetchAndDeleteObjects", window.playerLonLat);
   // const allBlocks = gameObjects;
 
-  const length = Math.min(gameObjects.length, drawInstances);
+  const length = drawInstances;
   // console.log(length);
 
 
@@ -249,7 +249,13 @@ export function redrawObjects() {
 
 
   // for (let i = 0, il = length; i < il; i++) {
+  let i = 0;
+  let il = length;
   for (const key in gameObjects){
+    if (il < i){
+      return null
+    }
+    i += 1;
     const gameObject = gameObjects[key]
       // visibleCount += 1;
       // if (visibleCount > instances){
@@ -384,7 +390,7 @@ export function redrawObjects() {
       triangleMesh.count += 1;
 
   }
-  console.log(triangleMeshs)
+  // console.log(triangleMeshs)
   for (const key in triangleMeshs){
     if(triangleMeshs[key].mesh.count == 0){
       // Clean up any meshes that don't have instances

@@ -1,6 +1,6 @@
-import { gameObjects } from "./redrawObjects";
+import { gameObjects, redrawObjects } from "./redrawObjects.js";
 
-export function drawBlock(x, y, z) {
+export function drawBlock(x, y, z, textureUrl) {
     x = Math.floor(x);
     y = Math.floor(y);
     z = Math.floor(z);
@@ -20,7 +20,7 @@ export function drawBlock(x, y, z) {
         // No adjancent block, draw the new BOTTOM face
         gameObjects[`block:${x},${y},${z}:0:bottom:0`] = {
             key: `block:${x},${y},${z}:0:bottom:0`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x,
             p1y: y,
             p1z: z,
@@ -48,7 +48,7 @@ export function drawBlock(x, y, z) {
 
         gameObjects[`block:${x},${y},${z}:0:bottom:1`] = {
             key: `block:${x},${y},${z}:0:bottom:1`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x,
             p1y: y,
             p1z: z+1,
@@ -90,7 +90,7 @@ export function drawBlock(x, y, z) {
         // No adjancent block, draw the new TOP face
         gameObjects[`block:${x},${y},${z}:0:top:0`] = {
             key: `block:${x},${y},${z}:0:top:0`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x,
             p1y: y+1,
             p1z: z,
@@ -118,7 +118,7 @@ export function drawBlock(x, y, z) {
 
         gameObjects[`block:${x},${y},${z}:0:top:1`] = {
             key: `block:${x},${y},${z}:0:top:1`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x+1,
             p1y: y+1,
             p1z: z,
@@ -160,7 +160,7 @@ export function drawBlock(x, y, z) {
         // No adjancent block, draw the new SOUTH face
         gameObjects[`block:${x},${y},${z}:0:south:0`] = {
             key: `block:${x},${y},${z}:0:south:0`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x,
             p1y: y,
             p1z: z,
@@ -188,7 +188,7 @@ export function drawBlock(x, y, z) {
 
         gameObjects[`block:${x},${y},${z}:0:south:1`] = {
             key: `block:${x},${y},${z}:0:south:1`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x+1,
             p1y: y,
             p1z: z,
@@ -228,7 +228,7 @@ export function drawBlock(x, y, z) {
     } else {
         gameObjects[`block:${x},${y},${z}:0:north:0`] = {
             key: `block:${x},${y},${z}:0:north:0`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x+1,
             p1y: y,
             p1z: z+1,
@@ -256,7 +256,7 @@ export function drawBlock(x, y, z) {
 
         gameObjects[`block:${x},${y},${z}:0:north:1`] ={
             key: `block:${x},${y},${z}:0:north:1`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x+1,
             p1y: y+1,
             p1z: z+1,
@@ -284,20 +284,20 @@ export function drawBlock(x, y, z) {
     }
 
     // We check the WEST of the adjacent block
-    if ((`block:${x+1},${y},${z}:0:west:0` in gameObjects) || (`block:${x+1},${y},${z}:0:west:1` in gameObjects)){
+    if ((`block:${x-1},${y},${z}:0:west:0` in gameObjects) || (`block:${x-1},${y},${z}:0:west:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
-        if (`block:${x+1},${y},${z}:0:west:0` in gameObjects){
-            gameObjects[`block:${x+1},${y},${z}:0:west:0`].isHidden = true;
+        if (`block:${x-1},${y},${z}:0:west:0` in gameObjects){
+            gameObjects[`block:${x-1},${y},${z}:0:west:0`].isHidden = true;
         }
 
         if (`block:${x+1},${y},${z}:0:west:1` in gameObjects){
-            gameObjects[`block:${x+1},${y},${z}:0:west:1`].isHidden = true;
+            gameObjects[`block:${x-1},${y},${z}:0:west:1`].isHidden = true;
         }
     } else {
 
         gameObjects[`block:${x},${y},${z}:0:east:0`] ={
             key: `block:${x},${y},${z}:0:east:0`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x,
             p1y: y,
             p1z: z,
@@ -325,7 +325,7 @@ export function drawBlock(x, y, z) {
 
         gameObjects[`block:${x},${y},${z}:0:east:1`] = {
             key: `block:${x},${y},${z}:0:east:1`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x,
             p1y: y+1,
             p1z: z+1,
@@ -353,19 +353,19 @@ export function drawBlock(x, y, z) {
     }
 
     // We check the EAST of the adjacent block
-    if ((`block:${x-1},${y},${z}:0:east:0` in gameObjects) || (`block:${x-1},${y},${z}:0:east:1` in gameObjects)){
+    if ((`block:${x+1},${y},${z}:0:east:0` in gameObjects) || (`block:${x+1},${y},${z}:0:east:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
-        if (`block:${x-1},${y},${z}:0:east:0` in gameObjects){
+        if (`block:${x+1},${y},${z}:0:east:0` in gameObjects){
             gameObjects[`block:${x-1},${y},${z}:0:east:0`].isHidden = true;
         }
 
-        if (`block:${x-1},${y},${z}:0:east:1` in gameObjects){
-            gameObjects[`block:${x-1},${y},${z}:0:east:1`].isHidden = true;
+        if (`block:${x+1},${y},${z}:0:east:1` in gameObjects){
+            gameObjects[`block:${x+1},${y},${z}:0:east:1`].isHidden = true;
         }
     } else {
         gameObjects[`block:${x},${y},${z}:0:west:0`] = {
             key: `block:${x},${y},${z}:0:west:0`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x+1,
             p1y: y,
             p1z: z,
@@ -393,7 +393,7 @@ export function drawBlock(x, y, z) {
 
         gameObjects[`block:${x},${y},${z}:0:west:1`] = {
             key: `block:${x},${y},${z}:0:west:1`,
-            textureUrl: favicon,
+            textureUrl: textureUrl,
             p1x: x+1,
             p1y: y+1,
             p1z: z+1,
@@ -419,4 +419,6 @@ export function drawBlock(x, y, z) {
             // weightChance: Math.random(),
         };
     }
+
+    // redrawObjects();
 }
