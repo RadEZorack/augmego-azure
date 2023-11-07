@@ -9,11 +9,11 @@ export function drawBlock(x, y, z, textureUrl) {
     if ((`block:${x},${y-1},${z}:0:top:0` in gameObjects) || (`block:${x},${y-1},${z}:0:top:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
         if (`block:${x},${y-1},${z}:0:top:0` in gameObjects){
-            gameObjects[`block:${x},${y-1},${z}:0:top:0`].isHidden = true;
+            delete gameObjects[`block:${x},${y-1},${z}:0:top:0`]
         }
 
         if (`block:${x},${y-1},${z}:0:top:1` in gameObjects){
-            gameObjects[`block:${x},${y-1},${z}:0:top:1`].isHidden = true;
+            delete gameObjects[`block:${x},${y-1},${z}:0:top:1`]
         }
         
     } else {
@@ -79,11 +79,11 @@ export function drawBlock(x, y, z, textureUrl) {
     if ((`block:${x},${y+1},${z}:0:bottom:0` in gameObjects) || (`block:${x},${y+1},${z}:0:bottom:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
         if (`block:${x},${y+1},${z}:0:bottom:0` in gameObjects){
-            gameObjects[`block:${x},${y+1},${z}:0:bottom:0`].isHidden = true;
+            delete gameObjects[`block:${x},${y+1},${z}:0:bottom:0`]
         }
 
         if (`block:${x},${y+1},${z}:0:bottom:1` in gameObjects){
-            gameObjects[`block:${x},${y+1},${z}:0:bottom:1`].isHidden = true;
+            delete gameObjects[`block:${x},${y+1},${z}:0:bottom:1`]
         }
 
     } else {
@@ -149,11 +149,11 @@ export function drawBlock(x, y, z, textureUrl) {
     if ((`block:${x},${y},${z-1}:0:north:0` in gameObjects) || (`block:${x},${y},${z-1}:0:north:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
         if (`block:${x},${y},${z-1}:0:north:0` in gameObjects){
-            gameObjects[`block:${x},${y},${z-1}:0:north:0`].isHidden = true;
+            delete gameObjects[`block:${x},${y},${z-1}:0:north:0`]
         }
 
         if (`block:${x},${y},${z-1}:0:north:1` in gameObjects){
-            gameObjects[`block:${x},${y},${z-1}:0:north:1`].isHidden = true;
+            delete gameObjects[`block:${x},${y},${z-1}:0:north:1`]
         }
 
     } else {
@@ -219,11 +219,11 @@ export function drawBlock(x, y, z, textureUrl) {
     if ((`block:${x},${y},${z+1}:0:south:0` in gameObjects) || (`block:${x},${y},${z+1}:0:south:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
         if (`block:${x},${y},${z+1}:0:south:0` in gameObjects){
-            gameObjects[`block:${x},${y},${z+1}:0:south:0`].isHidden = true;
+            delete gameObjects[`block:${x},${y},${z+1}:0:south:0`]
         }
 
         if (`block:${x},${y},${z+1}:0:south:1` in gameObjects){
-            gameObjects[`block:${x},${y},${z+1}:0:south:1`].isHidden = true;
+            delete gameObjects[`block:${x},${y},${z+1}:0:south:1`]
         }
     } else {
         gameObjects[`block:${x},${y},${z}:0:north:0`] = {
@@ -287,11 +287,11 @@ export function drawBlock(x, y, z, textureUrl) {
     if ((`block:${x-1},${y},${z}:0:west:0` in gameObjects) || (`block:${x-1},${y},${z}:0:west:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
         if (`block:${x-1},${y},${z}:0:west:0` in gameObjects){
-            gameObjects[`block:${x-1},${y},${z}:0:west:0`].isHidden = true;
+            delete gameObjects[`block:${x-1},${y},${z}:0:west:0`]
         }
 
-        if (`block:${x+1},${y},${z}:0:west:1` in gameObjects){
-            gameObjects[`block:${x-1},${y},${z}:0:west:1`].isHidden = true;
+        if (`block:${x-1},${y},${z}:0:west:1` in gameObjects){
+            delete gameObjects[`block:${x-1},${y},${z}:0:west:1`]
         }
     } else {
 
@@ -356,11 +356,11 @@ export function drawBlock(x, y, z, textureUrl) {
     if ((`block:${x+1},${y},${z}:0:east:0` in gameObjects) || (`block:${x+1},${y},${z}:0:east:1` in gameObjects)){
         // We have an adjancent block, hide it's face and don't draw the new face
         if (`block:${x+1},${y},${z}:0:east:0` in gameObjects){
-            gameObjects[`block:${x-1},${y},${z}:0:east:0`].isHidden = true;
+            delete gameObjects[`block:${x-1},${y},${z}:0:east:0`]
         }
 
         if (`block:${x+1},${y},${z}:0:east:1` in gameObjects){
-            gameObjects[`block:${x+1},${y},${z}:0:east:1`].isHidden = true;
+            delete gameObjects[`block:${x+1},${y},${z}:0:east:1`]
         }
     } else {
         gameObjects[`block:${x},${y},${z}:0:west:0`] = {

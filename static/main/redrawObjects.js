@@ -253,7 +253,7 @@ export function redrawObjects() {
   let il = length;
   for (const key in gameObjects){
     if (il < i){
-      return null
+      return null;
     }
     i += 1;
     const gameObject = gameObjects[key]
