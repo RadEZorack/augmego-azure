@@ -4,6 +4,7 @@ import { camera, threeJSContainer } from '../main/main.js';
 import { selectedObject } from '../main/raycaster.js';
 import { cssRenderer } from '../main/webpage3d.js';
 import { triangleMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redrawObjects.js';
+import { drawBlock } from '../main/drawBlock.js';
 
 
 
@@ -42,16 +43,18 @@ toggleMouse.onmousedown = function(event){
         threeJSContainer.onwheel = undefined;
         threeJSContainer.onmousedown = undefined;
 
-    // }else if (toggleMouseState == "www"){
-    //     // CREATE
-    //     toggleMouseState = "create";
-    //     toggleMouse.innerHTML = '<img src="'+blockWebp+'" alt="Walk" width="100%" height="100%">';
-
-    //     // Turn off WWW state
-    //     $('.css3ddiv').css('pointer-events', 'none');
-    //     threeJSContainer.onmousedown = onCreateMouseDown;
-
     }else if (toggleMouseState == "www"){
+        // CREATE
+        toggleMouseState = "create";
+        toggleMouse.innerHTML = '<img src="'+favicon+'" alt="Walk" width="100%" height="100%">';
+
+        // Turn off WWW state
+        // $('.css3ddiv').css('pointer-events', 'none');
+        $('iframe').css('pointer-events', 'none');
+        $('.divImage').css('pointer-events', 'none');
+        threeJSContainer.onmousedown = onCreateMouseDown;
+
+    }else if (toggleMouseState == "create"){
         // WALK
         toggleMouseState = "walk";
         // toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
@@ -174,17 +177,21 @@ function onCreateMouseDown(event) {
 function onCreateMouseDownLeft(event){
   const data = selectedObject(event);
 
-  if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
-    const index = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-    // TODO Fix
-    gameObjects.splice(index, 1);
+  // if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
+  //   const index = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
+  //   // TODO Fix
+  //   gameObjects.splice(index, 1);
 
-    redrawObjects();
-  }
+  //   redrawObjects();
+  // }
 }
 
 function onCreateMouseDownRight(event){
   const data = selectedObject(event);
+
+  console.log(data);
+
+  drawBlock(data.point.x, data.point.y, data.point.z, grassTexture);
 
   redrawObjects();
 }

@@ -26,7 +26,7 @@ function sendPlayerGlobalData(){
 
 export function sendPlayerPeerData(){
     // console.log('player_send_xhr')
-    const player_send_xhr = setTimeout(function(){
+    // const player_send_xhr = setTimeout(function(){
         const now = new Date();
         for (let uuid in peerConnections){
             let sendChannel = peerConnections[uuid].sendChannel
@@ -51,8 +51,8 @@ export function sendPlayerPeerData(){
                 receiveChannel.send("keep alive")
             }
         }
-        sendPlayerPeerData()
-    }, 50)
+    //     sendPlayerPeerData()
+    // }, 50)
 }
 
 sendPlayerGlobalData();

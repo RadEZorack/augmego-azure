@@ -5,7 +5,7 @@ import { vs, fs } from '../main/shaders.js';
 
 export let gameObjects = {};
 export let triangleMeshInstanceIDKeys = {};
-let drawInstances = 1000 * 1000;
+let drawInstances = 10000000;
 let triangleMeshs = {};
 
 function initObjectsForTesting() {
@@ -251,6 +251,7 @@ export function redrawObjects() {
   // for (let i = 0, il = length; i < il; i++) {
   let i = 0;
   let il = length;
+  // console.log(Object.keys(gameObjects).length)
   for (const key in gameObjects){
     if (il < i){
       return null;
@@ -264,7 +265,6 @@ export function redrawObjects() {
       let triangleMesh = undefined;
       if (gameObject.textureUrl in triangleMeshs){
         triangleMesh = triangleMeshs[gameObject.textureUrl]['mesh']
-        // console.log("hit", triangleMesh)
       }else{
         const texture = new THREE.TextureLoader().load( gameObject.textureUrl )
         // let texture = undefined;
@@ -300,7 +300,7 @@ export function redrawObjects() {
           fragmentShader: fs
         });
         triangleMaterial.lights = true;
-        // triangleMaterial.side = THREE.DoubleSide;
+        triangleMaterial.side = THREE.DoubleSide;
         const triangleGeometry = new THREE.BufferGeometry();
 
         // const triangleUVs2 = new Float32Array( [
@@ -318,8 +318,11 @@ export function redrawObjects() {
         // triangleGeometry.setAttribute( 'uvalt', new THREE.BufferAttribute( new Float32Array(triangleUvs), 2 ) );
         // triangleGeometry.setAttribute( 'rgba', new THREE.InstancedBufferAttribute( new Float32Array(triangleRgbas), 4 ) );
         triangleMesh = new THREE.InstancedMesh( triangleGeometry, triangleMaterial, drawInstances);
-        triangleMesh.castShadow = true;
-        triangleMesh.receiveShadow = true;
+        
+        // TODO FIX SHADOWS: broken because of double sided blocks
+        // triangleMesh.castShadow = true;
+        // triangleMesh.receiveShadow = true;
+        
         // triangleMesh.instanceUVMatrix = new THREE.BufferAttribute( new Float32Array( length * 16 ), 16 );
         // triangleMesh.position.y = -window.playerY;
         triangleMesh.count = 0;
@@ -339,9 +342,9 @@ export function redrawObjects() {
       // Only do the work if key doesn't match the index.
       // if(window.triangleMeshInstanceIDKeys[triangleMesh.uuid][i] != triangleMesh.count){
         let matrix = new THREE.Matrix4();
-        matrix.set( gameObject.p2x - gameObject.p1x, 0, gameObject.p3x - gameObject.p1x, gameObject.p1x,
+        matrix.set( gameObject.p2x - gameObject.p1x, 1, gameObject.p3x - gameObject.p1x, gameObject.p1x,
                     gameObject.p2y - gameObject.p1y, 1, gameObject.p3y - gameObject.p1y, gameObject.p1y,
-                    gameObject.p2z - gameObject.p1z, 0, gameObject.p3z - gameObject.p1z, gameObject.p1z,
+                    gameObject.p2z - gameObject.p1z, 1, gameObject.p3z - gameObject.p1z, gameObject.p1z,
                     0,                               0, 0,                               1  );
         triangleMesh.setMatrixAt(j++, matrix);
         triangleMesh.instanceMatrix.needsUpdate = true;
