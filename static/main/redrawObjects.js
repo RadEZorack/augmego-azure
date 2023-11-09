@@ -5,7 +5,7 @@ import { vs, fs } from '../main/shaders.js';
 
 export let gameObjects = {};
 export let triangleMeshInstanceIDKeys = {};
-let drawInstances = 10000000;
+let drawInstances = 100000;
 let triangleMeshs = {};
 
 function initObjectsForTesting() {
@@ -347,7 +347,7 @@ export function redrawObjects() {
                     gameObject.p2z - gameObject.p1z, 1, gameObject.p3z - gameObject.p1z, gameObject.p1z,
                     0,                               0, 0,                               1  );
         triangleMesh.setMatrixAt(j++, matrix);
-        triangleMesh.instanceMatrix.needsUpdate = true;
+        // triangleMesh.instanceMatrix.needsUpdate = true;
 
 
         matrix.set(
@@ -357,7 +357,7 @@ export function redrawObjects() {
                     0, 0, 0, 1  );
 
         matrix.toArray( triangleMesh.instanceNormalMatrix.array, k * 16 );
-        triangleMesh.instanceNormalMatrix.needsUpdate = true;
+        // triangleMesh.instanceNormalMatrix.needsUpdate = true;
 
 
         // transformObject.position.set(1.0, 1.0, 0.0);
@@ -370,7 +370,7 @@ export function redrawObjects() {
                     0, 0, 1, 1,
                     0, 0, 0, 1);
         matrix.toArray( triangleMesh.instanceUVMatrix.array, k * 16 );
-        triangleMesh.instanceUVMatrix.needsUpdate = true;
+        // triangleMesh.instanceUVMatrix.needsUpdate = true;
 
         // console.log(allBlocks[i].colorPicker)
         // const color = new THREE.Color(0).setHex( gameObject.colorPicker )
@@ -401,6 +401,12 @@ export function redrawObjects() {
     }else{
 
     }
+  }
+
+  for (const key in triangleMeshs){
+    triangleMeshs[key].mesh.instanceMatrix.needsUpdate = true;
+    triangleMeshs[key].mesh.instanceNormalMatrix.needsUpdate = true;
+    triangleMeshs[key].mesh.instanceUVMatrix.needsUpdate = true;
   }
 
   console.log("finished redrawObjects");

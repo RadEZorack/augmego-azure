@@ -24,9 +24,9 @@ function initObjects() {
     }
   
     // noise.seed(0)
-    for (let x = -20; x < 20; x++) {
+    for (let x = -64; x < 64; x++) {
       for (let y = -1; y < 0; y++) {
-        for (let z = -20; z < 20; z++) {
+        for (let z = -64; z < 64; z++) {
           // Grass or dirt
             //   let id = Math.floor(12 * Math.random());
             let textureUrl = favicon;
