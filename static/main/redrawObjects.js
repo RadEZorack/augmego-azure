@@ -5,7 +5,7 @@ import { vs, fs } from '../main/shaders.js';
 
 export let gameObjects = {};
 export let triangleMeshInstanceIDKeys = {};
-let drawInstances = 100000;
+let drawInstances = 100000; // This number may be too large?
 let triangleMeshs = {};
 
 function initObjectsForTesting() {

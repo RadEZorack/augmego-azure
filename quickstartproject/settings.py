@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'chat',
     'game',
     'webpage',
+    'cube',
+    'texture',
 
     'channels',
 ]

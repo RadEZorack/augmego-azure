@@ -27,6 +27,7 @@ urlpatterns = [
     path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),
     path("webpage/", include("webpage.urls")),
+    path("cube/", include("cube.urls")),
     path('admin/', admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
