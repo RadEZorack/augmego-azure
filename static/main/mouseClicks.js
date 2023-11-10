@@ -5,6 +5,7 @@ import { selectedObject } from '../main/raycaster.js';
 import { cssRenderer } from '../main/webpage3d.js';
 import { triangleMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redrawObjects.js';
 import { drawBlock } from '../main/drawBlock.js';
+import { removeBlock } from '../main/removeBlock.js';
 
 
 
@@ -177,19 +178,19 @@ function onCreateMouseDown(event) {
 function onCreateMouseDownLeft(event){
   const data = selectedObject(event);
 
-  // if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
-  //   const index = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-  //   // TODO Fix
-  //   gameObjects.splice(index, 1);
-
-  //   redrawObjects();
-  // }
+  if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
+      const key = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
+      console.log(key);
+      const keyArray = key.split(":")
+      const xyz = keyArray[1].split(",");
+  
+      removeBlock(xyz[0], xyz[1], xyz[2]);
+  }
+  redrawObjects();
 }
 
 function onCreateMouseDownRight(event){
   const data = selectedObject(event);
-
-  console.log(data);
 
   drawBlock(data.point.x, data.point.y, data.point.z, grassTexture);
 

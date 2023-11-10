@@ -24,24 +24,24 @@ function initObjects() {
     }
   
     // noise.seed(0)
-    for (let x = -64; x < 64; x++) {
-      for (let y = -1; y < 0; y++) {
-        for (let z = -64; z < 64; z++) {
-          // Grass or dirt
-            //   let id = Math.floor(12 * Math.random());
-            let textureUrl = favicon;
-            if (perlin2(x/5,z/5) >= 0){
-                textureUrl = grassTexture
-            }else{
-                textureUrl = dirtTexture
-            }
+    // for (let x = -64; x < 64; x++) {
+    //   // for (let y = -1; y < 0; y++) {
+    //     for (let z = -64; z < 64; z++) {
+    //       // Grass or dirt
+    //         //   let id = Math.floor(12 * Math.random());
+    //         let textureUrl = favicon;
+    //         if (perlin2(x/5,z/5) >= 0){
+    //             textureUrl = grassTexture
+    //         }else{
+    //             textureUrl = dirtTexture
+    //         }
     
-            drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
-        }
-      }
-    }
-    // drawBlock(0,0,0, grassTexture)
-    // drawBlock(0,0,1, dirtTexture)
+    //         drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
+    //     }
+    //   // }
+    // }
+    drawBlock(0,0,0, grassTexture)
+    drawBlock(0,0,1, dirtTexture)
 
 
 

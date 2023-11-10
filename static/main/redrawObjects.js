@@ -386,7 +386,7 @@ export function redrawObjects() {
         // triangleMesh.geometry.attributes.uvalt.setXY( 3*triangleMesh.count+2, gameObject.uv3x, gameObject.uv3y);
         // triangleMesh.geometry.attributes.uvalt.needsUpdate = true;
 
-        triangleMeshInstanceIDKeys[triangleMesh.uuid][triangleMesh.count] = i;
+        triangleMeshInstanceIDKeys[triangleMesh.uuid][triangleMesh.count] = key;
         // window.triangleMeshInstanceIDKeys[triangleMesh.uuid][i] = triangleMesh.count;
       // }
 
