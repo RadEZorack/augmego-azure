@@ -256,8 +256,12 @@ export function redrawObjects() {
     if (il < i){
       return null;
     }
+    const gameObject = gameObjects[key];
+    if (key.startsWith('blockVisibility')){
+      continue;
+    }
     i += 1;
-    const gameObject = gameObjects[key]
+    
       // visibleCount += 1;
       // if (visibleCount > instances){
       //   break

@@ -180,7 +180,7 @@ function onCreateMouseDownLeft(event){
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
       const key = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-      console.log(key);
+      // console.log(key);
       const keyArray = key.split(":")
       const xyz = keyArray[1].split(",");
   

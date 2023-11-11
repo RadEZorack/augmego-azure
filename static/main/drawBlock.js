@@ -5,6 +5,9 @@ export function drawBlock(x, y, z, textureUrl) {
     y = Math.floor(y);
     z = Math.floor(z);
 
+    // Defines if the gameobject exists even if it's hidden. This could probably be added in the the other keys.
+    gameObjects[`blockVisibility:${x},${y},${z}`] = {isRemoved: false, textureUrl: textureUrl};
+
     // We need to add a very small amount in the direction the face is so that our raycaster falls into the correct cube.
     const scaleFactor = 0.0001
 
@@ -45,7 +48,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 1.0,
             uv3y: 0.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
 
@@ -73,7 +76,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 1.0,
             uv3y: 0.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
     }
@@ -115,7 +118,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
 
@@ -143,7 +146,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
     }
@@ -185,7 +188,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
 
@@ -213,7 +216,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
     }
@@ -253,7 +256,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
             
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
 
@@ -281,7 +284,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
 
-            isHidden: false, 
+            isRemoved: false, 
             // weightChance: Math.random(),
         };
     }
@@ -322,7 +325,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 1.0,
             uv3y: 0.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
 
@@ -350,7 +353,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
     }
@@ -390,7 +393,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 0.0,
             uv3y: 1.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
 
@@ -418,7 +421,7 @@ export function drawBlock(x, y, z, textureUrl) {
             uv3x: 1.0,
             uv3y: 0.0,
 
-            isHidden: false,
+            isRemoved: false,
             // weightChance: Math.random(),
         };
     }

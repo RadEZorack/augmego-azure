@@ -1,4 +1,6 @@
 import { gameObjects } from "./redrawObjects.js";
+import { drawBlock } from "./drawBlock.js";
+import { perlin2 } from '../main/perlin.js';
 
 function blockSides(x,y,z){
     return [
@@ -22,6 +24,10 @@ export function removeBlock(x, y, z) {
     y = Math.floor(y);
     z = Math.floor(z);
 
+    // if (`blockVisibility:${x},${y},${z}` in gameObjects){
+        gameObjects[`blockVisibility:${x},${y},${z}`] = false;
+    // }
+
     const sides = blockSides(x,y,z);
 
     for (let i = 0; i < sides.length; i++) {
@@ -30,4 +36,32 @@ export function removeBlock(x, y, z) {
             delete gameObjects[side];
         }
     }
+
+    const sidesToAdd = [
+        [x+1,y,z],
+        [x-1,y,z],
+        [x,y+1,z],
+        [x,y-1,z],
+        [x,y,z+1],
+        [x,y,z-1],
+    ]
+
+    for (let i = 0; i < sidesToAdd.length; i++) {
+        const xyz = sidesToAdd[i];
+
+        if (`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects 
+            && gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`].isRemoved == false){
+                drawBlock(xyz[0], xyz[1], xyz[2], gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`].textureUrl)
+
+        }else if (!(`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects)
+            && (3*perlin2(xyz[0]/10,xyz[2]/10) >= xyz[1])){
+                let textureUrl = favicon;
+                if (perlin2(xyz[0]/5,xyz[2]/5) >= 0){
+                    textureUrl = grassTexture;
+                }else{
+                    textureUrl = dirtTexture;
+                }
+                drawBlock(xyz[0], xyz[1], xyz[2], textureUrl);
+        }
+    }    
 }
