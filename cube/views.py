@@ -44,3 +44,21 @@ def list_cubes(request):
     serializer = CubeSerializer(cubes_within_range, many=True, context={"request":request})
 
     return HttpResponse(json.dumps(serializer.data), content_type='application/json')
+
+def post_cube(request):
+    """ Create a cube via POST """
+    if request.POST:
+        rp = request.POST
+
+        cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"))
+        if rp.get("textureName"):
+            texture = Texture.objects.get(name=rp.get("textureName"))
+            cube.texture = texture
+            cube.save()
+        elif rp.get("textureName", "") == "":
+            cube.texture = None
+            cube.save()
+
+        serializer = CubeSerializer(cube, many=False, context={"request":request})
+
+        return HttpResponse(json.dumps(serializer.data), content_type='application/json')

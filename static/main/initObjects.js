@@ -1,5 +1,6 @@
 import { gameObjects, redrawObjects } from "./redrawObjects.js";
 import { drawBlock } from "./drawBlock.js";
+import { removeBlock } from "./removeBlock.js";
 import { perlin2 } from '../main/perlin.js';
 
 function initObjects() {
@@ -43,7 +44,32 @@ function initObjects() {
     // drawBlock(0,0,0, grassTexture)
     // drawBlock(0,0,1, dirtTexture)
 
+    $.ajax({
+      url: cubeLoadURL,
+      type: 'GET',
+      data: {
+        csrfmiddlewaretoken: csrfmiddlewaretoken,
+        min_x: -64,
+        min_y: -64,
+        min_z: -64,
+        max_x: 64,
+        max_y: 64,
+        max_z: 64,
+      },
+      success: function(resp) {
+          console.log("success get");
+          for(let i = 0; i < resp.length; i++){
+            const data = resp[i];
+            if (data.texture == null){
+              removeBlock(data.x, data.y, data.z);
+            } else {
+              drawBlock(data.x, data.y, data.z, data.texture.image_url);
+            }
+          }
 
+          redrawObjects();
+      }
+    })
 
     redrawObjects();
 }

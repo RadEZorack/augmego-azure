@@ -26,6 +26,9 @@
             </div>
          </div>
       </div>
+      <div style="display: none;">
+         {% csrf_token %}
+      </div>
      <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
      <script src="{% static 'three/three.module.js' %}" type="module"></script>
      <script src="{% static 'three/OrbitControls.js' %}" type="module"></script>
@@ -34,8 +37,11 @@
      <script src="{% static 'three/CSS3DRenderer.js' %}" type="module"></script>
      <!-- Context specific variables-->
          <script type="text/javascript">
+            const csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             const webcamUrl = '{% url "game:webcam" %}';
             const webPageLoadURL = '{% url "webpage:list" %}'
+            const cubeLoadURL = '{% url "cube:list" %}'
+            const cubePostURL = '{% url "cube:post" %}'
             let my_name = "Bob-"+Math.random().toString();
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";

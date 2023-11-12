@@ -183,6 +183,22 @@ function onCreateMouseDownLeft(event){
       // console.log(key);
       const keyArray = key.split(":")
       const xyz = keyArray[1].split(",");
+
+      $.ajax({
+        url: cubePostURL,
+        type: 'POST',
+        data: {
+          csrfmiddlewaretoken: csrfmiddlewaretoken,
+          x: Math.floor(xyz[0]),
+          y: Math.floor(xyz[1]),
+          z: Math.floor(xyz[2]),
+          textureName: ""
+        },
+        success: function(resp) {
+            console.log("success post");
+            console.log(resp);
+        }
+      })
   
       removeBlock(xyz[0], xyz[1], xyz[2]);
   }
@@ -192,7 +208,26 @@ function onCreateMouseDownLeft(event){
 function onCreateMouseDownRight(event){
   const data = selectedObject(event);
 
-  drawBlock(data.point.x, data.point.y, data.point.z, grassTexture);
+  const tempTexture = "http://localhost:8000/media/texture-image/DALLE_2023-10-27_12.28.01_-_bark_texture.png"
+  const tempTextureName = "Bark"
+  $.ajax({
+    url: cubePostURL,
+    type: 'POST',
+    data: {
+      csrfmiddlewaretoken: csrfmiddlewaretoken,
+      x: Math.floor(data.point.x),
+      y: Math.floor(data.point.y),
+      z: Math.floor(data.point.z),
+      // TODO: replace with a dynamic texture
+      textureName: tempTextureName
+    },
+    success: function(resp) {
+        console.log("success post");
+        console.log(resp);
+    }
+  })
+  
+  drawBlock(data.point.x, data.point.y, data.point.z, tempTexture);
 
   redrawObjects();
 }
