@@ -6,6 +6,7 @@ import { cssRenderer } from '../main/webpage3d.js';
 import { triangleMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redrawObjects.js';
 import { drawBlock } from '../main/drawBlock.js';
 import { removeBlock } from '../main/removeBlock.js';
+import { peerConnections } from '../main/socketConnection.js';
 
 
 
@@ -196,7 +197,23 @@ function onCreateMouseDownLeft(event){
         },
         success: function(resp) {
             console.log("success post");
-            console.log(resp);
+            // console.log(resp);
+            const now = new Date();
+            for (let uuid in peerConnections){
+                let sendChannel = peerConnections[uuid].sendChannel
+                if (sendChannel != undefined && sendChannel.readyState == "open"){
+                    sendChannel.send(JSON.stringify({
+                        'type': 'removeBlock',
+                        'name': my_name,
+                        'myUuid': myUuid,
+                        x: Math.floor(xyz[0]),
+                        y: Math.floor(xyz[1]),
+                        z: Math.floor(xyz[2]),
+                        textureName: "",
+                        'time': now.getTime(),
+                    }))
+                }
+              }
         }
       })
   

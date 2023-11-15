@@ -1,5 +1,8 @@
 import { peerConnections, message_que, socket } from '../main/socketConnection.js';
 import { update_entity } from '../main/entity.js';
+import { redrawObjects } from '../main/redrawObjects.js';
+import { drawBlock } from '../main/drawBlock.js';
+import { removeBlock } from '../main/removeBlock.js';
 
 export function initWebcamPage(myUuid, entityUuid){
     console.log("4.a initWebcamPage")
@@ -41,11 +44,15 @@ export function initWebcamPage(myUuid, entityUuid){
             // console.log("Got webcam receive Channel Message:", event.data);
             let edata = event.data;
             try{
-            edata = JSON.parse(edata);
-            if("type" in edata && edata.type == "playermove"){
-                // console.log("playermove")
-                update_entity(edata)
-            }
+                edata = JSON.parse(edata);
+                if("type" in edata && edata.type == "playermove"){
+                    // console.log("playermove")
+                    update_entity(edata)
+                }else if("type" in edata && edata.type == "removeBlock"){
+                    console.log("removeBlock")
+                    removeBlock(edata.x, edata.y, edata.z);
+                    redrawObjects();
+                }
             }catch(e){
                 // this is not json
                 console.error("data channel error", e);
