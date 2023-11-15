@@ -240,7 +240,23 @@ function onCreateMouseDownRight(event){
     },
     success: function(resp) {
         console.log("success post");
-        console.log(resp);
+        // console.log(resp);
+        const now = new Date();
+        for (let uuid in peerConnections){
+            let sendChannel = peerConnections[uuid].sendChannel
+            if (sendChannel != undefined && sendChannel.readyState == "open"){
+                sendChannel.send(JSON.stringify({
+                    'type': 'drawBlock',
+                    'name': my_name,
+                    'myUuid': myUuid,
+                    x: Math.floor(data.point.x),
+                    y: Math.floor(data.point.y),
+                    z: Math.floor(data.point.z),
+                    textureName: tempTexture,
+                    'time': now.getTime(),
+                }))
+            }
+          }
     }
   })
   

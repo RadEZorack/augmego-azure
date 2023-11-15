@@ -52,6 +52,10 @@ export function initWebcamPage(myUuid, entityUuid){
                     console.log("removeBlock")
                     removeBlock(edata.x, edata.y, edata.z);
                     redrawObjects();
+                }else if("type" in edata && edata.type == "drawBlock"){
+                    console.log("drawBlock")
+                    drawBlock(edata.x, edata.y, edata.z, edata.textureName);
+                    redrawObjects();
                 }
             }catch(e){
                 // this is not json
