@@ -13,65 +13,67 @@ import { peerConnections } from '../main/socketConnection.js';
 export let myPlayerTargetPosition = undefined;
 let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
-let toggleMouse = document.getElementById("toggleMouse");
+// let toggleMouse = document.getElementById("toggleMouse");
 // Initial State is WALK
-let toggleMouseState = "walk";
+let toggleMouseState = "www";
+let blockMaterial = "";
 
-// Turn off WWW state
-$('iframe').css('pointer-events', 'none');
+// Turn on WWW state
+$(`img[data-type='www']`).css("border", "solid 2px green");
+$('iframe').css('pointer-events', 'auto');
+$('.divImage').css('pointer-events', 'auto');
 
-// Turn on WALK state
+// Turn off WALK state
 threeJSContainer.onwheel = onWheel;
 threeJSContainer.onmousedown = onMouseDown;
-threeJSContainer.addEventListener("contextmenu", (event) => {
-  // Prevent the right click menu
+
+// Prevent the right click menu
+threeJSContainer.addEventListener("contextmenu", (event) => { 
   // Question is how to turn back on if needed.
   event.preventDefault();
 });
 
-toggleMouse.onmousedown = function(event){
+$(".toggleMouseOption").on("click", function(event){
   event.preventDefault();
   event.stopPropagation();
-    if (toggleMouseState == "walk"){
-        // WWWW
-        toggleMouseState = "www";
-        // toggleMouse.innerHTML = '<img src="'+wwwWebp+'" alt="Walk" width="100%" height="100%">';
-        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+atSymbolPng+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
+  toggleMouseState = $(this).data("type");
+  if (toggleMouseState == "www"){
+    // Turn on WWW state
+    $(`[data-type='www']`).css("border", "solid 2px green");
+    $(`[data-type='create']`).css("border", "solid 2px red");
+    $(`[data-type='destroy']`).css("border", "solid 2px red");
 
-        // Turn on WWW state
-        $('iframe').css('pointer-events', 'auto');
-        $('.divImage').css('pointer-events', 'auto');
-        // Turn off WALK state
-        threeJSContainer.onwheel = undefined;
-        threeJSContainer.onmousedown = undefined;
+    $('iframe').css('pointer-events', 'auto');
+    $('.divImage').css('pointer-events', 'auto');
 
-    }else if (toggleMouseState == "www"){
-        // CREATE
-        toggleMouseState = "create";
-        toggleMouse.innerHTML = '<img src="'+favicon+'" alt="Walk" width="100%" height="100%">';
+    // Turn off WALK state
+    threeJSContainer.onwheel = onWheel;
+    threeJSContainer.onmousedown = onMouseDown;
 
-        // Turn off WWW state
-        // $('.css3ddiv').css('pointer-events', 'none');
-        $('iframe').css('pointer-events', 'none');
-        $('.divImage').css('pointer-events', 'none');
-        threeJSContainer.onmousedown = onCreateMouseDown;
+  }else if (toggleMouseState == "destroy" || toggleMouseState == "create"){
+    if(toggleMouseState == "destroy"){
+      blockMaterial = "";
+      $(`[data-type='www']`).css("border", "solid 2px red");
+      $(`[data-type='create']`).css("border", "solid 2px red");
+      $(`[data-type='destroy']`).css("border", "solid 2px green");
 
     }else if (toggleMouseState == "create"){
-        // WALK
-        toggleMouseState = "walk";
-        // toggleMouse.innerHTML = '<img src="'+walkJpg+'" alt="Walk" width="100%" height="100%">';
-        toggleMouse.innerHTML = '<img style="position: absolute;" src="'+walkPng+'" alt="Walk" width="100%" height="100%"><span style="position: absolute; color: white; text-shadow: 2px 2px #000000;">Click me to change between movement and interacting with web pages.</span>';
-
-
-        // Turn off WWW state
-        $('iframe').css('pointer-events', 'none');
-        $('.divImage').css('pointer-events', 'none');
-
-        // Turn on WALK state
-        threeJSContainer.onwheel = onWheel;
-        threeJSContainer.onmousedown = onMouseDown;
+      blockMaterial = $(this).data("material");
+      $(`[data-type='www']`).css("border", "solid 2px red");
+      $(`[data-type='create']`).css("border", "solid 2px green");
+      $(`[data-type='destroy']`).css("border", "solid 2px red");
     }
-}
+    
+    // Turn off WWW state
+    $('iframe').css('pointer-events', 'none');
+    $('.divImage').css('pointer-events', 'none');
+
+    // Turn on WALK state
+    threeJSContainer.onwheel = onWheel;
+    threeJSContainer.onmousedown = onMouseDown;
+
+  }
+})
 
 
 
@@ -103,16 +105,24 @@ function onWheel(event) {
 function onMouseDown(event) {
   event = singleClick(event);
   if (event.which == 1) {
-      onMouseDownLeft(event);
-    // case 2:
-    //     alert('Middle Mouse button pressed.');
-    //     break;
+    if (toggleMouseState == "destroy"){
+      onMouseDownDestoryBlock(event);
+
+    }else if (toggleMouseState == "create"){
+      onMouseDownCreateBlock(event);
+    }
+
+  }else if (event.which == 2) {
+    // Middle mouse button rotates screen.
+      onMouseDownMoveScreen(event);
+
   }else if (event.which == 3) {
-      onMouseDownRight(event);
+    // Right mouse button moves player.
+      onMouseDownPlayerMove(event);
   }
 }
 
-function onMouseDownRight(event){
+function onMouseDownMoveScreen(event){
   
   let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
   threeJSContainer.onmousemove = function(event) {
@@ -154,7 +164,7 @@ function onMouseDownRight(event){
 }
 
 // cssDiv.onmousedown = onMouseDown2;
-function onMouseDownLeft(event) {
+function onMouseDownPlayerMove(event) {
   if (myPlayer == undefined || event == undefined){
     return null
   }
@@ -163,20 +173,7 @@ function onMouseDownLeft(event) {
   myPlayer.scene.lookAt(event.point.x, playerWrapper.position.y, event.point.z);
 }
 
-
-function onCreateMouseDown(event) {
-  event = singleClick(event);
-  if (event.which == 1) {
-    onCreateMouseDownLeft(event);
-    // case 2:
-    //     alert('Middle Mouse button pressed.');
-    //     break;
-  }else if (event.which == 3) {
-    onCreateMouseDownRight(event);
-  }
-}
-
-function onCreateMouseDownLeft(event){
+function onMouseDownDestoryBlock(event){
   const data = selectedObject(event);
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
@@ -222,11 +219,11 @@ function onCreateMouseDownLeft(event){
   redrawObjects();
 }
 
-function onCreateMouseDownRight(event){
+function onMouseDownCreateBlock(event){
   const data = selectedObject(event);
 
   const tempTexture = "http://localhost:8000/media/texture-image/DALLE_2023-10-27_12.28.01_-_bark_texture.png"
-  const tempTextureName = "Bark"
+  const tempTextureName = blockMaterial; //ex. Bark
   $.ajax({
     url: cubePostURL,
     type: 'POST',
