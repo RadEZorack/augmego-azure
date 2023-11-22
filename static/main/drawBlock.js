@@ -52,33 +52,33 @@ export function drawBlock(x, y, z, textureUrl) {
             // weightChance: Math.random(),
         };
 
-        gameObjects[`block:${x},${y},${z}:0:bottom:1`] = {
-            key: `block:${x},${y},${z}:0:bottom:1`,
-            textureUrl: textureUrl,
-            p1x: x,
-            p1y: y-scaleFactor,
-            p1z: z+1,
+        // gameObjects[`block:${x},${y},${z}:0:bottom:1`] = {
+        //     key: `block:${x},${y},${z}:0:bottom:1`,
+        //     textureUrl: textureUrl,
+        //     p1x: x,
+        //     p1y: y-scaleFactor,
+        //     p1z: z+1,
 
-            p2x: x+1,
-            p2y: y-scaleFactor,
-            p2z: z+1,
+        //     p2x: x+1,
+        //     p2y: y-scaleFactor,
+        //     p2z: z+1,
 
-            p3x: x+1,
-            p3y: y-scaleFactor,
-            p3z: z,
+        //     p3x: x+1,
+        //     p3y: y-scaleFactor,
+        //     p3z: z,
 
-            uv1x: 0.0,
-            uv1y: 1.0,
+        //     uv1x: 0.0,
+        //     uv1y: 1.0,
 
-            uv2x: 1.0,
-            uv2y: 1.0,
+        //     uv2x: 1.0,
+        //     uv2y: 1.0,
 
-            uv3x: 1.0,
-            uv3y: 0.0,
+        //     uv3x: 1.0,
+        //     uv3y: 0.0,
 
-            isRemoved: false,
-            // weightChance: Math.random(),
-        };
+        //     isRemoved: false,
+        //     // weightChance: Math.random(),
+        // };
     }
 
     // We check the BOTTOM of the adjacent block
