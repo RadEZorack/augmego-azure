@@ -1,9 +1,9 @@
 import { gameObjects, redrawObjects } from "./redrawObjects.js";
 
 export function drawBlock(x, y, z, textureUrl) {
-    x = Math.floor(x);
-    y = Math.floor(y);
-    z = Math.floor(z);
+    x = Math.round(x);
+    y = Math.round(y);
+    z = Math.round(z);
 
     // Defines if the gameobject exists even if it's hidden. This could probably be added in the the other keys.
     gameObjects[`blockVisibility:${x},${y},${z}`] = {isRemoved: false, textureUrl: textureUrl};

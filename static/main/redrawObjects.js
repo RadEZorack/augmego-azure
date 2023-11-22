@@ -74,6 +74,9 @@ export function redrawObjects() {
 
         const direction = key.split(":")[3]
 
+        // This roundingErrorFix causes us to round in the correct direction when placing or destorying blocks.
+        const roundingErrorFix = 0.0001
+
         switch (direction){
             case "north":
                 // Facing North
@@ -85,7 +88,7 @@ export function redrawObjects() {
             
             case "south":
                 // Facing South
-                dummySouth.position.set(x,y,z-0.5); // Set position
+                dummySouth.position.set(x,y,z-0.5-roundingErrorFix); // Set position
                 dummySouth.rotation.set(0,Math.PI,0); // Set rotation
                 dummySouth.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummySouth.matrix);
@@ -93,7 +96,7 @@ export function redrawObjects() {
 
             case "east":
                 // Facing East
-                dummyEast.position.set(x-0.5,y,z); // Set position
+                dummyEast.position.set(x-0.5-roundingErrorFix,y,z); // Set position
                 dummyEast.rotation.set(0,-Math.PI/2,0); // Set rotation
                 dummyEast.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummyEast.matrix);
@@ -117,7 +120,7 @@ export function redrawObjects() {
 
             case "bottom":
                 // Facing Up/top
-                dummyBottom.position.set(x,y-0.5,z); // Set position
+                dummyBottom.position.set(x,y-0.5-roundingErrorFix,z); // Set position
                 dummyBottom.rotation.set(Math.PI/2,0,0); // Set rotation
                 dummyBottom.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummyBottom.matrix);

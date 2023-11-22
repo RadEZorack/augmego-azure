@@ -10,7 +10,7 @@ export const cssScene = new THREE.Scene();
 
 const sun = new THREE.DirectionalLight( 0xffffff, 0.5 );
 sun.castShadow = true;
-// sun.position.set(40, 40, 40);
+sun.position.set(10, 43, 10);
 // sun.target.position.set(-4, -4, -4);
   // window.sun.shadowCameraVisible = true;
 objectScene.add(sun)
