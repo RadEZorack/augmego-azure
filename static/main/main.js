@@ -8,10 +8,10 @@ objectScene.background = new THREE.Color(0xB1E1FF); // light blue for sky
 scene.add(objectScene)
 export const cssScene = new THREE.Scene();
 
-const sun = new THREE.SpotLight();
+const sun = new THREE.DirectionalLight( 0xffffff, 0.5 );
 sun.castShadow = true;
-sun.position.set(40, 40, 40);
-sun.target.position.set(-4, -4, -4);
+// sun.position.set(40, 40, 40);
+// sun.target.position.set(-4, -4, -4);
   // window.sun.shadowCameraVisible = true;
 objectScene.add(sun)
 
@@ -59,7 +59,7 @@ console.log("Creating renderer");
 
 camera.position.set( 0, 2, -5 );
 
-const light = new THREE.HemisphereLight( 0xffffff, 0x888888, 3 );
+const light = new THREE.HemisphereLight( 0xffffff, 0x888888, 0.8 );
 light.position.set( 0, 1, 0 );
 objectScene.add( light );
 

@@ -122,33 +122,33 @@ export function drawBlock(x, y, z, textureUrl) {
             // weightChance: Math.random(),
         };
 
-        gameObjects[`block:${x},${y},${z}:0:top:1`] = {
-            key: `block:${x},${y},${z}:0:top:1`,
-            textureUrl: textureUrl,
-            p1x: x+1,
-            p1y: y+1,
-            p1z: z,
+        // gameObjects[`block:${x},${y},${z}:0:top:1`] = {
+        //     key: `block:${x},${y},${z}:0:top:1`,
+        //     textureUrl: textureUrl,
+        //     p1x: x+1,
+        //     p1y: y+1,
+        //     p1z: z,
 
-            p2x: x+1,
-            p2y: y+1,
-            p2z: z+1,
+        //     p2x: x+1,
+        //     p2y: y+1,
+        //     p2z: z+1,
 
-            p3x: x,
-            p3y: y+1,
-            p3z: z+1,
+        //     p3x: x,
+        //     p3y: y+1,
+        //     p3z: z+1,
 
-            uv1x: 1.0,
-            uv1y: 0.0,
+        //     uv1x: 1.0,
+        //     uv1y: 0.0,
 
-            uv2x: 1.0,
-            uv2y: 1.0,
+        //     uv2x: 1.0,
+        //     uv2y: 1.0,
 
-            uv3x: 0.0,
-            uv3y: 1.0,
+        //     uv3x: 0.0,
+        //     uv3y: 1.0,
 
-            isRemoved: false,
-            // weightChance: Math.random(),
-        };
+        //     isRemoved: false,
+        //     // weightChance: Math.random(),
+        // };
     }
 
     // We check the NORTH of the adjacent block
@@ -192,33 +192,33 @@ export function drawBlock(x, y, z, textureUrl) {
             // weightChance: Math.random(),
         };
 
-        gameObjects[`block:${x},${y},${z}:0:south:1`] = {
-            key: `block:${x},${y},${z}:0:south:1`,
-            textureUrl: textureUrl,
-            p1x: x+1,
-            p1y: y,
-            p1z: z-scaleFactor,
+        // gameObjects[`block:${x},${y},${z}:0:south:1`] = {
+        //     key: `block:${x},${y},${z}:0:south:1`,
+        //     textureUrl: textureUrl,
+        //     p1x: x+1,
+        //     p1y: y,
+        //     p1z: z-scaleFactor,
 
-            p2x: x+1,
-            p2y: y+1,
-            p2z: z-scaleFactor,
+        //     p2x: x+1,
+        //     p2y: y+1,
+        //     p2z: z-scaleFactor,
 
-            p3x: x,
-            p3y: y+1,
-            p3z: z-scaleFactor,
+        //     p3x: x,
+        //     p3y: y+1,
+        //     p3z: z-scaleFactor,
 
-            uv1x: 1.0,
-            uv1y: 0.0,
+        //     uv1x: 1.0,
+        //     uv1y: 0.0,
 
-            uv2x: 1.0,
-            uv2y: 1.0,
+        //     uv2x: 1.0,
+        //     uv2y: 1.0,
 
-            uv3x: 0.0,
-            uv3y: 1.0,
+        //     uv3x: 0.0,
+        //     uv3y: 1.0,
 
-            isRemoved: false,
-            // weightChance: Math.random(),
-        };
+        //     isRemoved: false,
+        //     // weightChance: Math.random(),
+        // };
     }
 
     // We check the SOUTH of the adjacent block
@@ -260,33 +260,33 @@ export function drawBlock(x, y, z, textureUrl) {
             // weightChance: Math.random(),
         };
 
-        gameObjects[`block:${x},${y},${z}:0:north:1`] ={
-            key: `block:${x},${y},${z}:0:north:1`,
-            textureUrl: textureUrl,
-            p1x: x+1,
-            p1y: y+1,
-            p1z: z+1,
+        // gameObjects[`block:${x},${y},${z}:0:north:1`] ={
+        //     key: `block:${x},${y},${z}:0:north:1`,
+        //     textureUrl: textureUrl,
+        //     p1x: x+1,
+        //     p1y: y+1,
+        //     p1z: z+1,
 
-            p2x: x+1,
-            p2y: y,
-            p2z: z+1,
+        //     p2x: x+1,
+        //     p2y: y,
+        //     p2z: z+1,
 
-            p3x: x,
-            p3y: y+1,
-            p3z: z+1,
+        //     p3x: x,
+        //     p3y: y+1,
+        //     p3z: z+1,
 
-            uv1x: 1.0,
-            uv1y: 1.0,
+        //     uv1x: 1.0,
+        //     uv1y: 1.0,
 
-            uv2x: 1.0,
-            uv2y: 0.0,
+        //     uv2x: 1.0,
+        //     uv2y: 0.0,
 
-            uv3x: 0.0,
-            uv3y: 1.0,
+        //     uv3x: 0.0,
+        //     uv3y: 1.0,
 
-            isRemoved: false, 
-            // weightChance: Math.random(),
-        };
+        //     isRemoved: false, 
+        //     // weightChance: Math.random(),
+        // };
     }
 
     // We check the WEST of the adjacent block
@@ -329,33 +329,33 @@ export function drawBlock(x, y, z, textureUrl) {
             // weightChance: Math.random(),
         };
 
-        gameObjects[`block:${x},${y},${z}:0:east:1`] = {
-            key: `block:${x},${y},${z}:0:east:1`,
-            textureUrl: textureUrl,
-            p1x: x-scaleFactor,
-            p1y: y+1,
-            p1z: z+1,
+        // gameObjects[`block:${x},${y},${z}:0:east:1`] = {
+        //     key: `block:${x},${y},${z}:0:east:1`,
+        //     textureUrl: textureUrl,
+        //     p1x: x-scaleFactor,
+        //     p1y: y+1,
+        //     p1z: z+1,
 
-            p2x: x-scaleFactor,
-            p2y: y,
-            p2z: z+1,
+        //     p2x: x-scaleFactor,
+        //     p2y: y,
+        //     p2z: z+1,
 
-            p3x: x-scaleFactor,
-            p3y: y+1,
-            p3z: z,
+        //     p3x: x-scaleFactor,
+        //     p3y: y+1,
+        //     p3z: z,
 
-            uv1x: 1.0,
-            uv1y: 1.0,
+        //     uv1x: 1.0,
+        //     uv1y: 1.0,
 
-            uv2x: 1.0,
-            uv2y: 0.0,
+        //     uv2x: 1.0,
+        //     uv2y: 0.0,
 
-            uv3x: 0.0,
-            uv3y: 1.0,
+        //     uv3x: 0.0,
+        //     uv3y: 1.0,
 
-            isRemoved: false,
-            // weightChance: Math.random(),
-        };
+        //     isRemoved: false,
+        //     // weightChance: Math.random(),
+        // };
     }
 
     // We check the EAST of the adjacent block
@@ -397,33 +397,33 @@ export function drawBlock(x, y, z, textureUrl) {
             // weightChance: Math.random(),
         };
 
-        gameObjects[`block:${x},${y},${z}:0:west:1`] = {
-            key: `block:${x},${y},${z}:0:west:1`,
-            textureUrl: textureUrl,
-            p1x: x+1,
-            p1y: y+1,
-            p1z: z+1,
+        // gameObjects[`block:${x},${y},${z}:0:west:1`] = {
+        //     key: `block:${x},${y},${z}:0:west:1`,
+        //     textureUrl: textureUrl,
+        //     p1x: x+1,
+        //     p1y: y+1,
+        //     p1z: z+1,
 
-            p2x: x+1,
-            p2y: y+1,
-            p2z: z,
+        //     p2x: x+1,
+        //     p2y: y+1,
+        //     p2z: z,
 
-            p3x: x+1,
-            p3y: y,
-            p3z: z+1,
+        //     p3x: x+1,
+        //     p3y: y,
+        //     p3z: z+1,
 
-            uv1x: 1.0,
-            uv1y: 1.0,
+        //     uv1x: 1.0,
+        //     uv1y: 1.0,
 
-            uv2x: 0.0,
-            uv2y: 1.0,
+        //     uv2x: 0.0,
+        //     uv2y: 1.0,
 
-            uv3x: 1.0,
-            uv3y: 0.0,
+        //     uv3x: 1.0,
+        //     uv3y: 0.0,
 
-            isRemoved: false,
-            // weightChance: Math.random(),
-        };
+        //     isRemoved: false,
+        //     // weightChance: Math.random(),
+        // };
     }
 
     // redrawObjects();
