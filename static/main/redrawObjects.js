@@ -29,20 +29,20 @@ export function redrawObjects() {
             // We've drawn too much, return
             return null;
         }
-        if (key.startsWith('blockVisibility')){
-            // This is just meta data about the cube, so continue
+        if (key.startsWith('blockVisibility') && gameObjects[key] == ""){
+            // This cube does not have a texture and should not be drawn because it was removed, so continue
             continue;
         }
 
         // Grab the gameobject
-        const gameObject = gameObjects[key];
+        const textureUrl = gameObjects[key];
         let quadMesh = undefined;
 
-        if (gameObject.textureUrl in quadMeshs){
-            quadMesh = quadMeshs[gameObject.textureUrl];
+        if (textureUrl in quadMeshs){
+            quadMesh = quadMeshs[textureUrl];
             quadMesh.count += 1;
         }else{
-            const texture = new THREE.TextureLoader().load( gameObject.textureUrl )
+            const texture = new THREE.TextureLoader().load( textureUrl )
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.offset.x = 90/(2*Math.PI);
@@ -61,7 +61,7 @@ export function redrawObjects() {
             objectScene.add(quadMesh);
             quadMesh.count = 1;
 
-            quadMeshs[gameObject.textureUrl] = quadMesh;
+            quadMeshs[textureUrl] = quadMesh;
             quadMeshInstanceIDKeys[quadMesh.uuid] = {}
         }
         quadMeshInstanceIDKeys[quadMesh.uuid][quadMesh.count - 1] = key;
@@ -77,15 +77,15 @@ export function redrawObjects() {
         const y = parseInt(xyz[1]);
         const z = parseInt(xyz[2]);
 
-        const direction = key.split(":")[3]
+        const direction = key.split(":")[2]
 
         // This roundingErrorFix causes us to round in the correct direction when placing or destorying blocks.
-        const roundingErrorFix = 0.0001
+        const roundingErrorFix = 0.5001
 
         switch (direction){
             case "north":
                 // Facing North
-                dummyNorth.position.set(x,y,z+0.5); // Set position
+                dummyNorth.position.set(x,y,z+roundingErrorFix); // Set position
                 dummyNorth.rotation.set(0,0,0); // Set rotation
                 dummyNorth.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummyNorth.matrix);
@@ -93,7 +93,7 @@ export function redrawObjects() {
             
             case "south":
                 // Facing South
-                dummySouth.position.set(x,y,z-0.5-roundingErrorFix); // Set position
+                dummySouth.position.set(x,y,z-roundingErrorFix); // Set position
                 dummySouth.rotation.set(0,Math.PI,0); // Set rotation
                 dummySouth.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummySouth.matrix);
@@ -101,7 +101,7 @@ export function redrawObjects() {
 
             case "east":
                 // Facing East
-                dummyEast.position.set(x-0.5-roundingErrorFix,y,z); // Set position
+                dummyEast.position.set(x-roundingErrorFix,y,z); // Set position
                 dummyEast.rotation.set(0,-Math.PI/2,0); // Set rotation
                 dummyEast.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummyEast.matrix);
@@ -109,7 +109,7 @@ export function redrawObjects() {
 
             case "west":
                 // Facing West
-                dummyWest.position.set(x+0.5,y,z); // Set position
+                dummyWest.position.set(x+roundingErrorFix,y,z); // Set position
                 dummyWest.rotation.set(0,Math.PI/2,0); // Set rotation
                 dummyWest.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummyWest.matrix);
@@ -117,7 +117,7 @@ export function redrawObjects() {
 
             case "top":
                 // Facing Up/top
-                dummyTop.position.set(x,y+0.5,z); // Set position
+                dummyTop.position.set(x,y+roundingErrorFix,z); // Set position
                 dummyTop.rotation.set(-Math.PI/2,0,0); // Set rotation
                 dummyTop.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummyTop.matrix);
@@ -125,7 +125,7 @@ export function redrawObjects() {
 
             case "bottom":
                 // Facing Up/top
-                dummyBottom.position.set(x,y-0.5-roundingErrorFix,z); // Set position
+                dummyBottom.position.set(x,y-roundingErrorFix,z); // Set position
                 dummyBottom.rotation.set(Math.PI/2,0,0); // Set rotation
                 dummyBottom.updateMatrix();
                 quadMesh.setMatrixAt(quadMesh.count - 1, dummyBottom.matrix);

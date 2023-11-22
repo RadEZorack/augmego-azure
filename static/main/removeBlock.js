@@ -4,18 +4,12 @@ import { perlin2 } from '../main/perlin.js';
 
 function blockSides(x,y,z){
     return [
-        `block:${x},${y},${z}:0:bottom:0`,
-        `block:${x},${y},${z}:0:bottom:1`,
-        `block:${x},${y},${z}:0:top:0`,
-        `block:${x},${y},${z}:0:top:1`,
-        `block:${x},${y},${z}:0:north:0`,
-        `block:${x},${y},${z}:0:north:1`,
-        `block:${x},${y},${z}:0:south:0`,
-        `block:${x},${y},${z}:0:south:1`,
-        `block:${x},${y},${z}:0:east:0`,
-        `block:${x},${y},${z}:0:east:1`,
-        `block:${x},${y},${z}:0:west:0`,
-        `block:${x},${y},${z}:0:west:1`,
+        `block:${x},${y},${z}:bottom`,
+        `block:${x},${y},${z}:top`,
+        `block:${x},${y},${z}:north`,
+        `block:${x},${y},${z}:south`,
+        `block:${x},${y},${z}:east`,
+        `block:${x},${y},${z}:west`,
     ]
 }
 
@@ -24,9 +18,7 @@ export function removeBlock(x, y, z) {
     y = Math.round(y);
     z = Math.round(z);
 
-    // if (`blockVisibility:${x},${y},${z}` in gameObjects){
-        gameObjects[`blockVisibility:${x},${y},${z}`] = false;
-    // }
+    gameObjects[`blockVisibility:${x},${y},${z}`] = "";
 
     const sides = blockSides(x,y,z);
     console.log(sides);
@@ -53,8 +45,8 @@ export function removeBlock(x, y, z) {
         const xyz = sidesToAdd[i];
 
         if (`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects 
-            && gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`].isRemoved == false){
-                drawBlock(xyz[0], xyz[1], xyz[2], gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`].textureUrl)
+            && gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`] != ""){
+                drawBlock(xyz[0], xyz[1], xyz[2], gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`])
 
         }else if (!(`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects)
             && (3*perlin2(xyz[0]/10,xyz[2]/10) >= xyz[1])){
