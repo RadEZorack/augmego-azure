@@ -20,19 +20,22 @@ function blockSides(x,y,z){
 }
 
 export function removeBlock(x, y, z) {
-    x = Math.floor(x);
-    y = Math.floor(y);
-    z = Math.floor(z);
+    x = Math.round(x);
+    y = Math.round(y);
+    z = Math.round(z);
 
     // if (`blockVisibility:${x},${y},${z}` in gameObjects){
         gameObjects[`blockVisibility:${x},${y},${z}`] = false;
     // }
 
     const sides = blockSides(x,y,z);
+    console.log(sides);
+    console.log(gameObjects);
 
     for (let i = 0; i < sides.length; i++) {
         const side = sides[i]
         if (side in gameObjects){
+            console.log("hit")
             delete gameObjects[side];
         }
     }

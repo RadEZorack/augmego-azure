@@ -3,7 +3,7 @@ import { objectScene } from '../main/main.js';
 import { vs, fs } from '../main/shaders.js';
 
 export let gameObjects = {};
-export let triangleMeshInstanceIDKeys = {};
+export let quadMeshInstanceIDKeys = {};
 
 
 const instanceCount = 1000000; // Number of instances you want
@@ -19,15 +19,19 @@ const dummyBottom = new THREE.Object3D();
 
 
 export function redrawObjects() {
+    for (const key in quadMeshs){
+        quadMeshs[key].count = 0;
+    }
+
     let i = 0;
     for (const key in gameObjects){
         if (instanceCount < i){
             // We've drawn too much, return
-          return null;
+            return null;
         }
         if (key.startsWith('blockVisibility')){
             // This is just meta data about the cube, so continue
-          continue;
+            continue;
         }
 
         // Grab the gameobject
@@ -58,8 +62,9 @@ export function redrawObjects() {
             quadMesh.count = 1;
 
             quadMeshs[gameObject.textureUrl] = quadMesh;
+            quadMeshInstanceIDKeys[quadMesh.uuid] = {}
         }
-
+        quadMeshInstanceIDKeys[quadMesh.uuid][quadMesh.count - 1] = key;
 
 
 

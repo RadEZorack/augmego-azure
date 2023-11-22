@@ -3,7 +3,7 @@ import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator }
 import { camera, threeJSContainer } from '../main/main.js';
 import { selectedObject } from '../main/raycaster.js';
 import { cssRenderer } from '../main/webpage3d.js';
-import { triangleMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redrawObjects.js';
+import { quadMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redrawObjects.js';
 import { drawBlock } from '../main/drawBlock.js';
 import { removeBlock } from '../main/removeBlock.js';
 import { peerConnections } from '../main/socketConnection.js';
@@ -177,8 +177,8 @@ function onMouseDownDestoryBlock(event){
   const data = selectedObject(event);
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
-      const key = triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-      // console.log(key);
+      const key = quadMeshInstanceIDKeys[data.object.uuid][data.instanceId];
+      console.log(key);
       const keyArray = key.split(":")
       const xyz = keyArray[1].split(",");
 
@@ -187,9 +187,9 @@ function onMouseDownDestoryBlock(event){
         type: 'POST',
         data: {
           csrfmiddlewaretoken: csrfmiddlewaretoken,
-          x: Math.floor(xyz[0]),
-          y: Math.floor(xyz[1]),
-          z: Math.floor(xyz[2]),
+          x: Math.round(xyz[0]),
+          y: Math.round(xyz[1]),
+          z: Math.round(xyz[2]),
           textureName: ""
         },
         success: function(resp) {
@@ -203,9 +203,9 @@ function onMouseDownDestoryBlock(event){
                         'type': 'removeBlock',
                         'name': my_name,
                         'myUuid': myUuid,
-                        x: Math.floor(xyz[0]),
-                        y: Math.floor(xyz[1]),
-                        z: Math.floor(xyz[2]),
+                        x: Math.round(xyz[0]),
+                        y: Math.round(xyz[1]),
+                        z: Math.round(xyz[2]),
                         textureName: "",
                         'time': now.getTime(),
                     }))
@@ -230,9 +230,9 @@ function onMouseDownCreateBlock(event){
     type: 'POST',
     data: {
       csrfmiddlewaretoken: csrfmiddlewaretoken,
-      x: Math.floor(data.point.x),
-      y: Math.floor(data.point.y),
-      z: Math.floor(data.point.z),
+      x: Math.round(data.point.x),
+      y: Math.round(data.point.y),
+      z: Math.round(data.point.z),
       // TODO: replace with a dynamic texture
       textureName: tempTextureName
     },
@@ -247,9 +247,9 @@ function onMouseDownCreateBlock(event){
                     'type': 'drawBlock',
                     'name': my_name,
                     'myUuid': myUuid,
-                    x: Math.floor(data.point.x),
-                    y: Math.floor(data.point.y),
-                    z: Math.floor(data.point.z),
+                    x: Math.round(data.point.x),
+                    y: Math.round(data.point.y),
+                    z: Math.round(data.point.z),
                     textureName: tempTexture,
                     'time': now.getTime(),
                 }))
