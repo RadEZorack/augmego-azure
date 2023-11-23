@@ -21,13 +21,10 @@ export function removeBlock(x, y, z) {
     gameObjects[`blockVisibility:${x},${y},${z}`] = "";
 
     const sides = blockSides(x,y,z);
-    console.log(sides);
-    console.log(gameObjects);
 
     for (let i = 0; i < sides.length; i++) {
         const side = sides[i]
         if (side in gameObjects){
-            console.log("hit")
             delete gameObjects[side];
         }
     }
