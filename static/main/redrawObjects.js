@@ -6,7 +6,7 @@ export let gameObjects = {};
 export let quadMeshInstanceIDKeys = {};
 
 
-const instanceCount = 1000000; // Number of instances you want
+const instanceCount = 10000; // Number of instances you want
 const quadMeshs = {};
 // const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 // const instancedQuad = new THREE.InstancedMesh(quadGeometry, material, instanceCount);
@@ -23,24 +23,36 @@ export function redrawObjects() {
         quadMeshs[key].count = 0;
     }
 
+    const textureCount = {}
+
     let i = 0;
     for (const key in gameObjects){
-        if (instanceCount < i){
-            // We've drawn too much, return
-            return null;
-        }
+        // if (instanceCount < i){
+        //     // We've drawn too much, return
+        //     return null;
+        // }
+
+        
         if (key.startsWith('blockVisibility') && gameObjects[key] == ""){
             // This cube does not have a texture and should not be drawn because it was removed, so continue
             continue;
         }
 
-        // Grab the gameobject
+        
+        // Grab the texuture and see how many times it's been drawn, and create a new key if too high.
         const textureUrl = gameObjects[key];
+        if (!(textureUrl in textureCount)){
+            textureCount[textureUrl] = 1;
+        }
+        const quadMeshIndex = Math.floor(textureCount[textureUrl] / instanceCount);
+        const quadMeshKey = `${quadMeshIndex}:${textureUrl}`
+
         let quadMesh = undefined;
 
-        if (textureUrl in quadMeshs){
-            quadMesh = quadMeshs[textureUrl];
+        if (quadMeshKey in quadMeshs){
+            quadMesh = quadMeshs[quadMeshKey];
             quadMesh.count += 1;
+            textureCount[textureUrl] += 1;
         }else{
             const texture = new THREE.TextureLoader().load( textureUrl )
             texture.wrapS = THREE.RepeatWrapping;
@@ -62,7 +74,7 @@ export function redrawObjects() {
             objectScene.add(quadMesh);
             quadMesh.count = 1;
 
-            quadMeshs[textureUrl] = quadMesh;
+            quadMeshs[quadMeshKey] = quadMesh;
             quadMeshInstanceIDKeys[quadMesh.uuid] = {}
         }
         quadMeshInstanceIDKeys[quadMesh.uuid][quadMesh.count - 1] = key;

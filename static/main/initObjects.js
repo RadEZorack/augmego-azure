@@ -23,11 +23,13 @@ function initObjects() {
         var x = Math.sin(seed++) * 10000;
         return x - Math.floor(x);
     }
+
+    const initRange = 200;
   
     // noise.seed(0)
-    for (let x = -64; x < 64; x++) {
+    for (let x = -initRange; x < initRange; x++) {
       // for (let y = -1; y < 0; y++) {
-        for (let z = -64; z < 64; z++) {
+        for (let z = -initRange; z < initRange; z++) {
           // Grass or dirt
             //   let id = Math.floor(12 * Math.random());
             let textureUrl = favicon;
@@ -50,12 +52,12 @@ function initObjects() {
       type: 'GET',
       data: {
         csrfmiddlewaretoken: csrfmiddlewaretoken,
-        min_x: -64,
-        min_y: -64,
-        min_z: -64,
-        max_x: 64,
-        max_y: 64,
-        max_z: 64,
+        min_x: -initRange,
+        min_y: -initRange,
+        min_z: -initRange,
+        max_x: initRange,
+        max_y: initRange,
+        max_z: initRange,
       },
       success: function(resp) {
           console.log("success get");
