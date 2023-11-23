@@ -69,7 +69,6 @@ export function redrawObjects() {
 
             quadMesh.castShadow = true;
             quadMesh.receiveShadow = true;
-            quadMesh.scale.set(0.1,0.1,0.1);
 
             objectScene.add(quadMesh);
             quadMesh.count = 1;

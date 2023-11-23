@@ -223,10 +223,6 @@ function onMouseDownCreateBlock(event){
   const data = selectedObject(event);
   console.log(data.point)
 
-  data.point.x *= 10;
-  data.point.y *= 10;
-  data.point.z *= 10;
-
   const tempTexture = "http://localhost:8000/media/texture-image/DALLE_2023-10-27_12.28.01_-_bark_texture.png"
   const tempTextureName = blockMaterial; //ex. Bark
   $.ajax({
