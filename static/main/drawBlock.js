@@ -60,7 +60,7 @@ export function drawBlock(x, y, z, textureUrl) {
     }
 
     // We check the EAST of the adjacent block
-    if (`block:${x+1},${y},${z}:0:east:0` in gameObjects){
+    if (`block:${x+1},${y},${z}:east` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x+1},${y},${z}:east`]
         

@@ -21,6 +21,7 @@ export function removeBlock(x, y, z) {
     gameObjects[`blockVisibility:${x},${y},${z}`] = "";
 
     const sides = blockSides(x,y,z);
+    
 
     for (let i = 0; i < sides.length; i++) {
         const side = sides[i]
@@ -40,6 +41,7 @@ export function removeBlock(x, y, z) {
 
     for (let i = 0; i < sidesToAdd.length; i++) {
         const xyz = sidesToAdd[i];
+        console.log(xyz)
 
         if (`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects 
             && gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`] != ""){

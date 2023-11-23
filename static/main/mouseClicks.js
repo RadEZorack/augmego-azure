@@ -213,7 +213,8 @@ function onMouseDownDestoryBlock(event){
               }
         }
       })
-  
+      
+      console.log(xyz, 10)
       removeBlock(xyz[0], xyz[1], xyz[2]);
   }
   redrawObjects();

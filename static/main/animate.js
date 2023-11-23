@@ -11,11 +11,11 @@ import { entities } from '../main/entity.js';
 
 const stepDistance = 0.01;
 
-redrawObjects();
+// redrawObjects();
 
 const clock = new THREE.Clock()
 function animate() {
-    if (stopAnimate){
+    if (stopAnimate == true){
         // We need the player to interact with the page before things will work correctly.
         // So we loop until we get the flag to start, which can be found on the main page.
         const stopAnimateXHR = setTimeout(function(){

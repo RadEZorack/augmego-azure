@@ -6,7 +6,7 @@ export let gameObjects = {};
 export let quadMeshInstanceIDKeys = {};
 
 
-const instanceCount = 10000; // Number of instances you want
+const instanceCount = 10000; // Number of instances you want, Putting this number higher may cause unexpected lag.
 const quadMeshs = {};
 // const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 // const instancedQuad = new THREE.InstancedMesh(quadGeometry, material, instanceCount);
@@ -19,14 +19,17 @@ const dummyBottom = new THREE.Object3D();
 
 
 export function redrawObjects() {
+    // stopAnimate = true;
     for (const key in quadMeshs){
-        quadMeshs[key].count = 0;
+        quadMeshs[key].count = instanceCount;
+        quadMeshs[key].myCount = 0;
     }
 
     const textureCount = {}
 
     let i = 0;
     for (const key in gameObjects){
+        // stopAnimate = true;
         // if (instanceCount < i){
         //     // We've drawn too much, return
         //     return null;
@@ -42,17 +45,24 @@ export function redrawObjects() {
         // Grab the texuture and see how many times it's been drawn, and create a new key if too high.
         const textureUrl = gameObjects[key];
         if (!(textureUrl in textureCount)){
-            textureCount[textureUrl] = 1;
+            textureCount[textureUrl] = 0;
         }
-        const quadMeshIndex = Math.floor(textureCount[textureUrl] / instanceCount);
-        const quadMeshKey = `${quadMeshIndex}:${textureUrl}`
+        textureCount[textureUrl] += 1;
+
+        const quadMeshIndex = Math.floor(textureCount[textureUrl]/ instanceCount);
+        // console.log(textureCount[textureUrl], instanceCount);
+        const quadMeshKey = `${quadMeshIndex}:${textureUrl}`;
+        // console.log(quadMeshKey)
 
         let quadMesh = undefined;
 
+        
+
         if (quadMeshKey in quadMeshs){
             quadMesh = quadMeshs[quadMeshKey];
-            quadMesh.count += 1;
-            textureCount[textureUrl] += 1;
+            // quadMesh.count += 1;
+            quadMesh.myCount += 1;
+            
         }else{
             const texture = new THREE.TextureLoader().load( textureUrl )
             texture.wrapS = THREE.RepeatWrapping;
@@ -72,12 +82,13 @@ export function redrawObjects() {
             quadMesh.scale.set(0.25,0.25,0.25);
 
             objectScene.add(quadMesh);
-            quadMesh.count = 1;
+            quadMesh.count = instanceCount;
+            quadMesh.myCount = 1;
 
             quadMeshs[quadMeshKey] = quadMesh;
             quadMeshInstanceIDKeys[quadMesh.uuid] = {}
         }
-        quadMeshInstanceIDKeys[quadMesh.uuid][quadMesh.count - 1] = key;
+        quadMeshInstanceIDKeys[quadMesh.uuid][quadMesh.myCount - 1] = key;
 
 
 
@@ -101,7 +112,7 @@ export function redrawObjects() {
                 dummyNorth.position.set(x,y,z+roundingErrorFix); // Set position
                 dummyNorth.rotation.set(0,0,0); // Set rotation
                 dummyNorth.updateMatrix();
-                quadMesh.setMatrixAt(quadMesh.count - 1, dummyNorth.matrix);
+                quadMesh.setMatrixAt(quadMesh.myCount - 1, dummyNorth.matrix);
                 break;
             
             case "south":
@@ -109,7 +120,7 @@ export function redrawObjects() {
                 dummySouth.position.set(x,y,z-roundingErrorFix); // Set position
                 dummySouth.rotation.set(0,Math.PI,0); // Set rotation
                 dummySouth.updateMatrix();
-                quadMesh.setMatrixAt(quadMesh.count - 1, dummySouth.matrix);
+                quadMesh.setMatrixAt(quadMesh.myCount - 1, dummySouth.matrix);
                 break;
 
             case "east":
@@ -117,7 +128,7 @@ export function redrawObjects() {
                 dummyEast.position.set(x-roundingErrorFix,y,z); // Set position
                 dummyEast.rotation.set(0,-Math.PI/2,0); // Set rotation
                 dummyEast.updateMatrix();
-                quadMesh.setMatrixAt(quadMesh.count - 1, dummyEast.matrix);
+                quadMesh.setMatrixAt(quadMesh.myCount - 1, dummyEast.matrix);
                 break;
 
             case "west":
@@ -125,7 +136,7 @@ export function redrawObjects() {
                 dummyWest.position.set(x+roundingErrorFix,y,z); // Set position
                 dummyWest.rotation.set(0,Math.PI/2,0); // Set rotation
                 dummyWest.updateMatrix();
-                quadMesh.setMatrixAt(quadMesh.count - 1, dummyWest.matrix);
+                quadMesh.setMatrixAt(quadMesh.myCount - 1, dummyWest.matrix);
                 break;
 
             case "top":
@@ -133,7 +144,7 @@ export function redrawObjects() {
                 dummyTop.position.set(x,y+roundingErrorFix,z); // Set position
                 dummyTop.rotation.set(-Math.PI/2,0,0); // Set rotation
                 dummyTop.updateMatrix();
-                quadMesh.setMatrixAt(quadMesh.count - 1, dummyTop.matrix);
+                quadMesh.setMatrixAt(quadMesh.myCount - 1, dummyTop.matrix);
                 break;
 
             case "bottom":
@@ -141,17 +152,23 @@ export function redrawObjects() {
                 dummyBottom.position.set(x,y-roundingErrorFix,z); // Set position
                 dummyBottom.rotation.set(Math.PI/2,0,0); // Set rotation
                 dummyBottom.updateMatrix();
-                quadMesh.setMatrixAt(quadMesh.count - 1, dummyBottom.matrix);
+                quadMesh.setMatrixAt(quadMesh.myCount - 1, dummyBottom.matrix);
                 break;
         }
         // increment our short ciruit counter
         i += 1;
 
-        quadMesh.instanceMatrix.needsUpdate = true;
+        // quadMesh.instanceMatrix.needsUpdate = true;
         
 
     }
 
+    for (const key in quadMeshs){
+        const quadMesh = quadMeshs[key];
+        // objectScene.add(quadMesh);
+        quadMesh.count = quadMesh.myCount;
+        quadMesh.instanceMatrix.needsUpdate = true;
+    }
     
-
+    // stopAnimate = false;
 }
