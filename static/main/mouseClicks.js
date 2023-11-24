@@ -178,7 +178,6 @@ function onMouseDownDestoryBlock(event){
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
       const key = quadMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-      console.log(key);
       const keyArray = key.split(":")
       const xyz = keyArray[1].split(",");
 
@@ -214,7 +213,6 @@ function onMouseDownDestoryBlock(event){
         }
       })
       
-      console.log(xyz, 10)
       removeBlock(xyz[0], xyz[1], xyz[2]);
   }
   redrawObjects();

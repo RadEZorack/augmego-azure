@@ -7,9 +7,11 @@ export function drawBlock(x, y, z, textureUrl) {
 
     // Defines if the gameobject exists even if it's hidden. This could probably be added in the the other keys.
     gameObjects[`blockVisibility:${x},${y},${z}`] = textureUrl;
-
-    // We need to add a very small amount in the direction the face is so that our raycaster falls into the correct cube.
-    const scaleFactor = 0.0001
+    
+    if (textureUrl == "") {
+        // If there is no texture, we don't want to draw or remove anything adjacent.
+        return null;
+    }
 
     // We check the TOP of the adjacent block
     if (`block:${x},${y-1},${z}:top` in gameObjects){

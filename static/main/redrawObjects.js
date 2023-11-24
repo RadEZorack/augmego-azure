@@ -35,15 +35,21 @@ export function redrawObjects() {
         //     return null;
         // }
 
+        if (key.startsWith("blockVisibility")){
+            // This is just meta data.
+            continue;
+        }
+
+        // Grab the texuture and see how many times it's been drawn, and create a new key if too high.
+        const textureUrl = gameObjects[key];
         
-        if (key.startsWith('blockVisibility') && gameObjects[key] == ""){
+        if (textureUrl == ""){
             // This cube does not have a texture and should not be drawn because it was removed, so continue
             continue;
         }
 
         
-        // Grab the texuture and see how many times it's been drawn, and create a new key if too high.
-        const textureUrl = gameObjects[key];
+        
         if (!(textureUrl in textureCount)){
             textureCount[textureUrl] = 0;
         }
@@ -89,6 +95,7 @@ export function redrawObjects() {
             quadMeshInstanceIDKeys[quadMesh.uuid] = {}
         }
         quadMeshInstanceIDKeys[quadMesh.uuid][quadMesh.myCount - 1] = key;
+        // console.log(quadMeshInstanceIDKeys);
 
 
 
@@ -167,6 +174,7 @@ export function redrawObjects() {
         const quadMesh = quadMeshs[key];
         // objectScene.add(quadMesh);
         quadMesh.count = quadMesh.myCount;
+        // console.log(quadMesh.count)
         quadMesh.instanceMatrix.needsUpdate = true;
     }
     

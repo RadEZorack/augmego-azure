@@ -24,7 +24,7 @@ function initObjects() {
         return x - Math.floor(x);
     }
 
-    const initRange = 64;
+    const initRange = 200;
   
     // noise.seed(0)
     for (let x = -initRange; x < initRange; x++) {
@@ -74,7 +74,7 @@ function initObjects() {
       }
     })
 
-    // redrawObjects();
+    redrawObjects();
 }
   
 initObjects();
