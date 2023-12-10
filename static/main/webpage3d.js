@@ -1,6 +1,7 @@
 import * as THREE from '../three/three.module.js';
 import { objectScene, cssScene } from '../main/main.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
+import { allCameras, modifyActiveCameraName } from '../main/main.js';
 
 ///////////////////////////////////////////////////////////////////
 // Creates WebGL Renderer
@@ -66,6 +67,9 @@ function createPlane(w, h, s, position, rotation) {
   return mesh;
 }
 
+
+
+
 ///////////////////////////////////////////////////////////////////
 // Creates CSS object
 //
@@ -73,8 +77,14 @@ function createPlane(w, h, s, position, rotation) {
 function createCssObject(w, h, s, position, rotation, url, html, image) {
   // w *= 100
   // h *= 100
+  const timeuuid = String(Date.now())
   if (url) {
     html =
+      `<p style="text-align: center;">` +
+      `<image src="${expandArrowsPng}" alt="expand arrows"></image>` +
+      `<button id="expandButton-${timeuuid}">EXPAND THIS PAGE</button>` +
+      `<image src="${expandArrowsPng}" alt="expand arrows"></image>` +
+      `</p>` +
       '<iframe src="' + // When the src is set, this could be a good time to diable the iframe rather than waiting for the onload event...
       url +
       '" width="' +
@@ -82,11 +92,11 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
       '" height="' +
       h +
       '" allow="autoplay"' +
-      'onload="disabledIframeClicks(this)">' +
+      // 'onload="disabledIframeClicks(this)">' +
       "</iframe>";
   }
   html = [
-    '<div class="css3ddiv" style="width:' + w + "px; height:" + h + 'px;">',
+    '<div class="css3ddiv" style="width:' + w + "px; height:" + h + 'px; border: 5px solid black;">',
     html,
     "</div>"
   ].join("\n");
@@ -95,11 +105,11 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
 
   if (image != undefined){
     const divImage = document.createElement("div");
-    divImage.style.pointerEvents = "none";
+    divImage.style.pointerEvents = "auto";
     divImage.className = "divImage";
 
     const imagePlaceholder = `
-      <h1 style="text-align: center;"><img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;">${url}<img src="${atSymbolPng}" alt="Iframe Placeholder" style="width: 100px; height: 100px;"></h1>
+      <p style="text-align: center;">${url}</p>
       <img src="${image}" alt="Iframe Placeholder" style="width: 100%; height: 100%;">
     `
     $(div).append(divImage);
@@ -107,6 +117,17 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
     $(divImage).on( "click", function() {
       $(div).html(html);
       $('iframe').css('pointer-events', 'auto');
+      let active = false;
+      $(`#expandButton-${timeuuid}`).on("click", function(){
+        if (active){
+          modifyActiveCameraName("third person player");
+          $(`#expandButton-${timeuuid}`).html("EXPAND THIS PAGE");
+        }else{
+          modifyActiveCameraName(timeuuid);
+          $(`#expandButton-${timeuuid}`).html("RETURN TO PLAYER VIEW");
+        }
+        active = !active
+      })
     })
   } else{
     $(div).html(html);
@@ -124,6 +145,18 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
   cssObject.rotation.z = rotation.z;
 
   cssObject.scale.set(s, s, s);
+
+  const camera = new THREE.OrthographicCamera( s*w/-2, s*w/2, s*h/2, s*h/-2, 0, 0.5 );
+
+  camera.position.x = position.x;
+  camera.position.y = position.y;
+  camera.position.z = position.z;
+
+  camera.rotation.x = rotation.x;
+  camera.rotation.y = rotation.y;
+  camera.rotation.z = rotation.z;
+
+  allCameras[timeuuid] = camera;
 
   return cssObject;
 }
@@ -145,6 +178,8 @@ export function create3dPage(w, h, s, position, rotation, url, html, image) {
 
   // console.log(cssObject);
   cssScene.add(cssObject);
+
+  
 
   return { plane: plane, cssObject: cssObject, scale: s };
 }

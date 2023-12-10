@@ -2,6 +2,11 @@ import * as THREE from '../three/three.module.js';
 
 export const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
+export const allCameras = {};
+export let activeCameraName = "third person player";
+export function modifyActiveCameraName( value ) { activeCameraName = value; };
+allCameras["third person player"] = camera;
+
 export const scene = new THREE.Scene();
 export const objectScene = new THREE.Scene();
 objectScene.background = new THREE.Color(0xB1E1FF); // light blue for sky

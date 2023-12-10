@@ -1,6 +1,6 @@
 import * as THREE from '../three/three.module.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
-import { scene, objectScene, cssScene, camera, renderer, rendererBackground, threeJSContainer, backgroundCanvas } from '../main/main.js';
+import { scene, objectScene, cssScene, camera, allCameras, activeCameraName, renderer, rendererBackground, threeJSContainer, backgroundCanvas } from '../main/main.js';
 import { create3dPage, cssRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { myPlayerTargetPosition } from '../main/mouseClicks.js';
@@ -10,6 +10,8 @@ import { entities } from '../main/entity.js';
 
 
 const stepDistance = 0.01;
+
+
 
 // redrawObjects();
 
@@ -43,13 +45,15 @@ function animate() {
     // required if controls.enableDamping or controls.autoRotate are set to true
 	// controls.update();
 
-    cssRenderer.render(cssScene, camera);
+    let activeCamera = allCameras[activeCameraName];
+
+    cssRenderer.render(cssScene, activeCamera);
 
     renderer.setRenderTarget(null);
-	renderer.render( scene, camera );
+	renderer.render( scene, activeCamera );
 
     rendererBackground.setRenderTarget(null);
-    rendererBackground.render(objectScene, camera);
+    rendererBackground.render(objectScene, activeCamera);
 
     const clockDelta = clock.getDelta()
 
