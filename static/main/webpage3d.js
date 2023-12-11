@@ -80,11 +80,11 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
   const timeuuid = String(Date.now())
   if (url) {
     html =
-      `<p style="text-align: center;">` +
+      `<h1 style="text-align: center;">` +
       `<image src="${expandArrowsPng}" alt="expand arrows"></image>` +
       `<button id="expandButton-${timeuuid}">EXPAND THIS PAGE</button>` +
       `<image src="${expandArrowsPng}" alt="expand arrows"></image>` +
-      `</p>` +
+      `</h1>` +
       '<iframe src="' + // When the src is set, this could be a good time to diable the iframe rather than waiting for the onload event...
       url +
       '" width="' +
@@ -109,7 +109,7 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
     divImage.className = "divImage";
 
     const imagePlaceholder = `
-      <p style="text-align: center;">${url}</p>
+      <h1 style="text-align: center;"><button>LOAD THIS URL: ${url}</button></h1>
       <img src="${image}" alt="Iframe Placeholder" style="width: 100%; height: 100%;">
     `
     $(div).append(divImage);
