@@ -20,12 +20,17 @@
             </button>
             
          </div>
-         <div id="toggleMouse" style="position: absolute;
-            bottom: 10vh; left: 10vh; width: 30vh; height: 10vh;
+         <div class="toggleMouse" style="position: absolute;
+            bottom: 25vh; left: 10vh; width: 20vh; height: 10vh;
             z-index: 10; display: none;">
-            <img class="toggleMouseOption" data-type="www" style="position: absolute; border: solid 2px red;" src="{% static 'images/at-symbol.png' %}" alt="Toggle webpage mode on" width="33%" height="100%">
-            <img class="toggleMouseOption" data-type="destroy" style="position: absolute; border: solid 2px red; left:10vh" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on" width="33%" height="100%">
-            <img class="toggleMouseOption" data-type="create" data-material="Bark" style="position: absolute; border: solid 2px red; left:20vh" src="{% static 'images/bark-texture.png' %}" alt="Toggle block place on" width="33%" height="100%">
+            <img class="toggleMouseOption" data-type="www" style="position: absolute; border: solid 2px red; left:0vh;" src="{% static 'images/www.png' %}" alt="Toggle webpage mode on" width="50%" height="100%">
+            <img class="toggleMouseOption" data-type="block" style="position: absolute; border: solid 2px red; left:10vh" src="{% static 'images/block.png' %}" alt="Toggle block control on" width="50%" height="100%">
+         </div>
+         <div class="toggleMouse" style="position: absolute;
+            bottom: 10vh; left: 10vh; width: 20vh; height: 10vh;
+            z-index: 10; display: none;">
+            <img class="toggleMouseOption" data-type="destroy" style="position: absolute; border: solid 2px red; left:0vh" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on" width="50%" height="100%">
+            <img class="toggleMouseOption" data-type="create" data-material="Bark" style="position: absolute; border: solid 2px red; left:10vh" src="{% static 'images/bark-texture.png' %}" alt="Toggle block place on" width="50%" height="100%">
          </div>
       </div>
       <div style="display: none;">
@@ -48,6 +53,8 @@
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
             const walkPng = "{% static 'images/walk.png' %}";
+            const wwwPng = "{% static 'images/www.png' %}";
+            const blockPng = "{% static 'images/block.png' %}";
             const atSymbolPng = "{% static 'images/at-symbol.png' %}";
             const expandArrowsPng = "{% static 'images/expand-arrows.png' %}";
             const grassTexture = "{% static 'images/grass-texture.png' %}";
@@ -66,8 +73,9 @@
                event.stopPropagation();
                
                welcomePage.style.display = "none";
-               let toggleMouse = document.getElementById("toggleMouse");
-               toggleMouse.style.display = "block";
+               // let toggleMouse = document.getElementsByClassName("toggleMouse");
+               // toggleMouse.style.display = "block";
+               $(".toggleMouse").css("display", "block")
 
                stopAnimate = false;
             }
