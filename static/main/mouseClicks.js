@@ -16,7 +16,8 @@ let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let toggleMouse = document.getElementById("toggleMouse");
 // Initial State is WALK
 let toggleMouseState = "www";
-let blockMaterial = "";
+let blockTextureMaterial = "";
+let blockTextureUrl = "";
 
 // Turn on WWW state
 $(`img[data-type='www']`).css("border", "solid 2px green");
@@ -33,48 +34,54 @@ threeJSContainer.addEventListener("contextmenu", (event) => {
   event.preventDefault();
 });
 
-$(".toggleMouseOption").on("click", function(event){
-  event.preventDefault();
-  event.stopPropagation();
-  toggleMouseState = $(this).data("type");
-  if (toggleMouseState == "www"){
-    // Turn on WWW state
-    $(`[data-type='www']`).css("border", "solid 2px green");
-    $(`[data-type='create']`).css("border", "solid 2px red");
-    $(`[data-type='destroy']`).css("border", "solid 2px red");
-
-    $('iframe').css('pointer-events', 'auto');
-    $('.divImage').css('pointer-events', 'auto');
-
-    // Turn off WALK state
-    threeJSContainer.onwheel = onWheel;
-    threeJSContainer.onmousedown = onMouseDown;
-
-  }else if (toggleMouseState == "destroy" || toggleMouseState == "create"){
-    if(toggleMouseState == "destroy"){
-      blockMaterial = "";
-      $(`[data-type='www']`).css("border", "solid 2px red");
+export function initToggleMouseOption(){
+  $(".toggleMouseOption").on("click", function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    toggleMouseState = $(this).data("type");
+    if (toggleMouseState == "www"){
+      // Turn on WWW state
+      $(`[data-type='www']`).css("border", "solid 2px green");
       $(`[data-type='create']`).css("border", "solid 2px red");
-      $(`[data-type='destroy']`).css("border", "solid 2px green");
-
-    }else if (toggleMouseState == "create"){
-      blockMaterial = $(this).data("material");
-      $(`[data-type='www']`).css("border", "solid 2px red");
-      $(`[data-type='create']`).css("border", "solid 2px green");
       $(`[data-type='destroy']`).css("border", "solid 2px red");
+
+      $('iframe').css('pointer-events', 'auto');
+      $('.divImage').css('pointer-events', 'auto');
+
+      // Turn off WALK state
+      threeJSContainer.onwheel = onWheel;
+      threeJSContainer.onmousedown = onMouseDown;
+
+    }else if (toggleMouseState == "destroy" || toggleMouseState == "create"){
+      if(toggleMouseState == "destroy"){
+        blockTextureMaterial = "";
+        blockTextureUrl = "";
+        $(`[data-type='www']`).css("border", "solid 2px red");
+        $(`[data-type='create']`).css("border", "solid 2px red");
+        $(`[data-type='destroy']`).css("border", "solid 2px green");
+
+      }else if (toggleMouseState == "create"){
+        blockTextureMaterial = $(this).data("material");
+        blockTextureUrl =  $(this).attr("src");
+        $(`[data-type='www']`).css("border", "solid 2px red");
+        $(`[data-type='create']`).css("border", "solid 2px red");
+        $(this).css("border", "solid 2px green");
+        $(`[data-type='destroy']`).css("border", "solid 2px red");
+      }
+      
+      // Turn off WWW state
+      $('iframe').css('pointer-events', 'none');
+      $('.divImage').css('pointer-events', 'none');
+
+      // Turn on WALK state
+      threeJSContainer.onwheel = onWheel;
+      threeJSContainer.onmousedown = onMouseDown;
+
     }
-    
-    // Turn off WWW state
-    $('iframe').css('pointer-events', 'none');
-    $('.divImage').css('pointer-events', 'none');
+  })
+}
 
-    // Turn on WALK state
-    threeJSContainer.onwheel = onWheel;
-    threeJSContainer.onmousedown = onMouseDown;
-
-  }
-})
-
+initToggleMouseOption();
 
 
 let scale = 0.5;
@@ -222,8 +229,6 @@ function onMouseDownCreateBlock(event){
   const data = selectedObject(event);
   console.log(data.point)
 
-  const tempTexture = "http://localhost:8000/media/texture-image/DALLE_2023-10-27_12.28.01_-_bark_texture.png"
-  const tempTextureName = blockMaterial; //ex. Bark
   $.ajax({
     url: cubePostURL,
     type: 'POST',
@@ -233,7 +238,7 @@ function onMouseDownCreateBlock(event){
       y: Math.round(data.point.y),
       z: Math.round(data.point.z),
       // TODO: replace with a dynamic texture
-      textureName: tempTextureName
+      textureName: blockTextureMaterial
     },
     success: function(resp) {
         console.log("success post");
@@ -249,7 +254,7 @@ function onMouseDownCreateBlock(event){
                     x: Math.round(data.point.x),
                     y: Math.round(data.point.y),
                     z: Math.round(data.point.z),
-                    textureName: tempTexture,
+                    textureName: blockTextureUrl,
                     'time': now.getTime(),
                 }))
             }
@@ -257,7 +262,7 @@ function onMouseDownCreateBlock(event){
     }
   })
   
-  drawBlock(data.point.x, data.point.y, data.point.z, tempTexture);
+  drawBlock(data.point.x, data.point.y, data.point.z, blockTextureUrl);
 
   redrawObjects();
 }

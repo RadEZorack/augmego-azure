@@ -21,16 +21,15 @@
             
          </div>
          <div class="toggleMouse" style="position: absolute;
-            bottom: 25vh; left: 10vh; width: 20vh; height: 10vh;
+            bottom: 15vw; left: 5vw; width: 20vw; height: 10vw;
             z-index: 10; display: none;">
-            <img class="toggleMouseOption" data-type="www" style="position: absolute; border: solid 2px red; left:0vh;" src="{% static 'images/www.png' %}" alt="Toggle webpage mode on" width="50%" height="100%">
-            <img class="toggleMouseOption" data-type="block" style="position: absolute; border: solid 2px red; left:10vh" src="{% static 'images/block.png' %}" alt="Toggle block control on" width="50%" height="100%">
+            <img class="toggleMouseOption" data-type="www" style="position: absolute; border: solid 2px red; left:0vw;" src="{% static 'images/www.png' %}" alt="Toggle webpage mode on" width="50%" height="100%">
+            <img class="toggleMouseOption" data-type="destroy" style="position: absolute; border: solid 2px red; left:10vw" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on" width="50%" height="100%">
          </div>
-         <div class="toggleMouse" style="position: absolute;
-            bottom: 10vh; left: 10vh; width: 20vh; height: 10vh;
-            z-index: 10; display: none;">
-            <img class="toggleMouseOption" data-type="destroy" style="position: absolute; border: solid 2px red; left:0vh" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on" width="50%" height="100%">
-            <img class="toggleMouseOption" data-type="create" data-material="Bark" style="position: absolute; border: solid 2px red; left:10vh" src="{% static 'images/bark-texture.png' %}" alt="Toggle block place on" width="50%" height="100%">
+         <div id="texturePanel" class="toggleMouse" style="position: absolute;
+            bottom: 5vw; left: 5vw; width: 80vw; height: 10vw;
+            z-index: 10; display: none; background: black;">
+            <!-- <img class="toggleMouseOption" data-type="create" data-material="Bark" style="position: absolute; border: solid 2px red; left:0vh" src="{% static 'images/bark-texture.png' %}" alt="Toggle block place on" width="100%" height="100%"> -->
          </div>
       </div>
       <div style="display: none;">
@@ -49,6 +48,7 @@
             const webPageLoadURL = '{% url "webpage:list" %}'
             const cubeLoadURL = '{% url "cube:list" %}'
             const cubePostURL = '{% url "cube:post" %}'
+            const textureLoadURL = '{% url "texture:list" %}'
             let my_name = "Bob-"+Math.random().toString();
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
@@ -100,6 +100,7 @@
      <script src="{% static 'main/webpage3dload.js' %}" type="module"></script>
      <script src="{% static 'main/drawBlock.js' %}" type="module"></script>
      <script src="{% static 'main/removeBlock.js' %}" type="module"></script>
+     <script src="{% static 'main/initTexturePanel.js' %}" type="module"></script>
      <script src="{% static 'main/initObjects.js' %}" type="module"></script>
    </body>
 </html>
