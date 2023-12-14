@@ -11,6 +11,12 @@ $.ajax({
             const img = $("#texturePanel").append(
                 `<img class="toggleMouseOption" data-type="create" data-material="${fields['name']}" style="position: absolute; border: solid 2px red; left:${space}vw" src="${fields["image_url"]}" alt="Toggle block place on" width="${100/18}%" height="100%">`
             )
+
+            if(fields['name'] == "Grass"){
+                grassTexture = fields["image_url"]
+            }else if(fields['name'] == "Dirt"){
+                dirtTexture = fields["image_url"];
+            }
         }
         initToggleMouseOption();
     }
