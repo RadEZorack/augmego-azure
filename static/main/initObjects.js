@@ -3,7 +3,7 @@ import { drawBlock } from "./drawBlock.js";
 import { removeBlock } from "./removeBlock.js";
 import { perlin2 } from '../main/perlin.js';
 
-function initObjects() {
+export function initObjects() {
     console.log("initObjects");
     // for (let i = 0; i < 256*16; i++){
     //   gameObjects.push({
@@ -24,7 +24,7 @@ function initObjects() {
         return x - Math.floor(x);
     }
 
-    const initRange = 200;
+    const initRange = 100;
   
     // noise.seed(0)
     for (let x = -initRange; x < initRange; x++) {
@@ -40,6 +40,33 @@ function initObjects() {
             }
     
             drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
+
+            if (Math.sqrt(x**2+z**2) > 15 && perlin2(x/5,z/5) < 0 && random() > 0.95){
+              // Trees
+              const ymin = 3*perlin2(x/10,z/10)
+              const ymax = random()*4+2
+              for (let y2 = 0; y2 < ymax; y2++) {
+                drawBlock(x, ymin+y2, z, barkTexture)
+              }
+              //leaves
+              drawBlock(x, ymin+ymax, z, pineTreeLeavesTexture)
+              drawBlock(x+1, ymin+ymax, z, pineTreeLeavesTexture)
+              drawBlock(x-1, ymin+ymax, z, pineTreeLeavesTexture)
+              drawBlock(x, ymin+ymax, z+1, pineTreeLeavesTexture)
+              drawBlock(x+1, ymin+ymax, z+1, pineTreeLeavesTexture)
+              drawBlock(x-1, ymin+ymax, z+1, pineTreeLeavesTexture)
+              drawBlock(x, ymin+ymax, z-1, pineTreeLeavesTexture)
+              drawBlock(x+1, ymin+ymax, z-1, pineTreeLeavesTexture)
+              drawBlock(x-1, ymin+ymax, z-1, pineTreeLeavesTexture)
+
+              drawBlock(x, ymin+ymax+1, z, pineTreeLeavesTexture)
+              drawBlock(x+1, ymin+ymax+1, z, pineTreeLeavesTexture)
+              drawBlock(x-1, ymin+ymax+1, z, pineTreeLeavesTexture)
+              drawBlock(x, ymin+ymax+1, z+1, pineTreeLeavesTexture)
+              drawBlock(x, ymin+ymax+1, z-1, pineTreeLeavesTexture)
+
+              drawBlock(x, ymin+ymax+2, z, pineTreeLeavesTexture)
+            }
         }
       // }
     }
@@ -76,5 +103,3 @@ function initObjects() {
 
     redrawObjects();
 }
-  
-initObjects();

@@ -73,7 +73,7 @@ export function redrawObjects() {
             const texture = new THREE.TextureLoader().load( textureUrl )
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.offset.x = 90/(2*Math.PI);
+            // texture.offset.x = 90/(2*Math.PI);
 
             const quadMaterial = new THREE.MeshLambertMaterial({
                 map: texture
