@@ -44,6 +44,8 @@ export function initToggleMouseOption(){
       $(`[data-type='www']`).css("border", "solid 2px green");
       $(`[data-type='create']`).css("border", "solid 2px red");
       $(`[data-type='destroy']`).css("border", "solid 2px red");
+      $(`[data-type='walk']`).css("border", "solid 2px red");
+      $(`[data-type='rotate']`).css("border", "solid 2px red");
 
       $('iframe').css('pointer-events', 'auto');
       $('.divImage').css('pointer-events', 'auto');
@@ -59,6 +61,8 @@ export function initToggleMouseOption(){
         $(`[data-type='www']`).css("border", "solid 2px red");
         $(`[data-type='create']`).css("border", "solid 2px red");
         $(`[data-type='destroy']`).css("border", "solid 2px green");
+        $(`[data-type='walk']`).css("border", "solid 2px red");
+        $(`[data-type='rotate']`).css("border", "solid 2px red");
 
       }else if (toggleMouseState == "create"){
         blockTextureMaterial = $(this).data("material");
@@ -67,8 +71,40 @@ export function initToggleMouseOption(){
         $(`[data-type='create']`).css("border", "solid 2px red");
         $(this).css("border", "solid 2px green");
         $(`[data-type='destroy']`).css("border", "solid 2px red");
+        $(`[data-type='walk']`).css("border", "solid 2px red");
+        $(`[data-type='rotate']`).css("border", "solid 2px red");
       }
       
+      // Turn off WWW state
+      $('iframe').css('pointer-events', 'none');
+      $('.divImage').css('pointer-events', 'none');
+
+      // Turn on WALK state
+      threeJSContainer.onwheel = onWheel;
+      threeJSContainer.onmousedown = onMouseDown;
+
+    }else if (toggleMouseState == "walk"){
+      $(`[data-type='www']`).css("border", "solid 2px red");
+      $(`[data-type='create']`).css("border", "solid 2px red");
+      $(`[data-type='destroy']`).css("border", "solid 2px red");
+      $(`[data-type='walk']`).css("border", "solid 2px green");
+      $(`[data-type='rotate']`).css("border", "solid 2px red");
+
+      // Turn off WWW state
+      $('iframe').css('pointer-events', 'none');
+      $('.divImage').css('pointer-events', 'none');
+
+      // Turn on WALK state
+      threeJSContainer.onwheel = onWheel;
+      threeJSContainer.onmousedown = onMouseDown;
+
+    }else if (toggleMouseState == "rotate"){
+      $(`[data-type='www']`).css("border", "solid 2px red");
+      $(`[data-type='create']`).css("border", "solid 2px red");
+      $(`[data-type='destroy']`).css("border", "solid 2px red");
+      $(`[data-type='walk']`).css("border", "solid 2px red");
+      $(`[data-type='rotate']`).css("border", "solid 2px green");
+
       // Turn off WWW state
       $('iframe').css('pointer-events', 'none');
       $('.divImage').css('pointer-events', 'none');
@@ -117,15 +153,22 @@ function onMouseDown(event) {
 
     }else if (toggleMouseState == "create"){
       onMouseDownCreateBlock(event);
+
+    }else if (toggleMouseState == "walk"){
+      onMouseDownPlayerMove(event);
+    }
+
+    else if (toggleMouseState == "rotate"){
+      onMouseDownMoveScreen(event);
     }
 
   }else if (event.which == 2) {
     // Middle mouse button rotates screen.
-      onMouseDownMoveScreen(event);
+      // onMouseDownMoveScreen(event);
 
   }else if (event.which == 3) {
     // Right mouse button moves player.
-      onMouseDownPlayerMove(event);
+      // onMouseDownPlayerMove(event);
   }
 }
 
