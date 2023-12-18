@@ -44,4 +44,7 @@ def room(request, room_name):
 
 @csrf_exempt
 def main(request):
+    if not request.user.is_authenticated:
+        return redirect("account_login")
+
     return render(request, 'game/main.html', {})
