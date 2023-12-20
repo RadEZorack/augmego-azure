@@ -22,7 +22,6 @@ from django.views.generic.base import TemplateView
 from game.views import main
 
 urlpatterns = [
-    # path('', include('hello_azure.urls')),
     path('', main, name='main'),
     path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),
@@ -30,7 +29,6 @@ urlpatterns = [
     path("cube/", include("cube.urls")),
     path("texture/", include("texture.urls")),
     path('admin/', admin.site.urls),
-    # path("accounts/", include("accounts.urls")),
     # path("accounts/", include("django.contrib.auth.urls")),
     path('accounts/', include('allauth.urls')),
     # path('', TemplateView.as_view(template_name='home.html'), name='home'),
