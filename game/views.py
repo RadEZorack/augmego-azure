@@ -42,7 +42,7 @@ def room(request, room_name):
         # 'node_url': settings.NODE_URL
     })
 
-@csrf_exempt
+# @csrf_exempt
 def main(request):
     if not request.user.is_authenticated:
         return redirect("account_login")

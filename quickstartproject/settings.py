@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     'quickstartproject',
     'chat',
     'game',
+    'payment',
+    'person',
     'webpage',
     'cube',
     'texture',
