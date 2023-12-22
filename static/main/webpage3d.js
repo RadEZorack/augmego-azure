@@ -1,7 +1,9 @@
 import * as THREE from '../three/three.module.js';
 import { objectScene, cssScene } from '../main/main.js';
+import { playerWrapper } from '../main/player.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { allCameras, modifyActiveCameraName } from '../main/main.js';
+
 
 ///////////////////////////////////////////////////////////////////
 // Creates WebGL Renderer
@@ -103,18 +105,18 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
 
   const div = document.createElement("div");
 
-  if (image != undefined){
     const divImage = document.createElement("div");
     divImage.style.pointerEvents = "auto";
     divImage.className = "divImage";
 
     const imagePlaceholder = `
       <h1 style="text-align: center;"><button>LOAD THIS URL: ${url}</button></h1>
-      <img src="${image}" alt="Iframe Placeholder" style="width: 100%; height: 100%;">
+      <img src="${image || atSymbolPng}" alt="Iframe Placeholder" style="width: 100%; height: 100%;">
     `
     $(div).append(divImage);
     $(divImage).append(imagePlaceholder);
-    $(divImage).on( "click", function() {
+
+    function loadPage() {
       $(div).html(html);
       $('iframe').css('pointer-events', 'auto');
       let active = false;
@@ -128,10 +130,32 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
         }
         active = !active
       })
-    })
-  } else{
-    $(div).html(html);
-  }
+    }
+
+    $(divImage).on( "click", loadPage)
+
+    function playerLoadProximity(){
+      const player_load_proximity_xhr = setTimeout(function(){
+        if (playerWrapper == undefined){
+          playerLoadProximity();
+        }
+
+        const distance = Math.sqrt(
+          Math.pow(position.x - playerWrapper.position.x, 2) +
+          Math.pow(position.y - playerWrapper.position.y, 2) +
+          Math.pow(position.z - playerWrapper.position.z, 2)
+        )
+
+        if (distance < 5) {
+          // This number should be more dynamic and based on the scale of the web page.
+          loadPage();
+        }else{
+          playerLoadProximity();
+        }
+      }, 500)
+    }
+    
+    playerLoadProximity()
   
 
   const cssObject = new CSS3DObject(div);
@@ -146,17 +170,17 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
 
   cssObject.scale.set(s, s, s);
 
-  const camera = new THREE.OrthographicCamera( s*w/-2, s*w/2, s*h/2, s*h/-2, 0, 0.5 );
+  const cameraZoom = new THREE.OrthographicCamera( s*w/-2, s*w/2, s*h/2, s*h/-2, 0, 0.5 );
 
-  camera.position.x = position.x;
-  camera.position.y = position.y;
-  camera.position.z = position.z;
+  cameraZoom.position.x = position.x;
+  cameraZoom.position.y = position.y;
+  cameraZoom.position.z = position.z;
 
-  camera.rotation.x = rotation.x;
-  camera.rotation.y = rotation.y;
-  camera.rotation.z = rotation.z;
+  cameraZoom.rotation.x = rotation.x;
+  cameraZoom.rotation.y = rotation.y;
+  cameraZoom.rotation.z = rotation.z;
 
-  allCameras[timeuuid] = camera;
+  allCameras[timeuuid] = cameraZoom;
 
   return cssObject;
 }
