@@ -10,7 +10,7 @@ import { peerConnections } from '../main/socketConnection.js';
 
 
 
-export let myPlayerTargetPosition = undefined;
+export let myPlayerTargetPosition = new THREE.Vector3(0,0,0);
 let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
 // let toggleMouse = document.getElementById("toggleMouse");
