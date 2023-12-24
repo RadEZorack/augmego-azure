@@ -15,14 +15,14 @@ let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
 // let toggleMouse = document.getElementById("toggleMouse");
 // Initial State is WALK
-let toggleMouseState = "www";
+let toggleMouseState = "walk";
 let blockTextureMaterial = "";
 let blockTextureUrl = "";
 
 // Turn on WWW state
-$(`img[data-type='www']`).css("border", "solid 2px green");
-$('iframe').css('pointer-events', 'auto');
-$('.divImage').css('pointer-events', 'auto');
+$(`img[data-type='walk']`).css("border", "solid 2px green");
+$('iframe').css('pointer-events', 'none');
+$('.divImage').css('pointer-events', 'none');
 
 // Turn off WALK state
 threeJSContainer.onwheel = onWheel;
@@ -46,13 +46,14 @@ export function initToggleMouseOption(){
       $(`[data-type='destroy']`).css("border", "solid 2px red");
       $(`[data-type='walk']`).css("border", "solid 2px red");
       $(`[data-type='rotate']`).css("border", "solid 2px red");
+      $(`[data-type='zoom']`).css("border", "solid 2px red");
 
       $('iframe').css('pointer-events', 'auto');
       $('.divImage').css('pointer-events', 'auto');
 
       // Turn off WALK state
-      threeJSContainer.onwheel = onWheel;
-      threeJSContainer.onmousedown = onMouseDown;
+      threeJSContainer.onwheel = undefined;
+      threeJSContainer.onmousedown = undefined;
 
     }else if (toggleMouseState == "destroy" || toggleMouseState == "create"){
       if(toggleMouseState == "destroy"){
@@ -63,6 +64,7 @@ export function initToggleMouseOption(){
         $(`[data-type='destroy']`).css("border", "solid 2px green");
         $(`[data-type='walk']`).css("border", "solid 2px red");
         $(`[data-type='rotate']`).css("border", "solid 2px red");
+        $(`[data-type='zoom']`).css("border", "solid 2px red");
 
       }else if (toggleMouseState == "create"){
         blockTextureMaterial = $(this).data("material");
@@ -73,6 +75,7 @@ export function initToggleMouseOption(){
         $(`[data-type='destroy']`).css("border", "solid 2px red");
         $(`[data-type='walk']`).css("border", "solid 2px red");
         $(`[data-type='rotate']`).css("border", "solid 2px red");
+        $(`[data-type='zoom']`).css("border", "solid 2px red");
       }
       
       // Turn off WWW state
@@ -89,6 +92,7 @@ export function initToggleMouseOption(){
       $(`[data-type='destroy']`).css("border", "solid 2px red");
       $(`[data-type='walk']`).css("border", "solid 2px green");
       $(`[data-type='rotate']`).css("border", "solid 2px red");
+      $(`[data-type='zoom']`).css("border", "solid 2px red");
 
       // Turn off WWW state
       $('iframe').css('pointer-events', 'none');
@@ -104,6 +108,23 @@ export function initToggleMouseOption(){
       $(`[data-type='destroy']`).css("border", "solid 2px red");
       $(`[data-type='walk']`).css("border", "solid 2px red");
       $(`[data-type='rotate']`).css("border", "solid 2px green");
+      $(`[data-type='zoom']`).css("border", "solid 2px red");
+
+      // Turn off WWW state
+      $('iframe').css('pointer-events', 'none');
+      $('.divImage').css('pointer-events', 'none');
+
+      // Turn on WALK state
+      threeJSContainer.onwheel = onWheel;
+      threeJSContainer.onmousedown = onMouseDown;
+
+    }else if (toggleMouseState == "zoom"){
+      $(`[data-type='www']`).css("border", "solid 2px red");
+      $(`[data-type='create']`).css("border", "solid 2px red");
+      $(`[data-type='destroy']`).css("border", "solid 2px red");
+      $(`[data-type='walk']`).css("border", "solid 2px red");
+      $(`[data-type='rotate']`).css("border", "solid 2px red");
+      $(`[data-type='zoom']`).css("border", "solid 2px green");
 
       // Turn off WWW state
       $('iframe').css('pointer-events', 'none');
@@ -162,6 +183,10 @@ function onMouseDown(event) {
       onMouseDownMoveScreen(event);
     }
 
+    else if (toggleMouseState == "zoom"){
+      onMouseDownZoomScreen(event);
+    }
+
   }else if (event.which == 2) {
     // Middle mouse button rotates screen.
       // onMouseDownMoveScreen(event);
@@ -169,6 +194,7 @@ function onMouseDown(event) {
   }else if (event.which == 3) {
     // Right mouse button moves player.
       // onMouseDownPlayerMove(event);
+      onMouseDownMoveScreen(event);
   }
 }
 
@@ -199,6 +225,48 @@ function onMouseDownMoveScreen(event){
   camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
 
     }
+      prevScreenPosition = currentScreenPosition;
+      
+      threeJSContainer.onmouseup = function(event) {
+        // Finished!
+        threeJSContainer.onmousemove = undefined;
+      }
+
+      threeJSContainer.onmouseleave = function(event) {
+        // Stop the mouse from depring out when leaving the web page.
+        threeJSContainer.onmousemove = undefined;
+      }
+  }
+}
+
+function onMouseDownZoomScreen(event){
+  
+  let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
+  threeJSContainer.onmousemove = function(event) {
+  //   cssDiv.onmousedown = undefined;
+    // $('iframe').css('pointer-events','none');
+      let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
+      
+      if(!(prevScreenPosition.y == currentScreenPosition.y)){
+        const deltaY = prevScreenPosition.y - currentScreenPosition.y
+        if( deltaY < 0.0){
+          scale = 0.5;
+        }else{
+          scale = -0.5;
+        }
+      
+        // Apply scale transform
+        camera.position.z += scale;
+        if (camera.position.z >= 0.5){
+          camera.position.z = 0.5;
+        }else if (camera.position.z <= -10){
+          camera.position.z = -10;
+        }
+      
+        // camera.lookAt(playerWrapper.position);
+        camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
+      
+      }
       prevScreenPosition = currentScreenPosition;
       
       threeJSContainer.onmouseup = function(event) {

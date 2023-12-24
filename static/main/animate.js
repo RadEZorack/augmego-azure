@@ -34,14 +34,14 @@ function animate() {
         
         if (`block:${Math.round(playerWrapper.position.x)},${Math.round(playerWrapper.position.y)},${Math.round(playerWrapper.position.z)}:top` in gameObjects){
             // Our feet are in the block, move up
-            console.log('feet hit')
+            // console.log('feet hit')
             clearTimeout(moveDownXHR);
             myPlayerTargetPosition.y = Math.round(playerWrapper.position.y)+0.5;
             
         
         }else if(`block:${Math.round(playerWrapper.position.x)},${Math.round(playerWrapper.position.y)+1},${Math.round(playerWrapper.position.z)}:top` in gameObjects){
             // Our head is in the block, move up
-            console.log('head hit')
+            // console.log('head hit')
             myPlayerTargetPosition.y = Math.round(playerWrapper.position.y)+1.5;
             clearTimeout(moveDownXHR);
         
@@ -49,16 +49,15 @@ function animate() {
             gameObjects[`blockVisibility:${Math.round(playerWrapper.position.x)},${Math.round(playerWrapper.position.y)},${Math.round(playerWrapper.position.z)}`] != ""
         ){
             // We are under ground or inside a structure.
-            console.log("under ground")
-            // console.log(playerWrapper.position)
-            // console.log(`blockVisibility:${Math.round(playerWrapper.position.x)},${Math.round(playerWrapper.position.y)-1},${Math.round(playerWrapper.position.z)}`)
+            // console.log("under ground")
+            // Not really sure if this works...
             myPlayerTargetPosition.y = Math.ceil(playerWrapper.position.y)+0.5;
             clearTimeout(moveDownXHR);
         
         }else{
             //move down
             moveDownXHR = setTimeout(function(){
-                console.log("move down")
+                // console.log("move down")
                 myPlayerTargetPosition.y = Math.floor(playerWrapper.position.y)-0.5;
             }, 1000)
             
