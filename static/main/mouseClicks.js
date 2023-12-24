@@ -54,6 +54,11 @@ export function initToggleMouseOption(){
       // Turn off WALK state
       threeJSContainer.onwheel = undefined;
       threeJSContainer.onmousedown = undefined;
+      threeJSContainer.removeEventListener(
+        "touchstart",
+        onMouseDown,
+        true
+      );
 
     }else if (toggleMouseState == "destroy" || toggleMouseState == "create"){
       if(toggleMouseState == "destroy"){
@@ -85,6 +90,11 @@ export function initToggleMouseOption(){
       // Turn on WALK state
       threeJSContainer.onwheel = onWheel;
       threeJSContainer.onmousedown = onMouseDown;
+      threeJSContainer.addEventListener(
+        "touchstart",
+        onMouseDown,
+        false
+      );
 
     }else if (toggleMouseState == "walk"){
       $(`[data-type='www']`).css("border", "solid 2px red");
@@ -101,6 +111,11 @@ export function initToggleMouseOption(){
       // Turn on WALK state
       threeJSContainer.onwheel = onWheel;
       threeJSContainer.onmousedown = onMouseDown;
+      threeJSContainer.addEventListener(
+        "touchstart",
+        onMouseDown,
+        false
+      );
 
     }else if (toggleMouseState == "rotate"){
       $(`[data-type='www']`).css("border", "solid 2px red");
@@ -117,6 +132,11 @@ export function initToggleMouseOption(){
       // Turn on WALK state
       threeJSContainer.onwheel = onWheel;
       threeJSContainer.onmousedown = onMouseDown;
+      threeJSContainer.addEventListener(
+        "touchstart",
+        onMouseDown,
+        false
+      );
 
     }else if (toggleMouseState == "zoom"){
       $(`[data-type='www']`).css("border", "solid 2px red");
@@ -133,6 +153,11 @@ export function initToggleMouseOption(){
       // Turn on WALK state
       threeJSContainer.onwheel = onWheel;
       threeJSContainer.onmousedown = onMouseDown;
+      threeJSContainer.addEventListener(
+        "touchstart",
+        onMouseDown,
+        false
+      );
 
     }
   })
@@ -199,11 +224,19 @@ function onMouseDown(event) {
 }
 
 function onMouseDownMoveScreen(event){
-  
+  event.preventDefault();
+  if (event.targetTouches && event.targetTouches.length == 1) {
+    event = event.targetTouches[0];
+  }
   let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
-  threeJSContainer.onmousemove = function(event) {
+  
+  function onMouseMoveMoveScreen(event) {
   //   cssDiv.onmousedown = undefined;
     // $('iframe').css('pointer-events','none');
+      event.preventDefault();
+      if (event.targetTouches && event.targetTouches.length == 1) {
+        event = event.targetTouches[0];
+      }
       let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
       if(!(prevScreenPosition.x == currentScreenPosition.x)){
           const sensitivityX = 0.01;
@@ -212,7 +245,7 @@ function onMouseDownMoveScreen(event){
           cameraController.rotateY(sensitivityX * Math.PI * deltaX);
 
           // camera.lookAt(playerWrapper.position);
-  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
+          camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
 
       }
       if(!(prevScreenPosition.y == currentScreenPosition.y)){
@@ -222,7 +255,7 @@ function onMouseDownMoveScreen(event){
         cameraRotator.rotateX(- sensitivityY * Math.PI * deltaY);
 
         // camera.lookAt(playerWrapper.position);
-  camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
+        camera.lookAt(new THREE.Vector3(playerWrapper.position.x, camera.position.y, playerWrapper.position.z));
 
     }
       prevScreenPosition = currentScreenPosition;
@@ -237,12 +270,28 @@ function onMouseDownMoveScreen(event){
         threeJSContainer.onmousemove = undefined;
       }
   }
+
+  threeJSContainer.onmousemove = onMouseMoveMoveScreen
+  threeJSContainer.addEventListener(
+    "touchmove",
+    onMouseMoveMoveScreen,
+    false
+  )
 }
 
 function onMouseDownZoomScreen(event){
-  
+  event.preventDefault();
+  if (event.targetTouches && event.targetTouches.length == 1) {
+    event = event.targetTouches[0];
+  }
   let prevScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
-  threeJSContainer.onmousemove = function(event) {
+  
+  function onMouseMoveZoomScreen(event) {
+    event.preventDefault();
+    if (event.targetTouches && event.targetTouches.length == 1) {
+      event = event.targetTouches[0];
+    }
+      // event.stopPropagation();
   //   cssDiv.onmousedown = undefined;
     // $('iframe').css('pointer-events','none');
       let currentScreenPosition = new THREE.Vector2(event.clientX,event.clientY);
@@ -250,9 +299,9 @@ function onMouseDownZoomScreen(event){
       if(!(prevScreenPosition.y == currentScreenPosition.y)){
         const deltaY = prevScreenPosition.y - currentScreenPosition.y
         if( deltaY < 0.0){
-          scale = 0.5;
+          scale = 0.05;
         }else{
-          scale = -0.5;
+          scale = -0.05;
         }
       
         // Apply scale transform
@@ -279,6 +328,13 @@ function onMouseDownZoomScreen(event){
         threeJSContainer.onmousemove = undefined;
       }
   }
+
+  threeJSContainer.onmousemove = onMouseMoveZoomScreen;
+  threeJSContainer.addEventListener(
+    "touchmove",
+    onMouseMoveZoomScreen,
+    false
+  )
 }
 
 // cssDiv.onmousedown = onMouseDown2;
