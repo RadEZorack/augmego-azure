@@ -15,14 +15,14 @@ let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
 // let toggleMouse = document.getElementById("toggleMouse");
 // Initial State is WALK
-let toggleMouseState = "walk";
+let toggleMouseState = "www";
 let blockTextureMaterial = "";
 let blockTextureUrl = "";
 
 // Turn on WWW state
-$(`img[data-type='walk']`).css("border", "solid 2px green");
-$('iframe').css('pointer-events', 'none');
-$('.divImage').css('pointer-events', 'none');
+$(`img[data-type='www']`).css("border", "solid 2px green");
+$('iframe').css('pointer-events', 'auto');
+$('.divImage').css('pointer-events', 'auto');
 
 // Turn off WALK state
 threeJSContainer.onwheel = onWheel;

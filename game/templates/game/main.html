@@ -3,6 +3,7 @@
 <head>
     <title>Augmego</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'css/fontawesome-free-5.15.2-web/css/all.min.css' %}" rel="stylesheet" ></link>
     <link rel="icon"href="{% static 'favicon.ico' %}">
 </head>
 <html>
@@ -20,17 +21,204 @@
             </button>
             
          </div>
+         <div id="hud" allow="autoplay">
+            <div style="position: absolute; top: 5px; right: 5px; z-index: 10;">
+              <span style="display: none; font-size: 2em; background-color: black;" id="myDisplayName"></span>
+            </div>
+            <!-- <video autoplay class="local-video" id="local-video-2" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; left: 5px; z-index: 10;"></video> -->
+            <video autoplay muted playsinline class="local-video" id="local-video-1" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; right: 5px; z-index: 10;"></video>
+            <div id="ui" ref="ui">
+              <!-- Rotation -->
+              <div
+                id="rightJoystick"
+                style="width: 25vw; height: 25vw; max-height: 20vh; max-width: 20vh; position: absolute; top: 80vh; left: 60vw; transform: translate(0, -50%); border: solid 3px black; z-index: 10;"
+              ></div>
+              <div
+                id="rightJoystickSymbol"
+                style="position: absolute; z-index: 9; font-size: xxx-large; line-height: 0;"
+              >
+                <i class="fas fa-expand-arrows-alt"></i>
+              </div>
+              <div
+                id="rightJoystickBackground"
+                style="width: 25vw; height: 25vw; max-height: 20vh; max-width: 20vh; position: absolute; top: 80vh; left: 60vw; transform: translate(0, -50%); border: solid 3px black; z-index: 8; background-color: rgba(100, 150, 100, 0.6)"
+              >
+                <div
+                style="width: 100%; position: absolute; top: 20%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 37.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 62.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 80%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+      
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 20%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 37.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 62.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 80%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+              </div>
+      
+              <!-- <div id="left joysticks"> -->
+              <!-- Position -->
+              <div
+                id="leftJoystick"
+                style="width: 25vw; height: 25vw; max-height: 20vh; max-width: 20vh; position: absolute; top: 80vh; right: 60vw; transform: translate(0, -50%); border: solid 3px black; z-index: 10;"
+              ></div>
+              <div
+                id="leftJoystickSymbol"
+                style="position: absolute; z-index: 9; font-size: xxx-large; line-height: 0;"
+              >
+                <i class="fas fa-arrows-alt"></i>
+              </div>
+              <div
+                id="leftJoystickBackground"
+                style="width: 25vw; height: 25vw; max-height: 20vh; max-width: 20vh; position: absolute; top: 80vh; right: 60vw; transform: translate(0, -50%);border: solid 3px black; z-index: 8; background-color: rgba(100, 150, 100, 0.6)"
+              >
+                <div
+                style="width: 100%; position: absolute; top: 20%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 37.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 62.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 80%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+      
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 20%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 37.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 62.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 80%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+      
+              </div>
+              <!-- Altitude THIS IS HIDDEN -->
+              <div style="display: none;">
+              <div
+                id="middleJoystick"
+                style="width: 10vw; height: 25vw; max-height: 20vh; max-width: 5vh; position: absolute; top: 80vh; left: 50vw; transform: translate(-50%, -50%); border: solid 3px black; z-index: 10;"
+              ></div>
+              <div
+                id="middleJoystickSymbol"
+                style="position: absolute; z-index: 9; font-size: xxx-large; line-height: 0; transform: translate(50%, 0);"
+              >
+                <i class="fas fa-arrows-alt-v"></i>
+              </div>
+              <div
+                id="middleJoystickBackground"
+                style="width: 10vw; height: 25vw; max-height: 20vh; max-width: 5vh; position: absolute; top: 80vh; left: 50vw; transform: translate(-50%, -50%); border: solid 3px black; z-index: 8; background-color: rgba(100, 150, 100, 0.6)"
+              >
+                <div
+                style="width: 100%; position: absolute; top: 20%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 37.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 62.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+                <div
+                style="width: 100%; position: absolute; top: 80%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></div>
+      
+              </div>
+              </div>
+              <!-- Zoom tool This is hidden! -->
+              <div style="display: none;">
+              <div
+                id="middle2Joystick"
+                style="width: 25vw; height: 10vw; max-height: 5vh; max-width: 20vh; position: absolute; top: 65%; left: 12.5vw; transform: translate(-50%, 0); border: solid 3px black; z-index: 10;"
+              ></div>
+              <div
+                id="middle2JoystickSymbol"
+                style="position: absolute; z-index: 9; font-size: xxx-large; line-height: 0;"
+              >
+                <i class="fas fa-search-plus"></i>
+              </div>
+              <div
+                id="middle2JoystickBackground"
+                style="width: 25vw; height: 10vw; max-height: 5vh; max-width: 20vh; position: absolute; top: 65%; left: 12.5vw; transform: translate(-50%, 0); border: solid 3px black; z-index: 8; background-color: rgba(100, 150, 100, 0.6)"
+              ><span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 20%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 37.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 62.5%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+                <span
+                style="height: 100%; width: 0px; position: absolute; top: 0; left: 80%; border: dashed 1px rgba(150, 100, 100, 1);"
+                ></span>
+      
+              </div>
+              </div>
+              <!-- </div> -->
+            </div>
+      
+            <div style="display: none;">
+            <div
+              id="middleItem"
+              style="width: 20vw; height: 20vw; max-height: 15vh; max-width: 15vh; position: absolute; bottom: 10vh; left: 50%; transform: translate(-50%, 0); border: solid 3px green; z-index: 10;"
+            ></div>
+            <div
+              id="middleItemSymbol"
+              style="position: absolute; z-index: 9; font-size: xxx-large; line-height: 0;"
+            >
+              <i class="fas fa-compress-arrows-alt"></i>
+            </div>
+            <div
+              id="middleItemBackground"
+              style="width: 20vw; height: 20vw; max-height: 15vh; max-width: 15vh;  overflow: hidden; position: absolute; bottom: 10vh; left: 50%; transform: translate(-50%, 0); border: solid 3px green; z-index: 8;"
+            >
+              <!-- <img src=''> -->
+            </div>
+            </div>
+      
+            <div
+              id="centerPoint"
+              style="position: absolute; top: 50vh; left: 50vw; border: solid 3px green; z-index: 8; transform: translate(-50%, -50%);"
+            ></div>
+            <div id="threeJSContainer"></div>
+            <div id="info">
+              <!-- <a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - indexed instancing (single box), dynamic updates -->
+              <div id="notSupported" style="display:none">
+                Sorry your graphics card + browser does not support hardware instancing
+              </div>
+            </div>
+          </div>
          <div class="toggleMouse" style="position: absolute;
-            bottom: 10vw; left: 5vw; width: 25vw; height: 5vw;
+            bottom: 10vh; left: 5vw; width: 25vw; height: 5vw;
             z-index: 10; display: none;">
             <img class="toggleMouseOption" data-type="www" style="position: absolute; border: solid 2px red; left:0vw;" src="{% static 'images/www.png' %}" alt="Toggle webpage mode on" width="20%" height="100%">
             <img class="toggleMouseOption" data-type="destroy" style="position: absolute; border: solid 2px red; left:5vw" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on" width="20%" height="100%">
-            <img class="toggleMouseOption" data-type="walk" style="position: absolute; border: solid 2px red; left:10vw" src="{% static 'images/walk.png' %}" alt="Toggle player walk on" width="20%" height="100%">
-            <img class="toggleMouseOption" data-type="rotate" style="position: absolute; border: solid 2px red; left:15vw" src="{% static 'images/rotate.png' %}" alt="Toggle player rotate on" width="20%" height="100%">
-            <img class="toggleMouseOption" data-type="zoom" style="position: absolute; border: solid 2px red; left:20vw" src="{% static 'images/zoom.png' %}" alt="Toggle player zoom on" width="20%" height="100%">
+            <!-- <img class="toggleMouseOption" data-type="walk" style="position: absolute; border: solid 2px red; left:10vw" src="{% static 'images/walk.png' %}" alt="Toggle player walk on" width="20%" height="100%"> -->
+            <!-- <img class="toggleMouseOption" data-type="rotate" style="position: absolute; border: solid 2px red; left:15vw" src="{% static 'images/rotate.png' %}" alt="Toggle player rotate on" width="20%" height="100%"> -->
+            <!-- <img class="toggleMouseOption" data-type="zoom" style="position: absolute; border: solid 2px red; left:20vw" src="{% static 'images/zoom.png' %}" alt="Toggle player zoom on" width="20%" height="100%"> -->
          </div>
          <div id="texturePanel" class="toggleMouse" style="position: absolute;
-            bottom: 5vw; left: 5vw; width: 90vw; height: 5vw;
+            bottom: 1vh; left: 5vw; width: 90vw; height: 9vh;
             z-index: 10; display: none; background: grey;">
          </div>
       </div>
@@ -89,6 +277,7 @@
          </script>
       <!-- Scripts -->
      <script src="{% static 'main/main.js' %}" type="module"></script>
+     <script src="{% static 'main/controls.js' %}" type="module"></script>
      <script src="{% static 'main/shaders.js' %}" type="module"></script>
      <script src="{% static 'main/perlin.js' %}" type="module"></script>
      <script src="{% static 'main/redrawObjects.js' %}" type="module"></script>

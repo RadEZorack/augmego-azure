@@ -7,6 +7,7 @@ import { myPlayerTargetPosition } from '../main/mouseClicks.js';
 import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { gameObjects } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
+import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent } from '../main/controls.js';
 
 
 const stepDistance = 0.01;
@@ -17,6 +18,10 @@ const stepDistance = 0.01;
 
 const clock = new THREE.Clock()
 let moveDownXHR = undefined;
+let lastTime = 0;
+const euler = new THREE.Euler(0, 0, 0, "YXZ");
+const PI_2 = Math.PI / 2;
+
 function animate() {
     if (stopAnimate == true){
         // We need the player to interact with the page before things will work correctly.
@@ -29,6 +34,56 @@ function animate() {
 	requestAnimationFrame( animate );
     
     if (!(playerWrapper === undefined)){
+        const time = performance.now();
+
+        const delta = time - lastTime;
+
+        // window.sun.position.y -= 0.001*delta;
+
+        lastTime =  time;
+
+        let deltaZ = 0;
+        let deltaX = 0;
+        // let deltaY = 0;
+        // let deltaK = 0;
+
+        euler.setFromQuaternion(playerWrapper.quaternion);
+
+        euler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
+        euler.x += 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
+
+        euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
+
+        playerWrapper.quaternion.setFromEuler(euler);
+
+        // Forward and backward
+        deltaZ =
+            0.001 *
+            delta *
+            (Math.cos(euler.y) * Math.round(2*leftJoystickYPercent) +
+            Math.sin(euler.y) * Math.round(2*leftJoystickXPercent));
+        // // Left and Right
+        deltaX =
+            0.001 *
+            delta *
+            (Math.sin(euler.y) * Math.round(2*leftJoystickYPercent) -
+            Math.cos(euler.y) * Math.round(2*leftJoystickXPercent));
+        // Player Up and Down
+        // deltaY = -0.001 * delta * Math.round(2*window.middleJoystickYPercent);
+        // Player map zoom
+        // deltaK = -0.0005 * delta * Math.round(2*window.middle2JoystickXPercent);
+
+        // boxMesh.position.x += deltaX
+
+        // X Pixel
+        // window.playerXZHigh[0] -= deltaX; // / size_of_pixel
+        playerWrapper.position.x += deltaX;
+        // Y Pixel
+        // window.playerXZHigh[1] -= deltaZ; // / size_of_pixel
+        playerWrapper.position.z += deltaZ;
+
+
+
         // Am I in a block
         // Check feet and head
         
@@ -64,9 +119,9 @@ function animate() {
         }
 
 
-        playerWrapper.position.x += stepDistance * (myPlayerTargetPosition.x - playerWrapper.position.x);
+        // playerWrapper.position.x += stepDistance * (myPlayerTargetPosition.x - playerWrapper.position.x);
         playerWrapper.position.y += 5 * stepDistance * (myPlayerTargetPosition.y - playerWrapper.position.y);
-        playerWrapper.position.z += stepDistance * (myPlayerTargetPosition.z - playerWrapper.position.z);
+        // playerWrapper.position.z += stepDistance * (myPlayerTargetPosition.z - playerWrapper.position.z);
         // console.log(playerWrapper.position)
 
         // cameraController.rotation.x = 0;
