@@ -2,6 +2,7 @@ import { gameObjects, redrawObjects } from "./redrawObjects.js";
 import { drawBlock } from "./drawBlock.js";
 import { removeBlock } from "./removeBlock.js";
 import { perlin2 } from '../main/perlin.js';
+import { loadPlayer } from '../main/player.js';
 
 export function initObjects() {
     console.log("initObjects");
@@ -98,6 +99,7 @@ export function initObjects() {
           }
 
           redrawObjects();
+          loadPlayer();
       }
     })
 

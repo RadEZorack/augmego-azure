@@ -17,7 +17,8 @@ export const cameraController = new THREE.Object3D;
 export const cameraRotator = new THREE.Object3D;
 export const playerWrapper = new THREE.Object3D;
 
-gltf_loader.load(
+export function loadPlayer(){
+  gltf_loader.load(
     // resource URL
     // "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
     cesiumManUrl,
@@ -48,7 +49,8 @@ gltf_loader.load(
 
         objectScene.add( playerWrapper );
     }
-);
+  );
+}
 
 // export let myPlayerTargetPosition = undefined;
 
