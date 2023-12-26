@@ -13,9 +13,9 @@ let dracoLoader = new DRACOLoader();
 gltf_loader.setDRACOLoader( dracoLoader );
 
 export let myPlayer = undefined;
-export const cameraController = new THREE.Object3D;
-export const cameraRotator = new THREE.Object3D;
-export const playerWrapper = new THREE.Object3D;
+export let cameraController = undefined;
+export let cameraRotator = undefined;
+export let playerWrapper = undefined;
 
 export function loadPlayer(){
   gltf_loader.load(
@@ -33,6 +33,10 @@ export function loadPlayer(){
           'mixer': new THREE.AnimationMixer(gltf.scene),
           'animation': 0,
         }
+
+        cameraController = new THREE.Object3D;
+        cameraRotator = new THREE.Object3D;
+        playerWrapper = new THREE.Object3D;
 
         playerWrapper.add(myPlayer.scene);
         playerWrapper.add(cameraController);
