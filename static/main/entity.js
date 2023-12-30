@@ -64,7 +64,7 @@ export function update_entity(entity_data){
         const page = create3dPage(
             // 1.5m wide
             100, 100,
-            0.005,
+            0.01,
             new THREE.Vector3(x, y + 2, z),
             new THREE.Vector3(0, ry, 0),
             "",
@@ -178,9 +178,10 @@ export function update_entity(entity_data){
         plane.position.y = y + 2.5;
         plane.position.z = z
 
-        // planeLookAt + camera.position
+        let camWorldPos = new THREE.Vector3();
+        camera.getWorldPosition(camWorldPos);
+        plane.lookAt(camWorldPos);
 
-        plane.lookAt(camera.position)
 
         // plane.rotation.x = rx;
         // plane.rotation.y = ry;
