@@ -38,7 +38,7 @@ ALLOWED_HOSTS += [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.en
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS',"http://localhost http://augmego-django https://augmego.ngrok.io https://369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS',"https://localhost https://augmego-django https://augmego.ngrok.io https://369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
 CSRF_TRUSTED_ORIGINS += ["http://"+ip_address,"https://"+ip_address]
 
 # Application definition

@@ -138,6 +138,7 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
       const player_load_proximity_xhr = setTimeout(function(){
         if (playerWrapper == undefined){
           playerLoadProximity();
+          return;
         }
 
         const distance = Math.sqrt(
