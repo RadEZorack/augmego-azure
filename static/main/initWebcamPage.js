@@ -92,14 +92,15 @@ export function initWebcamPage(myUuid, entityUuid){
         console.log("received media", event)
         console.log("remote-video-"+entityUuid)
         let remoteVideo = document.getElementById("remote-video-"+entityUuid);
-        remoteVideo.onloadedmetadata = function(e) {
-            console.log("play the video")
-            remoteVideo.play();
-        };
+        
         console.log(remoteVideo)
         if (remoteVideo) {
-        remoteVideo.srcObject = event.streams[0];
-        console.log(remoteVideo, remoteVideo.srcObject)
+            remoteVideo.srcObject = event.streams[0];
+            console.log(remoteVideo, remoteVideo.srcObject)
+            remoteVideo.onloadedmetadata = function(e) {
+                console.log("play the video")
+                remoteVideo.play();
+            };
         }
     };
     // End ontrack

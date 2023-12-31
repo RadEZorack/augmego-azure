@@ -213,6 +213,21 @@ export function update_entity(entity_data){
         // cssobject.translateY(325)
 
         entities[entity_key]['animation'] = animation
+
+        // Reduce video sound based on distance.
+        const entityUuid = entity_key.split(":")[1];
+        const maxSoundDistance = 25;
+        const camDistance = Math.sqrt(
+            Math.pow(camWorldPos.x - gltf.scene.position.x, 2) + 
+            Math.pow(camWorldPos.y - gltf.scene.position.y, 2) + 
+            Math.pow(camWorldPos.z - gltf.scene.position.z, 2)
+        )
+        let video = document.getElementById(`remote-video-${entityUuid}`);
+        try{
+            video.volume = Math.max(0, (maxSoundDistance - camDistance)/maxSoundDistance);
+        }catch(e){
+            console.log(e);
+        }
     }
 }
 
