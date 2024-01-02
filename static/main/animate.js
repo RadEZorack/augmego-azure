@@ -8,7 +8,7 @@ import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { gameObjects } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
 import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent } from '../main/controls.js';
-import { qDown, wDown, eDown, aDown, sDown, dDown, QWE } from '../main/QWEASD.js'
+import { qDown, wDown, eDown, aDown, sDown, dDown, isWalk } from '../main/QWEASD.js'
 
 
 const stepDistance = 0.01;
@@ -51,7 +51,7 @@ function animate() {
         euler.setFromQuaternion(playerWrapper.quaternion);
 
         euler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
-        if (QWE){
+        if (isWalk){
             if(aDown){
                 euler.y += 0.0004 * delta * PI_2;
             }
@@ -80,7 +80,7 @@ function animate() {
             (Math.sin(euler.y) * Math.round(2*leftJoystickYPercent) -
             Math.cos(euler.y) * Math.round(2*leftJoystickXPercent));
 
-        if (QWE){
+        if (isWalk){
             if(wDown){
                 deltaZ += 0.002 * delta * Math.cos(euler.y);
                 deltaX += 0.002 * delta * Math.sin(euler.y);

@@ -1,12 +1,16 @@
+import { camera } from '../main/main.js';
+
 export let qDown = false;
 export let wDown = false;
 export let eDown = false;
 export let aDown = false;
 export let sDown = false;
 export let dDown = false;
+export let oDown = false;
+export let pDown = false;
 export let enterDown = false;
-export let QWE = true;
-export let ASD = true;
+export let isWalk = true;
+export let isFirstPerson = false;
 
 document.addEventListener('keydown', function(event) {
     if (event.key == "q"){
@@ -27,18 +31,30 @@ document.addEventListener('keydown', function(event) {
     if (event.key == "d"){
         dDown = true;
     }
+    if (event.key == "o"){
+        oDown = true;
+    }
+    if (event.key == "p"){
+        pDown = true;
+    }
     if (event.key == "Enter"){
         enterDown = true;
     }
 
-    if(enterDown && qDown && wDown && eDown){
+    if(enterDown && oDown){
         // Activate keyboard walk
-        QWE = !QWE;
+        isWalk = !isWalk;
     }
 
-    if(enterDown && aDown && sDown && dDown){
-        // Activate mouse turn
-        ASD = !ASD;
+    if(enterDown && pDown){
+        // Activate first person
+        isFirstPerson = !isFirstPerson;
+        if(isFirstPerson){
+            camera.position.set( 0, 1.75, 0 );
+        }else{
+            camera.position.set( 0, 2, -5 );
+        }
+        
     }
 });
 
@@ -60,6 +76,12 @@ document.addEventListener('keyup', function(event) {
     }
     if (event.key == "d"){
         dDown = false;
+    }
+    if (event.key == "o"){
+        oDown = false;
+    }
+    if (event.key == "p"){
+        pDown = false;
     }
     if (event.key == "Enter"){
         enterDown = false;

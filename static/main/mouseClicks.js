@@ -7,6 +7,7 @@ import { quadMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redr
 import { drawBlock } from '../main/drawBlock.js';
 import { removeBlock } from '../main/removeBlock.js';
 import { peerConnections } from '../main/socketConnection.js';
+import { isFirstPerson } from '../main/QWEASD.js';
 
 
 
@@ -169,6 +170,9 @@ initToggleMouseOption();
 let scale = 0.5;
 // deadZone.onwheel = onWheel;
 function onWheel(event) {
+  if(isFirstPerson){
+    return null
+  }
     event.preventDefault();
     event.stopPropagation();
   if( event.deltaY < 0.0){
@@ -179,8 +183,8 @@ function onWheel(event) {
 
   // Apply scale transform
   camera.position.z += scale;
-  if (camera.position.z >= 0.5){
-    camera.position.z = 0.5;
+  if (camera.position.z >= -0.5){
+    camera.position.z = -0.5;
   }else if (camera.position.z <= -10){
     camera.position.z = -10;
   }
