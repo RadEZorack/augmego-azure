@@ -28,6 +28,25 @@
             <!-- <video autoplay class="local-video" id="local-video-2" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; left: 5px; z-index: 10;"></video> -->
             <video autoplay muted playsinline class="local-video" id="local-video-1" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; right: 5px; z-index: 10;"></video>
             <div id="ui" ref="ui">
+              <!-- WASD -->
+              <!-- <div
+                style="width: 25vw; height: 10vh; max-height: 20vh; max-width: 15vh; position: absolute; top: 70vh; left: 5vw; transform: translate(0, -50%); border: solid 3px black; z-index: 10;"
+              >
+                <table>
+                  <tbody>
+                    <tr>
+                      <td><button id="buttonQ" class="buttonQWEASD btn btn-warning">Q</button></td>
+                      <td><button id="buttonW" class="buttonQWEASD btn btn-warning">W</button></td>
+                      <td><button id="buttonE" class="buttonQWEASD btn btn-warning">E</button></td>
+                    </tr>
+                    <tr>
+                      <td><button id="buttonA" class="buttonQWEASD btn btn-warning">A</button></td>
+                      <td><button id="buttonS" class="buttonQWEASD btn btn-warning">S</button></td>
+                      <td><button id="buttonD" class="buttonQWEASD btn btn-warning">D</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> -->
               <!-- Rotation -->
               <div
                 id="rightJoystick"
@@ -277,6 +296,7 @@
          </script>
       <!-- Scripts -->
      <script src="{% static 'main/main.js' %}" type="module"></script>
+     <script src="{% static 'main/QWEASD.js' %}" type="module"></script>
      <script src="{% static 'main/controls.js' %}" type="module"></script>
      <script src="{% static 'main/shaders.js' %}" type="module"></script>
      <script src="{% static 'main/perlin.js' %}" type="module"></script>

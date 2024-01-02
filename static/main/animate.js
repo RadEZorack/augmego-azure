@@ -8,6 +8,7 @@ import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { gameObjects } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
 import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent } from '../main/controls.js';
+import { qDown, wDown, eDown, aDown, sDown, dDown, QWE } from '../main/QWEASD.js'
 
 
 const stepDistance = 0.01;
@@ -50,24 +51,55 @@ function animate() {
         euler.setFromQuaternion(playerWrapper.quaternion);
 
         euler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
-        euler.x += 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
+        if (QWE){
+            if(aDown){
+                euler.y += 0.0004 * delta * PI_2;
+            }
+            if(dDown){
+                euler.y -= 0.0004 * delta * PI_2;
+            }
+        }
 
+
+        euler.x += 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
         euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
 
         playerWrapper.quaternion.setFromEuler(euler);
 
         // Forward and backward
-        deltaZ =
+        deltaZ +=
             0.001 *
             delta *
             (Math.cos(euler.y) * Math.round(2*leftJoystickYPercent) +
             Math.sin(euler.y) * Math.round(2*leftJoystickXPercent));
+
         // // Left and Right
-        deltaX =
+        deltaX +=
             0.001 *
             delta *
             (Math.sin(euler.y) * Math.round(2*leftJoystickYPercent) -
             Math.cos(euler.y) * Math.round(2*leftJoystickXPercent));
+
+        if (QWE){
+            if(wDown){
+                deltaZ += 0.002 * delta * Math.cos(euler.y);
+                deltaX += 0.002 * delta * Math.sin(euler.y);
+            }
+            if(sDown){
+                deltaZ -= 0.002 * delta * Math.cos(euler.y);
+                deltaX -= 0.002 * delta * Math.sin(euler.y);
+            }
+            
+            if(qDown){
+                deltaZ -= 0.002 * delta * Math.sin(euler.y);
+                deltaX += 0.002 * delta * Math.cos(euler.y);
+            }
+            if(eDown){
+                deltaZ += 0.002 * delta * Math.sin(euler.y);
+                deltaX -= 0.002 * delta * Math.cos(euler.y);
+            }
+        }
+
         // Player Up and Down
         // deltaY = -0.001 * delta * Math.round(2*window.middleJoystickYPercent);
         // Player map zoom
