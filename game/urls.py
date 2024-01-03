@@ -7,5 +7,5 @@ app_name = 'game'
 
 urlpatterns = [
     path('webcam/', views.webcam, name='webcam'),
-    path('<str:room_name>/', views.room, name='room'),
+    # path('<str:room_name>/', views.room, name='room'),
 ]

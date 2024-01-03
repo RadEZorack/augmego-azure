@@ -22,29 +22,31 @@ def webcam(request):
         # 'node_url': settings.NODE_URL
     })
 
-def room(request, room_name):
-    if request.user.is_authenticated:
-        user_name = str(request.user)
-    elif request.GET.get("name"):
-        user_name = request.GET.get("name")
-    else:
-        # url = "https://randommer.io/api/Name?nameType=fullname&quantity=1"
-        # headers={'x-api-key':'27ef3ccaa3ec4af7b8c4ef0447ec3bb7'}
-        # resp = requests.get(url, headers=headers)
-        # user_name = json.loads(resp.content)[0]
-        # user_name = uuid.uuid4()
-        user_name = ""
+# def room(request, room_name):
+#     if request.user.is_authenticated:
+#         user_name = str(request.user)
+#     elif request.GET.get("name"):
+#         user_name = request.GET.get("name")
+#     else:
+#         # url = "https://randommer.io/api/Name?nameType=fullname&quantity=1"
+#         # headers={'x-api-key':'27ef3ccaa3ec4af7b8c4ef0447ec3bb7'}
+#         # resp = requests.get(url, headers=headers)
+#         # user_name = json.loads(resp.content)[0]
+#         # user_name = uuid.uuid4()
+#         user_name = ""
 
-    return render(request, 'game/headsUpDisplay.html', {
-        'room_name': room_name,
-        'user': request.user,
-        'user_name': user_name,
-        # 'node_url': settings.NODE_URL
-    })
+#     return render(request, 'game/headsUpDisplay.html', {
+#         'room_name': room_name,
+#         'user': request.user,
+#         'user_name': user_name,
+#         # 'node_url': settings.NODE_URL
+#     })
 
 # @csrf_exempt
 def main(request):
     if not request.user.is_authenticated:
         return redirect("account_login")
+    
+    user_name = str(request.user)
 
-    return render(request, 'game/main.html', {})
+    return render(request, 'game/main.html', {'user_name': user_name})

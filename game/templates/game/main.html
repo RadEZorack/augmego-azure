@@ -27,7 +27,9 @@
             </div>
             <!-- <video autoplay class="local-video" id="local-video-2" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; left: 5px; z-index: 10;"></video> -->
             <video autoplay muted playsinline class="local-video" id="local-video-1" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; right: 5px; z-index: 10;"></video>
+            
             <div id="ui" ref="ui">
+              <iframe id="globalChatIframe" title="Global Chat" style="display: none; position: absolute; top: 0; left: 0; width:100vw; height: 100vh; z-index: 9;"></iframe>
               <!-- WASD -->
               <!-- <div
                 style="width: 25vw; height: 10vh; max-height: 20vh; max-width: 15vh; position: absolute; top: 70vh; left: 5vw; transform: translate(0, -50%); border: solid 3px black; z-index: 10;"
@@ -258,7 +260,7 @@
             const cubeLoadURL = '{% url "cube:list" %}'
             const cubePostURL = '{% url "cube:post" %}'
             const textureLoadURL = '{% url "texture:list" %}'
-            let my_name = "Bob-"+Math.random().toString();
+            let my_name = "{{ user_name }}";
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
             const walkPng = "{% static 'images/walk.png' %}";
@@ -285,6 +287,7 @@
                // let toggleMouse = document.getElementsByClassName("toggleMouse");
                // toggleMouse.style.display = "block";
                $(".toggleMouse").css("display", "block")
+               $("#globalChatIframe").css("display", "block")
 
                stopAnimate = false;
             }
