@@ -2,15 +2,15 @@ import * as THREE from '../three/three.module.js';
 import { create3dPage } from '../main/webpage3d.js';
 
 // Example
-// create3dPage(
-//     1200,
-//     1200,
-//     0.004,
-//     new THREE.Vector3(3.5, 1.5, 5),
-//     new THREE.Vector3(0, Math.PI, 0),
-//     "https://courseware.cemc.uwaterloo.ca/",
-//     ""
-//   )
+create3dPage(
+    1200,
+    1200,
+    0.004,
+    new THREE.Vector3(3.5, 1.5, 5),
+    new THREE.Vector3(0, Math.PI, 0),
+    "https://courseware.cemc.uwaterloo.ca/",
+    ""
+  )
 
 $.ajax({
     url: webPageLoadURL,
