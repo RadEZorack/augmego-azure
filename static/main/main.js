@@ -1,11 +1,14 @@
 import * as THREE from '../three/three.module.js';
 
 export const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+export const mapCamera = new THREE.OrthographicCamera( -25, 25, 25, -25, 10, 1000 );
+
 
 export const allCameras = {};
 export let activeCameraName = "third person player";
 export function modifyActiveCameraName( value ) { activeCameraName = value; };
 allCameras["third person player"] = camera;
+allCameras["mapCamera"] = mapCamera;
 
 export const scene = new THREE.Scene();
 export const objectScene = new THREE.Scene();
@@ -42,6 +45,16 @@ console.log("Creating renderer");
   renderer.domElement.style.zIndex = 2;
   renderer.domElement.style.pointerEvents = 'none';
 
+  export const rendererMap = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+  // renderer.shadowMap.enabled = true;
+  rendererMap.setPixelRatio(window.devicePixelRatio);
+  rendererMap.setSize(window.innerWidth/5, window.innerWidth/5);
+  rendererMap.domElement.style.position = 'absolute';
+  rendererMap.domElement.style.top = 0;
+  rendererMap.domElement.style.right = 0;
+  rendererMap.domElement.style.zIndex = 3;
+  rendererMap.domElement.style.pointerEvents = 'none';
+
   // Not used
   // export const rendererColor = new THREE.WebGLRenderer({ antialias: false, alpha: true });
   // rendererColor.setPixelRatio(window.devicePixelRatio);
@@ -61,6 +74,7 @@ console.log("Creating renderer");
   // threeJSContainer.appendChild(rendererColor.domElement);
   export const mainCanvas = threeJSContainer.appendChild(renderer.domElement);
   export const backgroundCanvas = threeJSContainer.appendChild(rendererBackground.domElement);
+  export const mapCanvas = threeJSContainer.appendChild(rendererMap.domElement);
 
 camera.position.set( 0, 2, -5 );
 

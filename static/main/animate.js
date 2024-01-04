@@ -1,6 +1,6 @@
 import * as THREE from '../three/three.module.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
-import { scene, objectScene, cssScene, camera, allCameras, activeCameraName, renderer, rendererBackground, threeJSContainer, backgroundCanvas } from '../main/main.js';
+import { scene, objectScene, cssScene, camera, allCameras, activeCameraName, renderer, rendererBackground, rendererMap, threeJSContainer, backgroundCanvas } from '../main/main.js';
 import { create3dPage, cssRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { myPlayerTargetPosition } from '../main/mouseClicks.js';
@@ -114,7 +114,10 @@ function animate() {
         // window.playerXZHigh[1] -= deltaZ; // / size_of_pixel
         playerWrapper.position.z += deltaZ;
 
-
+        allCameras["mapCamera"].position.x = playerWrapper.position.x + 25;
+        allCameras["mapCamera"].position.y = Math.max(50, playerWrapper.position.y);
+        allCameras["mapCamera"].position.z = playerWrapper.position.z - 25;
+        allCameras["mapCamera"].lookAt(playerWrapper.position)
 
         // Am I in a block
         // Check feet and head
@@ -178,6 +181,9 @@ function animate() {
 
     rendererBackground.setRenderTarget(null);
     rendererBackground.render(objectScene, activeCamera);
+
+    rendererMap.setRenderTarget(null);
+    rendererMap.render(scene, allCameras["mapCamera"]);
 
     const clockDelta = clock.getDelta()
 
