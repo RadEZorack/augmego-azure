@@ -223,7 +223,7 @@ function onMouseDown(event) {
   }else if (event.which == 3) {
     // Right mouse button moves player.
       // onMouseDownPlayerMove(event);
-      onMouseDownMoveScreen(event);
+      // onMouseDownMoveScreen(event);
   }
 }
 
