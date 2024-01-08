@@ -54,6 +54,7 @@ console.log("Creating renderer");
   rendererMap.domElement.style.right = 0;
   rendererMap.domElement.style.zIndex = 3;
   rendererMap.domElement.style.pointerEvents = 'none';
+  rendererMap.domElement.id = "rendererMap";
 
   // Not used
   // export const rendererColor = new THREE.WebGLRenderer({ antialias: false, alpha: true });

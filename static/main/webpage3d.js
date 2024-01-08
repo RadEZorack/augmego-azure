@@ -1,5 +1,5 @@
 import * as THREE from '../three/three.module.js';
-import { objectScene, cssScene } from '../main/main.js';
+import { objectScene, cssScene, rendererMap } from '../main/main.js';
 import { playerWrapper } from '../main/player.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { allCameras, modifyActiveCameraName } from '../main/main.js';
@@ -124,9 +124,13 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
         if (active){
           modifyActiveCameraName("third person player");
           $(`#expandButton-${timeuuid}`).html("EXPAND THIS PAGE");
+          rendererMap.domElement.style.display = "block";
+          $("#globalChatIframe").css("display", "block")
         }else{
           modifyActiveCameraName(timeuuid);
           $(`#expandButton-${timeuuid}`).html("RETURN TO PLAYER VIEW");
+          rendererMap.domElement.style.display = "none";
+          $("#globalChatIframe").css("display", "none")
         }
         active = !active
       })
