@@ -25,63 +25,45 @@ def list_cubes(request):
     y_range = (rg.get('min_y'), rg.get('max_y'))
     z_range = (rg.get('min_z'), rg.get('max_z'))
 
-    # t0 = time.time()
-
-    # cubes_count = Cube.objects.filter(
-    #     x__range=x_range,
-    #     y__range=y_range,
-    #     z__range=z_range
-    # ).count()
-
-    # t1 = time.time()
-    # print("------")
-    # print(t1-t0)
+    cubes_count = Cube.objects.filter(
+        x__range=x_range,
+        y__range=y_range,
+        z__range=z_range
+    ).count()
 
     cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range)
-    # cache_keys = cache.get(cache_master_key)
+    cache_keys = cache.get(cache_master_key, [])
     
-    # t2 = time.time()
-    # print(t2-t1)
     
-    # if not cache_keys:
-    #     cache_keys = []
-    #     for x in range(int(x_range[0]), int(x_range[1])):
-    #         for y in range(int(y_range[0]), int(y_range[1])):
-    #                 for z in range(int(z_range[0]), int(z_range[1])):
-    #                     cache_keys.append("cube:{x}:{y}:{z}".format(x=x,y=y,z=z))
+    if not cache_keys:
+        for x in range(int(x_range[0]), int(x_range[1])):
+            for y in range(int(y_range[0]), int(y_range[1])):
+                    for z in range(int(z_range[0]), int(z_range[1])):
+                        cache_keys.append("cube:{x}:{y}:{z}".format(x=x,y=y,z=z))
         
-    #     cache_value = cache.get_many(cache_keys)
-    #     cache.set(cache_master_key, list(cache_value.keys()), 60*60*24*30) # one month cache
-    # else:
-    #     print(cache_keys)
-    #     cache_value = cache.get_many(cache_keys)
-    #     print(cache_value)
+        cache_value = cache.get_many(cache_keys)
+        cache.set(cache_master_key, list(cache_value.keys()), 60*60*24*30) # one month cache
+    else:
+        cache_value = cache.get_many(cache_keys)
 
-    # t3 = time.time()
-    # print(t3-t2)
 
-    # if cache_keys and len(cache_value) == cubes_count:
-    #     t4 = time.time()
-    #     print(t4-t3)
-    #     print("returning cache")
-    #     return HttpResponse(json.dumps(cache_value), content_type='application/json')
+    if cache_keys and len(cache_value) == cubes_count:
+        return HttpResponse(json.dumps(cache_value), content_type='application/json')
 
-    cubes_within_range = cache.get(cache_master_key)
-
-    if not cubes_within_range:
-        # Query using the ORM
-        cubes_within_range = Cube.objects.filter(
-            x__range=x_range,
-            y__range=y_range,
-            z__range=z_range
-        )
-        cache.set(cache_master_key, list(cubes_within_range), 60*60*24*30)
+    
+    # Query using the ORM
+    cubes_within_range = Cube.objects.filter(
+        x__range=x_range,
+        y__range=y_range,
+        z__range=z_range
+    )
+    cache.set(cache_master_key, list(cubes_within_range), 60*60*24*30)
     
     serializer = CubeSerializer(cubes_within_range, many=True, context={"request":request})
 
-    # cache_data = {"cube:{x}:{y}:{z}".format(x=data["x"],y=data["y"],z=data["z"]):data for data in serializer.data}
-    # # print(cache_data)
-    # cache.set_many(cache_data, 60*60*24*30) # one month cache
+    cache_data = {"cube:{x}:{y}:{z}".format(x=data["x"],y=data["y"],z=data["z"]):data for data in serializer.data}
+
+    cache.set_many(cache_data, 60*60*24*30) # one month cache
 
     data = json.dumps(serializer.data)
     return HttpResponse(data, content_type='application/json')
@@ -101,5 +83,17 @@ def post_cube(request):
             cube.save()
 
         serializer = CubeSerializer(cube, many=False, context={"request":request})
+
+        # These values are hard coded for now, wait for chunking
+        x_range = (-100, 100)
+        y_range = (-100, 100)
+        z_range = (-100, 100)
+
+        cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range)
+        current_cubes = cache.get(cache_master_key)
+        current_cubes += "cube:{x}:{y}:{z}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"])
+        
+        cache.set(cache_master_key, list(current_cubes), 60*60*24*30) # one month cache
+
 
         return HttpResponse(json.dumps(serializer.data), content_type='application/json')
