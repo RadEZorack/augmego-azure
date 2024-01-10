@@ -134,11 +134,12 @@ CHANNEL_LAYERS = {
 }
 
 CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://:"+os.environ.get('REDIS_PASSWORD', '')+"@"+os.environ.get('REDIS_HOST', '127.0.0.1')+":"+os.environ.get('REDIS_PORT', "6379")+"/1",
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': os.environ.get('MEMCACHED_HOST', '127.0.0.1')+':'+os.environ.get('MEMCACHED_PORT', '11211'),
     }
 }
+
 
 
 # Database
