@@ -140,8 +140,8 @@ CACHES = {
     }
 }
 
-CELERY_BROKER_URL = "redis://:"+os.environ.get('REDIS_PASSWORD', '')+"@"+os.environ.get('REDIS_HOST', '127.0.0.1')+":6379/2"
-CELERY_RESULT_BACKEND = "redis://:"+os.environ.get('REDIS_PASSWORD', '')+"@"+os.environ.get('REDIS_HOST', '127.0.0.1')+":6379/2"
+CELERY_BROKER = "redis://:"+os.environ.get('REDIS_PASSWORD', '')+"@"+os.environ.get('REDIS_HOST', '127.0.0.1')+":6379/2"
+CELERY_BACKEND = "redis://:"+os.environ.get('REDIS_PASSWORD', '')+"@"+os.environ.get('REDIS_HOST', '127.0.0.1')+":6379/2"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

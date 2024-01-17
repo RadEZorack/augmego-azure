@@ -35,6 +35,15 @@ services:
     ports:
       - "8000:8000"
 
+  augmego-celery_worker:
+    build: .
+    command: celery -A quickstartproject worker -l INFO
+    volumes:
+      - .:/code
+    depends_on:
+      - augmego-redis
+      - augmego-postgres
+
   augmego-nginx:
     image: nginx:latest
     ports:

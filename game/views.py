@@ -7,6 +7,7 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.csrf import csrf_exempt
 
 from quickstartproject import settings
+from quickstartproject.tasks import add
 
 @xframe_options_sameorigin
 def webcam(request):
