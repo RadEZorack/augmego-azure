@@ -63,7 +63,7 @@ class ArtificalIntelligence(object):
     def start_me(self):
         print("starting")
         loop = asyncio.get_event_loop()
-        self.media_player = MediaPlayer("/django/ai/assets/conan_best_in_life.wav")
+        # self.media_player = MediaPlayer("/code/static/video/conan_best_in_life.wav")
         try:
             asyncio.ensure_future(self.connect_to_websocket())
             asyncio.ensure_future(self.listen_to_websocket())
@@ -77,6 +77,16 @@ class ArtificalIntelligence(object):
         finally:
             print("closing loop")
             loop.close()
+        
+    # async def start_me(self):
+    #     print("starting")
+    #     self.media_player = MediaPlayer("/code/static/video/conan_best_in_life.wav")
+    #     await self.connect_to_websocket()
+    #     await self.listen_to_websocket()
+    #     await self.broadcast_to_websocket()
+    #     await self.broadcast_to_webrtc()
+    #     self.start_time = timezone.now()
+    #     self.current_time = timezone.now()
 
     # def create_video(self):
     #     original_image = Image.open("/django/ai/assets/person.jpg")
@@ -86,7 +96,8 @@ class ArtificalIntelligence(object):
     #     image.save("/django/ai/assets/person.jpg")
 
     async def connect_to_websocket(self):
-        uri = "wss://369de4cfa06e-7199118840071997290.ngrok-free.app/ws/game/lobby/"
+        # uri = "wss://localhost/ws/game/lobby/"
+        uri = "wss://augmego-nginx/ws/game/lobby/"
         async with websockets.connect(uri) as websocket:
             self.ws = websocket
             while True:
@@ -540,13 +551,13 @@ class FlagAudioStreamTrack(AudioStreamTrack):
         print("writing audio")
 
         # The response's audio_content is binary.
-        with open("/django/ai/assets/output.mp3", "wb") as out:
+        with open("/ai/assets/output.mp3", "wb") as out:
             out.write(response.audio_content)
             print('Audio content written to file "number.mp3"')
 
         self.frames = []
         self.counter = 0
-        sound = AudioSegment.from_file("/django/ai/assets/output.mp3")
+        sound = AudioSegment.from_file("/ai/assets/output.mp3")
         channel_sounds = sound.split_to_mono()
         channel_samples = [s.get_array_of_samples() for s in channel_sounds]
         new_samples: numpy.ndarray = numpy.array(channel_samples)

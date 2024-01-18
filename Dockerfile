@@ -64,17 +64,18 @@ RUN pip3 install -r requirements.txt
 
 WORKDIR /code/
 COPY . /code/
+
+# This is for MAC OS
+ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+
 RUN mkdir -p /code/quickstartproject/collectedstaticfiles \
     && chown -R 1000 /code/quickstartproject/collectedstaticfiles \
     && python3 manage.py collectstatic --noinput
 
-# TODO: make this work
-# RUN mkdir -p /code/venv/bin/quickstartproject/collectedstaticfiles \
-#     && chown -R 1000 /code/venv/bin/quickstartproject/collectedstaticfiles \
-#     && /code/venv/bin/python3 manage.py collectstatic --noinput
+COPY /certs/ /usr/local/share/ca-certificates/
+RUN update-ca-certificates
 
-# What do we need this for.
-# ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+
 
 # EXPOSE 80
 # CMD ["/code/venv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]

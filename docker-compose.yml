@@ -24,7 +24,7 @@ services:
     expose:
       - "5432"
 
-  augmego-django:
+  augmego-django: &AUGMEGO-DJANGO
     build: .
     command: python3 manage.py runserver 0.0.0.0:8000
     environment:
@@ -35,14 +35,24 @@ services:
     ports:
       - "8000:8000"
 
-  augmego-celery_worker:
-    build: .
-    command: celery -A quickstartproject worker -l INFO
-    volumes:
-      - .:/code
-    depends_on:
-      - augmego-redis
-      - augmego-postgres
+  augmego-django-ai:
+    # Copy keys from augmego-django (above)
+    << : *AUGMEGO-DJANGO
+    container_name: augmego-django-ai
+    ports: []
+    command: sh loopit.sh python3 manage.py create_ai
+
+  # augmego-celery-worker:
+  #   build: .
+  #   command: celery -A quickstartproject worker -l INFO
+  #   environment:
+  #     REDIS_HOST: augmego-redis
+  #     MEMCACHED_HOST: augmego-memcached
+  #   volumes:
+  #     - .:/code
+  #   depends_on:
+  #     - augmego-redis
+  #     - augmego-postgres
 
   augmego-nginx:
     image: nginx:latest

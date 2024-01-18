@@ -37,6 +37,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             },
         )
 
+
     async def disconnect(self, close_code):
         # Leave room group
         print('disconnected')

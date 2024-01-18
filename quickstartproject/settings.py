@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.microsoft',
 
     'quickstartproject',
+    'ai',
     'chat',
     'game',
     'payment',
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
     'texture',
 
     'channels',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -165,6 +167,8 @@ else:
         }
     }
 
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

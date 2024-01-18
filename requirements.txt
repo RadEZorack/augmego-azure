@@ -15,3 +15,5 @@ celery[redis]
 aiortc
 opencv-python
 pydub
+websockets
+django-celery-results
