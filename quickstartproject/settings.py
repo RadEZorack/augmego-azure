@@ -32,13 +32,13 @@ DEBUG = True
 import socket
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',"localhost augmego-django augmego.ngrok.io 369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',"localhost augmego-django augmego-django-ai augmego-nginx augmego.ngrok.io kubernetes.docker.internal 369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
 ALLOWED_HOSTS += [ip_address,]
 ALLOWED_HOSTS += [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS',"https://localhost https://augmego-django https://augmego.ngrok.io https://369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS',"https://localhost https://augmego-django https://augmego-django-ai http://augmego-django-ai https://augmego-nginx https://augmego.ngrok.io https://kubernetes.docker.internal http://kubernetes.docker.internal https://369de4cfa06e-7199118840071997290.ngrok-free.app http://369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
 CSRF_TRUSTED_ORIGINS += ["http://"+ip_address,"https://"+ip_address]
 
 # Application definition

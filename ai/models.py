@@ -1,17 +1,20 @@
 import asyncio
 import json
 import websockets
+import requests
 import random
 import math
 import os
 import fractions
 from typing import Tuple
+import ssl
 
 import cv2
 import numpy
 from av import VideoFrame, AudioFrame
 from av.frame import Frame
 from pydub import AudioSegment
+from bs4 import BeautifulSoup
 
 AUDIO_PTIME = 0.020  # 20ms audio packetization
 VIDEO_CLOCK_RATE = 90000
@@ -94,14 +97,58 @@ class ArtificalIntelligence(object):
     #     resized_image = ImageOps.fit(original_image, size, Image.ANTIALIAS)
     #     image = resized_image.convert('RGB')
     #     image.save("/django/ai/assets/person.jpg")
+            
+            # uri = "wss://localhost/ws/game/lobby/"
+        # uri = "wss://augmego-nginx/ws/game/lobby/"
 
     async def connect_to_websocket(self):
-        # uri = "wss://localhost/ws/game/lobby/"
-        uri = "wss://augmego-nginx/ws/game/lobby/"
-        async with websockets.connect(uri) as websocket:
-            self.ws = websocket
-            while True:
-                await asyncio.sleep(1)
+        # Step 1: Perform login via HTTP request to obtain session ID or token
+        login_url = "https://369de4cfa06e-7199118840071997290.ngrok-free.app/accounts/login/"
+        with requests.Session() as session:
+            response = session.get(login_url, verify=False)
+
+            # # Parse the HTML content of the page
+            soup = BeautifulSoup(response.text, 'html.parser')
+
+            # # Find the CSRF token value
+            csrf_input = soup.find('input', dict(name='csrfmiddlewaretoken'))
+
+            if csrf_input and 'value' in csrf_input.attrs:
+                csrf_token = csrf_input['value']
+                # Proceed with login using CSRF token
+            else:
+                print("CSRF token not found. Check the URL and the page content.")
+                # Handle the case where the CSRF token is not found
+                print(response.url)
+                print(response.text, flush=True)
+                raise
+
+            # Now you can use this CSRF token for a POST request
+            login_data = {
+                'csrfmiddlewaretoken': csrf_token,
+                'login': '',
+                'password': ''
+            }
+
+            print(login_data, flush=True)
+
+            # Perform the login POST request
+            post_response = session.post(login_url, data=login_data)
+            print(post_response.text, flush=True)
+            print(session.cookies.get_dict(), flush=True)
+
+            # Step 2: Use the session ID in WebSocket connection
+            # For session-based auth, the session cookie is automatically included
+            # Create an SSL context that does not verify the certificate
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+
+            uri = "wss://369de4cfa06e-7199118840071997290.ngrok-free.app/ws/game/lobby/"
+            async with websockets.connect(uri, extra_headers=session.cookies.get_dict(), ssl=ssl_context) as websocket:
+                self.ws = websocket
+                while True:
+                    await asyncio.sleep(1)
 
     async def listen_to_websocket(self):
         while True:

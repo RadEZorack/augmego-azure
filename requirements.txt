@@ -17,3 +17,4 @@ opencv-python
 pydub
 websockets
 django-celery-results
+beautifulsoup4
