@@ -39,7 +39,8 @@ services:
     # Copy keys from augmego-django (above)
     << : *AUGMEGO-DJANGO
     container_name: augmego-django-ai
-    ports: []
+    ports:
+      - "3000:3000"
     command: sh loopit.sh python3 manage.py create_ai
     depends_on:
       - augmego-django
@@ -74,8 +75,20 @@ services:
       NGROK_PORT: "8000"
       NGROK_DEBUG: "true"
       NGROK_AUTH: "1m9OJapnAWad5yE5CxK8Woo9gkU_62VCktHhMGu3D1ycmM2aH"
-      NGROK_HOSTNAME: "369de4cfa06e-7199118840071997290.ngrok-free.app"
+      NGROK_HOSTNAME: "augmego.ngrok.app"
       NGROK_LOOK_DOMAIN: "kubernetes.docker.internal"
     depends_on:
       - augmego-django
+
+  augmego-ngrok-ai:
+    container_name: augmego-ngrok-ai
+    image: wernight/ngrok
+    environment:
+      NGROK_PORT: "3000"
+      NGROK_DEBUG: "true"
+      NGROK_AUTH: "1m9OJapnAWad5yE5CxK8Woo9gkU_62VCktHhMGu3D1ycmM2aH"
+      NGROK_HOSTNAME: "augmego.ngrok.io"
+      NGROK_LOOK_DOMAIN: "kubernetes.docker.internal"
+    depends_on:
+      - augmego-django-ai
     

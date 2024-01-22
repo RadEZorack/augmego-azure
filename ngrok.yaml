@@ -1,0 +1,45 @@
+# ngrok start --all --config=./ngrok.yaml
+
+# ngrok auth config
+authtoken: 1nnVfVdjyiiAoXpJiAGA97yi0aL_2srw9FopRn7youCeMW4n6
+
+tunnels:
+  trixelme:
+    proto: http
+    hostname: augmego.ngrok.io
+    addr: 127.0.0.1:8000
+
+    # -------------------------
+    # Additional options
+    # -------------------------
+    # auth: "username:password"
+    # host_header: rewrite
+    # inspect: true
+    # bind_tls: true
+
+  trixelme-engine:
+    proto: http
+    hostname: trixelme-engine.ngrok.io
+    addr: 127.0.0.1:3000
+
+    # -------------------------
+    # Additional options
+    # -------------------------
+    # auth: "username:password"
+    # host_header: rewrite
+    # inspect: true
+    # bind_tls: true
+
+  trixelme-ai:
+    proto: http
+    hostname: trixelme-ai.ngrok.io
+    addr: 127.0.0.1:3001
+
+    # -------------------------
+    # Additional options
+    # -------------------------
+    # auth: "username:password"
+    # host_header: rewrite
+    # inspect: true
+    # bind_tls: true
+
