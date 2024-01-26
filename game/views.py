@@ -44,9 +44,10 @@ def webcam(request):
 
 # @csrf_exempt
 def main(request):
-    if not request.user.is_authenticated:
-        return redirect("account_login")
+    # if not request.user.is_authenticated:
+    #     return redirect("account_login")
     
-    user_name = str(request.user)
+    # user_name = str(request.user)
+    user_name = uuid.uuid4()
 
     return render(request, 'game/main.html', {'user_name': user_name})
