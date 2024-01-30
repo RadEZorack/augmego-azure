@@ -2,10 +2,34 @@ import json
 import uuid
 
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+
+from monitor.models import UserLogin
+from monitor.utils import hash_ip
 
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('---connected---')
+
+        print(self.scope['headers'])
+
+        # Convert headers to a dictionary
+        headers = dict((key.decode(), value.decode()) for key, value in self.scope['headers'])
+
+        # Get client IP from 'X-Forwarded-For' header or 'client' in scope
+        x_forwarded_for = headers.get('x-forwarded-for')
+
+        if x_forwarded_for:
+            ip_address = x_forwarded_for.decode().split(',')[0].strip()
+        else:
+            # Fallback to the IP address provided in 'client'
+            ip_address, _ = self.scope['client']
+
+        hashed_ip = hash_ip(ip_address)
+
+        # You can now use ip_address for your logic
+        # Call the synchronous method in an async way
+        self.user_login = await self.create_user_login(hashed_ip)
 
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'room_%s' % self.room_name
@@ -37,6 +61,10 @@ class GameConsumer(AsyncWebsocketConsumer):
             },
         )
 
+    @database_sync_to_async
+    def create_user_login(self, hashed_ip):
+        return UserLogin.objects.create(hashed_ip=hashed_ip)
+    
     async def disconnect(self, close_code):
         # Leave room group
         print('disconnected')
@@ -55,6 +83,13 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+        # Update time stamp
+        self.user_login = await self.update_user_login()
+
+    @database_sync_to_async
+    def update_user_login(self):
+        return self.user_login.save()
 
     # Receive message from WebSocket
     async def receive(self, text_data):

@@ -8,11 +8,11 @@ services:
     ports:
       - "6379:6379"
     
-  augmego-memcached:
-    container_name: augmego-memcached
-    image: memcached:latest
-    ports:
-      - "11211:11211"
+  # augmego-memcached:
+  #   container_name: augmego-memcached
+  #   image: memcached:latest
+  #   ports:
+  #     - "11211:11211"
 
   augmego-postgres:
     container_name: augmego-postgres

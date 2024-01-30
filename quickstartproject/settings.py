@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'webpage',
     'cube',
     'texture',
+    'monitor',
 
     'channels',
 ]

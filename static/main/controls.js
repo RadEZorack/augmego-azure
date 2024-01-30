@@ -35,10 +35,6 @@ export let middle2JoystickYPercent = 0;
 export let middleItemTouch = undefined;
 
 export function updateJoystickSymbols() {
-  
-  // leftJoystick = document.getElementById("leftJoystick");
-  leftJoystickBoundingBox = leftJoystick.getBoundingClientRect();
-  console.log(leftJoystickBoundingBox.top);
   let leftJoystickSymbolTop =
     leftJoystickBoundingBox.top +
     leftJoystickBoundingBox.height / 2 -
