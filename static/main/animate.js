@@ -61,7 +61,7 @@ function animate() {
         }
 
 
-        euler.x += 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
+        euler.x -= 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
         euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
 
         playerWrapper.quaternion.setFromEuler(euler);
