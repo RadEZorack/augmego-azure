@@ -19,7 +19,9 @@ class GameConsumer(AsyncWebsocketConsumer):
         # Get client IP from 'X-Forwarded-For' header or 'client' in scope
         x_forwarded_for = headers.get('x-forwarded-for')
 
-        if x_forwarded_for:
+        if x_forwarded_for and type(x_forwarded_for) == str:
+            ip_address = x_forwarded_for.split(',')[0].strip()
+        elif x_forwarded_for:
             ip_address = x_forwarded_for.decode().split(',')[0].strip()
         else:
             # Fallback to the IP address provided in 'client'
