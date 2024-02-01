@@ -11,27 +11,8 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('---connected---')
 
-        print(self.scope['headers'])
-
-        # Convert headers to a dictionary
-        headers = dict((key.decode(), value.decode()) for key, value in self.scope['headers'])
-
-        # Get client IP from 'X-Forwarded-For' header or 'client' in scope
-        x_forwarded_for = headers.get('x-forwarded-for')
-
-        if x_forwarded_for and type(x_forwarded_for) == str:
-            ip_address = x_forwarded_for.split(',')[0].strip()
-        elif x_forwarded_for:
-            ip_address = x_forwarded_for.decode().split(',')[0].strip()
-        else:
-            # Fallback to the IP address provided in 'client'
-            ip_address, _ = self.scope['client']
-
-        hashed_ip = hash_ip(ip_address)
-
-        # You can now use ip_address for your logic
         # Call the synchronous method in an async way
-        self.user_login = await self.create_user_login(hashed_ip)
+        self.user_login = await self.create_user_login(self.scope['user'])
 
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'room_%s' % self.room_name
@@ -64,8 +45,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         )
 
     @database_sync_to_async
-    def create_user_login(self, hashed_ip):
-        return UserLogin.objects.create(hashed_ip=hashed_ip)
+    def create_user_login(self, user):
+        return UserLogin.objects.create(user=user)
     
     async def disconnect(self, close_code):
         # Leave room group
