@@ -37,7 +37,9 @@ jobs:
       #   run: sudo chown -R $USER:$USER /var/www/augmego.com
 
       - name: CollectStatic
-        run: sudo python manage.py collectstatic --noinput
+        run: |
+          source venv/bin/activate
+          sudo python manage.py collectstatic --noinput
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
