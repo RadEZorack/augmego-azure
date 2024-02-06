@@ -30,11 +30,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Set permissions for manage.py
-        run: chmod +x manage.py
+      # - name: Set permissions for manage.py
+      #   run: chmod +x manage.py
+
+      # - name: Adjust permissions
+      #   run: sudo chown -R $USER:$USER /var/www/augmego.com
 
       - name: CollectStatic
-        run: python manage.py collectstatic --noinput
+        run: sudo python manage.py collectstatic --noinput
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
