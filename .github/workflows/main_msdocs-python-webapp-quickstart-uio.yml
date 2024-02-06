@@ -34,7 +34,9 @@ jobs:
         run: chmod +x manage.py
 
       - name: Adjust permissions
-        run: sudo chown -R ${{ github.actor }} /var/www/augmego.com
+        run: |
+          getent passwd
+          sudo chown -R ${{ github.actor }} /var/www/augmego.com
 
       - name: CollectStatic
         run: python manage.py collectstatic --noinput
