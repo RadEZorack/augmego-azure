@@ -27,7 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY','1234567890')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+# Make sure the environment variable DJANGO_DEBUG is set to 'False' in your production environment. Note that environment variables are strings,
+# so the comparison is case-sensitive and should exactly match how you check it in your code.
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 import socket
 hostname = socket.gethostname()
