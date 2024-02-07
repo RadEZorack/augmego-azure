@@ -51,3 +51,7 @@ def main(request):
     # user_name = uuid.uuid4()
 
     return render(request, 'game/main.html', {'user_name': user_name})
+
+@xframe_options_sameorigin
+def ad(request):
+    return render(request, 'ad.html', {})

@@ -19,10 +19,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 
-from game.views import main
+from game.views import main, ad
 
 urlpatterns = [
     path('', main, name='main'),
+    path('ad/', ad, name='ad'),
     path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),
     path("webpage/", include("webpage.urls")),
