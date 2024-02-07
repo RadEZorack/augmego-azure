@@ -79,6 +79,7 @@ function createPlane(w, h, s, position, rotation) {
 function createCssObject(w, h, s, position, rotation, url, html, image) {
   // w *= 100
   // h *= 100
+  const div = document.createElement("div");
   const timeuuid = String(Date.now())
   if (url) {
     html =
@@ -96,14 +97,6 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
       '" allow="autoplay"' +
       // 'onload="disabledIframeClicks(this)">' +
       "</iframe>";
-  }
-  html = [
-    '<div class="css3ddiv" style="width:' + w + "px; height:" + h + 'px; border: 5px solid black;">',
-    html,
-    "</div>"
-  ].join("\n");
-
-  const div = document.createElement("div");
 
     const divImage = document.createElement("div");
     divImage.style.pointerEvents = "auto";
@@ -137,9 +130,23 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
     }
 
     // Because player web cams break at a distance, we just always load.
-    loadPage();
+    // loadPage();
 
-    // $(divImage).on( "click", loadPage)
+    $(divImage).on( "click", loadPage)
+
+  }else{
+    html = [
+      '<div class="css3ddiv" style="width:' + w + "px; height:" + h + 'px; border: 5px solid black;">',
+      html,
+      "</div>"
+    ].join("\n");
+    $(div).html(html);
+  }
+  
+
+  
+
+    
 
     // function playerLoadProximity(){
     //   const player_load_proximity_xhr = setTimeout(function(){
