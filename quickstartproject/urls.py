@@ -20,9 +20,11 @@ from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 
 from game.views import main, ad
+from person.views import nosignup
 
 urlpatterns = [
     path('', main, name='main'),
+    path("nosignup", nosignup, name="nosignup"),
     path('ad/', ad, name='ad'),
     path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),

@@ -55,3 +55,4 @@ def main(request):
 @xframe_options_sameorigin
 def ad(request):
     return render(request, 'ad.html', {})
+

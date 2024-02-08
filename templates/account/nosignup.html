@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+</br>
+<form method="post">
+    {% csrf_token %}
+    <p>Enter your temporary code or use the one provided. Consider this code sensitive information like you would a password. Copy to it down for future use.</p>
+    {{ form.as_p }}
+    <button class="btn btn-success" type="submit">Continue</button>
+</form>
+{% endblock %}

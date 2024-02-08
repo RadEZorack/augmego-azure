@@ -13,10 +13,13 @@ class Person(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
+    code = models.UUIDField(unique=True, null=True)
     # image = models.ImageField(upload_to="media/person-image/")
 
-    # def __str__(self) -> str:
-    #     return self.name
+    def __str__(self) -> str:
+        if self.user:
+            return str(self.user)
+        return str(self.code)
 
 # Signal to create or update the user profile
 @receiver(post_save, sender=User)
