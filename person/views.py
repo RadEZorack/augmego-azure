@@ -33,7 +33,7 @@ def nosignup(request):
                     code=code
                 )
             except Person.DoesNotExist:
-                user = User.objects.create_user(str(code), str(uuid.uuid4)+'@example.com', str(uuid.uuid4))
+                user = User.objects.create_user(str(code), str(uuid.uuid4())+'@example.com', str(uuid.uuid4()))
                 person = user.person
                 person.code = code
                 person.save()
