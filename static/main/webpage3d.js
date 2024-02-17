@@ -134,6 +134,27 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
 
     $(divImage).on( "click", loadPage)
 
+    function playerLoadProximity(){
+      const player_load_proximity_xhr = setTimeout(function(){
+        if (playerWrapper != undefined){
+          const distance = Math.sqrt(
+            Math.pow(position.x - playerWrapper.position.x, 2) +
+            Math.pow(position.y - playerWrapper.position.y, 2) +
+            Math.pow(position.z - playerWrapper.position.z, 2)
+          )
+
+          if (distance < 5) {
+            // This number should be more dynamic and based on the scale of the web page.
+            loadPage();
+            return;
+          }
+        }
+        playerLoadProximity();
+      }, 500)
+    }
+    
+    playerLoadProximity()
+
   }else{
     html = [
       '<div class="css3ddiv" style="width:' + w + "px; height:" + h + 'px; border: 5px solid black;">',
@@ -148,29 +169,7 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
 
     
 
-    // function playerLoadProximity(){
-    //   const player_load_proximity_xhr = setTimeout(function(){
-    //     if (playerWrapper == undefined){
-    //       playerLoadProximity();
-    //       return;
-    //     }
-
-    //     const distance = Math.sqrt(
-    //       Math.pow(position.x - playerWrapper.position.x, 2) +
-    //       Math.pow(position.y - playerWrapper.position.y, 2) +
-    //       Math.pow(position.z - playerWrapper.position.z, 2)
-    //     )
-
-    //     if (distance < 25) {
-    //       // This number should be more dynamic and based on the scale of the web page.
-    //       loadPage();
-    //     }else{
-    //       playerLoadProximity();
-    //     }
-    //   }, 500)
-    // }
     
-    // playerLoadProximity()
   
 
   const cssObject = new CSS3DObject(div);

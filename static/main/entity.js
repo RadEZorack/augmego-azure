@@ -56,8 +56,7 @@ export function update_entity(entity_data){
 
         let webcamHtml = `
             <div class="video-container" style="width: 100px; height: 100px; background-color: black;">
-                <div style="position: absolute; top: 5px; left: 50%; transform: translate(-50%, 0);">${name}</div>
-                <video autoplay class="remote-video" id="remote-video-${entityUuid}" style="max-width: 100%; max-height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></video>
+                <video autoplay="allow" class="remote-video" id="remote-video-${entityUuid}" style="max-width: 100%; max-height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></video>
             </div>
         `
 
@@ -216,18 +215,20 @@ export function update_entity(entity_data){
 
         // Reduce video sound based on distance.
         const entityUuid = entity_key.split(":")[1];
-        const maxSoundDistance = 25;
-        const camDistance = Math.sqrt(
-            Math.pow(camWorldPos.x - gltf.scene.position.x, 2) + 
-            Math.pow(camWorldPos.y - gltf.scene.position.y, 2) + 
-            Math.pow(camWorldPos.z - gltf.scene.position.z, 2)
-        )
-        let video = document.getElementById(`remote-video-${entityUuid}`);
-        try{
-            video.volume = Math.max(0, (maxSoundDistance - camDistance)/maxSoundDistance);
-        }catch(e){
-            console.log(e);
-        }
+
+        // TODO: the following is buggy, but do we need it. Better to have player groups
+        // const maxSoundDistance = 25;
+        // const camDistance = Math.sqrt(
+        //     Math.pow(camWorldPos.x - gltf.scene.position.x, 2) + 
+        //     Math.pow(camWorldPos.y - gltf.scene.position.y, 2) + 
+        //     Math.pow(camWorldPos.z - gltf.scene.position.z, 2)
+        // )
+        // let video = document.getElementById(`remote-video-${entityUuid}`);
+        // try{
+        //     video.volume = Math.max(0.1, (maxSoundDistance - camDistance)/maxSoundDistance);
+        // }catch(e){
+        //     console.log(e);
+        // }
     }
 }
 
