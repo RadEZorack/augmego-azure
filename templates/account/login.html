@@ -4,10 +4,13 @@
 </br>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-success" type="submit">Login</button>
-    <a class="btn btn-warning" href="{% url 'account_signup' %}">Sign Up</a>
+    <a class="btn btn-danger" href="{% url 'nosignup' %}">Use a temporary account</a>
+    <hr>
+    <a class="btn btn-warning" href="{% url 'account_signup' %}">Sign up to be a member</a>
+    <hr>
+    <button class="btn btn-success" type="submit">Login with an existing account</button>
     </br>
-    <a class="btn btn-danger" href="{% url 'nosignup' %}">Continue without Signing Up</a>
+    </br>
+    {{ form.as_p }}
 </form>
 {% endblock %}
