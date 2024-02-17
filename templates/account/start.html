@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+</br>
+<form method="post">
+    {% csrf_token %}
+    <a class="btn btn-danger" href="{% url 'nosignup' %}">Use a temporary account</a>
+    <hr>
+    <a class="btn btn-warning" href="{% url 'account_signup' %}">Sign up to be a member</a>
+    <hr>
+    <a class="btn btn-success" href="{% url 'account_login' %}">Login with an existing account</a>
+</form>
+{% endblock %}

@@ -45,7 +45,7 @@ def webcam(request):
 # @csrf_exempt
 def main(request):
     if not request.user.is_authenticated:
-        return redirect("account_login")
+        return redirect("start")
     
     user_name = str(request.user)
     # user_name = uuid.uuid4()
@@ -55,4 +55,7 @@ def main(request):
 @xframe_options_sameorigin
 def ad(request):
     return render(request, 'ad.html', {})
+
+def start(request):
+    return render(request, 'account/start.html', {})
 
