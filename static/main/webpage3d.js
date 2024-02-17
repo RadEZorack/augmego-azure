@@ -83,7 +83,7 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
   const timeuuid = String(Date.now())
   if (url) {
     html =
-      `<h1 style="text-align: center;">` +
+      `<h1 style="text-align: center; margin-top: 100px;">` + // Unsure why we need such a large margin top but it fixes styling in Chrome anyway.
       `<image src="${expandArrowsPng}" alt="expand arrows"></image>` +
       `<button id="expandButton-${timeuuid}">EXPAND THIS PAGE</button>` +
       `<image src="${expandArrowsPng}" alt="expand arrows"></image>` +
