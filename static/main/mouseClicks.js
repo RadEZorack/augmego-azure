@@ -352,12 +352,23 @@ function onMouseDownPlayerMove(event) {
 }
 
 function onMouseDownDestoryBlock(event){
-  const data = selectedObject(event);
+  const data = selectedObject(event);  
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
       const key = quadMeshInstanceIDKeys[data.object.uuid][data.instanceId];
       const keyArray = key.split(":")
       const xyz = keyArray[1].split(",");
+
+      const distance = Math.sqrt(
+        Math.pow(xyz[0] - playerWrapper.position.x, 2) +
+        Math.pow(xyz[1] - playerWrapper.position.y, 2) +
+        Math.pow(xyz[2] - playerWrapper.position.z, 2)
+      )
+      console.log(distance)
+    
+      if (distance > 5.0){
+        return;
+      }
 
       $.ajax({
         url: cubePostURL,
@@ -399,6 +410,17 @@ function onMouseDownDestoryBlock(event){
 function onMouseDownCreateBlock(event){
   const data = selectedObject(event);
   console.log(data.point)
+
+  const distance = Math.sqrt(
+    Math.pow(data.point.x - playerWrapper.position.x, 2) +
+    Math.pow(data.point.y - playerWrapper.position.y, 2) +
+    Math.pow(data.point.z - playerWrapper.position.z, 2)
+  )
+  console.log(distance)
+
+  if (distance > 5.0){
+    return;
+  }
 
   $.ajax({
     url: cubePostURL,
