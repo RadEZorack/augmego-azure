@@ -13,6 +13,14 @@ export let spaceDown = false;
 export let isWalk = true;
 export let isFirstPerson = false;
 
+let jumpButton = document.getElementById("jumpButton")
+jumpButton.addEventListener('mousedown', function(event){
+    spaceDown = true;
+})
+jumpButton.addEventListener('mouseup', function(event){
+    spaceDown = false;
+})
+
 document.addEventListener('keydown', function(event) {
     if (event.key == "q"){
         qDown = true;
