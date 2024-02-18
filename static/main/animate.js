@@ -8,7 +8,7 @@ import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { gameObjects } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
 import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent } from '../main/controls.js';
-import { qDown, wDown, eDown, aDown, sDown, dDown, isWalk } from '../main/QWEASD.js'
+import { qDown, wDown, eDown, aDown, sDown, dDown, spaceDown, isWalk } from '../main/QWEASD.js'
 
 
 const stepDistance = 0.01;
@@ -151,6 +151,11 @@ function animate() {
                 myPlayerTargetPosition.y = Math.floor(playerWrapper.position.y)-0.5;
             }, 1000)
             
+        }
+
+        if(spaceDown){
+            myPlayerTargetPosition.y = Math.round(playerWrapper.position.y)+1.0;
+            clearTimeout(moveDownXHR);
         }
 
 

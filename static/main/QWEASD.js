@@ -9,6 +9,7 @@ export let dDown = false;
 export let oDown = false;
 export let pDown = false;
 export let enterDown = false;
+export let spaceDown = false;
 export let isWalk = true;
 export let isFirstPerson = false;
 
@@ -39,6 +40,10 @@ document.addEventListener('keydown', function(event) {
     }
     if (event.key == "Enter"){
         enterDown = true;
+    }
+    if (event.key == " "){
+        spaceDown = true;
+        console.log("space")
     }
 
     if(enterDown && oDown){
@@ -85,5 +90,8 @@ document.addEventListener('keyup', function(event) {
     }
     if (event.key == "Enter"){
         enterDown = false;
+    }
+    if (event.key == " "){
+        spaceDown = false;
     }
 });
