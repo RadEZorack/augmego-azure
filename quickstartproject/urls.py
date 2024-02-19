@@ -25,7 +25,7 @@ from person.views import nosignup
 urlpatterns = [
     path('', main, name='main'),
     path("start/", start, name="start"),
-    path("nosignup/", nosignup, name="nosignup"),
+    # path("nosignup/", nosignup, name="nosignup"),
     path('ad/', ad, name='ad'),
     path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),
