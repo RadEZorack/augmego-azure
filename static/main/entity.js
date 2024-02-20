@@ -56,7 +56,7 @@ export function update_entity(entity_data){
 
         let webcamHtml = `
             <div class="video-container" style="width: 100px; height: 100px; background-color: black;">
-                <video autoplay="allow" class="remote-video" id="remote-video-${entityUuid}" style="max-width: 100%; max-height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></video>
+                <video playsinline autoplay="allow" class="remote-video" id="remote-video-${entityUuid}" style="max-width: 100%; max-height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></video>
             </div>
         `
 
