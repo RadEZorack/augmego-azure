@@ -189,11 +189,11 @@ export function update_entity(entity_data){
 
         // flip around
         // Enable this to keep the web cam level.
-        // gltfEuler.setFromQuaternion(plane.quaternion)
-        // gltfEuler.x = 0;
-        // gltfEuler.y += Math.PI;
-        // gltfEuler.z = 0;
-        // plane.quaternion.setFromEuler(gltfEuler)
+        gltfEuler.setFromQuaternion(plane.quaternion)
+        gltfEuler.x = 0;
+        gltfEuler.y += Math.PI;
+        gltfEuler.z = 0;
+        plane.quaternion.setFromEuler(gltfEuler)
 
         const cssObject = entities[entity_key]['cssObject']
 
@@ -201,9 +201,15 @@ export function update_entity(entity_data){
         cssObject.position.y = plane.position.y;
         cssObject.position.z = plane.position.z;
 
-        cssObject.rotation.x = plane.rotation.x;
-        cssObject.rotation.y = plane.rotation.y;
-        cssObject.rotation.z = plane.rotation.z;
+        // cssObject.rotation.x = plane.rotation.x;
+        // cssObject.rotation.y = plane.rotation.y;
+        // cssObject.rotation.z = plane.rotation.z;
+
+        gltfEuler.setFromQuaternion(plane.quaternion)
+        gltfEuler.x = 0;
+        gltfEuler.y += Math.PI;
+        gltfEuler.z = 0;
+        cssObject.quaternion.setFromEuler(gltfEuler)
 
         // plane.translateZ(-50)
         // plane.translateY(325)
