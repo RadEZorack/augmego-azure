@@ -70,13 +70,14 @@ var CSS3DRenderer = function () {
 
 	var cameraElement = document.createElement( 'div' );
 
-	cameraElement.style.WebkitTransformStyle = 'preserve-3d';
+	cameraElement.style.webkitTransformStyle = 'preserve-3d';
 	cameraElement.style.transformStyle = 'preserve-3d';
 	cameraElement.style.pointerEvents = 'none';
 
 	domElement.appendChild( cameraElement );
 
-	var isIE = /Trident/i.test( navigator.userAgent );
+	// I'm unsure why, but this needs to be true on iOS iphone. And it doesn't seem to break chrome.
+	var isIE = true; // /Trident/i.test( navigator.userAgent );
 
 	this.getSize = function () {
 

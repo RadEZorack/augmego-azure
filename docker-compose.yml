@@ -45,13 +45,13 @@ services:
     depends_on:
       - augmego-django
 
-  # augmego-ngrok:
-  #   container_name: augmego-ngrok
-  #   image: wernight/ngrok
-  #   environment:
-  #     NGROK_PORT: "8000"
-  #     NGROK_DEBUG: "true"
-  #     NGROK_AUTH: "1m9OJapnAWad5yE5CxK8Woo9gkU_62VCktHhMGu3D1ycmM2aH"
-  #     NGROK_HOSTNAME: "369de4cfa06e-7199118840071997290.ngrok-free.app"
-  #     NGROK_LOOK_DOMAIN: "kubernetes.docker.internal"
+  augmego-ngrok:
+    container_name: augmego-ngrok
+    image: wernight/ngrok
+    environment:
+      NGROK_PORT: "8000"
+      NGROK_DEBUG: "true"
+      NGROK_AUTH: "1m9OJapnAWad5yE5CxK8Woo9gkU_62VCktHhMGu3D1ycmM2aH"
+      NGROK_HOSTNAME: "369de4cfa06e-7199118840071997290.ngrok-free.app"
+      NGROK_LOOK_DOMAIN: "kubernetes.docker.internal"
     
