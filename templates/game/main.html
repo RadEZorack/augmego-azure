@@ -27,7 +27,7 @@
               <span style="display: none; font-size: 2em; background-color: black;" id="myDisplayName"></span>
             </div>
             <!-- <video autoplay class="local-video" id="local-video-2" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; left: 5px; z-index: 10;"></video> -->
-            <video autoplay muted playsinline class="local-video" id="local-video-1" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; right: 5px; z-index: 10;"></video>
+            <video autoplay muted playsinline class="local-video" id="local-video-1" style="background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 0px; left: 50vw; transform: translate(-50%, 0); z-index: 10;"></video>
             
             <div id="ui" ref="ui">
               <div>
@@ -321,6 +321,7 @@
      <script src="{% static 'main/webpage3dload.js' %}" type="module"></script>
      <script src="{% static 'main/drawBlock.js' %}" type="module"></script>
      <script src="{% static 'main/removeBlock.js' %}" type="module"></script>
+     <script src="{% static 'main/initSelfCam.js' %}" type="module"></script>
      <script src="{% static 'main/initTexturePanel.js' %}" type="module"></script>
      <script src="{% static 'main/initObjects.js' %}" type="module"></script>
      <script src="{% static 'main/onWindowResize.js' %}" type="module"></script>
