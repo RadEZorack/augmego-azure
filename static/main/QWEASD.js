@@ -21,6 +21,17 @@ jumpButton.addEventListener('mouseup', function(event){
     spaceDown = false;
 })
 
+jumpButton.addEventListener('touchstart', function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    spaceDown = true;
+})
+jumpButton.addEventListener('touchend', function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    spaceDown = false;
+})
+
 document.addEventListener('keydown', function(event) {
     if (event.key == "q"){
         qDown = true;
