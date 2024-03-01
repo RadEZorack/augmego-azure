@@ -35,13 +35,12 @@ export function initObjects() {
             //   let id = Math.floor(12 * Math.random());
             let textureUrl = favicon;
             // Draw the bounds of purchase area
-            if((x % 10) == 0 || (x % 10) == 9 || (x % 10) == -1 || (x % 10) == -0){
+            if(((x % 10) == 0 || (x % 10) == 9 || (x % 10) == -1 || (x % 10) == -0) &&
+               ((z % 10) == 0 || (z % 10) == 9 || (z % 10) == -1 || (z % 10) == -0)){
               textureUrl = buySignTexture;
               // drawBlock(x, 3*perlin2(x/10,z/10)+1, z, textureUrl)
-            }
-            else if((z % 10) == 0 || (z % 10) == 9 || (z % 10) == -1 || (z % 10) == -0){
-              textureUrl = buySignTexture;
-              // drawBlock(x, 3*perlin2(x/10,z/10)+1, z, textureUrl)
+              // drawBlock(x, 3*perlin2(x/10,z/10)+2, z, textureUrl)
+              // drawBlock(x, 3*perlin2(x/10,z/10)+3, z, textureUrl)
             }
             
             else if (perlin2(x/5,z/5) >= 0){
