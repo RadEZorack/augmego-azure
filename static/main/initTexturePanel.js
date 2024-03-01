@@ -31,6 +31,10 @@ function textureLoad(){
                     barkTexture = fields["image_url"];
                 }else if(fields['name'] == "Pine Tree Leaves"){
                     pineTreeLeavesTexture = fields["image_url"];
+                }else if(fields['name'] == "BuySign"){
+                    buySignTexture = fields["image_url"];
+                }else if(fields['name'] == "OwnedSign"){
+                    ownedSignTexture = fields["image_url"];
                 }
             }
             initToggleMouseOption();
