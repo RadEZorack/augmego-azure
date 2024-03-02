@@ -24,10 +24,11 @@ def profile_wall(request):
     return render(request, "_profile_wall.html", {"people": people})
 
 def nosignup(request):
-    if request.POST:
-        form = NoSignUpForm(request.POST)
-        if form.is_valid():
-            code = form.cleaned_data.get('code')
+    if True: #request.POST:
+        # form = NoSignUpForm(request.POST)
+        if True: #form.is_valid():
+            # code = form.cleaned_data.get('code')
+            code = str(uuid.uuid4())
             try:
                 person = Person.objects.get(
                     code=code
@@ -45,6 +46,6 @@ def nosignup(request):
 
             return redirect(main)
     
-    form = NoSignUpForm()
+    # form = NoSignUpForm()
 
-    return render(request, 'account/nosignup.html', {'form': form})
+    # return render(request, 'account/nosignup.html', {'form': form})
