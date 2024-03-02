@@ -1,10 +1,11 @@
-from django.http import HttpResponse
+from math import floor
+from django.http import HttpResponse, HttpResponseForbidden
 from rest_framework import serializers
 import json
 import time
 from django.core.cache import cache
 
-from cube.models import Cube
+from cube.models import Chunk, Cube
 from texture.models import Texture
 from texture.views import TextureSerializer
 
@@ -90,6 +91,24 @@ def post_cube(request):
     if request.POST:
         rp = request.POST
 
+        # Check if this user can modify the chunk
+        cache_key = "chunk_get_owner:x={x},y=0,z={z}".format(x=floor(int(rp.get("x"))/10),z=floor(int(rp.get("z"))/10))
+
+        owner_name = cache.get(cache_key)
+
+        if owner_name and str(request.user.person) != owner_name:
+            return HttpResponseForbidden()
+
+        try:
+            chunk = Chunk.objects.get(x=floor(int(rp.get("x"))/10),y=0,z=floor(int(rp.get("z"))/10))
+        except Chunk.DoesNotExist:
+            return HttpResponseForbidden()
+        
+        cache.set(cache_key, chunk.owner)
+
+        if request.user.person != chunk.owner:
+            return HttpResponseForbidden()
+
         cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"))
         if rp.get("textureName"):
             texture = Texture.objects.get(name=rp.get("textureName"))
@@ -114,3 +133,28 @@ def post_cube(request):
 
 
         return HttpResponse(json.dumps(serializer.data), content_type='application/json')
+    
+def chunk_purchase(request):
+    """ example: http://localhost:8000/cube/chunk_purchase?x=0&z=0 """
+    # Define your range for each coordinate
+    rg = request.GET
+    x = int(rg.get("x"))
+    z = int(rg.get("z"))
+
+    cache_key = "chunk_get_owner:x={x},y=0,z={z}".format(x=x,z=z)
+
+    owner_name = cache.get(cache_key)
+
+    if owner_name:
+        return HttpResponseForbidden()
+    
+    chunk, created = Chunk.objects.get_or_create(x=x,z=z)
+    
+    # TODO: subtract points
+    chunk.owner = request.user.person
+    chunk.save()
+
+    owner_name = str(chunk.owner)
+
+    cache.set(cache_key, owner_name, None)
+    return HttpResponse('')

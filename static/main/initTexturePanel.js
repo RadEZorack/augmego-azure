@@ -31,9 +31,9 @@ function textureLoad(){
                     barkTexture = fields["image_url"];
                 }else if(fields['name'] == "Pine Tree Leaves"){
                     pineTreeLeavesTexture = fields["image_url"];
-                }else if(fields['name'] == "BuySign"){
+                }else if(fields['name'] == "Buy Sign"){
                     buySignTexture = fields["image_url"];
-                }else if(fields['name'] == "SoldSign"){
+                }else if(fields['name'] == "Sold Sign"){
                     soldSignTexture = fields["image_url"];
                 }
             }

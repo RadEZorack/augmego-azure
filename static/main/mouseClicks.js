@@ -382,6 +382,9 @@ function onMouseDownDestoryBlock(event){
         },
         success: function(resp) {
             console.log("success post");
+            // Placing this here may be slower than expected, can we put outside of the ajax request and then undo it on error.
+            removeBlock(xyz[0], xyz[1], xyz[2]);
+            redrawObjects();
             // console.log(resp);
             const now = new Date();
             for (let uuid in peerConnections){
@@ -402,9 +405,9 @@ function onMouseDownDestoryBlock(event){
         }
       })
       
-      removeBlock(xyz[0], xyz[1], xyz[2]);
+      
   }
-  redrawObjects();
+  
 }
 
 function onMouseDownCreateBlock(event){
@@ -435,6 +438,10 @@ function onMouseDownCreateBlock(event){
     },
     success: function(resp) {
         console.log("success post");
+        // Placing this here may be slower than expected, can we put outside of the ajax request and then undo it on error.
+        drawBlock(data.point.x, data.point.y, data.point.z, blockTextureUrl);
+        redrawObjects();
+
         // console.log(resp);
         const now = new Date();
         for (let uuid in peerConnections){
@@ -455,7 +462,5 @@ function onMouseDownCreateBlock(event){
     }
   })
   
-  drawBlock(data.point.x, data.point.y, data.point.z, blockTextureUrl);
-
-  redrawObjects();
+  
 }
