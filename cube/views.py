@@ -149,7 +149,12 @@ def chunk_purchase(request):
     
     chunk, created = Chunk.objects.get_or_create(x=x,z=z)
     
-    # TODO: subtract points
+    if request.user.person.points < 100:
+        return HttpResponseForbidden()
+
+    request.user.person.points -= 100
+    request.user.person.save()
+
     chunk.owner = request.user.person
     chunk.save()
 
