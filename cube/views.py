@@ -95,8 +95,7 @@ def post_cube(request):
         cache_key = "chunk_get_owner:x={x},y=0,z={z}".format(x=floor(int(rp.get("x"))/10),z=floor(int(rp.get("z"))/10))
 
         owner_name = cache.get(cache_key)
-
-        if owner_name and str(request.user.person) != owner_name:
+        if owner_name and (str(request.user.person) != owner_name):
             return HttpResponseForbidden()
 
         try:
@@ -104,7 +103,7 @@ def post_cube(request):
         except Chunk.DoesNotExist:
             return HttpResponseForbidden()
         
-        cache.set(cache_key, chunk.owner)
+        cache.set(cache_key, str(chunk.owner), None)
 
         if request.user.person != chunk.owner:
             return HttpResponseForbidden()
@@ -137,9 +136,9 @@ def post_cube(request):
 def chunk_purchase(request):
     """ example: http://localhost:8000/cube/chunk_purchase?x=0&z=0 """
     # Define your range for each coordinate
-    rg = request.GET
-    x = int(rg.get("x"))
-    z = int(rg.get("z"))
+    rp = request.POST
+    x = int(rp.get("x"))
+    z = int(rp.get("z"))
 
     cache_key = "chunk_get_owner:x={x},y=0,z={z}".format(x=x,z=z)
 

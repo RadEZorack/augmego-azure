@@ -425,6 +425,23 @@ function onMouseDownCreateBlock(event){
     return;
   }
 
+  if (blockTextureMaterial == "Buy Sign"){
+    $.ajax({
+      url: chunkPurchaseURL,
+      type: 'POST',
+      data: {
+        csrfmiddlewaretoken: csrfmiddlewaretoken,
+        x: Math.floor(data.point.x/10),
+        z: Math.floor(data.point.z/10)
+      },
+      success: function(resp) {
+        console.log("success buy");
+      }
+    })
+    // Short circuit
+    return
+  }
+
   $.ajax({
     url: cubePostURL,
     type: 'POST',

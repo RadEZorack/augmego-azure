@@ -15,6 +15,7 @@ class Person(models.Model):
     )
     code = models.UUIDField(unique=True, null=True)
     # image = models.ImageField(upload_to="media/person-image/")
+    points = models.BigIntegerField(default=0)
 
     def __str__(self) -> str:
         if self.user:
