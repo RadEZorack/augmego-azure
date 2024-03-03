@@ -35,6 +35,14 @@ function textureLoad(){
                     buySignTexture = fields["image_url"];
                 }else if(fields['name'] == "Sold Sign"){
                     soldSignTexture = fields["image_url"];
+                }else if(fields['name'] == "Yellow Gravel"){
+                    yellowGravelTexture = fields["image_url"];
+                }else if(fields['name'] == "Black Gravel"){
+                    blackGravelTexture = fields["image_url"];
+                }else if(fields['name'] == "White Gravel"){
+                    whiteGravelTexture = fields["image_url"];
+                }else if(fields['name'] == "Concrete"){
+                    concreteTexture = fields["image_url"];
                 }
             }
             initToggleMouseOption();

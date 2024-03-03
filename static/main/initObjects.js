@@ -35,47 +35,79 @@ export function initObjects() {
             //   let id = Math.floor(12 * Math.random());
             let textureUrl = favicon;
             // Draw the bounds of purchase area
-            if(((x % 10) == 0 || (x % 10) == 9 || (x % 10) == -1 || (x % 10) == -0) &&
-               ((z % 10) == 0 || (z % 10) == 9 || (z % 10) == -1 || (z % 10) == -0)){
-              textureUrl = buySignTexture;
-              // drawBlock(x, 3*perlin2(x/10,z/10)+1, z, textureUrl)
-              // drawBlock(x, 3*perlin2(x/10,z/10)+2, z, textureUrl)
-              // drawBlock(x, 3*perlin2(x/10,z/10)+3, z, textureUrl)
-            }
-            
-            else if (perlin2(x/5,z/5) >= 0){
-              textureUrl = grassTexture;
-            }else{
-              textureUrl = dirtTexture;
-            }
-    
-            drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
-
-            if (Math.sqrt(x**2+z**2) > 15 && perlin2(x/5,z/5) < 0 && random() > 0.95){
-              // Trees
-              const ymin = 3*perlin2(x/10,z/10)
-              const ymax = random()*4+2
-              for (let y2 = 0; y2 < ymax; y2++) {
-                drawBlock(x, ymin+y2, z, barkTexture)
+            // if(((x % 15) == 0 || (x % 15) == 14 || (x % 15) == -1 || (x % 15) == -0) ||
+            //    ((z % 15) == 0 || (z % 15) == 14 || (z % 15) == -1 || (z % 15) == -0)){
+            if((x % 15) == 3 || (x % 15) == -3 || (x % 15) == 12 || (x % 15) == -12 ||
+              (z % 15) == 3 || (z % 15) == -3 || (z % 15) == 12 || (z % 15) == -12
+            ){
+              if((x % 15) == 0 ||
+               (x % 15) == 1 || (x % 15) == -1 || (x % 15) == 14 || (x % 15) == -14 ||
+               (x % 15) == 2 || (x % 15) == -2 || (x % 15) == 13 || (x % 15) == -13 ||
+               (z % 15) == 0 ||
+               (z % 15) == 1 || (z % 15) == -1 || (z % 15) == 14 || (z % 15) == -14 ||
+               (z % 15) == 2 || (z % 15) == -2 || (z % 15) == 13 || (z % 15) == -13
+              ){
+                drawBlock(x, 1, z, whiteGravelTexture)
+              }else{
+                drawBlock(x, 1, z, concreteTexture)
               }
-              //leaves
-              drawBlock(x, ymin+ymax, z, pineTreeLeavesTexture)
-              drawBlock(x+1, ymin+ymax, z, pineTreeLeavesTexture)
-              drawBlock(x-1, ymin+ymax, z, pineTreeLeavesTexture)
-              drawBlock(x, ymin+ymax, z+1, pineTreeLeavesTexture)
-              drawBlock(x+1, ymin+ymax, z+1, pineTreeLeavesTexture)
-              drawBlock(x-1, ymin+ymax, z+1, pineTreeLeavesTexture)
-              drawBlock(x, ymin+ymax, z-1, pineTreeLeavesTexture)
-              drawBlock(x+1, ymin+ymax, z-1, pineTreeLeavesTexture)
-              drawBlock(x-1, ymin+ymax, z-1, pineTreeLeavesTexture)
+            }else if((x % 15) == 0 || (z % 15) == 0){
+              if((x % 15) == 1 || (x % 15) == -1 || (x % 15) == 14 || (x % 15) == -14 ||
+               (x % 15) == 2 || (x % 15) == -2 || (x % 15) == 13 || (x % 15) == -13 ||
+               (z % 15) == 1 || (z % 15) == -1 || (z % 15) == 14 || (z % 15) == -14 ||
+               (z % 15) == 2 || (z % 15) == -2 || (z % 15) == 13 || (z % 15) == -13 ||
+               (x % 15) == 0 && (z % 15) == 0
+              ){
+                drawBlock(x, 1, z, blackGravelTexture)
+              }else{
+                drawBlock(x, 1, z, yellowGravelTexture)
+              }
+            }else if((x % 15) == 1 || (x % 15) == -1 || (x % 15) == 14 || (x % 15) == -14 ||
+               (x % 15) == 2 || (x % 15) == -2 || (x % 15) == 13 || (x % 15) == -13 ||
+               (z % 15) == 1 || (z % 15) == -1 || (z % 15) == 14 || (z % 15) == -14 ||
+               (z % 15) == 2 || (z % 15) == -2 || (z % 15) == 13 || (z % 15) == -13
+              ){
+              drawBlock(x, 1, z, blackGravelTexture)
+            }else if((x % 15) == 3 || (x % 15) == -3 || (x % 15) == 12 || (x % 15) == -12 ||
+                (z % 15) == 3 || (z % 15) == -3 || (z % 15) == 12 || (z % 15) == -12
+              ){
+              
+            }else{
+              if (perlin2(x/5,z/5) >= 0){
+                drawBlock(x, 2, z, grassTexture)
+                // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
+              }else{
+                drawBlock(x, 2, z, dirtTexture)
+                // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
+              }
 
-              drawBlock(x, ymin+ymax+1, z, pineTreeLeavesTexture)
-              drawBlock(x+1, ymin+ymax+1, z, pineTreeLeavesTexture)
-              drawBlock(x-1, ymin+ymax+1, z, pineTreeLeavesTexture)
-              drawBlock(x, ymin+ymax+1, z+1, pineTreeLeavesTexture)
-              drawBlock(x, ymin+ymax+1, z-1, pineTreeLeavesTexture)
+              if (Math.sqrt(x**2+z**2) > 15 && perlin2(x/5,z/5) < 0 && random() > 0.95){
+                // Trees
+                const ymin = 2
+                // const ymin = 3*perlin2(x/10,z/10)
+                const ymax = random()*4+2
+                for (let y2 = 0; y2 < ymax; y2++) {
+                  drawBlock(x, ymin+y2, z, barkTexture)
+                }
+                //leaves
+                drawBlock(x, ymin+ymax, z, pineTreeLeavesTexture)
+                drawBlock(x+1, ymin+ymax, z, pineTreeLeavesTexture)
+                drawBlock(x-1, ymin+ymax, z, pineTreeLeavesTexture)
+                drawBlock(x, ymin+ymax, z+1, pineTreeLeavesTexture)
+                drawBlock(x+1, ymin+ymax, z+1, pineTreeLeavesTexture)
+                drawBlock(x-1, ymin+ymax, z+1, pineTreeLeavesTexture)
+                drawBlock(x, ymin+ymax, z-1, pineTreeLeavesTexture)
+                drawBlock(x+1, ymin+ymax, z-1, pineTreeLeavesTexture)
+                drawBlock(x-1, ymin+ymax, z-1, pineTreeLeavesTexture)
 
-              drawBlock(x, ymin+ymax+2, z, pineTreeLeavesTexture)
+                drawBlock(x, ymin+ymax+1, z, pineTreeLeavesTexture)
+                drawBlock(x+1, ymin+ymax+1, z, pineTreeLeavesTexture)
+                drawBlock(x-1, ymin+ymax+1, z, pineTreeLeavesTexture)
+                drawBlock(x, ymin+ymax+1, z+1, pineTreeLeavesTexture)
+                drawBlock(x, ymin+ymax+1, z-1, pineTreeLeavesTexture)
+
+                drawBlock(x, ymin+ymax+2, z, pineTreeLeavesTexture)
+              }
             }
         }
       // }
