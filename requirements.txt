@@ -10,4 +10,5 @@ pillow
 django-storages[azure]
 djangorestframework
 django-allauth==0.59.0
+paypalrestsdk
 pymemcache

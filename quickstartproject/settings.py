@@ -256,3 +256,8 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', "test@example.com")
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "password")
+
+PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID', None)
+PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET', None)
+# for testing purposes, change to 'live' when you're ready to accept real payments
+PAYPAL_MODE = os.environ.get('PAYPAL_MODE', "sandbox")

@@ -21,12 +21,14 @@ from django.views.generic.base import TemplateView
 
 from game.views import main, ad, start
 from person.views import nosignup
+from payment.views import process_payment
 
 urlpatterns = [
     path('', main, name='main'),
     path("start/", start, name="start"),
     path("nosignup/", nosignup, name="nosignup"),
     path('ad/', ad, name='ad'),
+    path('payment/process/', process_payment, name='process_payment'),
     path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),
     path("webpage/", include("webpage.urls")),
