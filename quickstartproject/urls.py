@@ -35,6 +35,7 @@ urlpatterns = [
     path("cube/", include("cube.urls")),
     path("texture/", include("texture.urls")),
     path("people/", include("person.urls")),
+    path('paypal/', include("paypal.standard.ipn.urls")),
     path('admin/', admin.site.urls),
     # path("accounts/", include("django.contrib.auth.urls")),
     path('accounts/', include('allauth.urls')),

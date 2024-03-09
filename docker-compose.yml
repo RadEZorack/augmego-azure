@@ -30,9 +30,9 @@ services:
     environment:
       REDIS_HOST: augmego-redis
       MEMCACHED_HOST: augmego-memcached
-      PAYPAL_CLIENT_ID: "${PAYPAL_CLIENT_ID}"
-      PAYPAL_CLIENT_SECRET: "${PAYPAL_CLIENT_SECRET}"
-      PAYPAL_MODE: "${PAYPAL_MODE}"
+      PAYPAL_BUSINESS_LIVE: "${PAYPAL_BUSINESS_LIVE}"
+      PAYPAL_BUSINESS_TEST: "${PAYPAL_BUSINESS_TEST}"
+      PAYPAL_TEST: "${PAYPAL_TEST}"
     volumes:
       - .:/code
     ports:

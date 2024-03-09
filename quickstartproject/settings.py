@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
+    'paypal.standard.ipn',
+
     # 'allauth.socialaccount.providers.apple',
     # 'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount.providers.microsoft',
@@ -257,7 +259,8 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', "test@example.com")
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "password")
 
-PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID', None)
-PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET', None)
-# for testing purposes, change to 'live' when you're ready to accept real payments
-PAYPAL_MODE = os.environ.get('PAYPAL_MODE', "sandbox")
+PAYPAL_TEST = os.environ.get('PAYPAL_TEST', '') != 'False'
+if PAYPAL_TEST == True:
+    PAYPAL_BUSINESS=os.environ.get('PAYPAL_BUSINESS_TEST', '')
+else:
+    PAYPAL_BUSINESS=os.environ.get('PAYPAL_BUSINESS_LIVE', '')
