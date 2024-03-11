@@ -47,10 +47,13 @@ def main(request):
     if not request.user.is_authenticated:
         return redirect("start")
     
-    user_name = str(request.user)
+    user_name = str(request.user.person)
+    if user_name.startswith("Guest"):
+        user_name = user_name[0:10]
     # user_name = uuid.uuid4()
+    amica = request.user.person.amica
 
-    return render(request, 'game/main.html', {'user_name': user_name})
+    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica})
 
 @xframe_options_sameorigin
 def ad(request):

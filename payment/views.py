@@ -12,12 +12,12 @@ def process_payment(request):
     paypal_dict = {
         "business": settings.PAYPAL_BUSINESS,
         "amount": "10.00",
-        "item_name": "Chunk",
+        "item_name": "Amica",
         "invoice": str(uuid.uuid4()),
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return": request.build_absolute_uri(reverse('process_payment')),
         "cancel_return": request.build_absolute_uri(reverse('process_payment')),
-        "custom": "chunk",  # Custom command to correlate to some function later (optional)
+        "custom": "Amica:10.00:"+str(request.user.id),  # Custom command to correlate to some function later (optional)
     }
 
     # Create the instance.

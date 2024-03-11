@@ -32,6 +32,7 @@
             <div id="ui" ref="ui">
               <div>
                 <button class="btn btn-success" style="position: absolute; z-index: 5; top: 10px; left: 10px;"><a href="{% url 'account_logout' %}" style="color: white;">Logout</a></button>
+                <span style="position: absolute; z-index: 5; top: 10px; left: 90px;">{{ user_name }}: {{ amica }}</span>
                 <iframe id="globalChatIframe" title="Global Chat" style="display: none; position: absolute; top: 45px; left: 0; width: 25vw; height: 20vh; z-index: 4;"></iframe>
               </div>
               <!-- WASD -->
