@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Show me the money!</h1>
-<!-- writes out the form tag automatically -->
-{{ form.render }}
+{% if invalid %}
+    Temporary accounts can not make a purchase.
+{% else %}
+    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+        Purchase <strong>{{ item }}</strong> for {{ user }}.
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {% if not field.is_hidden %}{{ field.label_tag }}{% endif %} {{ field }}
+            </div>
+        {% endfor %}
+        <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" name="submit" alt="Buy it Now">
+    </form>
+{% endif %}
 {% endblock %}

@@ -23,10 +23,7 @@ def show_me_the_money(sender, **kwargs):
         # Undertake some action depending upon `ipn_obj`.
         custom = ipn_obj.custom.split(":")
         if custom[0] == "Amica":
-            if custom[1] == "10.00":
-                price = Decimal(10.00)
-            else:
-                return
+            price = Decimal(custom[1])
         else:
             return
 
