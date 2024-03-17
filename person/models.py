@@ -15,7 +15,7 @@ class Person(models.Model):
     )
     code = models.UUIDField(unique=True, null=True)
     # image = models.ImageField(upload_to="media/person-image/")
-    amica = models.DecimalField(default=0, max_digits=15, decimal_places=2)
+    amica = models.DecimalField(default=0, max_digits=15, decimal_places=3)
 
     def __str__(self) -> str:
         if self.user:
