@@ -40,6 +40,11 @@ export function initToggleMouseOption(){
     event.preventDefault();
     event.stopPropagation();
     toggleMouseState = $(this).data("type");
+    if (toggleMouseState == "buy"){
+      // Show property info/lines
+    }else{
+      // Remove property info/lines
+    }
     if (toggleMouseState == "www"){
       // Turn on WWW state
       $(`[data-type='www']`).css("border", "solid 2px green");

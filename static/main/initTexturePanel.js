@@ -33,6 +33,8 @@ function textureLoad(){
                     pineTreeLeavesTexture = fields["image_url"];
                 }else if(fields['name'] == "Buy Sign"){
                     buySignTexture = fields["image_url"];
+                }else if(fields['name'] == "Owned Sign"){
+                    ownedSignTexture = fields["image_url"];
                 }else if(fields['name'] == "Sold Sign"){
                     soldSignTexture = fields["image_url"];
                 }else if(fields['name'] == "Yellow Gravel"){
