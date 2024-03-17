@@ -1,3 +1,4 @@
+from decimal import Decimal
 from math import floor
 from django.http import HttpResponse, HttpResponseForbidden
 from rest_framework import serializers
@@ -92,21 +93,29 @@ def post_cube(request):
         rp = request.POST
 
         # Check if this user can modify the chunk
-        cache_key = "chunk_get_owner:x={x},y=0,z={z}".format(x=floor(int(rp.get("x"))/10),z=floor(int(rp.get("z"))/10))
+        cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(
+            x=floor(int(rp.get("x"))/10),
+            y=floor(int(rp.get("y"))/10),
+            z=floor(int(rp.get("z"))/10))
 
         owner_name = cache.get(cache_key)
         if owner_name and (str(request.user.person) != owner_name):
             return HttpResponseForbidden()
 
         try:
-            chunk = Chunk.objects.get(x=floor(int(rp.get("x"))/10),y=0,z=floor(int(rp.get("z"))/10))
+            chunk = Chunk.objects.get(
+                x=floor(int(rp.get("x"))/10),
+                y=floor(int(rp.get("y"))/10),
+                z=floor(int(rp.get("z"))/10))
         except Chunk.DoesNotExist:
-            return HttpResponseForbidden()
+            chunk = None
+            # return HttpResponseForbidden()
         
-        cache.set(cache_key, str(chunk.owner), None)
+        if chunk:
+            cache.set(cache_key, str(chunk.owner), None)
 
-        if request.user.person != chunk.owner:
-            return HttpResponseForbidden()
+            if request.user.person != chunk.owner:
+                return HttpResponseForbidden()
 
         cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"))
         if rp.get("textureName"):
@@ -126,33 +135,37 @@ def post_cube(request):
 
         cache_master_key = "cubes_to_fetch" #:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
         current_cubes = cache.get(cache_master_key)
-        current_cubes += "cube:{x}:{y}:{z}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"]).replace(" ", "_")
-        
+        current_cube_key = "cube:{x}:{y}:{z}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"]).replace(" ", "_")
+        current_cubes += current_cube_key
+
+        cache.set(current_cube_key, serializer.data, 60*60*24*30) # one month cache
+
         cache.set(cache_master_key, list(current_cubes), 60*60*24*30) # one month cache
 
 
         return HttpResponse(json.dumps(serializer.data), content_type='application/json')
     
 def chunk_purchase(request):
-    """ example: http://localhost:8000/cube/chunk_purchase?x=0&z=0 """
+    """ example: http://localhost:8000/cube/chunk_purchase?x=0&y=0&z=0 """
     # Define your range for each coordinate
     rp = request.POST
     x = int(rp.get("x"))
+    y = int(rp.get("x"))
     z = int(rp.get("z"))
 
-    cache_key = "chunk_get_owner:x={x},y=0,z={z}".format(x=x,z=z)
+    cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(x=x,y=y,z=z)
 
     owner_name = cache.get(cache_key)
 
     if owner_name:
         return HttpResponseForbidden()
     
-    chunk, created = Chunk.objects.get_or_create(x=x,z=z)
+    chunk, created = Chunk.objects.get_or_create(x=x,y=y,z=z)
     
-    if request.user.person.points < 100:
+    if request.user.person.amica < Decimal(1):
         return HttpResponseForbidden()
 
-    request.user.person.points -= 100
+    request.user.person.amica -= Decimal(1)
     request.user.person.save()
 
     chunk.owner = request.user.person

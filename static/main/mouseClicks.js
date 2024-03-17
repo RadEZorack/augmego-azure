@@ -432,6 +432,7 @@ function onMouseDownCreateBlock(event){
       data: {
         csrfmiddlewaretoken: csrfmiddlewaretoken,
         x: Math.floor(data.point.x/10),
+        y: Math.floor(data.point.y/10),
         z: Math.floor(data.point.z/10)
       },
       success: function(resp) {
