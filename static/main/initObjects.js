@@ -59,9 +59,9 @@ export function initObjects() {
                (z % 20) == 5 || (z % 20) == -15 
               //  (z % 20) == 6 || (z % 20) == -14
               ){
-                drawBlock(x, 1, z, whiteGravelTexture)
+                drawBlock(x, 0, z, whiteGravelTexture)
               }else{
-                drawBlock(x, 1, z, concreteTexture)
+                drawBlock(x, 0, z, concreteTexture)
               }
             }else if((x % 20) == 3 || (x % 20) == -17 || (z % 20) == 3 || (z % 20) == -17){
               if(//X
@@ -77,9 +77,9 @@ export function initObjects() {
                // X and Z
                (((x % 20) == 3 || (x % 20) == -17) && ((z % 20) == 3 || (z % 20) == -17))
               ){
-                drawBlock(x, 1, z, blackGravelTexture)
+                drawBlock(x, 0, z, blackGravelTexture)
               }else{
-                drawBlock(x, 1, z, yellowGravelTexture)
+                drawBlock(x, 0, z, yellowGravelTexture)
               }
             }else if(
                // X
@@ -93,25 +93,25 @@ export function initObjects() {
                (z % 20) == 4 || (z % 20) == -16 ||
                (z % 20) == 5 || (z % 20) == -15
               ){
-              drawBlock(x, 1, z, blackGravelTexture)
+              drawBlock(x, 0, z, blackGravelTexture)
             // }else if((x % 20) == 3 || (x % 20) == -3 || (x % 20) == 17 || (x % 20) == -17 ||
             //     (z % 20) == 3 || (z % 20) == -3 || (z % 20) == 17 || (z % 20) == -17
             //   ){
               
             }else{
               if (perlin2(x/5,z/5) >= 0){
-                drawBlock(x, 2, z, grassTexture)
+                drawBlock(x, 1, z, grassTexture)
                 // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
               }else{
-                drawBlock(x, 2, z, dirtTexture)
+                drawBlock(x, 1, z, dirtTexture)
                 // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
               }
 
               if (Math.sqrt(x**2+z**2) > 20 && perlin2(x/5,z/5) < 0 && random() > 0.95){
                 // Trees
-                const ymin = 2
+                const ymin = 1
                 // const ymin = 3*perlin2(x/10,z/10)
-                const ymax = random()*4+2
+                const ymax = random()*4+1
                 for (let y2 = 0; y2 < ymax; y2++) {
                   drawBlock(x, ymin+y2, z, barkTexture)
                 }
