@@ -145,6 +145,42 @@ def post_cube(request):
 
         return HttpResponse(json.dumps(serializer.data), content_type='application/json')
     
+def chunk_info(request):
+    """ example: http://localhost:8000/cube/chunk_info?x=0&y=0&z=0 """
+    # Define your range for each coordinate
+    rg = request.GET
+    x = int(rg.get("x"))
+    y = int(rg.get("x"))
+    z = int(rg.get("z"))
+
+    cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(x=x,y=y,z=z)
+
+    owner_name = cache.get(cache_key)
+
+    if owner_name:
+        if (str(request.user.person) == owner_name):
+            return HttpResponse("green")
+        else:
+            return HttpResponse("red")
+        
+    try:
+        chunk = Chunk.objects.get(x=x,y=y,z=z)
+    except Chunk.DoesNotExist:
+        chunk = None
+
+    if chunk:
+        owner_name = str(chunk.owner)
+        cache.set(cache_key, owner_name, None)
+
+        if owner_name:
+            if (str(request.user.person) == owner_name):
+                return HttpResponse("green")
+            else:
+                return HttpResponse("red")
+            
+    # Fall back, can purchase
+    return HttpResponse("blue")
+
 def chunk_purchase(request):
     """ example: http://localhost:8000/cube/chunk_purchase?x=0&y=0&z=0 """
     # Define your range for each coordinate
