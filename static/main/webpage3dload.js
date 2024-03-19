@@ -46,7 +46,7 @@ $.ajax({
     success: function(resp) {
         console.log(resp);
         create3dPage(
-            10000,
+            1000,
             10000,
             0.001,
             new THREE.Vector3(0+4.5, 0+4.5, 0-0.5),
@@ -57,6 +57,16 @@ $.ajax({
         )
         create3dPage(
             10000,
+            1000,
+            0.001,
+            new THREE.Vector3(0+4.5, 0+4.5, 0-0.5),
+            new THREE.Vector3(0, 0, 0),
+            "",
+            '<div style="width: 100%; height: 100%; background: '+resp+'">',
+            ""
+        )
+        create3dPage(
+            1000,
             10000,
             0.001,
             new THREE.Vector3(0+4.5, 0+4.5, 0+10-0.5),
@@ -67,6 +77,16 @@ $.ajax({
         )
         create3dPage(
             10000,
+            1000,
+            0.001,
+            new THREE.Vector3(0+4.5, 0+4.5, 0+10-0.5),
+            new THREE.Vector3(0, 0, 0),
+            "",
+            '<div style="width: 100%; height: 100%; background: '+resp+'">',
+            ""
+        )
+        create3dPage(
+            1000,
             10000,
             0.001,
             new THREE.Vector3(0+10-0.5, 0+4.5, 0+4.5),
@@ -77,7 +97,27 @@ $.ajax({
         )
         create3dPage(
             10000,
+            1000,
+            0.001,
+            new THREE.Vector3(0+10-0.5, 0+4.5, 0+4.5),
+            new THREE.Vector3(0, Math.PI/2, 0),
+            "",
+            '<div style="width: 100%; height: 100%; background: '+resp+'">',
+            ""
+        )
+        create3dPage(
+            1000,
             10000,
+            0.001,
+            new THREE.Vector3(0-0.5, 0+4.5, 0+4.5),
+            new THREE.Vector3(0, Math.PI/2, 0),
+            "",
+            '<div style="width: 100%; height: 100%; background: '+resp+'">',
+            ""
+        )
+        create3dPage(
+            10000,
+            1000,
             0.001,
             new THREE.Vector3(0-0.5, 0+4.5, 0+4.5),
             new THREE.Vector3(0, Math.PI/2, 0),
