@@ -1,6 +1,7 @@
 import { gameObjects, redrawObjects } from "./redrawObjects.js";
 
 export function drawBlock(x, y, z, textureUrl) {
+    // console.log(textureUrl)
     x = Math.round(x);
     y = Math.round(y);
     z = Math.round(z);
@@ -20,7 +21,7 @@ export function drawBlock(x, y, z, textureUrl) {
         
     } else {
         // No adjancent block, draw the new BOTTOM face
-        gameObjects[`block:${x},${y},${z}:bottom`] = textureUrl;
+        gameObjects[`block:${x},${y},${z}:bottom`].textureUrl = textureUrl;
     }
 
     // We check the BOTTOM of the adjacent block
@@ -30,7 +31,7 @@ export function drawBlock(x, y, z, textureUrl) {
 
     } else {
         // No adjancent block, draw the new TOP face
-        gameObjects[`block:${x},${y},${z}:top`] = textureUrl;
+        gameObjects[`block:${x},${y},${z}:top`].textureUrl = textureUrl;
     }
 
     // We check the NORTH of the adjacent block
@@ -40,7 +41,7 @@ export function drawBlock(x, y, z, textureUrl) {
 
     } else {
         // No adjancent block, draw the new SOUTH face
-        gameObjects[`block:${x},${y},${z}:south`] = textureUrl;
+        gameObjects[`block:${x},${y},${z}:south`].textureUrl = textureUrl;
     }
 
     // We check the SOUTH of the adjacent block
@@ -49,7 +50,7 @@ export function drawBlock(x, y, z, textureUrl) {
         delete gameObjects[`block:${x},${y},${z+1}:south`]
         
     } else {
-        gameObjects[`block:${x},${y},${z}:north`] = textureUrl;
+        gameObjects[`block:${x},${y},${z}:north`].textureUrl = textureUrl;
     }
 
     // We check the WEST of the adjacent block
@@ -58,7 +59,7 @@ export function drawBlock(x, y, z, textureUrl) {
         delete gameObjects[`block:${x-1},${y},${z}:west`]
         
     } else {
-        gameObjects[`block:${x},${y},${z}:east`] = textureUrl;
+        gameObjects[`block:${x},${y},${z}:east`].textureUrl = textureUrl;
     }
 
     // We check the EAST of the adjacent block
@@ -67,6 +68,32 @@ export function drawBlock(x, y, z, textureUrl) {
         delete gameObjects[`block:${x+1},${y},${z}:east`]
         
     } else {
-        gameObjects[`block:${x},${y},${z}:west`] = textureUrl;
+        gameObjects[`block:${x},${y},${z}:west`].textureUrl = textureUrl;
+    }
+}
+
+export function drawBlockColor(x,y,z,color){
+    // console.log(textureUrl)
+    x = Math.round(x);
+    y = Math.round(y);
+    z = Math.round(z);
+
+    if (`block:${x},${y},${z}:bottom` in gameObjects){
+        gameObjects[`block:${x},${y},${z}:bottom`].color = color;
+    }
+    if (`block:${x},${y},${z}:top` in gameObjects){
+        gameObjects[`block:${x},${y},${z}:top`].color = color;
+    }
+    if (`block:${x},${y},${z}:north` in gameObjects){
+        gameObjects[`block:${x},${y},${z}:north`].color = color;
+    }
+    if (`block:${x},${y},${z}:south` in gameObjects){
+        gameObjects[`block:${x},${y},${z}:south`].color = color;
+    }
+    if (`block:${x},${y},${z}:east` in gameObjects){
+        gameObjects[`block:${x},${y},${z}:east`].color = color;
+    }
+    if (`block:${x},${y},${z}:west` in gameObjects){
+        gameObjects[`block:${x},${y},${z}:west`].color = color;
     }
 }

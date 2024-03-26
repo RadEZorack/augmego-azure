@@ -2,7 +2,30 @@ import * as THREE from '../three/three.module.js';
 import { objectScene } from '../main/main.js';
 import { vs, fs } from '../main/shaders.js';
 
-export let gameObjects = {};
+function createDefaultObject(defaultValue) {
+return new Proxy({}, {
+    get: function(target, property) {
+    if (!(property in target)) {
+        target[property] = defaultValue; // Set the default value if the property doesn't exist
+    }
+    return target[property];
+    }
+});
+}
+
+function createDefaultDict(defaultValue) {
+return new Proxy({}, {
+    get: function(target, property) {
+    if (!(property in target)) {
+        target[property] = createDefaultObject(defaultValue); // Create a new default object for new keys
+    }
+    return target[property];
+    }
+});
+}
+
+// Usage
+export let gameObjects = createDefaultDict("");
 export let quadMeshInstanceIDKeys = {};
 
 
@@ -28,6 +51,7 @@ export function redrawObjects() {
     const textureCount = {}
 
     let i = 0;
+    console.log(gameObjects)
     for (const key in gameObjects){
         // stopAnimate = true;
         // if (instanceCount < i){
@@ -41,7 +65,8 @@ export function redrawObjects() {
         }
 
         // Grab the texuture and see how many times it's been drawn, and create a new key if too high.
-        const textureUrl = gameObjects[key];
+        const textureUrl = gameObjects[key].textureUrl;
+        // console.log(textureUrl)
         
         if (textureUrl == ""){
             // This cube does not have a texture and should not be drawn because it was removed, so continue
@@ -76,7 +101,7 @@ export function redrawObjects() {
             // texture.offset.x = 90/(2*Math.PI);
 
             const quadMaterial = new THREE.MeshLambertMaterial({
-                map: texture
+                map: texture,
             });
 
             const quadGeometry = new THREE.PlaneGeometry(1, 1);
@@ -111,6 +136,18 @@ export function redrawObjects() {
 
         // This roundingErrorFix causes us to round in the correct direction when placing or destorying blocks.
         const roundingErrorFix = 0.5001
+
+        const color = gameObjects[key].color;
+        
+        if (color == ""){
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.8, 0.8, 0.8))
+        }else if (color == "red"){
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.8, 0.0, 0.0))
+        }else if (color == "green"){
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.0, 0.8, 0.0))
+        }else if (color == "blue"){
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.0, 0.0, 0.8))
+        }
 
         switch (direction){
             case "north":
@@ -175,6 +212,7 @@ export function redrawObjects() {
         quadMesh.count = quadMesh.myCount;
         // console.log(quadMesh.count)
         quadMesh.instanceMatrix.needsUpdate = true;
+        quadMesh.instanceColor.needsUpdate = true;
     }
     
     // stopAnimate = false;
