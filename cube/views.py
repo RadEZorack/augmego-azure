@@ -169,11 +169,11 @@ def chunk_info(request):
         chunk = None
 
     if chunk:
-        owner_name = str(chunk.owner)
-        cache.set(cache_key, owner_name, None)
+        owner_name = chunk.owner
 
         if owner_name:
-            if (str(request.user.person) == owner_name):
+            cache.set(cache_key, str(owner_name), None)
+            if (str(request.user.person) == str(owner_name)):
                 return HttpResponse("green")
             else:
                 return HttpResponse("red")
@@ -207,7 +207,7 @@ def chunk_purchase(request):
     chunk.owner = request.user.person
     chunk.save()
 
-    owner_name = str(chunk.owner)
-
-    cache.set(cache_key, owner_name, None)
+    owner_name = chunk.owner
+    if owner_name:
+        cache.set(cache_key, str(owner_name), None)
     return HttpResponse('')
