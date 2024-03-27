@@ -51,7 +51,7 @@ export function redrawObjects() {
     const textureCount = {}
 
     let i = 0;
-    console.log(gameObjects)
+    // console.log(gameObjects)
     for (const key in gameObjects){
         // stopAnimate = true;
         // if (instanceCount < i){
@@ -140,13 +140,13 @@ export function redrawObjects() {
         const color = gameObjects[key].color;
         
         if (color == ""){
-            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.8, 0.8, 0.8))
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.7, 0.7, 0.7))
         }else if (color == "red"){
-            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.8, 0.0, 0.0))
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.7, 0.3, 0.3))
         }else if (color == "green"){
-            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.0, 0.8, 0.0))
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.3, 0.7, 0.3))
         }else if (color == "blue"){
-            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.0, 0.0, 0.8))
+            quadMesh.setColorAt(quadMesh.myCount - 1, new THREE.Color(0.3, 0.3, 0.7))
         }
 
         switch (direction){

@@ -32,7 +32,7 @@ function drawChunkBounds(chunkPosition){
                     z: Math.floor(z/10)
                 },
                 success: function(resp) {
-                    console.log(resp);
+                    // console.log(resp);
                     // returns { plane: plane, cssObject: cssObject, scale: s }
                     for (let i = x; i < x + 10; i++){
                         for (let j = y; j < y + 10; j++){
