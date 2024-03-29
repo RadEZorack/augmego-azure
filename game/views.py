@@ -62,3 +62,6 @@ def ad(request):
 def start(request):
     return render(request, 'account/start.html', {})
 
+def debug(request):
+    return render(request, 'game/debug.html')
+
