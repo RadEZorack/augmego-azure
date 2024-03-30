@@ -1,5 +1,5 @@
 import * as THREE from '../three/three.module.js';
-import { objectScene, cssScene, rendererMap } from '../main/main.js';
+import { scene, objectScene, cssScene, rendererMap } from '../main/main.js';
 import { playerWrapper } from '../main/player.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { allCameras, modifyActiveCameraName } from '../main/main.js';
@@ -46,15 +46,26 @@ export function createCssRenderer() {
 //
 ///////////////////////////////////////////////////////////////////
 function createPlane(w, h, s, position, rotation) {
+  // const alphaMap = new THREE.TextureLoader().load( blackPng )
+  // alphaMap.wrapS = THREE.RepeatWrapping;
+  // alphaMap.wrapT = THREE.RepeatWrapping;
   const material = new THREE.MeshBasicMaterial({
-    color: 0x010203,
+    // alphaMap: alphaMap,
+    // color: 0x010203,
+    color: 0x000000, // Example color, set as needed
+    transparent: true,
     opacity: 0.0,
-    side: THREE.DoubleSide
+    side: THREE.DoubleSide,
+    // depthWrite: false,
+    // stencilWrite: true
   });
+  // material.transparent = true;
 
   const geometry = new THREE.PlaneGeometry(w, h);
 
   const mesh = new THREE.Mesh(geometry, material);
+
+  mesh.renderOrder = -1;
 
   mesh.position.x = position.x;
   mesh.position.y = position.y;
