@@ -42,76 +42,6 @@ function drawChunkBounds(chunkPosition){
                         }
                     }
                     redrawObjects();
-                    // create3dPage(
-                    //     9000,
-                    //     1000,
-                    //     0.001,
-                    //     new THREE.Vector3(x+4.5, y+4.5, z-0.5+errorMargin),
-                    //     new THREE.Vector3(0, 0, 0),
-                    //     "",
-                    //     '<div style="width: 100%; height: 100%; background: '+resp+'">',
-                    //     ""
-                    // )
-                    // create3dPage(
-                    //     1000,
-                    //     10000,
-                    //     0.001,
-                    //     new THREE.Vector3(x+4.5, y+4.5, z+10-0.5-errorMargin),
-                    //     new THREE.Vector3(0, 0, 0),
-                    //     "",
-                    //     '<div style="width: 100%; height: 100%; background: '+resp+'">',
-                    //     ""
-                    // )
-                    // create3dPage(
-                    //     9000,
-                    //     1000,
-                    //     0.001,
-                    //     new THREE.Vector3(x+4.5, y+4.5, z+10-0.5-errorMargin),
-                    //     new THREE.Vector3(0, 0, 0),
-                    //     "",
-                    //     '<div style="width: 100%; height: 100%; background: '+resp+'">',
-                    //     ""
-                    // )
-                    // create3dPage(
-                    //     1000,
-                    //     9000,
-                    //     0.001,
-                    //     new THREE.Vector3(x+10-0.5-errorMargin, y+4.5, z+4.5),
-                    //     new THREE.Vector3(0, Math.PI/2, 0),
-                    //     "",
-                    //     '<div style="width: 100%; height: 100%; background: '+resp+'">',
-                    //     ""
-                    // )
-                    // create3dPage(
-                    //     9000,
-                    //     1000,
-                    //     0.001,
-                    //     new THREE.Vector3(x+10-0.5-errorMargin, y+4.5, z+4.5),
-                    //     new THREE.Vector3(0, Math.PI/2, 0),
-                    //     "",
-                    //     '<div style="width: 100%; height: 100%; background: '+resp+'">',
-                    //     ""
-                    // )
-                    // create3dPage(
-                    //     1000,
-                    //     9000,
-                    //     0.001,
-                    //     new THREE.Vector3(x-0.5+errorMargin, y+4.5, z+4.5),
-                    //     new THREE.Vector3(0, Math.PI/2, 0),
-                    //     "",
-                    //     '<div style="width: 100%; height: 100%; background: '+resp+'">',
-                    //     ""
-                    // )
-                    // create3dPage(
-                    //     9000,
-                    //     1000,
-                    //     0.001,
-                    //     new THREE.Vector3(x-0.5+errorMargin, y+4.5, z+4.5),
-                    //     new THREE.Vector3(0, Math.PI/2, 0),
-                    //     "",
-                    //     '<div style="width: 100%; height: 100%; background: '+resp+'">',
-                    //     ""
-                    // )
                 }
             })
         }
@@ -121,4 +51,5 @@ function drawChunkBounds(chunkPosition){
     }, 1000)
 }
 
-drawChunkBounds(undefined)
+// Disabled because of lack of functionality and performance
+// drawChunkBounds(undefined)
