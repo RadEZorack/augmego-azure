@@ -79,6 +79,12 @@ export function update_entity(entity_data){
             // called when the resource is loaded
             function ( gltf ) {
                 // console.log('gltf', gltf)
+                gltf.scene.traverse((node) => {
+                    if (node.isMesh && node.material) {
+                        node.material.transparent = true;
+                        node.material.opacity = 0.5; // Adjust as needed, ranging from 0.0 (fully transparent) to 1.0 (fully opaque)
+                    }
+                });
                 objectScene.add( gltf.scene );
 
 
