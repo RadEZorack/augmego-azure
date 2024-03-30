@@ -13,11 +13,11 @@ sun.target.position.set(-4, -4, -4);
 const renderer = new THREE.WebGLRenderer({ 
     antialias: false, 
     alpha: true, 
-    stencil: true // Enable stencil
+    // stencil: true // Enable stencil
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 // Set the clear color to fully transparent
-renderer.setClearColor(0x000000, 0);
+// renderer.setClearColor(0x000000, 0);
 document.body.appendChild(renderer.domElement);
 
 
@@ -28,7 +28,7 @@ var planeGeometry = new THREE.PlaneGeometry(3, 5);
 var planeMaterial = new THREE.MeshBasicMaterial({
   color: 0x0000ff, // Example color
   transparent: true,
-  opacity: 0.5, // Adjust as needed
+  // opacity: 0.5, // Adjust as needed
   side: THREE.DoubleSide,
 });
 

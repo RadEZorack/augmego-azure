@@ -102,6 +102,7 @@ export function redrawObjects() {
 
             const quadMaterial = new THREE.MeshLambertMaterial({
                 map: texture,
+                transparent: true,
             });
 
             const quadGeometry = new THREE.PlaneGeometry(1, 1);
