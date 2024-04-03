@@ -1,5 +1,7 @@
 Django
 whitenoise
+celery[redis]
+django-celery-beat
 channels[daphne]
 channels-redis
 requests

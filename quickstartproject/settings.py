@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'paypal.standard.ipn',
+    'django_celery_beat',
 
     # 'allauth.socialaccount.providers.apple',
     # 'allauth.socialaccount.providers.google',
@@ -148,7 +149,17 @@ CACHES = {
     }
 }
 
+# Celery Configuration
+CELERY_BROKER_URL = "redis://:"+os.environ.get('REDIS_PASSWORD', '')+"@"+os.environ.get('REDIS_HOST', '127.0.0.1')+":6379/2"
+CELERY_RESULT_BACKEND = "redis://:"+os.environ.get('REDIS_PASSWORD', '')+"@"+os.environ.get('REDIS_HOST', '127.0.0.1')+":6379/2"
 
+CELERY_BEAT_SCHEDULE = {
+    'add-every-30-seconds': {
+        'task': 'quickstartproject.tasks.add',
+        'schedule': 30.0, # specifies the interval in seconds
+        'args': (16, 16), # arguments passed to the 'add' task
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
