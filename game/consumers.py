@@ -1,6 +1,8 @@
 import json
 import uuid
 
+from django.utils import timezone
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
@@ -72,6 +74,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def update_user_login(self):
+        self.user_login.session_end = timezone.now()
         return self.user_login.save()
 
     # Receive message from WebSocket
