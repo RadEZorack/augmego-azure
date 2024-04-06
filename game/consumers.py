@@ -18,7 +18,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'room_%s' % self.room_name
-        self.uuid = str(uuid.uuid4())
+        # self.uuid = str(uuid.uuid4())
+        self.uuid = str(self.scope['user'].id)
 
         # Join room group
         await self.channel_layer.group_add(
@@ -155,6 +156,14 @@ class GameConsumer(AsyncWebsocketConsumer):
             'from': event['from'],
             'message': message
         }))
+
+    async def game_refetch_data(self, event):
+        print("forwarding a refetch_data request", event)
+        message = event['message']
+        await self.send(text_data=json.dumps({
+            'from': event['from'],
+            'message': {"refetch_amica": message['refetch_amica']}
+        }));
 
     # WebRTC
     # Video requests media from room

@@ -1,8 +1,10 @@
 import uuid
+import json
 
 from decimal import Decimal
 from django.contrib.auth import login
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Sum, Value, Max
 from django.db.models.functions import Coalesce
@@ -49,3 +51,9 @@ def nosignup(request):
     # form = NoSignUpForm()
 
     # return render(request, 'account/nosignup.html', {'form': form})
+
+def fetch_amica(request):
+    data = json.dumps({
+        'amica': str(request.user.person.amica)
+    })
+    return HttpResponse(data, content_type='application/json')

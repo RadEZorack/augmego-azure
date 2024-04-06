@@ -1,9 +1,13 @@
 from decimal import Decimal
+import json
 from celery import shared_task
 from monitor.models import UserLogin
 from django.db.models import Q
 from django.utils import timezone
 from django.core.cache import cache
+
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 from quickstartproject.middleware import server_start_time
 
@@ -27,5 +31,18 @@ def award_amica_15min():
         count += 1
         user.amica += Decimal(1.0)
         user.save()
+
+        # Tell the user to refetch data
+        channel_layer = get_channel_layer()
+        uuid = str(user.user_id)
+
+        async_to_sync(channel_layer.group_send)(
+            uuid,
+            {
+                'type': 'game.refetch_data',
+                'from': 'server',
+                'message': {'refetch_amica': str(user.amica)},
+            }
+        )
 
     return "success at awarding amica to {0} users".format(count)

@@ -1,4 +1,5 @@
 import { entities, update_entity, remove_entity } from '../main/entity.js';
+import { fetchAmica } from '../main/amica.js';
 
 console.log(window.location.host)
 
@@ -75,7 +76,12 @@ function initSocketConnection(){
       if ("sending-uuid" in message){
         myUuid = message["sending-uuid"].myUuid
         console.log("2. myUuid", myUuid)
-      }   
+      }
+
+      if ("refetch_amica" in message){
+        console.log("updating amica count");
+        $("#amicaTotal").html(message["refetch_amica"])
+      }
 
       // Message Que
       if ("message_que" in message){

@@ -32,7 +32,7 @@
             <div id="ui" ref="ui">
               <div>
                 <button class="btn btn-success" style="position: absolute; z-index: 5; top: 10px; left: 10px;"><a href="{% url 'account_logout' %}" style="color: white;">Logout</a></button>
-                <span style="position: absolute; z-index: 5; top: 10px; left: 90px;">{{ user_name }}: {{ amica }}</span>
+                <span style="position: absolute; z-index: 5; top: 10px; left: 90px;">{{ user_name }}: <span id="amicaTotal">{{ amica }}</span></span>
                 <iframe id="globalChatIframe" title="Global Chat" style="display: none; position: absolute; top: 45px; left: 0; width: 25vw; height: 20vh; z-index: 4;"></iframe>
               </div>
               <!-- WASD -->
@@ -269,6 +269,7 @@
             const chunkInfoURL = '{% url "cube:chunk_info" %}';
             const chunkPurchaseURL = '{% url "cube:chunk_purchase" %}';
             const textureLoadURL = '{% url "texture:list" %}'
+            const fetchAmicaURL = '{% url "person:fetch_amica" %}'
             let my_name = "{{ user_name }}";
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
@@ -336,6 +337,7 @@
      <script src="{% static 'main/initSelfCam.js' %}" type="module"></script>
      <script src="{% static 'main/initTexturePanel.js' %}" type="module"></script>
      <script src="{% static 'main/initObjects.js' %}" type="module"></script>
+     <script src="{% static 'main/amica.js' %}" type="module"></script>
      <script src="{% static 'main/onWindowResize.js' %}" type="module"></script>
    </body>
 </html>
