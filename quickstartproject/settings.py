@@ -66,6 +66,7 @@ INSTALLED_APPS = [
 
     'paypal.standard.ipn',
     'django_celery_beat',
+    'django_celery_results',
 
     # 'allauth.socialaccount.providers.apple',
     # 'allauth.socialaccount.providers.google',
