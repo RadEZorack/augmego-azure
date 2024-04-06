@@ -71,35 +71,35 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EC30615455F545F0A61634D82D4DE8B5 }}
 
-  deploy-celery:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
+  # deploy-celery:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   environment:
+  #     name: 'production'
+  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  #   permissions:
+  #     id-token: write #This is required for requesting the JWT
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: python-app
-          path: .
+  #   steps:
+  #     - name: Download artifact from build job
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: python-app
+  #         path: .
 
-      # - name: Unzip artifact for deployment
-      #   run: unzip release.zip
+  #     # - name: Unzip artifact for deployment
+  #     #   run: unzip release.zip
       
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B0F4DD49CBC948949F3070B8F5E24A4F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_64F7CE3114ED417F8DD4E72396FEEABD }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6DCE97C75D384542AAE6762D110FECD3 }}
+  #     - name: Login to Azure
+  #       uses: azure/login@v1
+  #       with:
+  #         client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B0F4DD49CBC948949F3070B8F5E24A4F }}
+  #         tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_64F7CE3114ED417F8DD4E72396FEEABD }}
+  #         subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6DCE97C75D384542AAE6762D110FECD3 }}
 
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
-        with:
-          app-name: 'augmego-celery'
-          slot-name: 'production'
+  #     - name: 'Deploy to Azure Web App'
+  #       uses: azure/webapps-deploy@v2
+  #       id: deploy-to-webapp
+  #       with:
+  #         app-name: 'augmego-celery'
+  #         slot-name: 'production'
