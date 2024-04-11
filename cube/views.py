@@ -93,31 +93,29 @@ def post_cube(request):
         rp = request.POST
 
         # Check if this user can modify the chunk
+        cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(
+            x=floor(int(rp.get("x"))/10),
+            y=floor(int(rp.get("y"))/10),
+            z=floor(int(rp.get("z"))/10))
 
-        # Chunk logic disabled because of lack of functionality
-        # cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(
-        #     x=floor(int(rp.get("x"))/10),
-        #     y=floor(int(rp.get("y"))/10),
-        #     z=floor(int(rp.get("z"))/10))
+        owner_name = cache.get(cache_key)
+        if owner_name and (str(request.user.person) != owner_name):
+            return HttpResponseForbidden()
 
-        # owner_name = cache.get(cache_key)
-        # if owner_name and (str(request.user.person) != owner_name):
-        #     return HttpResponseForbidden()
-
-        # try:
-        #     chunk = Chunk.objects.get(
-        #         x=floor(int(rp.get("x"))/10),
-        #         y=floor(int(rp.get("y"))/10),
-        #         z=floor(int(rp.get("z"))/10))
-        # except Chunk.DoesNotExist:
-        #     chunk = None
-        #     # return HttpResponseForbidden()
+        try:
+            chunk = Chunk.objects.get(
+                x=floor(int(rp.get("x"))/10),
+                y=floor(int(rp.get("y"))/10),
+                z=floor(int(rp.get("z"))/10))
+        except Chunk.DoesNotExist:
+            chunk = None
+            # return HttpResponseForbidden()
         
-        # if chunk:
-        #     cache.set(cache_key, str(chunk.owner), None)
+        if chunk:
+            cache.set(cache_key, str(chunk.owner), None)
 
-        #     if request.user.person != chunk.owner:
-        #         return HttpResponseForbidden()
+            if request.user.person != chunk.owner:
+                return HttpResponseForbidden()
 
         cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"))
         if rp.get("textureName"):
@@ -185,11 +183,6 @@ def chunk_info(request):
 
 def chunk_purchase(request):
     """ example: http://localhost:8000/cube/chunk_purchase?x=0&y=0&z=0 """
-    # Disabled because of lack of functionality
-    return HttpResponse('')
-
-
-    # Define your range for each coordinate
     rp = request.POST
     x = int(rp.get("x"))
     y = int(rp.get("x"))

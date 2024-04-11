@@ -5,6 +5,8 @@ import { playerWrapper } from '../main/player.js';
 
 const errorMargin = 0.1
 
+let drawChunkBoundsXHR = undefined;
+
 function drawChunkBounds(chunkPosition){
     let thisChunkPosition = new THREE.Vector3(0.0, 0.0, 0.0);
     // console.log(playerWrapper);
@@ -19,34 +21,41 @@ function drawChunkBounds(chunkPosition){
         const y = thisChunkPosition.y;
         const z = thisChunkPosition.z;
         
-        // console.log(chunkPosition, thisChunkPosition)
+        console.log(chunkPosition, thisChunkPosition)
         if (chunkPosition == undefined || chunkPosition.x != x || chunkPosition.y != y || chunkPosition.z != z){ 
+            for (let a = -1; a <= 1; a++){
+                for (let b = -1; b <= 1; b++){
+                    for (let c = -1; c <= 1; c++){
+                        console.log(Math.floor(x/10)+a, Math.floor(y/10)+b, Math.floor(z/10)+c)
             
-            $.ajax({
-                url: chunkInfoURL,
-                type: 'GET',
-                data: {
-                    csrfmiddlewaretoken: csrfmiddlewaretoken,
-                    x: Math.floor(x/10),
-                    y: Math.floor(y/10),
-                    z: Math.floor(z/10)
-                },
-                success: function(resp) {
-                    // console.log(resp);
-                    // returns { plane: plane, cssObject: cssObject, scale: s }
-                    for (let i = x; i < x + 10; i++){
-                        for (let j = y; j < y + 10; j++){
-                            for (let k = z; k < z + 10; k++){
-                                drawBlockColor(i, j, k, resp)
+                        $.ajax({
+                            url: chunkInfoURL,
+                            type: 'GET',
+                            data: {
+                                csrfmiddlewaretoken: csrfmiddlewaretoken,
+                                x: Math.floor(x/10)+a,
+                                y: Math.floor(y/10)+b,
+                                z: Math.floor(z/10)+c
+                            },
+                            success: function(resp) {
+                                console.log(resp);
+                                // returns { plane: plane, cssObject: cssObject, scale: s }
+                                for (let i = x + a * 10; i < x + 10 + a * 10; i++){
+                                    for (let j = y + b * 10; j < y + 10 + b * 10; j++){
+                                        for (let k = z + c * 10; k < z + 10 + c * 10; k++){
+                                            drawBlockColor(i, j, k, resp)
+                                        }
+                                    }
+                                }
+                                redrawObjects();
                             }
-                        }
+                        })
                     }
-                    redrawObjects();
                 }
-            })
+            }
         }
     }
-    setTimeout(function(){
+    drawChunkBoundsXHR = setTimeout(function(){
         drawChunkBounds(thisChunkPosition)
     }, 1000)
 }
