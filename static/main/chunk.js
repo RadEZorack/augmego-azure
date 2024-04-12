@@ -92,5 +92,5 @@ function drawChunkBounds(){
     
 }
 
-// Disabled because of lack of functionality and performance
-drawChunkBounds(undefined)
+// Disabled for now
+// drawChunkBounds(undefined)
