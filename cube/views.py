@@ -95,7 +95,7 @@ def post_cube(request):
         # Check if this user can modify the chunk
         cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(
             x=floor(int(rp.get("x"))/10),
-            y=floor(int(rp.get("y"))/10),
+            y=0,#y=floor(int(rp.get("y"))/10),
             z=floor(int(rp.get("z"))/10))
 
         owner_name = cache.get(cache_key)
@@ -105,7 +105,7 @@ def post_cube(request):
         try:
             chunk = Chunk.objects.get(
                 x=floor(int(rp.get("x"))/10),
-                y=floor(int(rp.get("y"))/10),
+                y=0,#y=floor(int(rp.get("y"))/10),
                 z=floor(int(rp.get("z"))/10))
         except Chunk.DoesNotExist:
             chunk = None
@@ -156,7 +156,7 @@ def chunk_info(request):
         for b in range(0,1):# chunks no longer have height info
             for c in range(-chunk_range,chunk_range+1):
                 x = int(rg.get("x"))+a
-                y = int(rg.get("y"))+b
+                y = 0#y = int(rg.get("y"))+b
                 z = int(rg.get("z"))+c
 
                 cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(x=x,y=y,z=z)
@@ -202,7 +202,7 @@ def chunk_purchase(request):
     """ example: http://localhost:8000/cube/chunk_purchase?x=0&y=0&z=0 """
     rp = request.POST
     x = int(rp.get("x"))
-    y = int(rp.get("x"))
+    y = 0#y = int(rp.get("x"))
     z = int(rp.get("z"))
 
     cache_key = "chunk_get_owner:x={x},y={y},z={z}".format(x=x,y=y,z=z)
