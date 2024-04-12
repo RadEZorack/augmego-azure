@@ -24,7 +24,7 @@ function drawChunkBounds(){
         const y = thisChunkPosition.y;
         const z = thisChunkPosition.z;
         
-        console.log(thisChunkPosition)
+        // console.log(thisChunkPosition)
         $.ajax({
             url: chunkInfoURL,
             type: 'GET',
@@ -38,15 +38,15 @@ function drawChunkBounds(){
                 console.log(resp);
                 // returns { plane: plane, cssObject: cssObject, scale: s }
                 for (let chunkKey in resp){
-                    console.log(chunkKey)
+                    // console.log(chunkKey)
                     let chunkKeySplit = chunkKey.split(":")
                     chunkKeySplit = chunkKeySplit[1].split(",")
                     const xChunk = Number.parseInt(chunkKeySplit[0].split("=")[1])
-                    const yChunk = Number.parseInt(chunkKeySplit[1].split("=")[1])
+                    // const yChunk = Number.parseInt(chunkKeySplit[1].split("=")[1])
                     const zChunk = Number.parseInt(chunkKeySplit[2].split("=")[1])
                     for (let i = x + xChunk * 10; i < x + 10 + xChunk * 10; i++){
                         // TODO we probably want chunks going to the sky and bedrock
-                        for (let j = y + yChunk * 10; j < y + 10 + yChunk * 10; j++){
+                        for (let j = y - 100; j < y + 100; j++){
                             for (let k = z + zChunk * 10; k < z + 10 + zChunk * 10; k++){
                                 drawBlockColor(i, j, k, resp[chunkKey])
                             }
