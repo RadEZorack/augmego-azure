@@ -9,6 +9,28 @@
 </head>
 <html>
    <body>
+      <!-- Modal -->
+      <div class="modal" id="exampleModal" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Commands</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Just say "Hey Trixel" and then the command or click the button. -->
+              <ul>
+                <li>
+                  <button class="btn btn-primary command" data-command="toggleLandClaimView">Toggle Land Claim View</button>
+                </li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div allow="autoplay">
          <div id="threeJSContainer">
             <button id="welcomePage" class="btn btn-success"
@@ -23,17 +45,23 @@
             
          </div>
          <div id="hud" allow="autoplay">
-            <div style="position: absolute; top: 5px; right: 5px; z-index: 10;">
+            <!-- <div style="position: absolute; top: 5px; right: 5px; z-index: 10;">
               <span style="display: none; font-size: 2em; background-color: black;" id="myDisplayName"></span>
-            </div>
+            </div> -->
             <!-- <video autoplay class="local-video" id="local-video-2" style="display: none; background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 60px; left: 5px; z-index: 10;"></video> -->
             <video autoplay muted playsinline class="local-video" id="local-video-1" style="background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; position: absolute; top: 0px; left: 50vw; transform: translate(-50%, 0); z-index: 10;"></video>
             
             <div id="ui" ref="ui">
               <div>
-                <button class="btn btn-success" style="position: absolute; z-index: 5; top: 10px; left: 10px;"><a href="{% url 'account_logout' %}" style="color: white;">Logout</a></button>
-                <span style="position: absolute; z-index: 5; top: 10px; left: 90px;">{{ user_name }}: <span id="amicaTotal">{{ amica }}</span></span>
-                <iframe id="globalChatIframe" title="Global Chat" style="display: none; position: absolute; top: 45px; left: 0; width: 25vw; height: 20vh; z-index: 4;"></iframe>
+                <span style="position: absolute; z-index: 15; top: 10px; left: 10px;">
+                  <a href="{% url 'account_logout' %}" class="btn btn-success" style="color: white;">Logout</a>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Commands
+                  </button>
+                </span>
+                <span style="position: absolute; z-index: 5; top: 50px; left: 10px;">{{ user_name }}</br><span id="amicaTotal">{{ amica }}</span></span>
+                <!-- <iframe id="globalChatIframe" title="Global Chat" style="display: none; position: absolute; top: 45px; left: 0; width: 25vw; height: 20vh; z-index: 4;"></iframe> -->
               </div>
               <!-- WASD -->
               <!-- <div
@@ -253,6 +281,7 @@
       <div style="display: none;">
          {% csrf_token %}
       </div>
+     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
      <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
      <script src="{% static 'three/three.module.js' %}" type="module"></script>
      <script src="{% static 'three/OrbitControls.js' %}" type="module"></script>
@@ -338,6 +367,7 @@
      <script src="{% static 'main/initTexturePanel.js' %}" type="module"></script>
      <script src="{% static 'main/initObjects.js' %}" type="module"></script>
      <script src="{% static 'main/amica.js' %}" type="module"></script>
+     <script src="{% static 'main/commands.js' %}" type="module"></script>
      <script src="{% static 'main/onWindowResize.js' %}" type="module"></script>
    </body>
 </html>
