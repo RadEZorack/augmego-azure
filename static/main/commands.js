@@ -3,7 +3,7 @@ import { drawChunkBounds } from '../main/chunk.js';
 let toggleLandClaimView = false;
 
 $(document).ready(function() {
-    $('.command').on("touchstart click", function() {
+    $('.command').on("touchstart click", function(e) {
         // Prevent multiple handlers from firing. Remove if you need both touch and click events handled separately.
         e.stopPropagation(); 
         e.preventDefault();
