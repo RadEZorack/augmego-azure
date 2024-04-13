@@ -1,4 +1,4 @@
-import { drawChunkBounds } from '../main/chunk.js';
+import { drawChunkBounds, buyLand } from '../main/chunk.js';
 
 let toggleLandClaimView = false;
 
@@ -16,6 +16,9 @@ $(document).ready(function() {
             toggleLandClaimView = !toggleLandClaimView
             console.log(toggleLandClaimView)
             drawChunkBounds(toggleLandClaimView)
+        }else if (command == "buyLand"){
+            // This buys the land where the player is standing
+            buyLand()
         }
     });
 });
