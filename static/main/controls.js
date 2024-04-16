@@ -1,5 +1,7 @@
-
-
+import { drawBlock, drawTempBlock, removeTempBlock } from "./drawBlock.js";
+import { onMouseDownCreateBlock, onMouseDownDestoryBlock, toggleMouseState } from "./mouseClicks.js";
+import { redrawObjects } from './redrawObjects.js';
+import { selectedObject } from './raycaster.js';
 // const gameObjects = gameObjects;
 // const blockMeshInstanceIDKeys = blockMeshInstanceIDKeys;
 
@@ -817,32 +819,27 @@ export function initControls() {
     });
     $("#ui").hide();
 
-    // if (middleItemTouchMoveXHR == undefined){
-    //   middleItemTouchMoveXHR = setTimeout(function(){
-    //     if (middleItemTouch != undefined){
-    //       if(middleItemTouch.clientX >= middleItemBoundingBox.left &&
-    //          middleItemTouch.clientX <= (middleItemBoundingBox.left + middleItemBoundingBox.width) &&
-    //          middleItemTouch.clientY >= middleItemBoundingBox.top &&
-    //          middleItemTouch.clientY <= (middleItemBoundingBox.top + middleItemBoundingBox.height)
-    //         ){
-    //         console.log("remove temp block")
-    //         $("#middleItemSymbol").css({color: "white"});
-    //         // Inside selector
-    //         if (temporary_block_add != undefined){
-    //           // Remove old temp
-    //           temporary_block_add.old_material = temporary_block_add.material
-    //           temporary_block_add.material = ""
-    //           add_or_change_block(temporary_block_add)
-    //           temporary_block_add = undefined
-    //         }
-    //       }else{
-    //         $("#middleItemSymbol").css({color: "red"});
-    //         block_place_event(middleItemTouch, preview=true)
-    //       }
-    //     }
-    //     middleItemTouchMoveXHR = undefined;
-    //   }, 50)
-    // }
+    if (middleItemTouchMoveXHR == undefined){
+      middleItemTouchMoveXHR = setTimeout(function(){
+        if (middleItemTouch != undefined){
+          if(middleItemTouch.clientX >= middleItemBoundingBox.left &&
+             middleItemTouch.clientX <= (middleItemBoundingBox.left + middleItemBoundingBox.width) &&
+             middleItemTouch.clientY >= middleItemBoundingBox.top &&
+             middleItemTouch.clientY <= (middleItemBoundingBox.top + middleItemBoundingBox.height)
+            ){
+            console.log("remove temp block")
+            $("#middleItemSymbol").css({color: "white"});
+            removeTempBlock();
+            
+          }else{
+            $("#middleItemSymbol").css({color: "red"});
+            let data = selectedObject(middleItemTouch)
+            drawTempBlock(data)
+          }
+        }
+        middleItemTouchMoveXHR = undefined;
+      }, 50)
+    }
   }
 
   function touchEnd(event) {
@@ -874,26 +871,23 @@ export function initControls() {
       ) {
         console.log("remove temp block");
         $("#middleItemSymbol").css({ color: "white" });
-        // Inside selector
-        // if (temporary_block_add != undefined){
-        //   // Remove old temp
-        //   temporary_block_add.old_material = temporary_block_add.material
-        //   temporary_block_add.material = ""
-        //   add_or_change_block(temporary_block_add)
-        //   temporary_block_add = undefined
-        // }
+        removeTempBlock();
+
       } else {
         console.log("add block");
-        // block_place_event(middleItemTouch)
-        // Temporary remove block for testing
-        const data = selectedObject(middleItemTouch);
-        if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
-          const index =
-          triangleMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-          gameObjects.splice(index, 1);
-          console.log(index, gameObjects)
+        removeTempBlock();
+        if (event.targetTouches && event.targetTouches.length == 1) {
+          middleItemTouch = event.targetTouches[0];
+        } else {
+          middleItemTouch = event;
         }
-        redrawObjects();
+        if (toggleMouseState == "destroy"){
+          onMouseDownDestoryBlock(event);
+    
+        }else if (toggleMouseState == "create"){
+          onMouseDownCreateBlock(event);
+    
+        }
       }
       middleItemTouch = undefined;
     }

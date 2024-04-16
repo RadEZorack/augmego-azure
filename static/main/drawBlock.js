@@ -1,4 +1,7 @@
-import { gameObjects, redrawObjects } from "./redrawObjects.js";
+import { gameObjects, quadMeshInstanceIDKeys } from "./redrawObjects.js";
+import { toggleMouseState } from "./mouseClicks.js";
+import * as THREE from '../three/three.module.js';
+import { objectScene } from '../main/main.js';
 
 export function drawBlock(x, y, z, textureUrl) {
     // console.log(textureUrl)
@@ -95,5 +98,69 @@ export function drawBlockColor(x,y,z,color){
     }
     if (`block:${x},${y},${z}:west` in gameObjects){
         gameObjects[`block:${x},${y},${z}:west`].color = color;
+    }
+}
+
+let boxMesh = undefined;
+export function drawTempBlock(data){
+    // const texture = new THREE.TextureLoader().load( textureUrl )
+    // texture.wrapS = THREE.RepeatWrapping;
+    // texture.wrapT = THREE.RepeatWrapping;
+    // // texture.offset.x = 90/(2*Math.PI);
+
+    // const boxMaterial = new THREE.MeshLambertMaterial({
+    //     map: texture,
+    //     transparent: true,
+    // });
+
+    //reset
+    if (boxMesh != undefined){
+        objectScene.remove(boxMesh);
+    }
+ 
+    //green
+    let color = 0x00ff00
+    if (toggleMouseState == "destroy"){
+        //red
+        color = 0xff0000
+    }else if (toggleMouseState == "create"){
+        //green
+        color = 0x00ff00
+
+    }
+    const boxMaterial = new THREE.MeshBasicMaterial({ color: color, wireframe: true });
+
+    const boxGeometry = new THREE.BoxGeometry(1, 1);
+
+    boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+
+    // boxMesh.castShadow = true;
+    // boxMesh.receiveShadow = true;
+    // let data = selectedObject(event)
+    if (toggleMouseState == "destroy" && data != undefined && data.object != undefined && data.object.uuid != undefined && data.instanceId != undefined){
+        const key = quadMeshInstanceIDKeys[data.object.uuid][data.instanceId];
+        const keyArray = key.split(":")
+        const xyz = keyArray[1].split(",");
+        const x = Math.round(xyz[0])
+        const y = Math.round(xyz[1])
+        const z = Math.round(xyz[2])
+        boxMesh.position.x = x;
+        boxMesh.position.y = y;
+        boxMesh.position.z = z;
+    }else if (toggleMouseState == "create"){
+        const x = Math.round(data.point.x)
+        const y = Math.round(data.point.y)
+        const z = Math.round(data.point.z)
+        boxMesh.position.x = x;
+        boxMesh.position.y = y;
+        boxMesh.position.z = z;
+    }
+
+    objectScene.add(boxMesh);
+}
+
+export function removeTempBlock(){
+    if (boxMesh != undefined){
+        objectScene.remove(boxMesh);
     }
 }

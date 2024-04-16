@@ -16,8 +16,8 @@ let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
 // let toggleMouse = document.getElementById("toggleMouse");
 // Initial State is WALK
-let toggleMouseState = "www";
-let blockTextureMaterial = "";
+export let toggleMouseState = "www";
+export let blockTextureMaterial = "";
 let blockTextureUrl = "";
 
 // Turn on WWW state
@@ -356,7 +356,7 @@ function onMouseDownPlayerMove(event) {
   myPlayer.scene.lookAt(event.point.x, playerWrapper.position.y, event.point.z);
 }
 
-function onMouseDownDestoryBlock(event){
+export function onMouseDownDestoryBlock(event){
   const data = selectedObject(event);  
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
@@ -415,7 +415,7 @@ function onMouseDownDestoryBlock(event){
   
 }
 
-function onMouseDownCreateBlock(event){
+export function onMouseDownCreateBlock(event){
   const data = selectedObject(event);
   console.log(data.point)
 
