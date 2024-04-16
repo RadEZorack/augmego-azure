@@ -846,8 +846,10 @@ export function initControls() {
     event.preventDefault();
     event.stopPropagation();
     // If there's exactly one finger inside this element
-    if (event.targetTouches && event.targetTouches.length == 1) {
-      middleItemTouch = event.targetTouches[0];
+    console.log(event)
+    // Note these are "changed"Touches
+    if (event.changedTouches && event.changedTouches.length == 1) {
+      middleItemTouch = event.changedTouches[0];
     } else {
       middleItemTouch = event;
     }
@@ -882,12 +884,13 @@ export function initControls() {
       } else {
         console.log("add block");
         removeTempBlock();
-        
+        let data = selectedObject(middleItemTouch)
+
         if (toggleMouseState == "destroy"){
-          onMouseDownDestoryBlock(middleItemTouch);
+          onMouseDownDestoryBlock(data);
     
         }else if (toggleMouseState == "create"){
-          onMouseDownCreateBlock(middleItemTouch);
+          onMouseDownCreateBlock(data);
     
         }
       }
@@ -902,35 +905,41 @@ export function initControls() {
     $("#ui").show();
   }
 
+  function documenBodyTouchmove(event){
+    event.preventDefault();
+    event.stopPropagation();
+    touchMove(event);
+  }
+
+  function documenBodyTouchend(event){
+    event.preventDefault();
+    event.stopPropagation();
+    document.body.removeEventListener("touchmove", documenBodyTouchmove)
+    document.body.removeEventListener("touchend", documenBodyTouchend)
+    touchEnd(event);
+  }
+
   middleItem.addEventListener(
     "touchstart",
     function(event) {
       event.preventDefault();
       event.stopPropagation();
       touchStart(event);
-    },
-    false
-  );
+    
+      document.body.addEventListener(
+        "touchmove",
+        documenBodyTouchmove,
+        false
+      );
 
-  middleItem.addEventListener(
-    "touchmove",
-    function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      touchMove(event);
+      document.body.addEventListener(
+        "touchend",
+        documenBodyTouchend,
+        false
+      );
     },
     false
-  );
-
-  middleItem.addEventListener(
-    "touchend",
-    function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      touchEnd(event);
-    },
-    false
-  );
+  )
 
   middleItem.onmousedown = function(event) {
     event.preventDefault();

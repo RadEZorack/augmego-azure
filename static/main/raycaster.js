@@ -6,18 +6,19 @@ const raycaster = new THREE.Raycaster();
 
 export function selectedObject(e, preview = false) {
   // Center around 0, with a range from -0.5 <> 0.5
+  console.log(e)
   clickPosition.x = (e.clientX / window.innerWidth) * 2 - 1;
   clickPosition.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-  // console.log(clickPosition);
+  console.log(clickPosition);
   raycaster.setFromCamera(clickPosition, camera);
-  // console.log(Array.from(objectScene.children));
-  // console.log(raycaster);
+  console.log(Array.from(objectScene.children));
+  console.log(raycaster);
   const intersects = raycaster.intersectObjects(
     Array.from(objectScene.children),
     true
   ); //array
-  // console.log("intersects", intersects);
+  console.log("intersects", intersects);
   if (intersects.length > 0) {
     const selectedObject = intersects[0];
     // console.log("selectedObject", selectedObject);

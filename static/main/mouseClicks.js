@@ -356,8 +356,8 @@ function onMouseDownPlayerMove(event) {
   myPlayer.scene.lookAt(event.point.x, playerWrapper.position.y, event.point.z);
 }
 
-export function onMouseDownDestoryBlock(event){
-  const data = selectedObject(event);  
+export function onMouseDownDestoryBlock(data){
+  // const data = selectedObject(event);  
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
       const key = quadMeshInstanceIDKeys[data.object.uuid][data.instanceId];
@@ -415,8 +415,8 @@ export function onMouseDownDestoryBlock(event){
   
 }
 
-export function onMouseDownCreateBlock(event){
-  const data = selectedObject(event);
+export function onMouseDownCreateBlock(data){
+  // const data = selectedObject(event);
   console.log(data.point)
 
   const distance = Math.sqrt(
