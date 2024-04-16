@@ -846,6 +846,11 @@ export function initControls() {
     event.preventDefault();
     event.stopPropagation();
     // If there's exactly one finger inside this element
+    if (event.targetTouches && event.targetTouches.length == 1) {
+      middleItemTouch = event.targetTouches[0];
+    } else {
+      middleItemTouch = event;
+    }
     // $("#middleItemSymbol").css({'font-size': 'xxx-large'});
     middleItemSymbol = document.getElementById("middleItemSymbol");
     middleItemSymbolBoundingBox = middleItemSymbol.getBoundingClientRect();
@@ -858,6 +863,7 @@ export function initControls() {
       middleItemBoundingBox.height / 2 -
       middleItemSymbolBoundingBox.height / 2;
     // update_sigmoids();
+    
 
     if (middleItemTouch != undefined) {
       if (
@@ -876,11 +882,7 @@ export function initControls() {
       } else {
         console.log("add block");
         removeTempBlock();
-        if (event.targetTouches && event.targetTouches.length == 1) {
-          middleItemTouch = event.targetTouches[0];
-        } else {
-          middleItemTouch = event;
-        }
+        
         if (toggleMouseState == "destroy"){
           onMouseDownDestoryBlock(middleItemTouch);
     
