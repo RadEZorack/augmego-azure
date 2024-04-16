@@ -882,10 +882,10 @@ export function initControls() {
           middleItemTouch = event;
         }
         if (toggleMouseState == "destroy"){
-          onMouseDownDestoryBlock(event);
+          onMouseDownDestoryBlock(middleItemTouch);
     
         }else if (toggleMouseState == "create"){
-          onMouseDownCreateBlock(event);
+          onMouseDownCreateBlock(middleItemTouch);
     
         }
       }
