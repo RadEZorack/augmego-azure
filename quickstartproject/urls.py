@@ -19,13 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 
-from game.views import main, ad, start, debug
+from game.views import main, ad, start, debug, test
 from person.views import nosignup
 from payment.views import process_payment
 
 urlpatterns = [
     path('', main, name='main'),
     path("debug/", debug, name="debug"),
+    path("test/", test, name="test"),
     path("start/", start, name="start"),
     path("nosignup/", nosignup, name="nosignup"),
     path('ad/', ad, name='ad'),

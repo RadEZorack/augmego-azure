@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiple Camera Access</title>
+</head>
+<body>
+    <video autoplay></video>
+    <button onclick="switchCamera()">Switch Camera</button>
+    <script>
+        let currentCamera = null;
+
+        async function getCameras() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                console.log(devices)
+                return devices.filter(device => device.kind === 'videoinput');
+            } catch (error) {
+                console.error('Error accessing devices:', error);
+                return [];
+            }
+        }
+
+
+        async function switchCamera() {
+            const constraints = {
+                video: { facingMode: (currentFacingMode === 'user' ? 'environment' : 'user') }
+            };
+
+            try {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop()); // Stop the current stream
+                }
+
+                currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+                const videoElement = document.querySelector('video');
+                videoElement.srcObject = currentStream;
+                currentFacingMode = (currentFacingMode === 'user' ? 'environment' : 'user'); // Toggle facing mode
+            } catch (error) {
+                console.error('Error switching cameras:', error);
+            }
+        }
+
+        let currentStream = null;
+        let currentFacingMode = 'user'; // Start with the front-facing camera
+
+    </script> <!-- Link to your JavaScript file -->
+</body>
+</html>

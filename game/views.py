@@ -65,3 +65,6 @@ def start(request):
 def debug(request):
     return render(request, 'game/debug.html')
 
+def test(request):
+    return render(request, 'game/test.html')
+
