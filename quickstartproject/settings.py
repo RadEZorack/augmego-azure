@@ -36,7 +36,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 import socket
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',"localhost augmego-django augmego.ngrok.io 369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',"127.0.0.1 localhost augmego-django augmego.ngrok.io 369de4cfa06e-7199118840071997290.ngrok-free.app").split(" ")
 ALLOWED_HOSTS += [ip_address,]
 ALLOWED_HOSTS += [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 

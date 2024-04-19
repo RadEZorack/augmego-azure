@@ -1,0 +1,19 @@
+# ngrok start --all --config=./ngrok.yaml
+
+# ngrok auth config
+authtoken: 1m9OJapnAWad5yE5CxK8Woo9gkU_62VCktHhMGu3D1ycmM2aH
+version: 2
+tunnels:
+  augmego:
+    proto: http
+    domain: 369de4cfa06e-7199118840071997290.ngrok-free.app
+    addr: host.docker.internal:8000
+
+    # -------------------------
+    # Additional options
+    # -------------------------
+    # auth: "username:password"
+    # host_header: rewrite
+    # inspect: true
+    # bind_tls: true
+
