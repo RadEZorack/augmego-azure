@@ -40,6 +40,31 @@ export function initToggleMouseOption(){
     event.preventDefault();
     event.stopPropagation();
     toggleMouseState = $(this).data("type");
+
+    if(toggleMouseState == "destroy"){
+      blockTextureMaterial = "";
+      blockTextureUrl = "";
+      $(`[data-type='create']`).css("border", "solid 2px red");
+      $(`[data-type='destroy']`).css("border", "solid 2px green");
+
+    }else if (toggleMouseState == "create"){
+      blockTextureMaterial = $(this).data("material");
+      blockTextureUrl =  $(this).attr("src");
+      $(`[data-type='create']`).css("border", "solid 2px red");
+      $(this).css("border", "solid 2px green");
+      $(`[data-type='destroy']`).css("border", "solid 2px red");
+    }
+  })
+
+
+
+  return;
+  // We do not allow click placement anymore.
+
+  $(".toggleMouseOption").on("click", function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    toggleMouseState = $(this).data("type");
     if (toggleMouseState == "buy"){
       // Show property info/lines
     }else{
@@ -201,6 +226,9 @@ function onWheel(event) {
 
 // deadZone.onmousedown = onMouseDown;
 function onMouseDown(event) {
+  return null;
+  // We no longer allow click placement
+
   event = singleClick(event);
   if (event.which == 1) {
     if (toggleMouseState == "destroy"){
