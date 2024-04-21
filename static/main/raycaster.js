@@ -1,5 +1,6 @@
 import * as THREE from '../three/three.module.js';
 import { objectScene, camera } from '../main/main.js';
+import { boxMesh } from '../main/drawBlock.js';
 
 const clickPosition = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
@@ -12,6 +13,9 @@ export function selectedObject(e, preview = false) {
 
   console.log(clickPosition);
   raycaster.setFromCamera(clickPosition, camera);
+  if (boxMesh != undefined){
+      objectScene.remove(boxMesh);
+  }
   console.log(Array.from(objectScene.children));
   console.log(raycaster);
   const intersects = raycaster.intersectObjects(

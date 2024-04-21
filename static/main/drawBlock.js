@@ -101,7 +101,7 @@ export function drawBlockColor(x,y,z,color){
     }
 }
 
-let boxMesh = undefined;
+export let boxMesh = undefined;
 export function drawTempBlock(data){
     // const texture = new THREE.TextureLoader().load( textureUrl )
     // texture.wrapS = THREE.RepeatWrapping;
