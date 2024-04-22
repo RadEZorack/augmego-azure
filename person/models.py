@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 
 from django.contrib.auth import get_user_model
@@ -27,4 +28,5 @@ class Person(models.Model):
 def create_or_update_user_person(sender, instance, created, **kwargs):
     if created:
         Person.objects.create(user=instance)
+        instance.person.amica += Decimal(1.000)
     instance.person.save()
