@@ -24,14 +24,14 @@ const euler = new THREE.Euler(0, 0, 0, "YXZ");
 const PI_2 = Math.PI / 2;
 
 function animate() {
-    if (stopAnimate == true){
-        // We need the player to interact with the page before things will work correctly.
-        // So we loop until we get the flag to start, which can be found on the main page.
-        const stopAnimateXHR = setTimeout(function(){
-            animate()
-        }, 1000)
-        return null
-    }
+    // if (stopAnimate == true){
+    //     // We need the player to interact with the page before things will work correctly.
+    //     // So we loop until we get the flag to start, which can be found on the main page.
+    //     const stopAnimateXHR = setTimeout(function(){
+    //         animate()
+    //     }, 1000)
+    //     return null
+    // }
 	requestAnimationFrame( animate );
     
     if (!(playerWrapper === undefined)){

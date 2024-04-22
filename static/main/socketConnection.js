@@ -8,7 +8,7 @@ export let peerConnections = {}
 export let message_que = []
 
 function initSocketConnection(){
-  $('#globalChatIframe').attr('src', 'https://' + window.location.host + '/chat/global/')
+  // $('#globalChatIframe').attr('src', 'https://' + window.location.host + '/chat/global/')
 
   socket = new WebSocket(
       'wss://' + window.location.host +

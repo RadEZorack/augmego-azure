@@ -58,7 +58,7 @@
       
       <div allow="autoplay">
          <div id="threeJSContainer">
-            <button id="welcomePage" class="btn btn-success"
+            <!-- <button id="welcomePage" class="btn btn-success"
                style="position: absolute; top: 50vh; left: 50vw;
                transform: translate(-50%, -50%);
                width: 70vw;
@@ -66,7 +66,7 @@
                border: solid 3px black; z-index: 11;
             ">
                Click me to start!
-            </button>
+            </button> -->
             
          </div>
          <div id="hud" allow="autoplay">
@@ -314,6 +314,7 @@
      <script src="{% static 'three/DRACOLoader.js' %}" type="module"></script>
      <script src="{% static 'three/GLTFLoader.js' %}" type="module"></script>
      <script src="{% static 'three/CSS3DRenderer.js' %}" type="module"></script>
+     <script src="{% static 'three/BufferGeometryUtils.js' %}" type="module"></script>
      <!-- Context specific variables-->
          <script type="text/javascript">
             const csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -349,26 +350,26 @@
          </script>
       <!-- Start script-->
          <script type="text/javascript">
-            let stopAnimate = true;
-            let welcomePage = document.getElementById("welcomePage");
-            welcomePage.onmousedown = onClickStart;
-            function onClickStart(event){
-               event.preventDefault();
-               event.stopPropagation();
+            // let stopAnimate = true;
+            // let welcomePage = document.getElementById("welcomePage");
+            // welcomePage.onmousedown = onClickStart;
+            // function onClickStart(event){
+            //    event.preventDefault();
+            //    event.stopPropagation();
                
-               welcomePage.style.display = "none";
+              //  welcomePage.style.display = "none";
                // let toggleMouse = document.getElementsByClassName("toggleMouse");
                // toggleMouse.style.display = "block";
-               $(".toggleMouse").css("display", "block")
-               $("#globalChatIframe").css("display", "block")
+              //  $(".toggleMouse").css("display", "block")
+              //  $("#globalChatIframe").css("display", "block")
 
-               stopAnimate = false;
-            }
-            function disabledIframeClicks(obj){
-               // Stop the mouse from interacting with iframes when they first load.
-               // It's located here because iframes are outside the scope of modules.
-               $(obj).css('pointer-events', 'none');
-            }
+            //    stopAnimate = false;
+            // }
+            // function disabledIframeClicks(obj){
+            //    // Stop the mouse from interacting with iframes when they first load.
+            //    // It's located here because iframes are outside the scope of modules.
+            //    $(obj).css('pointer-events', 'none');
+            // }
          </script>
       <!-- Scripts -->
      <script src="{% static 'main/main.js' %}" type="module"></script>
@@ -392,6 +393,7 @@
      <script src="{% static 'main/initSelfCam.js' %}" type="module"></script>
      <script src="{% static 'main/initTexturePanel.js' %}" type="module"></script>
      <script src="{% static 'main/initObjects.js' %}" type="module"></script>
+     <script src="{% static 'main/initWebcamPage.js' %}" type="module"></script>
      <script src="{% static 'main/amica.js' %}" type="module"></script>
      <script src="{% static 'main/commands.js' %}" type="module"></script>
      <script src="{% static 'main/onWindowResize.js' %}" type="module"></script>

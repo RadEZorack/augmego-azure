@@ -2,14 +2,14 @@ import { initToggleMouseOption } from '../main/mouseClicks.js';
 import { initObjects } from '../main/initObjects.js';
 
 function textureLoad(){
-    if (stopAnimate == true){
-        // We need the player to interact with the page before things will work correctly.
-        // So we loop until we get the flag to start, which can be found on the main page.
-        const stopAnimateXHR = setTimeout(function(){
-            textureLoad()
-        }, 1000)
-        return null
-    }
+    // if (stopAnimate == true){
+    //     // We need the player to interact with the page before things will work correctly.
+    //     // So we loop until we get the flag to start, which can be found on the main page.
+    //     const stopAnimateXHR = setTimeout(function(){
+    //         textureLoad()
+    //     }, 1000)
+    //     return null
+    // }
 
     $.ajax({
         url: textureLoadURL,
@@ -21,7 +21,7 @@ function textureLoad(){
             row.className = 'row';
 
             resp.forEach((image, index) => {
-                console.log(index, resp.length)
+                // console.log(index, resp.length)
                 const col = document.createElement('div');
                 col.className = 'col-3 mb-3'; // added mb-3 for some bottom margin
 
