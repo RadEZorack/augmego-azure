@@ -2,11 +2,18 @@ import requests
 import json
 import uuid
 
+from django.core.files.base import ContentFile
+from django.core.files.images import ImageFile
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.csrf import csrf_exempt
 
+from openai import OpenAI
+
 from quickstartproject import settings
+
+from texture.models import Texture  # Import your model
 
 @xframe_options_sameorigin
 def webcam(request):
@@ -68,3 +75,29 @@ def debug(request):
 def test(request):
     return render(request, 'game/test.html')
 
+def generate_image(request):
+    client = OpenAI()
+
+    title = request.POST.get("title")
+    description = request.POST.get("description")
+
+    response = client.images.generate(
+        model="dall-e-3",
+        prompt=description,
+        size="1024x1024",
+        quality="standard",
+        n=1,
+    )
+
+    image_url = response.data[0].url
+    print(image_url)
+
+    response = requests.get(image_url)
+    if response.status_code == 200:
+        # If the response is successful, create a ContentFile from the binary content of the image
+        image_content = ContentFile(response.content)
+        # Create an image file and save it to the ImageField
+        texture = Texture.objects.create(name=title)
+        texture.image.save(title+'.png', image_content, save=True)
+
+    return HttpResponse(image_url)

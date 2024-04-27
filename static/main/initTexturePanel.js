@@ -1,7 +1,7 @@
 import { initToggleMouseOption } from '../main/mouseClicks.js';
 import { initObjects } from '../main/initObjects.js';
 
-function textureLoad(){
+export function textureLoad(){
     // if (stopAnimate == true){
     //     // We need the player to interact with the page before things will work correctly.
     //     // So we loop until we get the flag to start, which can be found on the main page.
@@ -16,6 +16,7 @@ function textureLoad(){
         type: 'GET',
         success: function(resp) {
             const container = document.getElementById('texturePanel');
+            container.innerHTML = ""
 
             let row = document.createElement('div');
             row.className = 'row';

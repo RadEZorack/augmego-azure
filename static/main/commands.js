@@ -1,4 +1,5 @@
 import { drawChunkBounds, buyLand } from '../main/chunk.js';
+import { createTexture } from '../main/createTexture.js';
 
 let toggleLandClaimView = false;
 
@@ -19,6 +20,8 @@ $(document).ready(function() {
         }else if (command == "buyLand"){
             // This buys the land where the player is standing
             buyLand()
+        }else if (command == "createTexture"){
+            createTexture()
         }
     });
 });

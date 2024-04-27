@@ -33,6 +33,7 @@ services:
       PAYPAL_BUSINESS_LIVE: "${PAYPAL_BUSINESS_LIVE}"
       PAYPAL_BUSINESS_TEST: "${PAYPAL_BUSINESS_TEST}"
       PAYPAL_TEST: "${PAYPAL_TEST}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
     volumes:
       - .:/code
     ports:

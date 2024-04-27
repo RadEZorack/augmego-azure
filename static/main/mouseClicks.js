@@ -50,6 +50,7 @@ export function initToggleMouseOption(){
     }else if (toggleMouseState == "create"){
       blockTextureMaterial = $(this).data("material");
       blockTextureUrl =  $(this).attr("src");
+      $("#middleItemBackgroundImg").attr("src", blockTextureUrl)
       $(`[data-type='create']`).css("border", "solid 2px red");
       $(this).css("border", "solid 2px green");
       $(`[data-type='destroy']`).css("border", "solid 2px red");
