@@ -1,6 +1,8 @@
 import requests
 import json
 import uuid
+from PIL import Image
+from io import BytesIO
 
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
@@ -90,14 +92,24 @@ def generate_image(request):
     )
 
     image_url = response.data[0].url
-    print(image_url)
+    # print(image_url)
 
     response = requests.get(image_url)
     if response.status_code == 200:
-        # If the response is successful, create a ContentFile from the binary content of the image
-        image_content = ContentFile(response.content)
+        # If the response is successful
+        # Open the image and resize it
+        image = Image.open(BytesIO(response.content))
+        image = image.resize((64, 64))
+
+        # Save the image data to a BytesIO object
+        image_io = BytesIO()
+        image.save(image_io, format='JPEG')
+
+        # Create a Django ContentFile from the BytesIO object
+        image_content = ContentFile(image_io.getvalue())
+
         # Create an image file and save it to the ImageField
         texture = Texture.objects.create(name=title)
-        texture.image.save(title+'.png', image_content, save=True)
+        texture.image.save(title+'.jpg', image_content, save=True)
 
-    return HttpResponse(image_url)
+    return HttpResponse("ok")
