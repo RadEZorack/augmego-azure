@@ -6,7 +6,7 @@ import {
 	Loader,
 	LinearSRGBColorSpace,
 	SRGBColorSpace
-} from "../three/three.module.js";
+} from "../three/three.module.min.js";
 
 const _taskCache = new WeakMap();
 

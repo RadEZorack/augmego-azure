@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 
 function replaceThreeChunkFn(a, b) {
     return THREE.ShaderChunk[b] + "\n";

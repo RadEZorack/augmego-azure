@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
 import { camera, threeJSContainer } from '../main/main.js';
 import { selectedObject } from '../main/raycaster.js';

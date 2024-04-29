@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { scene, objectScene, cssScene, rendererMap } from '../main/main.js';
 import { playerWrapper } from '../main/player.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';

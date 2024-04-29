@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 import { vs, fs } from '../main/shaders.js';
 

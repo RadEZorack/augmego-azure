@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
 import { scene, objectScene, cssScene, camera, allCameras, activeCameraName, renderer, rendererBackground, rendererMap, threeJSContainer, backgroundCanvas } from '../main/main.js';
 import { create3dPage, cssRenderer } from '../main/webpage3d.js';

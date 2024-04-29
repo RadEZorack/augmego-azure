@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { gameObjects, redrawObjects } from "./redrawObjects.js";
 import { drawBlockColor } from "./drawBlock.js";
 import { playerWrapper } from '../main/player.js';

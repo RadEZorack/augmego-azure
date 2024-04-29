@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
 import { create3dPage } from '../main/webpage3d.js';

@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { create3dPage } from '../main/webpage3d.js';
 import { playerWrapper } from '../main/player.js';
 

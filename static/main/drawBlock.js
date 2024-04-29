@@ -1,6 +1,6 @@
 import { gameObjects, quadMeshInstanceIDKeys } from "./redrawObjects.js";
 import { toggleMouseState } from "./mouseClicks.js";
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 
 export function drawBlock(x, y, z, textureUrl) {
