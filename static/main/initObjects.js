@@ -1,11 +1,26 @@
-import { gameObjects, redrawObjects } from "./redrawObjects.js";
+import * as THREE from '../three/three.module.min.js';
+import { gameObjects, redrawObjects, initGameObjects } from "./redrawObjects.js";
 import { drawBlock } from "./drawBlock.js";
 import { removeBlock } from "./removeBlock.js";
-import { perlin2 } from '../main/perlin.js';
-import { loadPlayer } from '../main/player.js';
+import { perlin2, simplex2 } from '../main/perlin.js';
+import { loadPlayer, playerWrapper } from '../main/player.js';
+
 
 export function initObjects() {
     console.log("initObjects");
+    
+    let thisPosition = new THREE.Vector3(0,0,0)
+    if (!(playerWrapper === undefined)){
+      thisPosition.x = playerWrapper.position.x
+      thisPosition.y = playerWrapper.position.y
+      thisPosition.z = playerWrapper.position.z
+    }
+    
+    // Round to nearest 50
+    thisPosition.x = Math.floor(thisPosition.x/50)*50
+    thisPosition.y = Math.floor(thisPosition.y/50)*50
+    thisPosition.z = Math.floor(thisPosition.z/50)*50
+    
     // for (let i = 0; i < 256*16; i++){
     //   gameObjects.push({
     //     key: `initBlock:${i}`,
@@ -19,18 +34,22 @@ export function initObjects() {
     //     weightChance: Math.random(),
     //   });
     // }
-    let seed = 1;
-    function random() {
-        var x = Math.sin(seed++) * 10000;
-        return x - Math.floor(x);
+    // let seed = 1;
+    function random(seed) {
+      // Seed is x + 2 * initRange *z
+      const x = Math.sin(seed * 10000) * 10000;
+      return x - Math.floor(x);
     }
 
     const initRange = 100;
+
+    initGameObjects();
   
     // noise.seed(0)
-    for (let x = -initRange; x < initRange; x++) {
+    for (let x = -initRange + thisPosition.x; x < initRange + thisPosition.x; x++) {
       // for (let y = -1; y < 0; y++) {
-        for (let z = -initRange; z < initRange; z++) {
+        for (let z = -initRange + thisPosition.z; z < initRange + thisPosition.z; z++) {
+          const innerSeed = x + 2 * initRange *z
           // Grass or dirt
             //   let id = Math.floor(17 * Math.random());
             let textureUrl = favicon;
@@ -107,11 +126,11 @@ export function initObjects() {
                 // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
               }
 
-              if (Math.sqrt(x**2+z**2) > 20 && perlin2(x/5,z/5) < 0 && random() > 0.95){
+              if (Math.sqrt(x**2+z**2) > 20 && perlin2(x/5,z/5) < 0 && random(innerSeed) > 0.95){
                 // Trees
                 const ymin = 1
                 // const ymin = 3*perlin2(x/10,z/10)
-                const ymax = random()*4+1
+                const ymax = (simplex2(x,z)+1)*4 + 1
                 for (let y2 = 0; y2 < ymax; y2++) {
                   drawBlock(x, ymin+y2, z, barkTexture)
                 }
@@ -147,12 +166,12 @@ export function initObjects() {
       type: 'GET',
       data: {
         csrfmiddlewaretoken: csrfmiddlewaretoken,
-        min_x: -initRange,
-        min_y: -initRange,
-        min_z: -initRange,
-        max_x: initRange,
-        max_y: initRange,
-        max_z: initRange,
+        min_x: -initRange + thisPosition.x,
+        min_y: -initRange + thisPosition.y,
+        min_z: -initRange + thisPosition.x,
+        max_x: initRange + thisPosition.x,
+        max_y: initRange + thisPosition.y,
+        max_z: initRange + thisPosition.z,
       },
       success: function(resp) {
           console.log("success get");
@@ -166,9 +185,32 @@ export function initObjects() {
           }
 
           redrawObjects();
-          loadPlayer();
       }
     })
 
     redrawObjects();
+    
 }
+
+let lastPlayerPosition = new THREE.Vector3(0,0,0);
+function checkPlayerMovedPosition(){
+  if (!(playerWrapper == undefined)){
+    // console.log(lastPlayerPosition)
+    // console.log(playerWrapper.position)
+    const dist = Math.sqrt(
+                    Math.pow(playerWrapper.position.x - lastPlayerPosition.x, 2) +
+                    Math.pow(playerWrapper.position.y - lastPlayerPosition.y, 2) +
+                    Math.pow(playerWrapper.position.z - lastPlayerPosition.z, 2)
+                  )
+    if (dist >= 50){
+      lastPlayerPosition.x = playerWrapper.position.x
+      lastPlayerPosition.y = playerWrapper.position.y
+      lastPlayerPosition.z = playerWrapper.position.z
+      initObjects();
+    }
+  }
+  setTimeout(checkPlayerMovedPosition, 1000 )
+}
+
+loadPlayer();
+checkPlayerMovedPosition();

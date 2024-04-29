@@ -130,19 +130,22 @@ def post_cube(request):
 
         serializer = CubeSerializer(cube, many=False, context={"request":request})
 
-        # These values are hard coded for now, wait for chunking
-        x_range = (-100, 100)
-        y_range = (-100, 100)
-        z_range = (-100, 100)
+        # Round to nearest 50
+        x=floor(int(rp.get("x"))/50)*50
+        y=floor(int(rp.get("y"))/50)*50
+        z=floor(int(rp.get("z"))/50)*50
+        x_range = (-100 + x, 100 + x)
+        y_range = (-100 + y, 100 + y)
+        z_range = (-100 + z, 100 + z)
 
-        cache_master_key = "cubes_to_fetch" #:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
-        current_cubes = cache.get(cache_master_key)
+        cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
+        current_cubes = cache.get(cache_master_key, [])
         current_cube_key = "cube:{x}:{y}:{z}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"]).replace(" ", "_")
-        current_cubes += current_cube_key
+        current_cubes.append(current_cube_key)
 
         cache.set(current_cube_key, serializer.data, 60*60*24*30) # one month cache
 
-        cache.set(cache_master_key, list(current_cubes), 60*60*24*30) # one month cache
+        cache.set(cache_master_key, current_cubes, 60*60*24*30) # one month cache
 
 
         return HttpResponse(json.dumps(serializer.data), content_type='application/json')

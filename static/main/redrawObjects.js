@@ -13,7 +13,7 @@ return new Proxy({}, {
 });
 }
 
-function createDefaultDict(defaultValue) {
+export function createDefaultDict(defaultValue) {
 return new Proxy({}, {
     get: function(target, property) {
     if (!(property in target)) {
@@ -26,10 +26,13 @@ return new Proxy({}, {
 
 // Usage
 export let gameObjects = createDefaultDict("");
+export function initGameObjects(){
+    gameObjects = createDefaultDict("");
+}
 export let quadMeshInstanceIDKeys = {};
 
 
-const instanceCount = 10000; // Number of instances you want, Putting this number higher may cause unexpected lag.
+const instanceCount = 100000; // Number of instances you want, Putting this number higher may cause unexpected lag.
 const quadMeshs = {};
 // const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 // const instancedQuad = new THREE.InstancedMesh(quadGeometry, material, instanceCount);

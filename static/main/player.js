@@ -1,4 +1,4 @@
-import * as THREE from '../three/three.module.js';
+import * as THREE from '../three/three.module.min.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
 import { objectScene, camera, backgroundCanvas } from '../main/main.js';
@@ -59,6 +59,7 @@ export function loadPlayer(){
         // cameraRotator.lookAt(camera);
 
         objectScene.add( playerWrapper );
+        console.log("player loaded")
     }
   );
 }
