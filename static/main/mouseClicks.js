@@ -15,13 +15,13 @@ export let myPlayerTargetPosition = new THREE.Vector3(0,0,0);
 let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let deadZone = document.getElementById("deadZone");
 // let toggleMouse = document.getElementById("toggleMouse");
-// Initial State is WALK
-export let toggleMouseState = "www";
+// Initial State is DESTROY
+export let toggleMouseState = "destroy";
 export let blockTextureMaterial = "";
 let blockTextureUrl = "";
 
 // Turn on WWW state
-$(`img[data-type='www']`).css("border", "solid 2px green");
+$(`img[data-type='destroy']`).css("border", "solid 2px green");
 $('iframe').css('pointer-events', 'auto');
 $('.divImage').css('pointer-events', 'auto');
 
