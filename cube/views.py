@@ -39,29 +39,30 @@ def list_cubes(request):
 
     cache_master_key = "cubes_to_fetch"#{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
     cache_keys = cache.get(cache_master_key, [])
+    print(cache_keys)
     
     print("here 3")
-    # We don't need this crud which doesn't work. Because step 4 checks if we have "cache_keys"
+    # Not needed
+    # cache_value = []
     # if not cache_keys:
     #     print("here 3.1")
-    #     cache_value = []
     #     for x in range(int(x_range[0]), int(x_range[1])):
     #         print("here 3.3")
+    #         # Which check the cache here so that we aren't doing too large of a query
     #         cache_value += cache.get_many(cache_keys)
     #         cache_keys = []
     #         for y in range(int(y_range[0]), int(y_range[1])):
     #                 for z in range(int(z_range[0]), int(z_range[1])):
     #                     cache_keys.append("cube:{x}:{y}:{z}".format(x=x,y=y,z=z).replace(" ", "_"))
     #     print("here 3.4")
-        
-    #     print("here 3.5")
     #     cache.set(cache_master_key, list(cache_value.keys()), 60*60*24*30) # one month cache
     # else:
     cache_value = cache.get_many(cache_keys)
+    print(cache_value)
 
     print("here 4")
     if cache_keys and len(cache_value) == cubes_count:
-        return HttpResponse(json.dumps(cache_value), content_type='application/json')
+        return HttpResponse(json.dumps(list(cache_value.values())), content_type='application/json')
 
     print("here 5")
     # Query using the ORM
@@ -72,13 +73,14 @@ def list_cubes(request):
     )
 
     print("here 6")
-    cache.set(cache_master_key, list(cubes_within_range), 60*60*24*30)
+    # cache.set(cache_master_key, list(cubes_within_range), 60*60*24*30)
     
     print("here 7")
     serializer = CubeSerializer(cubes_within_range, many=True, context={"request":request})
 
     print("here 8")
     cache_data = {"cube:{x}:{y}:{z}".format(x=data["x"],y=data["y"],z=data["z"]).replace(" ", "_"):data for data in serializer.data}
+    cache.set(cache_master_key, list(cache_data.keys()), 60*60*24*30)
 
     print("here 9")
     cache.set_many(cache_data, 60*60*24*30) # one month cache
