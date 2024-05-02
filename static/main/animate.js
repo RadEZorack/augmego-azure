@@ -114,9 +114,9 @@ function animate() {
         // window.playerXZHigh[1] -= deltaZ; // / size_of_pixel
         playerWrapper.position.z += deltaZ;
 
-        allCameras["mapCamera"].position.x = playerWrapper.position.x + 25;
-        allCameras["mapCamera"].position.y = Math.max(50, playerWrapper.position.y);
-        allCameras["mapCamera"].position.z = playerWrapper.position.z - 25;
+        allCameras["mapCamera"].position.x = playerWrapper.position.x;
+        allCameras["mapCamera"].position.y = Math.max(150, playerWrapper.position.y);
+        allCameras["mapCamera"].position.z = playerWrapper.position.z-0.1;
         allCameras["mapCamera"].lookAt(playerWrapper.position)
 
         // Am I in a block

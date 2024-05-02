@@ -1,5 +1,7 @@
 import { drawChunkBounds, buyLand } from '../main/chunk.js';
 import { createTexture } from '../main/createTexture.js';
+import { playerWrapper } from '../main/player.js';
+import { selectedObject } from '../main/raycaster.js';
 
 let toggleLandClaimView = false;
 
@@ -19,7 +21,7 @@ $(document).ready(function() {
             drawChunkBounds(toggleLandClaimView)
         }else if (command == "buyLand"){
             // This buys the land where the player is standing
-            buyLand()
+            buyLand(playerWrapper.position)
         }else if (command == "createTexture"){
             createTexture()
         }

@@ -77,6 +77,19 @@ console.log("Creating renderer");
   export const backgroundCanvas = threeJSContainer.appendChild(rendererBackground.domElement);
   export const mapCanvas = threeJSContainer.appendChild(rendererMap.domElement);
 
+  // TODO: make the following work.
+  // $("#rendererMap").on("touchstart click", function(e) {
+  //   // Prevent multiple handlers from firing. Remove if you need both touch and click events handled separately.
+  //   e.stopPropagation(); 
+  //   e.preventDefault();
+
+  //   console.log("trying to buy land")
+
+  //   const obj = selectedObject(e)
+    
+  //   buyLand(obj.point.position)
+  // })
+
 camera.position.set( 0, 2, -5 );
 
 const light = new THREE.HemisphereLight( 0xffffff, 0x888888, 0.8 );
