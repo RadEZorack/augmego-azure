@@ -7,7 +7,7 @@ import { quadMeshInstanceIDKeys, gameObjects, redrawObjects } from '../main/redr
 import { drawBlock } from '../main/drawBlock.js';
 import { removeBlock } from '../main/removeBlock.js';
 import { peerConnections } from '../main/socketConnection.js';
-import { isFirstPerson } from '../main/QWEASD.js';
+import { isFirstPerson } from '../main/commands.js';
 
 
 

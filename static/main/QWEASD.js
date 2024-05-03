@@ -10,8 +10,8 @@ export let oDown = false;
 export let pDown = false;
 export let enterDown = false;
 export let spaceDown = false;
-export let isWalk = true;
-export let isFirstPerson = false;
+// export let isWalk = true;
+// export let isFirstPerson = false;
 
 let jumpButton = document.getElementById("jumpButton")
 jumpButton.addEventListener('mousedown', function(event){
@@ -65,21 +65,21 @@ document.addEventListener('keydown', function(event) {
         console.log("space")
     }
 
-    if(enterDown && oDown){
-        // Activate keyboard walk
-        isWalk = !isWalk;
-    }
+    // if(enterDown && oDown){
+    //     // Activate keyboard walk
+    //     isWalk = !isWalk;
+    // }
 
-    if(enterDown && pDown){
-        // Activate first person
-        isFirstPerson = !isFirstPerson;
-        if(isFirstPerson){
-            camera.position.set( 0, 1.75, 0 );
-        }else{
-            camera.position.set( 0, 2, -5 );
-        }
+    // if(enterDown && pDown){
+    //     // Activate first person
+    //     isFirstPerson = !isFirstPerson;
+    //     if(isFirstPerson){
+    //         camera.position.set( 0, 1.75, 0 );
+    //     }else{
+    //         camera.position.set( 0, 2, -5 );
+    //     }
         
-    }
+    // }
 });
 
 document.addEventListener('keyup', function(event) {

@@ -14,7 +14,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Commands</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Actions</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -23,11 +23,16 @@
               </br></br>
               <button class="btn btn-primary command" data-command="buyLand">Buy The Land I'm Standing On.</button>
               </br></br>
-              <button class="btn btn-primary command" data-command="createTexture">Create A Block Texture</button>
+              
+              <input type="text" id="createTextureName" name="createTextureName" placeholder="Name">
+              <input type="text" id="createTextureDescription" name="createTextureDescription" rows="2" cols="50" placeholder="description">
               </br>
-              <input type="text" id="createTextureName" name="createTextureName" placeholder="Red Brick">
-              <textarea type="text" id="createTextureDescription" name="createTextureDescription"  rows="2" cols="50">A texture of Red Brick</textarea>
-
+              <button class="btn btn-primary command" data-command="createTexture">Create A Block Texture From the Description Above</button>
+              
+              </br></br>
+              <button class="btn btn-primary command" data-command="toogleFirstPerson">Toggle First/Third Person</button>
+              <!-- </br></br>
+              <button class="btn btn-primary command" data-command="toogleWalkPerson">Toggle Walk/Run</button> -->
                
             </div>
             <div class="modal-footer">
@@ -97,7 +102,7 @@
                   </br>
                   
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Commands
+                    Actions
                   </button>
                   </br></br>
 

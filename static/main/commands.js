@@ -2,8 +2,11 @@ import { drawChunkBounds, buyLand } from '../main/chunk.js';
 import { createTexture } from '../main/createTexture.js';
 import { playerWrapper } from '../main/player.js';
 import { selectedObject } from '../main/raycaster.js';
+import { camera } from '../main/main.js';
 
 let toggleLandClaimView = false;
+export let isWalk = true;
+export let isFirstPerson = false;
 
 $(document).ready(function() {
     $('.command').on("touchstart click", function(e) {
@@ -24,6 +27,17 @@ $(document).ready(function() {
             buyLand(playerWrapper.position)
         }else if (command == "createTexture"){
             createTexture()
+        }else if (command == "toogleFirstPerson"){
+            // Activate first person
+            isFirstPerson = !isFirstPerson;
+            if(isFirstPerson){
+                camera.position.set( 0, 1.75, 0 );
+            }else{
+                camera.position.set( 0, 2, -5 );
+            }
+        }else if (command == "toogleWalkPerson"){
+            // Activate keyboard walk
+            isWalk = !isWalk;
         }
     });
 });

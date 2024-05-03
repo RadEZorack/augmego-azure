@@ -8,7 +8,8 @@ import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { gameObjects } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
 import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent } from '../main/controls.js';
-import { qDown, wDown, eDown, aDown, sDown, dDown, spaceDown, isWalk } from '../main/QWEASD.js'
+import { qDown, wDown, eDown, aDown, sDown, dDown, spaceDown } from '../main/QWEASD.js'
+import { isWalk } from '../main/commands.js'
 
 
 const stepDistance = 0.01;
