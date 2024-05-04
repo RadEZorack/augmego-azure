@@ -6,7 +6,7 @@ from io import BytesIO
 
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.csrf import csrf_exempt
@@ -83,6 +83,12 @@ def generate_image(request):
     title = request.POST.get("title")
     description = request.POST.get("description")
 
+    texture = None
+    try:
+        texture = Texture.objects.create(name=title)
+    except Exception as e:
+        return HttpResponseForbidden("A block with this name already exists.")
+
     response = client.images.generate(
         model="dall-e-3",
         prompt=description,
@@ -109,7 +115,6 @@ def generate_image(request):
         image_content = ContentFile(image_io.getvalue())
 
         # Create an image file and save it to the ImageField
-        texture = Texture.objects.create(name=title)
         texture.image.save(title+'.jpg', image_content, save=True)
 
     return HttpResponse("ok")

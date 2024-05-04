@@ -5,7 +5,7 @@ import { create3dPage, cssRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { myPlayerTargetPosition } from '../main/mouseClicks.js';
 import { sendPlayerPeerData } from '../main/sendPlayerData.js';
-import { gameObjects } from '../main/redrawObjects.js';
+import { gameObjects, startRedrawObjectsSpinner } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
 import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent } from '../main/controls.js';
 import { qDown, wDown, eDown, aDown, sDown, dDown, spaceDown } from '../main/QWEASD.js'
@@ -23,6 +23,7 @@ let moveDownXHR = undefined;
 let lastTime = 0;
 const euler = new THREE.Euler(0, 0, 0, "YXZ");
 const PI_2 = Math.PI / 2;
+let stopSpinner = false;
 
 function animate() {
     // if (stopAnimate == true){
@@ -36,6 +37,14 @@ function animate() {
 	requestAnimationFrame( animate );
     
     if (!(playerWrapper === undefined)){
+        if (startRedrawObjectsSpinner == true){
+            $("#loadingSpinner").show()
+        }
+        // Stop the spinner
+        if (stopSpinner == false){
+            stopSpinner = true;
+            $("#loadingSpinner").hide()
+        }
         const time = performance.now();
 
         const delta = time - lastTime;

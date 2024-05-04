@@ -42,10 +42,10 @@ const dummyEast = new THREE.Object3D();
 const dummyWest = new THREE.Object3D();
 const dummyTop = new THREE.Object3D();
 const dummyBottom = new THREE.Object3D();
-
+export let startRedrawObjectsSpinner = true;
 
 export function redrawObjects() {
-    // stopAnimate = true;
+    startRedrawObjectsSpinner = true;
     for (const key in quadMeshs){
         quadMeshs[key].count = instanceCount;
         quadMeshs[key].myCount = 0;
@@ -219,5 +219,6 @@ export function redrawObjects() {
         quadMesh.instanceColor.needsUpdate = true;
     }
     
-    // stopAnimate = false;
+    startRedrawObjectsSpinner = false;
+    $("#loadingSpinner").hide()
 }
