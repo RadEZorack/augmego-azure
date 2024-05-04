@@ -131,6 +131,12 @@ export function buyLand(position){
         success: function(resp) {
             console.log("success buy");
             drawChunkBounds(true);
+            $("#generalToast .toast-body").html("You have purchased this chunk of land.");
+            $("#generalToast").toast("show");
+        },
+        error: function (request, status, error) {
+            $("#generalToast .toast-body").html(status+": "+request.responseText);
+            $("#generalToast").toast("show");
         }
     })
 }

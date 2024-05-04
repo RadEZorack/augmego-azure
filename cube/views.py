@@ -215,12 +215,12 @@ def chunk_purchase(request):
     owner_name = cache.get(cache_key)
 
     if owner_name:
-        return HttpResponseForbidden()
+        return HttpResponseForbidden("This land is already purchased.")
     
     chunk, created = Chunk.objects.get_or_create(x=x,y=y,z=z)
     
     if request.user.person.amica < Decimal(1):
-        return HttpResponseForbidden()
+        return HttpResponseForbidden("You do not have enough Amica.")
 
     request.user.person.amica -= Decimal(1)
     request.user.person.save()
