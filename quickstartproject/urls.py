@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 
 from game.views import main, ad, start, debug, test
-from person.views import nosignup
+from person.views import nosignup, temp_login_for_mobile
 from payment.views import process_payment
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     path("test/", test, name="test"),
     path("start/", start, name="start"),
     path("nosignup/", nosignup, name="nosignup"),
+    path("temp_login_for_mobile/", temp_login_for_mobile, name="temp_login_for_mobile"),
     path('ad/', ad, name='ad'),
     path('payment/process/', process_payment, name='process_payment'),
     path("chat/", include("chat.urls")),

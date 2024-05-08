@@ -10,6 +10,7 @@ from django.db.models import Sum, Value, Max
 from django.db.models.functions import Coalesce
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth import get_user_model
+from django.views.decorators.csrf import csrf_exempt
 
 from person.models import Person
 from person.forms import NoSignUpForm
@@ -48,9 +49,25 @@ def nosignup(request):
 
             return redirect(main)
     
-    # form = NoSignUpForm()
+@csrf_exempt
+def temp_login_for_mobile(request):
+    code = str(uuid.uuid4())
+    try:
+        person = Person.objects.get(
+            code=code
+        )
+    except Person.DoesNotExist:
+        user = User.objects.create_user("Guest-"+str(code), str(uuid.uuid4())+'@example.com', str(uuid.uuid4()))
+        person = user.person
+        person.code = code
+        person.save()
 
-    # return render(request, 'account/nosignup.html', {'form': form})
+    # Log the user in
+    user = person.user
+    user.backend = settings.AUTHENTICATION_BACKENDS[0]
+    login(request, person.user)  # Update request.user to the new user
+
+    return HttpResponse("success")
 
 def fetch_amica(request):
     data = json.dumps({
