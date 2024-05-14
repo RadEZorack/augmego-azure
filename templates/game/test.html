@@ -1,48 +1,75 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Multiple Camera Access</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combine Images</title>
 </head>
 <body>
-    <video autoplay></video>
-    <button onclick="switchCamera()">Switch Camera</button>
+    <canvas id="canvas"></canvas>
+    <img id="combinedImage" style="display:block;"/>
+    <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
     <script>
-        let currentCamera = null;
-
-        async function getCameras() {
-            try {
-                const devices = await navigator.mediaDevices.enumerateDevices();
-                console.log(devices)
-                return devices.filter(device => device.kind === 'videoinput');
-            } catch (error) {
-                console.error('Error accessing devices:', error);
-                return [];
+        async function loadImages(imagePaths) {
+            const images = [];
+            for (let path of imagePaths) {
+                const img = new Image();
+                img.src = path;
+                await new Promise((resolve) => {
+                    img.onload = () => resolve();
+                });
+                images.push(img);
             }
+            return images;
         }
 
+        async function combineImages(imagePaths) {
+            const images = await loadImages(imagePaths);
+            const canvas = document.getElementById('canvas');
+            
+            // Calculate total width and maximum height
+            let totalWidth = 0;
+            let maxHeight = 0;
+            images.forEach(img => {
+                totalWidth += img.width;
+                maxHeight = Math.max(maxHeight, img.height);
+            });
 
-        async function switchCamera() {
-            const constraints = {
-                video: { facingMode: (currentFacingMode === 'user' ? 'environment' : 'user') }
-            };
+            // Set canvas size
+            canvas.width = totalWidth;
+            canvas.height = maxHeight;
+            const ctx = canvas.getContext('2d');
 
-            try {
-                if (currentStream) {
-                    currentStream.getTracks().forEach(track => track.stop()); // Stop the current stream
+            // Draw images onto canvas
+            let x = 0;
+            images.forEach(img => {
+                ctx.drawImage(img, x, 0);
+                x += img.width;
+            });
+
+            // Export to image
+            const combinedImage = document.getElementById('combinedImage');
+            combinedImage.src = canvas.toDataURL('image/jpeg');
+        }
+
+        $.ajax({
+            url: '{% url "texture:list" %}',
+            type: 'GET',
+            success: function(resp) {
+                // console.log(resp);
+                allUrls = []
+                for(const i in resp){
+                    // const space = (i * 5).toString();
+                    const fields = resp[i]
+                    allUrls.push(fields["image_url"])
                 }
 
-                currentStream = await navigator.mediaDevices.getUserMedia(constraints);
-                const videoElement = document.querySelector('video');
-                videoElement.srcObject = currentStream;
-                currentFacingMode = (currentFacingMode === 'user' ? 'environment' : 'user'); // Toggle facing mode
-            } catch (error) {
-                console.error('Error switching cameras:', error);
+                combineImages(allUrls);
             }
-        }
+        })
 
-        let currentStream = null;
-        let currentFacingMode = 'user'; // Start with the front-facing camera
 
-    </script> <!-- Link to your JavaScript file -->
+    </script>
 </body>
 </html>

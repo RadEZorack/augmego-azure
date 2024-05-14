@@ -190,7 +190,7 @@ function initSocketConnection(){
 
         const data = message["call-made"]
         await peerConnection.setRemoteDescription(
-            new RTCSessionDescription(data.offer)
+            new RTCSessionDescription(JSON.parse(data.offer))
         );
 
         const sendChannel = peerConnection.createDataChannel("playerDataConnection");
@@ -294,7 +294,7 @@ function initSocketConnection(){
         //   .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
 
         await peerConnection.setRemoteDescription(
-          new RTCSessionDescription(data.answer)
+          new RTCSessionDescription(JSON.parse(data.answer))
         );
       }
 
@@ -304,7 +304,7 @@ function initSocketConnection(){
 
         console.log("6.b receiving-candidate from:", onBehalfOf)
         let peerConnection = peerConnections[onBehalfOf].peerConnection
-        let candidate = new RTCIceCandidate(data.candidate);
+        let candidate = new RTCIceCandidate(JSON.parse(data.candidate));
         peerConnection.addIceCandidate(candidate,
           function(){console.log('7.b success')},
           function(error){console.log('error',error)}

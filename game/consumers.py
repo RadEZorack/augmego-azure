@@ -183,7 +183,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         print(message["call-user"])
         await self.send(text_data=json.dumps({
             'from': event['from'],
-            'message': {"call-made": {"socket": event['from'], "onBehalfOf": message["call-user"]["onBehalfOf"], "offer": message["call-user"]["offer"]}}
+            'message': {"call-made": {"socket": event['from'], "onBehalfOf": message["call-user"]["onBehalfOf"], "offer": json.dumps(message["call-user"]["offer"])}}
         }));
 
     # Room answers video
@@ -192,7 +192,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         message = json.loads(event['message'])
         await self.send(text_data=json.dumps({
             'from': event['from'],
-            'message': {"answer-made": {"socket": event['from'], "onBehalfOf": message["make-answer"]["onBehalfOf"], "answer": message["make-answer"]["answer"]}}
+            'message': {"answer-made": {"socket": event['from'], "onBehalfOf": message["make-answer"]["onBehalfOf"], "answer": json.dumps(message["make-answer"]["answer"])}}
         }));
 
     # Room talks with video and vice verse
@@ -201,5 +201,5 @@ class GameConsumer(AsyncWebsocketConsumer):
         message = json.loads(event['message'])
         await self.send(text_data=json.dumps({
             'from': event['from'],
-            'message': {"receiving-candidate": {"socket": event['from'], "onBehalfOf": message["send-candidate"]["onBehalfOf"], "candidate": message["send-candidate"]["candidate"]}}
+            'message': {"receiving-candidate": {"socket": event['from'], "onBehalfOf": message["send-candidate"]["onBehalfOf"], "candidate": json.dumps(message["send-candidate"]["candidate"])}}
         }));
