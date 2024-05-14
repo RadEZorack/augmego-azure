@@ -4,6 +4,8 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="manifest" href="{% static 'manifest.json' %}">
+  <meta name="theme-color" content="#000000">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>{% block title %}Augmego{% endblock %}</title>
   <link rel="icon"href="{% static 'favicon.ico' %}">
@@ -12,6 +14,18 @@
 </head>
 <body>
   <main>
+    <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('{% static "serviceworker.js" %}')
+          .then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(function(error) {
+              console.log('ServiceWorker registration failed: ', error);
+          });
+      }
+    </script>
+  
     {% block content %}
     {% endblock %}
   </main>

@@ -1,6 +1,8 @@
 {% load static %}
 <!doctype html>
 <head>
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#000000">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>Augmego</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
@@ -328,6 +330,17 @@
       <div style="display: none;">
          {% csrf_token %}
       </div>
+      <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('{% static "serviceworker.js" %}')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(error) {
+                console.log('ServiceWorker registration failed: ', error);
+            });
+        }
+      </script>
      <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
      <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
      <script src="{% static 'three/three.module.min.js' %}" type="module"></script>
