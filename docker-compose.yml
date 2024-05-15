@@ -39,6 +39,19 @@ services:
     ports:
       - "8000:8000"
 
+  augmego-nextjs:
+    build:
+      context: ./my-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./my-frontend:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - augmego-django
+
   augmego-celery:
     build: .
     command: celery -A quickstartproject worker --loglevel=info
