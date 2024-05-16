@@ -1,0 +1,14 @@
+// src/components/Hero.js
+import React from 'react';
+
+const Hero = () => {
+  return (
+    <section className="hero">
+      <h1>Welcome to Augmego</h1>
+      <p>Are you on the go and want people to know?</p>
+      <a href="#features"><button className="cta">Learn More</button></a>
+    </section>
+  );
+};
+
+export default Hero;
