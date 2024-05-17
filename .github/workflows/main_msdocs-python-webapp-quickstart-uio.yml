@@ -22,9 +22,9 @@ jobs:
         with:
           node-version: '20' # Adjust this to the version you need
 
-      - name: Install npm dependencies
-        working-directory: my-frontend
-        run: npm install
+      # - name: Install npm dependencies
+      #   working-directory: my-frontend
+      #   run: npm install
 
       - name: Build frontend assets
         working-directory: my-frontend
