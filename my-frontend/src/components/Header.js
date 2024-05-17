@@ -15,7 +15,7 @@ const Header = () => {
           <li><a href="#features">Features</a></li>
           <li><a href="#testimonials">Testimonials</a></li>
           <li><a href="mailto:support@augmego.com">Contact</a></li>
-          <li><button className="cta">Get Started</button></li>
+          <li><a href="start/"><button className="cta">Get Started</button></a></li>
         </ul>
       </nav>
     </header>

@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="hero">
       <h1>Welcome to Augmego</h1>
       <p>Are you on the go and want people to know?</p>
-      <a href="#features"><button className="cta">Learn More</button></a>
+      <a href="start/"><button className="cta">Get Started</button></a>
     </section>
   );
 };

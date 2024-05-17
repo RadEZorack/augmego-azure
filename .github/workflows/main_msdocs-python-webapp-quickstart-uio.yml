@@ -17,6 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Adjust this to the version you need
+
+      - name: Install npm dependencies
+        working-directory: my-frontend
+        run: npm install
+
+      - name: Build frontend assets
+        working-directory: my-frontend
+        run: npm run build
+
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:

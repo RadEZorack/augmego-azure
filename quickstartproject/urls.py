@@ -24,7 +24,7 @@ from person.views import nosignup, temp_login_for_mobile
 from payment.views import process_payment
 
 urlpatterns = [
-    # path('', main, name='main'),
+    path('main/', main, name='main'),
     # path('api/', include('yourapp.api.urls')),  # Your API endpoints
     path('', TemplateView.as_view(template_name='index.html')),  # Serve Next.js app
     path("debug/", debug, name="debug"),
