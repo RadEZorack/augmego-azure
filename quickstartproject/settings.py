@@ -108,7 +108,8 @@ ROOT_URLCONF = 'quickstartproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'my-frontend/out')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -226,7 +227,7 @@ USE_TZ = True
 STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
-    os.path.join(BASE_DIR, 'my-frontend/.next/static'),
+    os.path.join(BASE_DIR, 'my-frontend/out'),
 ]
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #"/var/www/augmego.com/static/"

@@ -1,5 +1,8 @@
 // src/components/Header.js
 import React from 'react';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
+const { assetPrefix } = publicRuntimeConfig;
 
 const Header = () => {
   // console.log("Mailto link:", "mailto:support@augmego.com");
@@ -8,7 +11,7 @@ const Header = () => {
     <header>
       <nav>
         <ul>
-          <li><span className="logo"><img src="/icons/augmego-icon.webp" alt="Augmego Logo" /></span></li>
+          <li><span className="logo"><img src={`${assetPrefix}/icons/augmego-icon.webp`} alt="Augmego Logo" /></span></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#testimonials">Testimonials</a></li>
           <li><a href="mailto:support@augmego.com">Contact</a></li>
