@@ -188,7 +188,7 @@ export function initObjects() {
       }
     })
 
-    redrawObjects();
+    // redrawObjects();
     
 }
 
