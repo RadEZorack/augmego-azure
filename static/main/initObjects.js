@@ -6,7 +6,7 @@ import { perlin2, simplex2 } from '../main/perlin.js';
 import { loadPlayer, playerWrapper } from '../main/player.js';
 
 
-export function initObjects() {
+export async function initObjects() {
     console.log("initObjects");
     
     let thisPosition = new THREE.Vector3(0,0,0)
@@ -54,7 +54,7 @@ export function initObjects() {
     for(let chunkX = -50; chunkX <= 50; chunkX += 50){
       for(let chunkZ = -50; chunkZ <= 50; chunkZ += 50){
         for (let x = chunkX + thisPosition.x; x < chunkX + thisPosition.x + 50; x++) {
-          for (let y = -50; y <= 0; y++) {
+          for (let y = -2; y <= 0; y++) {
             for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + 50; z++) {
               if (y < 0){
                 drawBlock(x, y, z, dirtTexture)
