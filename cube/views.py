@@ -29,16 +29,16 @@ def list_cubes(request):
     y_range = (rg.get('min_y'), rg.get('max_y'))
     z_range = (rg.get('min_z'), rg.get('max_z'))
 
-    cubes_count = Cube.objects.filter(
-        x__range=x_range,
-        y__range=y_range,
-        z__range=z_range
-    ).count()
+    # cubes_count = Cube.objects.filter(
+    #     x__range=x_range,
+    #     y__range=y_range,
+    #     z__range=z_range
+    # ).count()
 
     print("here 2")
 
-    cache_master_key = "cubes_to_fetch"#{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
-    cache_keys = cache.get(cache_master_key, [])
+    cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
+    cache_keys = cache.get(cache_master_key, None)
     print(cache_keys)
     
     print("here 3")
@@ -57,11 +57,11 @@ def list_cubes(request):
     #     print("here 3.4")
     #     cache.set(cache_master_key, list(cache_value.keys()), 60*60*24*30) # one month cache
     # else:
-    cache_value = cache.get_many(cache_keys)
-    print(cache_value)
-
     print("here 4")
-    if cache_keys and len(cache_value) == cubes_count:
+    if cache_keys != None:# and len(cache_value) == cubes_count:
+        cache_value = cache.get_many(cache_keys)
+        print(cache_value)
+        print("cache_hit")
         return HttpResponse(json.dumps(list(cache_value.values())), content_type='application/json')
 
     print("here 5")
@@ -142,6 +142,7 @@ def post_cube(request):
         current_cubes = cache.get(cache_master_key, [])
         current_cube_key = "cube:{x}:{y}:{z}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"]).replace(" ", "_")
         current_cubes.append(current_cube_key)
+        current_cubes = list(set(current_cubes)) # untested
 
         cache.set(current_cube_key, serializer.data, 60*60*24*30) # one month cache
 

@@ -3,11 +3,24 @@ import { toggleMouseState } from "./mouseClicks.js";
 import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 
+let chunkGameObjects = {}
+
 export function drawBlock(x, y, z, textureUrl) {
     // console.log(textureUrl)
     x = Math.round(x);
     y = Math.round(y);
     z = Math.round(z);
+
+    const chunkX = Math.floor(x/50)*50
+    const chunkY = Math.floor(y/50)*50
+    const chunkZ = Math.floor(z/50)*50
+
+    const chunkKey = `${chunkX},${chunkY},${chunkZ}`
+    if (!(chunkKey in chunkGameObjects)){
+        chunkGameObjects[chunkKey] = new Set([])
+    }
+
+    chunkGameObjects[chunkKey].add(`${x},${y},${z}`)
 
     // Defines if the gameobject exists even if it's hidden. This could probably be added in the the other keys.
     gameObjects[`blockVisibility:${x},${y},${z}`] = textureUrl;
@@ -25,6 +38,7 @@ export function drawBlock(x, y, z, textureUrl) {
     } else {
         // No adjancent block, draw the new BOTTOM face
         gameObjects[`block:${x},${y},${z}:bottom`].textureUrl = textureUrl;
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:bottom`)
     }
 
     // We check the BOTTOM of the adjacent block
@@ -35,6 +49,7 @@ export function drawBlock(x, y, z, textureUrl) {
     } else {
         // No adjancent block, draw the new TOP face
         gameObjects[`block:${x},${y},${z}:top`].textureUrl = textureUrl;
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:top`)
     }
 
     // We check the NORTH of the adjacent block
@@ -45,6 +60,7 @@ export function drawBlock(x, y, z, textureUrl) {
     } else {
         // No adjancent block, draw the new SOUTH face
         gameObjects[`block:${x},${y},${z}:south`].textureUrl = textureUrl;
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:south`)
     }
 
     // We check the SOUTH of the adjacent block
@@ -54,6 +70,7 @@ export function drawBlock(x, y, z, textureUrl) {
         
     } else {
         gameObjects[`block:${x},${y},${z}:north`].textureUrl = textureUrl;
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:north`)
     }
 
     // We check the WEST of the adjacent block
@@ -63,6 +80,7 @@ export function drawBlock(x, y, z, textureUrl) {
         
     } else {
         gameObjects[`block:${x},${y},${z}:east`].textureUrl = textureUrl;
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:east`)
     }
 
     // We check the EAST of the adjacent block
@@ -72,6 +90,7 @@ export function drawBlock(x, y, z, textureUrl) {
         
     } else {
         gameObjects[`block:${x},${y},${z}:west`].textureUrl = textureUrl;
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:west`)
     }
 }
 
