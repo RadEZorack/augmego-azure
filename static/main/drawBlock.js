@@ -11,9 +11,9 @@ export function drawBlock(x, y, z, textureUrl) {
     y = Math.round(y);
     z = Math.round(z);
 
-    const chunkX = Math.floor(x/10)*10
-    const chunkY = Math.floor(y/10)*10
-    const chunkZ = Math.floor(z/10)*10
+    const chunkX = Math.floor(x/20)*20
+    const chunkY = Math.floor(y/20)*20
+    const chunkZ = Math.floor(z/20)*20
 
     const chunkKey = `${chunkX},${chunkY},${chunkZ}`
     if (!(chunkKey in chunkGameObjects)){

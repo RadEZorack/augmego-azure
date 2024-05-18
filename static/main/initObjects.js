@@ -17,16 +17,16 @@ export async function initObjects() {
     }
     
     // Round to nearest 50
-    thisPosition.x = Math.floor(thisPosition.x/10)*10
-    thisPosition.y = Math.floor(thisPosition.y/10)*10
-    thisPosition.z = Math.floor(thisPosition.z/10)*10
+    thisPosition.x = Math.floor(thisPosition.x/20)*20
+    thisPosition.y = Math.floor(thisPosition.y/20)*20
+    thisPosition.z = Math.floor(thisPosition.z/20)*20
 
     // let chunkKeysToRemove = []
     let chunkKeysToAdd = []
 
-    for(let chunkX = -60; chunkX <= 60; chunkX += 10){
-      for(let chunkY = -10; chunkY <= 60; chunkY += 10){
-        for(let chunkZ = -60; chunkZ <= 60; chunkZ += 10){
+    for(let chunkX = -60; chunkX <= 60; chunkX += 20){
+      for(let chunkY = -20; chunkY <= 60; chunkY += 20){
+        for(let chunkZ = -60; chunkZ <= 60; chunkZ += 20){
           const chunkKey = `${chunkX+thisPosition.x},${chunkY+thisPosition.y},${chunkZ+thisPosition.z}`
 
           const distance = Math.sqrt(chunkX*chunkX + chunkY*chunkY + chunkZ*chunkZ)
@@ -83,9 +83,9 @@ export async function initObjects() {
       const chunkX = key[0]
       const chunkY = key[1]
       const chunkZ = key[2]
-      for (let x = chunkX + thisPosition.x; x < chunkX + thisPosition.x + 10; x++) {
-        for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + 10; y++) {
-          for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + 10; z++) {
+      for (let x = chunkX + thisPosition.x; x < chunkX + thisPosition.x + 20; x++) {
+        for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + 20; y++) {
+          for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + 20; z++) {
             if (y < 0){
               drawBlock(x, y, z, dirtTexture)
               continue;
@@ -212,9 +212,9 @@ export async function initObjects() {
           min_x: chunkX + thisPosition.x,
           min_y: chunkY + thisPosition.y,
           min_z: chunkZ + thisPosition.z,
-          max_x: chunkX + thisPosition.x+10,
-          max_y: chunkY + thisPosition.y+10,
-          max_z: chunkZ + thisPosition.z+10,
+          max_x: chunkX + thisPosition.x+20,
+          max_y: chunkY + thisPosition.y+20,
+          max_z: chunkZ + thisPosition.z+20,
         },
         success: function(resp) {
             console.log("success get");
