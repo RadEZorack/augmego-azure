@@ -3,7 +3,7 @@ import { toggleMouseState } from "./mouseClicks.js";
 import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 
-let chunkGameObjects = {}
+export let chunkGameObjects = {}
 
 export function drawBlock(x, y, z, textureUrl) {
     // console.log(textureUrl)
@@ -11,9 +11,9 @@ export function drawBlock(x, y, z, textureUrl) {
     y = Math.round(y);
     z = Math.round(z);
 
-    const chunkX = Math.floor(x/50)*50
-    const chunkY = Math.floor(y/50)*50
-    const chunkZ = Math.floor(z/50)*50
+    const chunkX = Math.floor(x/10)*10
+    const chunkY = Math.floor(y/10)*10
+    const chunkZ = Math.floor(z/10)*10
 
     const chunkKey = `${chunkX},${chunkY},${chunkZ}`
     if (!(chunkKey in chunkGameObjects)){
@@ -34,69 +34,69 @@ export function drawBlock(x, y, z, textureUrl) {
     if (`block:${x},${y-1},${z}:top` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y-1},${z}:top`]
-        // chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:top`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:top`)
         
     } else {
         // No adjancent block, draw the new BOTTOM face
         gameObjects[`block:${x},${y},${z}:bottom`].textureUrl = textureUrl;
-        // chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:bottom`)
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:bottom`)
     }
 
     // We check the BOTTOM of the adjacent block
     if (`block:${x},${y+1},${z}:bottom` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y+1},${z}:bottom`]
-        // chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:bottom`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:bottom`)
 
     } else {
         // No adjancent block, draw the new TOP face
         gameObjects[`block:${x},${y},${z}:top`].textureUrl = textureUrl;
-        // chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:top`)
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:top`)
     }
 
     // We check the NORTH of the adjacent block
     if (`block:${x},${y},${z-1}:north` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y},${z-1}:north`]
-        // chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:north`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:north`)
 
     } else {
         // No adjancent block, draw the new SOUTH face
         gameObjects[`block:${x},${y},${z}:south`].textureUrl = textureUrl;
-        // chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:south`)
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:south`)
     }
 
     // We check the SOUTH of the adjacent block
     if (`block:${x},${y},${z+1}:south` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y},${z+1}:south`]
-        // chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:south`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:south`)
         
     } else {
         gameObjects[`block:${x},${y},${z}:north`].textureUrl = textureUrl;
-        // chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:north`)
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:north`)
     }
 
     // We check the WEST of the adjacent block
     if (`block:${x-1},${y},${z}:west` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x-1},${y},${z}:west`]
-        // chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:west`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:west`)
         
     } else {
         gameObjects[`block:${x},${y},${z}:east`].textureUrl = textureUrl;
-        // chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:east`)
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:east`)
     }
 
     // We check the EAST of the adjacent block
     if (`block:${x+1},${y},${z}:east` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x+1},${y},${z}:east`]
-        // chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:east`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:east`)
         
     } else {
         gameObjects[`block:${x},${y},${z}:west`].textureUrl = textureUrl;
-        // chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:west`)
+        chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:west`)
     }
 }
 
