@@ -1,24 +1,21 @@
-// src/components/Features.js
-import React from 'react';
+// components/Features.js
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
+const { assetPrefix } = publicRuntimeConfig;
+
+import FeatureList from './FeatureList';
 
 const Features = () => {
+  const features = [
+    { title: 'PWA', description: 'A PWA (Progressive Web App) can be installed on your computer or mobile device for better performance and ease of access.', gifUrl: `${assetPrefix}/featureGifs/augmegoInstall.gif` },
+    { title: 'Feature 2', description: 'Description of feature 2.' },
+    { title: 'Feature 3', description: 'Description of feature 3.' },
+  ];
+
   return (
     <section id="features" className="features">
       <h2>Features</h2>
-      <div className="feature-list">
-        <div className="feature-item">
-          <h3>Feature 1</h3>
-          <p>Description of feature 1.</p>
-        </div>
-        <div className="feature-item">
-          <h3>Feature 2</h3>
-          <p>Description of feature 2.</p>
-        </div>
-        <div className="feature-item">
-          <h3>Feature 3</h3>
-          <p>Description of feature 3.</p>
-        </div>
-      </div>
+      <FeatureList features={features} />
     </section>
   );
 };
