@@ -5,6 +5,7 @@ import { removeBlock } from "./removeBlock.js";
 import { perlin2, simplex2 } from '../main/perlin.js';
 import { loadPlayer, playerWrapper } from '../main/player.js';
 
+const CHUNK_SIZE = 50
 
 export async function initObjects() {
     console.log("initObjects");
@@ -17,20 +18,20 @@ export async function initObjects() {
     }
     
     // Round to nearest 50
-    thisPosition.x = Math.floor(thisPosition.x/20)*20
-    thisPosition.y = Math.floor(thisPosition.y/20)*20
-    thisPosition.z = Math.floor(thisPosition.z/20)*20
+    thisPosition.x = Math.floor(thisPosition.x/CHUNK_SIZE)*CHUNK_SIZE
+    thisPosition.y = Math.floor(thisPosition.y/CHUNK_SIZE)*CHUNK_SIZE
+    thisPosition.z = Math.floor(thisPosition.z/CHUNK_SIZE)*CHUNK_SIZE
 
     // let chunkKeysToRemove = []
     let chunkKeysToAdd = []
 
-    for(let chunkX = -60; chunkX <= 60; chunkX += 20){
-      for(let chunkY = -20; chunkY <= 60; chunkY += 20){
-        for(let chunkZ = -60; chunkZ <= 60; chunkZ += 20){
+    for(let chunkX = -CHUNK_SIZE; chunkX <= CHUNK_SIZE; chunkX += CHUNK_SIZE){
+      for(let chunkY = -CHUNK_SIZE; chunkY <= CHUNK_SIZE; chunkY += CHUNK_SIZE){
+        for(let chunkZ = -CHUNK_SIZE; chunkZ <= CHUNK_SIZE; chunkZ += CHUNK_SIZE){
           const chunkKey = `${chunkX+thisPosition.x},${chunkY+thisPosition.y},${chunkZ+thisPosition.z}`
 
           const distance = Math.sqrt(chunkX*chunkX + chunkY*chunkY + chunkZ*chunkZ)
-          if(distance >= 40){
+          if(distance >= CHUNK_SIZE){
             if (chunkKey in chunkGameObjects){
               chunkGameObjects[chunkKey].forEach(function(key) {
                 delete gameObjects[key]
@@ -83,9 +84,9 @@ export async function initObjects() {
       const chunkX = key[0]
       const chunkY = key[1]
       const chunkZ = key[2]
-      for (let x = chunkX + thisPosition.x; x < chunkX + thisPosition.x + 20; x++) {
-        for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + 20; y++) {
-          for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + 20; z++) {
+      for (let x = chunkX + thisPosition.x; x < chunkX + thisPosition.x + CHUNK_SIZE; x++) {
+        for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + CHUNK_SIZE; y++) {
+          for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + CHUNK_SIZE; z++) {
             if (y < 0){
               drawBlock(x, y, z, dirtTexture)
               continue;
@@ -212,9 +213,9 @@ export async function initObjects() {
           min_x: chunkX + thisPosition.x,
           min_y: chunkY + thisPosition.y,
           min_z: chunkZ + thisPosition.z,
-          max_x: chunkX + thisPosition.x+20,
-          max_y: chunkY + thisPosition.y+20,
-          max_z: chunkZ + thisPosition.z+20,
+          max_x: chunkX + thisPosition.x+CHUNK_SIZE,
+          max_y: chunkY + thisPosition.y+CHUNK_SIZE,
+          max_z: chunkZ + thisPosition.z+CHUNK_SIZE,
         },
         success: function(resp) {
             console.log("success get");
@@ -249,7 +250,7 @@ function checkPlayerMovedPosition(){
                     Math.pow(playerWrapper.position.y - lastPlayerPosition.y, 2) +
                     Math.pow(playerWrapper.position.z - lastPlayerPosition.z, 2)
                   )
-    if (dist >= 9){
+    if (dist >= CHUNK_SIZE/2){
       lastPlayerPosition.x = playerWrapper.position.x
       lastPlayerPosition.y = playerWrapper.position.y
       lastPlayerPosition.z = playerWrapper.position.z

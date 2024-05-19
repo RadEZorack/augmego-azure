@@ -4,6 +4,7 @@ import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 
 export let chunkGameObjects = {}
+const CHUNK_SIZE = 50
 
 export function drawBlock(x, y, z, textureUrl) {
     // console.log(textureUrl)
@@ -11,9 +12,9 @@ export function drawBlock(x, y, z, textureUrl) {
     y = Math.round(y);
     z = Math.round(z);
 
-    const chunkX = Math.floor(x/20)*20
-    const chunkY = Math.floor(y/20)*20
-    const chunkZ = Math.floor(z/20)*20
+    const chunkX = Math.floor(x/CHUNK_SIZE)*CHUNK_SIZE
+    const chunkY = Math.floor(y/CHUNK_SIZE)*CHUNK_SIZE
+    const chunkZ = Math.floor(z/CHUNK_SIZE)*CHUNK_SIZE
 
     const chunkKey = `${chunkX},${chunkY},${chunkZ}`
     if (!(chunkKey in chunkGameObjects)){
