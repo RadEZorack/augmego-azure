@@ -229,7 +229,7 @@ STATICFILES_DIRS = [
     '/var/www/static/',
     os.path.join(BASE_DIR, 'my-frontend/out'),
 ]
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #"/var/www/augmego.com/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -281,3 +281,8 @@ if PAYPAL_TEST == True:
     PAYPAL_BUSINESS=os.environ.get('PAYPAL_BUSINESS_TEST', '')
 else:
     PAYPAL_BUSINESS=os.environ.get('PAYPAL_BUSINESS_LIVE', '')
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

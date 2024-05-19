@@ -78,22 +78,23 @@ services:
     image: nginx:latest
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./certs:/etc/nginx/certs
     depends_on:
       - augmego-django
 
-  augmego-ngrok:
-    container_name: augmego-ngrok
-    image: ngrok/ngrok:latest
-    command:
-      - "start"
-      - "--all"
-      - "--config"
-      - "/ngrok.yaml"
-    volumes:
-      - ./ngrok.yaml:/ngrok.yaml
-    ports:
-        - 4040:4040
+  # augmego-ngrok:
+  #   container_name: augmego-ngrok
+  #   image: ngrok/ngrok:latest
+  #   command:
+  #     - "start"
+  #     - "--all"
+  #     - "--config"
+  #     - "/ngrok.yaml"
+  #   volumes:
+  #     - ./ngrok.yaml:/ngrok.yaml
+  #   ports:
+  #       - 4040:4040
     
