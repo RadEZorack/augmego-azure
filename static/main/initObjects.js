@@ -25,27 +25,28 @@ export async function initObjects() {
     // let chunkKeysToRemove = []
     let chunkKeysToAdd = []
 
-    for(let chunkX = -CHUNK_SIZE; chunkX <= CHUNK_SIZE; chunkX += CHUNK_SIZE){
-      for(let chunkY = 0; chunkY <= 0; chunkY += CHUNK_SIZE){
-        for(let chunkZ = -CHUNK_SIZE; chunkZ <= CHUNK_SIZE; chunkZ += CHUNK_SIZE){
+    for(let chunkX = -CHUNK_SIZE*2; chunkX <= CHUNK_SIZE*2; chunkX += CHUNK_SIZE){
+      // for(let chunkY = 0; chunkY <= 0; chunkY += CHUNK_SIZE){
+        let chunkY = 0;
+        for(let chunkZ = -CHUNK_SIZE*2; chunkZ <= CHUNK_SIZE*2; chunkZ += CHUNK_SIZE){
           const chunkKey = `${chunkX+thisPosition.x},${chunkY+thisPosition.y},${chunkZ+thisPosition.z}`
 
-          const distance = Math.sqrt(chunkX*chunkX + chunkY*chunkY + chunkZ*chunkZ)
-          if(distance >= 3*CHUNK_SIZE/2){
-            if (chunkKey in chunkGameObjects){
-              chunkGameObjects[chunkKey].forEach(function(key) {
-                delete gameObjects[key]
-              });
-            }
-            continue
-          }
+          // const distance = Math.sqrt(chunkX*chunkX + chunkY*chunkY + chunkZ*chunkZ)
+          // if(distance >= 3*CHUNK_SIZE/2){
+          //   if (chunkKey in chunkGameObjects){
+          //     chunkGameObjects[chunkKey].forEach(function(key) {
+          //       delete gameObjects[key]
+          //     });
+          //   }
+          //   continue
+          // }
           
           if (!(chunkKey in chunkGameObjects)){
             chunkKeysToAdd.push([chunkX,chunkY,chunkZ])
             // chunkKeysToAdd.push([chunkX+thisPosition.x,chunkY+thisPosition.y,chunkZ+thisPosition.z])
           }
         }
-      }
+      // }
     }
 
     // const chunkKey = `${thisPosition.x},${thisPosition.y},${thisPosition.z}`
@@ -85,7 +86,8 @@ export async function initObjects() {
       const chunkY = key[1]
       const chunkZ = key[2]
       for (let x = chunkX + thisPosition.x; x < chunkX + thisPosition.x + CHUNK_SIZE; x++) {
-        for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + CHUNK_SIZE; y++) {
+        // for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + CHUNK_SIZE; y++) {
+          let y=0;
           for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + CHUNK_SIZE; z++) {
             if (y < 0){
               drawBlock(x, y, z, dirtTexture)
@@ -199,7 +201,7 @@ export async function initObjects() {
                 }
               }
           }
-        }
+        // }
       }
       // drawBlock(0,0,0, grassTexture)
       // drawBlock(1,0,0, grassTexture)
@@ -261,4 +263,4 @@ function checkPlayerMovedPosition(){
 }
 
 loadPlayer();
-checkPlayerMovedPosition();
+// checkPlayerMovedPosition();
