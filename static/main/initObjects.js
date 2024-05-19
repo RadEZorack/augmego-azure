@@ -26,7 +26,7 @@ export async function initObjects() {
     let chunkKeysToAdd = []
 
     for(let chunkX = -CHUNK_SIZE; chunkX <= CHUNK_SIZE; chunkX += CHUNK_SIZE){
-      for(let chunkY = -CHUNK_SIZE; chunkY <= CHUNK_SIZE; chunkY += CHUNK_SIZE){
+      for(let chunkY = 0; chunkY <= 0; chunkY += CHUNK_SIZE){
         for(let chunkZ = -CHUNK_SIZE; chunkZ <= CHUNK_SIZE; chunkZ += CHUNK_SIZE){
           const chunkKey = `${chunkX+thisPosition.x},${chunkY+thisPosition.y},${chunkZ+thisPosition.z}`
 
