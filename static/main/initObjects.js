@@ -31,7 +31,7 @@ export async function initObjects() {
           const chunkKey = `${chunkX+thisPosition.x},${chunkY+thisPosition.y},${chunkZ+thisPosition.z}`
 
           const distance = Math.sqrt(chunkX*chunkX + chunkY*chunkY + chunkZ*chunkZ)
-          if(distance >= CHUNK_SIZE){
+          if(distance >= 3*CHUNK_SIZE/2){
             if (chunkKey in chunkGameObjects){
               chunkGameObjects[chunkKey].forEach(function(key) {
                 delete gameObjects[key]
@@ -250,7 +250,7 @@ function checkPlayerMovedPosition(){
                     Math.pow(playerWrapper.position.y - lastPlayerPosition.y, 2) +
                     Math.pow(playerWrapper.position.z - lastPlayerPosition.z, 2)
                   )
-    if (dist >= CHUNK_SIZE/2){
+    if (dist >= CHUNK_SIZE/4){
       lastPlayerPosition.x = playerWrapper.position.x
       lastPlayerPosition.y = playerWrapper.position.y
       lastPlayerPosition.z = playerWrapper.position.z
