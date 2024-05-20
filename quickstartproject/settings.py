@@ -233,7 +233,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #"/var/www/augmego.com/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = ''
+MEDIA_URL = os.environ.get('MEDIA_URL','')
 
 if os.environ.get('AZURE_CONNECTION_STRING', ''):
     STORAGES = {
