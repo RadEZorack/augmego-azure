@@ -7,7 +7,7 @@ import { loadPlayer, playerWrapper } from '../main/player.js';
 
 const CHUNK_SIZE = 50
 
-export async function initObjects() {
+export function initObjects() {
     console.log("initObjects");
     
     let thisPosition = new THREE.Vector3(0,0,0)
@@ -41,10 +41,10 @@ export async function initObjects() {
           //   continue
           // }
           
-          if (!(chunkKey in chunkGameObjects)){
+          // if (!(chunkKey in chunkGameObjects)){
             chunkKeysToAdd.push([chunkX,chunkY,chunkZ])
             // chunkKeysToAdd.push([chunkX+thisPosition.x,chunkY+thisPosition.y,chunkZ+thisPosition.z])
-          }
+          // }
         }
       // }
     }
@@ -212,12 +212,12 @@ export async function initObjects() {
         type: 'GET',
         data: {
           csrfmiddlewaretoken: csrfmiddlewaretoken,
-          min_x: chunkX + thisPosition.x,
-          min_y: chunkY + thisPosition.y,
-          min_z: chunkZ + thisPosition.z,
-          max_x: chunkX + thisPosition.x+CHUNK_SIZE,
-          max_y: chunkY + thisPosition.y+CHUNK_SIZE,
-          max_z: chunkZ + thisPosition.z+CHUNK_SIZE,
+          min_x: chunkX,// + thisPosition.x,
+          min_y: chunkY,// + thisPosition.y,
+          min_z: chunkZ,// + thisPosition.z,
+          max_x: chunkX+CHUNK_SIZE,// + thisPosition.x+CHUNK_SIZE,
+          max_y: chunkY+CHUNK_SIZE,// + thisPosition.y+CHUNK_SIZE,
+          max_z: chunkZ+CHUNK_SIZE,// + thisPosition.z+CHUNK_SIZE,
         },
         success: function(resp) {
             console.log("success get");
