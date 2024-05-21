@@ -330,7 +330,7 @@
       <div style="display: none;">
          {% csrf_token %}
       </div>
-      <script>
+      <!-- <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('{% static "serviceworker.js" %}')
             .then(function(registration) {
@@ -340,7 +340,7 @@
                 console.log('ServiceWorker registration failed: ', error);
             });
         }
-      </script>
+      </script> -->
      <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
      <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
      <script src="{% static 'three/three.module.min.js' %}" type="module"></script>

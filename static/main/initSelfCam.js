@@ -1,3 +1,5 @@
+import { textureLoad } from '../main/initTexturePanel.js';
+
 // navigator.getUserMedia(
 //  { video: true, audio: false },
 //  async stream => {
@@ -65,6 +67,8 @@ function initSelfCam(){
                 if (localVideo) {
                   localVideo.srcObject = stream;
                 }
+
+                textureLoad();
               }).catch(function(err) {
                 console.log(err.name + ": " + err.message);
               })
