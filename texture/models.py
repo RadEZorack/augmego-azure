@@ -59,10 +59,12 @@ class TextureAtlas(models.Model):
                         success = True
                         break
                     except requests.exceptions.RequestException as e:
-                        print(f'Error fetching {image['url']}: {e}')
+                        url = image['url']
+                        print(f'Error fetching {url}: {e}')
                         time.sleep(2 ** attempt)  # Exponential backoff
                 if not success:
-                    print(f'Failed to fetch {image['url']} after multiple attempts')
+                    url = image['url']
+                    print(f'Failed to fetch {url} after multiple attempts')
                     continue
             else:
                 image = Image.open(image['url'])
