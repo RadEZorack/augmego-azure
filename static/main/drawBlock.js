@@ -6,8 +6,8 @@ import { objectScene } from '../main/main.js';
 export let chunkGameObjects = {}
 const CHUNK_SIZE = 50
 
-export function drawBlock(x, y, z, textureUrl) {
-    // console.log(textureUrl)
+export function drawBlock(x, y, z, texture_name) {
+    // console.log(texture_name)
     x = Math.round(x);
     y = Math.round(y);
     z = Math.round(z);
@@ -24,9 +24,9 @@ export function drawBlock(x, y, z, textureUrl) {
     // chunkGameObjects[chunkKey].add(`${x},${y},${z}`)
 
     // Defines if the gameobject exists even if it's hidden. This could probably be added in the the other keys.
-    gameObjects[`blockVisibility:${x},${y},${z}`] = textureUrl;
+    // gameObjects[`blockVisibility:${x},${y},${z}`] = texture_name;
     
-    if (textureUrl == "") {
+    if (texture_name == "") {
         // If there is no texture, we don't want to draw or remove anything adjacent.
         return null;
     }
@@ -39,7 +39,7 @@ export function drawBlock(x, y, z, textureUrl) {
         
     } else {
         // No adjancent block, draw the new BOTTOM face
-        gameObjects[`block:${x},${y},${z}:bottom`].textureUrl = textureUrl;
+        gameObjects[`block:${x},${y},${z}:bottom`] = {x:x, y:y, z:z, direction:"bottom", texture_name:texture_name};
         chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:bottom`)
     }
 
@@ -51,7 +51,7 @@ export function drawBlock(x, y, z, textureUrl) {
 
     } else {
         // No adjancent block, draw the new TOP face
-        gameObjects[`block:${x},${y},${z}:top`].textureUrl = textureUrl;
+        gameObjects[`block:${x},${y},${z}:top`] = {x:x, y:y, z:z, direction:"top", texture_name:texture_name};
         chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:top`)
     }
 
@@ -63,7 +63,7 @@ export function drawBlock(x, y, z, textureUrl) {
 
     } else {
         // No adjancent block, draw the new SOUTH face
-        gameObjects[`block:${x},${y},${z}:south`].textureUrl = textureUrl;
+        gameObjects[`block:${x},${y},${z}:south`] = {x:x, y:y, z:z, direction:"south", texture_name:texture_name};
         chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:south`)
     }
 
@@ -74,7 +74,7 @@ export function drawBlock(x, y, z, textureUrl) {
         chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:south`)
         
     } else {
-        gameObjects[`block:${x},${y},${z}:north`].textureUrl = textureUrl;
+        gameObjects[`block:${x},${y},${z}:north`] = {x:x, y:y, z:z, direction:"north", texture_name:texture_name};
         chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:north`)
     }
 
@@ -85,7 +85,7 @@ export function drawBlock(x, y, z, textureUrl) {
         chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:west`)
         
     } else {
-        gameObjects[`block:${x},${y},${z}:east`].textureUrl = textureUrl;
+        gameObjects[`block:${x},${y},${z}:east`] = {x:x, y:y, z:z, direction:"east", texture_name:texture_name};
         chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:east`)
     }
 
@@ -96,13 +96,14 @@ export function drawBlock(x, y, z, textureUrl) {
         chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:east`)
         
     } else {
-        gameObjects[`block:${x},${y},${z}:west`].textureUrl = textureUrl;
+        gameObjects[`block:${x},${y},${z}:west`] = {x:x, y:y, z:z, direction:"west", texture_name:texture_name};
         chunkGameObjects[chunkKey].add(`block:${x},${y},${z}:west`)
     }
 }
 
 export function drawBlockColor(x,y,z,color){
-    // console.log(textureUrl)
+    return;
+    // console.log(texture_name)
     x = Math.round(x);
     y = Math.round(y);
     z = Math.round(z);
@@ -129,7 +130,7 @@ export function drawBlockColor(x,y,z,color){
 
 export let boxMesh = undefined;
 export function drawTempBlock(data){
-    // const texture = new THREE.TextureLoader().load( textureUrl )
+    // const texture = new THREE.TextureLoader().load( texture_name )
     // texture.wrapS = THREE.RepeatWrapping;
     // texture.wrapT = THREE.RepeatWrapping;
     // // texture.offset.x = 90/(2*Math.PI);

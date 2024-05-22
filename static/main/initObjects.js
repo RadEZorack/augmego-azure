@@ -89,10 +89,13 @@ export function initObjects() {
         // for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + CHUNK_SIZE; y++) {
           let y=0;
           for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + CHUNK_SIZE; z++) {
+            continue
+            
             if (y < 0){
               drawBlock(x, y, z, dirtTexture)
               continue;
             }
+            
             const innerSeed = x + 200 * z
             // Grass or dirt
               //   let id = Math.floor(17 * Math.random());
@@ -223,10 +226,10 @@ export function initObjects() {
             console.log("success get");
             for(let i = 0; i < resp.length; i++){
               const data = resp[i];
-              if (data.texture == null){
+              if (data.texture_name == ""){
                 removeBlock(data.x, data.y, data.z);
               } else {
-                drawBlock(data.x, data.y, data.z, data.texture.image_url);
+                drawBlock(data.x, data.y, data.z, data.texture_name);
               }
             }
             redrawCount += 1;

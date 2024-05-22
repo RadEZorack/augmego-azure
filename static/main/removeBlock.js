@@ -14,6 +14,7 @@ function blockSides(x,y,z){
 }
 
 export function removeBlock(x, y, z) {
+    return;
     x = Math.round(x);
     y = Math.round(y);
     z = Math.round(z);

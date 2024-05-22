@@ -25,7 +25,7 @@ class TextureAtlas(models.Model):
         textures = Texture.objects.all()
 
         # List of image URLs from the CDN
-        image_json = []
+        image_json = {}
         # image_dir = os.path.join(settings.MEDIA_ROOT, 'media/texture-image')
         for t in textures:
             if running_in_production:
@@ -34,12 +34,12 @@ class TextureAtlas(models.Model):
                 #     "https://cdn.example.com/media/texture-image/pine-tree-leaves-texture.png",
                 #     # Add other image URLs here...
                 # ]
-                image_json.append({"url": t.image.url, "name": t.name, "x": 0, "y": 0})
+                image_json[t.name] = {"url": t.image.url, "name": t.name, "x": 0, "y": 0}
             else:
-                image_json.append({"url": settings.MEDIA_ROOT + t.image.url, "name": t.name, "x": 0, "y": 0})
+                image_json[t.name] = {"url": settings.MEDIA_ROOT + t.image.url, "name": t.name, "x": 0, "y": 0}
 
         # Calculate the number of columns and rows
-        num_images = len(image_json)
+        num_images = len(image_json.keys())
         atlas_columns = int(num_images**0.5)
         atlas_rows = (num_images // atlas_columns) + (num_images % atlas_columns > 0)
 
@@ -49,13 +49,13 @@ class TextureAtlas(models.Model):
         atlas = Image.new('RGBA', (atlas_width, atlas_height))
 
         # Download or open each image and paste into the atlas
-        for index, image in enumerate(image_json):
+        for index, image in enumerate(image_json.values()):
             if running_in_production:
                 success = False
                 for attempt in range(5):  # Retry up to 5 times
                     try:
                         response = requests.get(image['url'])
-                        image = Image.open(BytesIO(response.content))
+                        img = Image.open(BytesIO(response.content))
                         success = True
                         break
                     except requests.exceptions.RequestException as e:
@@ -67,15 +67,15 @@ class TextureAtlas(models.Model):
                     print(f'Failed to fetch {url} after multiple attempts')
                     continue
             else:
-                image = Image.open(image['url'])
+                img = Image.open(image['url'])
 
             col = index % atlas_columns
             row = index // atlas_columns
             x = col * 64
             y = row * 64
-            image_json[index]['x'] = x
-            image_json[index]['y'] = y
-            atlas.paste(image, (x, y))
+            image['x'] = x
+            image['y'] = y
+            atlas.paste(img, (x, y))
 
         # Save the image data to a BytesIO object
         image_io = BytesIO()

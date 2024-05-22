@@ -11,11 +11,16 @@ from texture.models import Texture
 from texture.views import TextureSerializer
 
 class CubeSerializer(serializers.ModelSerializer):
-    texture = TextureSerializer(many=False, read_only=True)
+    texture_name = serializers.SerializerMethodField()
     
     class Meta:
         model = Cube
-        fields = ('x', 'y', 'z', 'texture')
+        fields = ('x', 'y', 'z', 'texture_name')
+
+    def get_texture_name(self, obj):
+        if obj.texture:
+            return obj.texture.name
+        return ""
 
 def list_cubes(request):
     """ example: http://localhost:8000/cube/list?min_x=0&max_x=1&min_y=0&max_y=1&min_z=0&max_z=1 """
@@ -39,7 +44,7 @@ def list_cubes(request):
 
     cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
     cache_keys = cache.get(cache_master_key, None)
-    print(cache_keys)
+    # print(cache_keys)
     
     print("here 3")
     # Not needed
@@ -80,6 +85,7 @@ def list_cubes(request):
 
     print("here 8")
     cache_data = {"cube:{x}:{y}:{z}".format(x=data["x"],y=data["y"],z=data["z"]).replace(" ", "_"):data for data in serializer.data}
+    # print(cache_data)
     cache.set(cache_master_key, list(cache_data.keys()), 60*60*24*30)
 
     print("here 9")
