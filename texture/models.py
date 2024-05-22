@@ -34,7 +34,7 @@ class TextureAtlas(models.Model):
                 #     "https://cdn.example.com/media/texture-image/pine-tree-leaves-texture.png",
                 #     # Add other image URLs here...
                 # ]
-                image_json.append({"url": settings.MEDIA_URL + t.image.url, "name": t.name, "x": 0, "y": 0})
+                image_json.append({"url": t.image.url, "name": t.name, "x": 0, "y": 0})
             else:
                 image_json.append({"url": settings.MEDIA_ROOT + t.image.url, "name": t.name, "x": 0, "y": 0})
 
