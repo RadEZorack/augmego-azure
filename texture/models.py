@@ -6,6 +6,7 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from django.conf import settings
 import time
+import math
 
 # Create your models here.
 class Texture(models.Model):
@@ -40,7 +41,7 @@ class TextureAtlas(models.Model):
 
         # Calculate the number of columns and rows
         num_images = len(image_json.keys())
-        atlas_columns = int(num_images**0.5)
+        atlas_columns = math.ceil(num_images**0.5)
         atlas_rows = (num_images // atlas_columns) + (num_images % atlas_columns > 0)
 
         # Create a new blank image for the atlas

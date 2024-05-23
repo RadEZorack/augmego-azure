@@ -86,8 +86,8 @@ export function redrawObjects() {
         const texturesCount = Object.keys(textureData).length;
 
         // Calculate the number of columns and rows needed
-        const atlasColumns = Math.floor(Math.sqrt(texturesCount)); // This should be ceil, but in python we cimply convert to int which floors things
-        const atlasRows = Math.floor(texturesCount / atlasColumns);
+        const atlasColumns = Math.ceil(Math.sqrt(texturesCount));
+        const atlasRows = Math.ceil(texturesCount / atlasColumns);
 
         // Calculate the dimensions of the atlas
         const atlasWidth = atlasColumns * textureSize;
