@@ -14,7 +14,6 @@ function blockSides(x,y,z){
 }
 
 export function removeBlock(x, y, z) {
-    return;
     x = Math.round(x);
     y = Math.round(y);
     z = Math.round(z);
@@ -49,11 +48,11 @@ export function removeBlock(x, y, z) {
 
         }else if (!(`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects)
             && (3*perlin2(xyz[0]/10,xyz[2]/10) >= xyz[1])){
-                let textureUrl = favicon;
+                let textureUrl = "Grass";
                 if (perlin2(xyz[0]/5,xyz[2]/5) >= 0){
-                    textureUrl = grassTexture;
+                    textureUrl = "Grass";
                 }else{
-                    textureUrl = dirtTexture;
+                    textureUrl = "Dirt";
                 }
                 drawBlock(xyz[0], xyz[1], xyz[2], textureUrl);
         }else{

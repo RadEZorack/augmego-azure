@@ -118,16 +118,7 @@ export function redrawObjects() {
         const quaternion = new THREE.Quaternion();
 
         instanceData.forEach((data, i) => {
-        // for (const key in gameObjects){
-            // const xyz = key.split(":")[1].split(",");
-            // const x = parseInt(xyz[0]);
-            // const y = parseInt(xyz[1]);
-            // const z = parseInt(xyz[2]);
-
-            // const direction = key.split(":")[2]
-
-            // console.log(data)
-            if (data != ""){
+            if (typeof data != "string"){ // We want this to be a dictionary, otherwise it's "blockVisibility"... which should be changed
                 const texture = textureData[data.texture_name];
 
                 uvOffsets[i * 2] = texture.x / atlasWidth;

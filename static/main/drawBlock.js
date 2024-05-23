@@ -24,7 +24,7 @@ export function drawBlock(x, y, z, texture_name) {
     // chunkGameObjects[chunkKey].add(`${x},${y},${z}`)
 
     // Defines if the gameobject exists even if it's hidden. This could probably be added in the the other keys.
-    // gameObjects[`blockVisibility:${x},${y},${z}`] = texture_name;
+    gameObjects[`blockVisibility:${x},${y},${z}`] = texture_name;
     
     if (texture_name == "") {
         // If there is no texture, we don't want to draw or remove anything adjacent.
