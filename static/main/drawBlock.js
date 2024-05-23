@@ -1,4 +1,4 @@
-import { gameObjects, quadMeshInstanceIDKeys } from "./redrawObjects.js";
+import { gameObjects, quadMeshInstanceIDKeys, quadMesh } from "./redrawObjects.js";
 import { toggleMouseState } from "./mouseClicks.js";
 import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
@@ -165,9 +165,8 @@ export function drawTempBlock(data){
     // boxMesh.receiveShadow = true;
     // let data = selectedObject(event)
     if (toggleMouseState == "destroy" && data != undefined && data.object != undefined && data.object.uuid != undefined && data.instanceId != undefined){
-        const key = quadMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-        const keyArray = key.split(":")
-        const xyz = keyArray[1].split(",");
+        const xyz = quadMeshInstanceIDKeys[data.instanceId];
+        // console.log(xyz)
         const x = Math.round(xyz[0])
         const y = Math.round(xyz[1])
         const z = Math.round(xyz[2])

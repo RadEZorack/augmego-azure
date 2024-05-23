@@ -882,14 +882,16 @@ export function initControls() {
         removeTempBlock();
 
       } else {
-        console.log("add block");
+        console.log("add or destroy block");
         removeTempBlock();
         let data = selectedObject(middleItemTouch)
 
         if (toggleMouseState == "destroy"){
+          console.log("destroy")
           onMouseDownDestoryBlock(data);
     
         }else if (toggleMouseState == "create"){
+          console.log("create")
           onMouseDownCreateBlock(data);
     
         }

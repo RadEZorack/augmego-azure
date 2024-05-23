@@ -29,7 +29,8 @@ export let gameObjects = createDefaultDict("");
 export function initGameObjects(){
     gameObjects = createDefaultDict("");
 }
-export let quadMeshInstanceIDKeys = {};
+export let quadMeshInstanceIDKeys = [];
+export let quadMesh = undefined;
 
 
 const instanceCount = 100000; // Number of instances you want, Putting this number higher may cause unexpected lag.
@@ -73,12 +74,12 @@ export function redrawObjects() {
 
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(textureAtlasURL, function(textureAtlas) {
-        console.log(textureAtlas)
+        // console.log(textureAtlas)
         const textureData = textureAtlasMapping;
-        console.log(textureData)
+        // console.log(textureData)
 
         const instanceData = Object.values(gameObjects)
-        console.log(instanceData)
+        // console.log(instanceData)
 
         
 
@@ -92,7 +93,7 @@ export function redrawObjects() {
         // Calculate the dimensions of the atlas
         const atlasWidth = atlasColumns * textureSize;
         const atlasHeight = atlasRows * textureSize;
-        console.log(atlasWidth, atlasHeight)
+        // console.log(atlasWidth, atlasHeight)
 
         const geometry = new THREE.PlaneGeometry(1, 1);
         // const geometry = new THREE.BufferGeometry();
@@ -113,20 +114,30 @@ export function redrawObjects() {
         // geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
         const instancedGeometry = new THREE.InstancedBufferGeometry().copy(geometry);
 
-        const uvOffsets = new Float32Array(instanceData.length * 2);
-        const positions = new Float32Array(instanceData.length * 3);
+        let myCount = 0;
+        instanceData.forEach((data, i) => {
+            if (typeof data != "string"){ // We want this to be a dictionary, otherwise it's "blockVisibility"... which should be changed
+                myCount += 1;
+            }
+        })
+
+        const uvOffsets = new Float32Array(myCount * 2);
+        const positions = new Float32Array(myCount * 3);
         const quaternion = new THREE.Quaternion();
 
+        myCount = 0;
         instanceData.forEach((data, i) => {
             if (typeof data != "string"){ // We want this to be a dictionary, otherwise it's "blockVisibility"... which should be changed
                 const texture = textureData[data.texture_name];
+            
+                uvOffsets[myCount * 2] = texture.x / atlasWidth;
+                uvOffsets[myCount * 2 + 1] = (atlasHeight - texture.y - 64.0) / atlasHeight;
 
-                uvOffsets[i * 2] = texture.x / atlasWidth;
-                uvOffsets[i * 2 + 1] = (atlasHeight - texture.y - 64.0) / atlasHeight;
+                positions[myCount * 3] = data.x;
+                positions[myCount * 3 + 1] = data.y;
+                positions[myCount * 3 + 2] = data.z;
 
-                positions[i * 3] = data.x;
-                positions[i * 3 + 1] = data.y;
-                positions[i * 3 + 2] = data.z;
+                myCount += 1;
             }
         });
 
@@ -161,15 +172,24 @@ export function redrawObjects() {
             `
         });
 
-        const mesh = new THREE.InstancedMesh(instancedGeometry, material, instanceData.length);
-        objectScene.add(mesh);
+        // console.log(instanceData.length, myCount)
+        objectScene.remove(quadMesh);
+        quadMesh = new THREE.InstancedMesh(instancedGeometry, material, myCount);
+        // quadMesh.count = myCount;
+        objectScene.add(quadMesh);
         
 
         // Set instance positions
         // This roundingErrorFix causes us to round in the correct direction when placing or destorying blocks.
         const roundingErrorFix = 0.5001;
 
+        myCount = 0;
         for (let i = 0; i < instanceData.length; i++) {
+            if (typeof instanceData[i] == "string"){
+                // console.log(instanceData[i])
+                continue
+            }
+            
             // break
             // const matrix = new THREE.Matrix4();
             // matrix.setPosition(instanceData[i].x, instanceData[i].y, instanceData[i].z);
@@ -177,6 +197,7 @@ export function redrawObjects() {
             const x = instanceData[i].x
             const y = instanceData[i].y
             const z = instanceData[i].z
+            quadMeshInstanceIDKeys.push([x,y,z])
             const direction = instanceData[i].direction
             switch (direction){
                 case "north":
@@ -184,7 +205,7 @@ export function redrawObjects() {
                     dummyNorth.position.set(x,y,z+roundingErrorFix); // Set position
                     dummyNorth.rotation.set(0,0,0); // Set rotation
                     dummyNorth.updateMatrix();
-                    mesh.setMatrixAt(i, dummyNorth.matrix);
+                    quadMesh.setMatrixAt(myCount, dummyNorth.matrix);
                     break;
                 
                 case "south":
@@ -192,7 +213,7 @@ export function redrawObjects() {
                     dummySouth.position.set(x,y,z-roundingErrorFix); // Set position
                     dummySouth.rotation.set(0,Math.PI,0); // Set rotation
                     dummySouth.updateMatrix();
-                    mesh.setMatrixAt(i, dummySouth.matrix);
+                    quadMesh.setMatrixAt(myCount, dummySouth.matrix);
                     break;
     
                 case "east":
@@ -200,7 +221,7 @@ export function redrawObjects() {
                     dummyEast.position.set(x-roundingErrorFix,y,z); // Set position
                     dummyEast.rotation.set(0,-Math.PI/2,0); // Set rotation
                     dummyEast.updateMatrix();
-                    mesh.setMatrixAt(i, dummyEast.matrix);
+                    quadMesh.setMatrixAt(myCount, dummyEast.matrix);
                     break;
     
                 case "west":
@@ -208,7 +229,7 @@ export function redrawObjects() {
                     dummyWest.position.set(x+roundingErrorFix,y,z); // Set position
                     dummyWest.rotation.set(0,Math.PI/2,0); // Set rotation
                     dummyWest.updateMatrix();
-                    mesh.setMatrixAt(i, dummyWest.matrix);
+                    quadMesh.setMatrixAt(myCount, dummyWest.matrix);
                     break;
     
                 case "top":
@@ -216,7 +237,7 @@ export function redrawObjects() {
                     dummyTop.position.set(x,y+roundingErrorFix,z); // Set position
                     dummyTop.rotation.set(-Math.PI/2,0,0); // Set rotation
                     dummyTop.updateMatrix();
-                    mesh.setMatrixAt(i, dummyTop.matrix);
+                    quadMesh.setMatrixAt(myCount, dummyTop.matrix);
                     break;
     
                 case "bottom":
@@ -224,13 +245,17 @@ export function redrawObjects() {
                     dummyBottom.position.set(x,y-roundingErrorFix,z); // Set position
                     dummyBottom.rotation.set(Math.PI/2,0,0); // Set rotation
                     dummyBottom.updateMatrix();
-                    mesh.setMatrixAt(i, dummyBottom.matrix);
+                    quadMesh.setMatrixAt(myCount, dummyBottom.matrix);
                     break;
             }
+
+            myCount += 1;
         }
 
-        mesh.instanceMatrix.needsUpdate = true;
-        console.log(mesh)
+        console.log(myCount, quadMesh.count)
+        quadMesh.count = myCount;
+        quadMesh.instanceMatrix.needsUpdate = true;
+        console.log(quadMesh)
     });
     
     startRedrawObjectsSpinner = false;

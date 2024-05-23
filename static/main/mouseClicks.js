@@ -389,9 +389,9 @@ export function onMouseDownDestoryBlock(data){
   // const data = selectedObject(event);  
 
   if (data != undefined && data.object.uuid != undefined && data.instanceId != undefined){
-      const key = quadMeshInstanceIDKeys[data.object.uuid][data.instanceId];
-      const keyArray = key.split(":")
-      const xyz = keyArray[1].split(",");
+      const xyz = quadMeshInstanceIDKeys[data.instanceId];
+      // const keyArray = key.split(":")
+      // const xyz = keyArray[1].split(",");
 
       const distance = Math.sqrt(
         Math.pow(xyz[0] - playerWrapper.position.x, 2) +
