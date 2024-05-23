@@ -131,7 +131,7 @@ export function redrawObjects() {
                 const texture = textureData[data.texture_name];
 
                 uvOffsets[i * 2] = texture.x / atlasWidth;
-                uvOffsets[i * 2 + 1] = texture.y / atlasHeight;
+                uvOffsets[i * 2 + 1] = (atlasHeight - texture.y - 64.0) / atlasHeight;
 
                 positions[i * 3] = data.x;
                 positions[i * 3 + 1] = data.y;

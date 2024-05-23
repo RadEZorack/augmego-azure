@@ -89,17 +89,17 @@ export function initObjects() {
         // for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + CHUNK_SIZE; y++) {
           let y=0;
           for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + CHUNK_SIZE; z++) {
-            continue
             
-            if (y < 0){
-              drawBlock(x, y, z, dirtTexture)
-              continue;
-            }
+            
+            // if (y < 0){
+            //   drawBlock(x, y, z, dirtTexture)
+            //   continue;
+            // }
             
             const innerSeed = x + 200 * z
             // Grass or dirt
               //   let id = Math.floor(17 * Math.random());
-              let textureUrl = favicon;
+              // let textureUrl = favicon;
               // Draw the bounds of purchase area
               // if(((x % 20) == 0 || (x % 20) == 19 || (x % 20) == -1 || (x % 20) == -0) ||
               //    ((z % 20) == 0 || (z % 20) == 19 || (z % 20) == -1 || (z % 20) == -0)){
@@ -125,9 +125,9 @@ export function initObjects() {
                 (z % 20) == 5 || (z % 20) == -15 
                 //  (z % 20) == 6 || (z % 20) == -14
                 ){
-                  drawBlock(x, 0, z, whiteGravelTexture)
+                  drawBlock(x, 0, z, "White Gravel")
                 }else{
-                  drawBlock(x, 0, z, concreteTexture)
+                  drawBlock(x, 0, z, "Concrete")
                 }
               }else if((x % 20) == 3 || (x % 20) == -17 || (z % 20) == 3 || (z % 20) == -17){
                 if(//X
@@ -143,9 +143,9 @@ export function initObjects() {
                 // X and Z
                 (((x % 20) == 3 || (x % 20) == -17) && ((z % 20) == 3 || (z % 20) == -17))
                 ){
-                  drawBlock(x, 0, z, blackGravelTexture)
+                  drawBlock(x, 0, z, "Black Gravel")
                 }else{
-                  drawBlock(x, 0, z, yellowGravelTexture)
+                  drawBlock(x, 0, z, "Yellow Gravel")
                 }
               }else if(
                 // X
@@ -159,19 +159,19 @@ export function initObjects() {
                 (z % 20) == 4 || (z % 20) == -16 ||
                 (z % 20) == 5 || (z % 20) == -15
                 ){
-                drawBlock(x, 0, z, blackGravelTexture)
+                drawBlock(x, 0, z, "Black Gravel")
               // }else if((x % 20) == 3 || (x % 20) == -3 || (x % 20) == 17 || (x % 20) == -17 ||
               //     (z % 20) == 3 || (z % 20) == -3 || (z % 20) == 17 || (z % 20) == -17
               //   ){
                 
               }else{
                 if (perlin2(x/5,z/5) >= 0){
-                  drawBlock(x, 0, z, grassTexture)
-                  drawBlock(x, 1, z, grassTexture)
+                  drawBlock(x, 0, z, "Grass")
+                  drawBlock(x, 1, z, "Grass")
                   // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
                 }else{
-                  drawBlock(x, 0, z, dirtTexture)
-                  drawBlock(x, 1, z, dirtTexture)
+                  drawBlock(x, 0, z, "Dirt")
+                  drawBlock(x, 1, z, "Dirt")
                   // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
                 }
 
@@ -181,26 +181,26 @@ export function initObjects() {
                   // const ymin = 3*perlin2(x/10,z/10)
                   const ymax = (simplex2(x,z)+1)*4 + 1
                   for (let y2 = 0; y2 < ymax; y2++) {
-                    drawBlock(x, ymin+y2, z, barkTexture)
+                    drawBlock(x, ymin+y2, z, "Bark")
                   }
                   //leaves
-                  drawBlock(x, ymin+ymax, z, pineTreeLeavesTexture)
-                  drawBlock(x+1, ymin+ymax, z, pineTreeLeavesTexture)
-                  drawBlock(x-1, ymin+ymax, z, pineTreeLeavesTexture)
-                  drawBlock(x, ymin+ymax, z+1, pineTreeLeavesTexture)
-                  drawBlock(x+1, ymin+ymax, z+1, pineTreeLeavesTexture)
-                  drawBlock(x-1, ymin+ymax, z+1, pineTreeLeavesTexture)
-                  drawBlock(x, ymin+ymax, z-1, pineTreeLeavesTexture)
-                  drawBlock(x+1, ymin+ymax, z-1, pineTreeLeavesTexture)
-                  drawBlock(x-1, ymin+ymax, z-1, pineTreeLeavesTexture)
+                  drawBlock(x, ymin+ymax, z, "Pine Tree Leaves")
+                  drawBlock(x+1, ymin+ymax, z, "Pine Tree Leaves")
+                  drawBlock(x-1, ymin+ymax, z, "Pine Tree Leaves")
+                  drawBlock(x, ymin+ymax, z+1, "Pine Tree Leaves")
+                  drawBlock(x+1, ymin+ymax, z+1, "Pine Tree Leaves")
+                  drawBlock(x-1, ymin+ymax, z+1, "Pine Tree Leaves")
+                  drawBlock(x, ymin+ymax, z-1, "Pine Tree Leaves")
+                  drawBlock(x+1, ymin+ymax, z-1, "Pine Tree Leaves")
+                  drawBlock(x-1, ymin+ymax, z-1, "Pine Tree Leaves")
 
-                  drawBlock(x, ymin+ymax+1, z, pineTreeLeavesTexture)
-                  drawBlock(x+1, ymin+ymax+1, z, pineTreeLeavesTexture)
-                  drawBlock(x-1, ymin+ymax+1, z, pineTreeLeavesTexture)
-                  drawBlock(x, ymin+ymax+1, z+1, pineTreeLeavesTexture)
-                  drawBlock(x, ymin+ymax+1, z-1, pineTreeLeavesTexture)
+                  drawBlock(x, ymin+ymax+1, z, "Pine Tree Leaves")
+                  drawBlock(x+1, ymin+ymax+1, z, "Pine Tree Leaves")
+                  drawBlock(x-1, ymin+ymax+1, z, "Pine Tree Leaves")
+                  drawBlock(x, ymin+ymax+1, z+1, "Pine Tree Leaves")
+                  drawBlock(x, ymin+ymax+1, z-1, "Pine Tree Leaves")
 
-                  drawBlock(x, ymin+ymax+2, z, pineTreeLeavesTexture)
+                  drawBlock(x, ymin+ymax+2, z, "Pine Tree Leaves")
                 }
               }
           }
