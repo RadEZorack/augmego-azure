@@ -54,7 +54,10 @@
             </div>
             <div class="modal-body">
               <div class="toggleMouse mb-3">
-                  <img class="toggleMouseOption" data-type="destroy" style="border: solid 2px red;" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on">
+                  <img class="toggleMouseOption" data-type="destroy" style="border: solid 2px green;" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on">
+                  <br><br>
+                  <div id="selectedMaterial" style="border: solid 2px red;"></div>
+                  
               </div>
               <div id="texturePanel" class="toggleMouse">
               </div>
@@ -370,6 +373,7 @@
             const blockPng = "{% static 'images/block.png' %}";
             const atSymbolPng = "{% static 'images/at-symbol.png' %}";
             const expandArrowsPng = "{% static 'images/expand-arrows.png' %}";
+            const destoryBlockPng = "{% static 'images/destory-block.png' %}";
             // These textures are overloaded in the initTexturPanel
             let grassTexture = "{% static 'images/grass-texture.png' %}";
             let dirtTexture = "{% static 'images/dirt-texture.png' %}";

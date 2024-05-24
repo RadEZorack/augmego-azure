@@ -68,7 +68,8 @@ function initSelfCam(){
                   localVideo.srcObject = stream;
                 }
 
-                textureLoad();
+                // textureLoad();
+                
               }).catch(function(err) {
                 console.log(err.name + ": " + err.message);
               })

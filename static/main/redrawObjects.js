@@ -1,6 +1,7 @@
 import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 import { vs, fs } from '../main/shaders.js';
+import { initToggleMouseOption, blockTextureMaterial } from '../main/mouseClicks.js';
 
 function createDefaultObject(defaultValue) {
 return new Proxy({}, {
@@ -47,7 +48,7 @@ export let startRedrawObjectsSpinner = true;
 let textureAtlasURL = undefined;
 let textureAtlasMapping = undefined;
 
-function fetchTextureAtlas(){
+export function fetchTextureAtlas(){
     $.ajax({
         url: textureAtlasLoadURL,
         type: 'GET',
@@ -55,6 +56,7 @@ function fetchTextureAtlas(){
             textureAtlasURL = resp[0];
             textureAtlasMapping = resp[1];
             redrawObjects();
+            initToggleMouseOption(textureAtlasURL, textureAtlasMapping);
         }
     })
 }

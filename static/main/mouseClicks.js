@@ -17,7 +17,7 @@ let cssDiv = threeJSContainer.appendChild(cssRenderer.domElement);
 // let toggleMouse = document.getElementById("toggleMouse");
 // Initial State is DESTROY
 export let toggleMouseState = "destroy";
-export let blockTextureMaterial = "";
+export var blockTextureMaterial = "";
 let blockTextureUrl = "";
 
 // Turn on WWW state
@@ -35,7 +35,8 @@ threeJSContainer.addEventListener("contextmenu", (event) => {
   event.preventDefault();
 });
 
-export function initToggleMouseOption(){
+export function initToggleMouseOption(textureAtlasURL, textureAtlasMapping){
+  const middleItemBackground = document.getElementById('middleItemBackground');
   $(".toggleMouseOption").on("click", function(event){
     event.preventDefault();
     event.stopPropagation();
@@ -44,18 +45,97 @@ export function initToggleMouseOption(){
     if(toggleMouseState == "destroy"){
       blockTextureMaterial = "";
       blockTextureUrl = "";
-      $(`[data-type='create']`).css("border", "solid 2px red");
+      // $(`[data-type='create']`).css("border", "solid 2px red");
+      $('#selectedMaterial').css("border", "solid 2px red");
       $(`[data-type='destroy']`).css("border", "solid 2px green");
+      middleItemBackground.innerHTML = `<img id="middleItemBackgroundImg" src="${destoryBlockPng}" width="100%" height="100%">`
 
-    }else if (toggleMouseState == "create"){
-      blockTextureMaterial = $(this).data("material");
-      blockTextureUrl =  $(this).attr("src");
-      $("#middleItemBackgroundImg").attr("src", blockTextureUrl)
-      $(`[data-type='create']`).css("border", "solid 2px red");
-      $(this).css("border", "solid 2px green");
-      $(`[data-type='destroy']`).css("border", "solid 2px red");
+    // }else if (toggleMouseState == "create"){
+    //   console.log(event)
+    //   // blockTextureMaterial = $(this).data("material");
+    //   // blockTextureUrl =  $(this).attr("src");
+    //   // $("#middleItemBackgroundImg").attr("src", blockTextureUrl)
+    //   // $(`[data-type='create']`).css("border", "solid 2px red");
+    //   // $(this).css("border", "solid 2px green");
+    //   $(`[data-type='destroy']`).css("border", "solid 2px red");
     }
   })
+
+  const textureSize = 64; // Assuming each texture is 64x64 pixels
+  const texturesCount = Object.keys(textureAtlasMapping).length;
+
+  // Calculate the number of columns and rows needed
+  const atlasColumns = Math.ceil(Math.sqrt(texturesCount));
+  const atlasRows = Math.ceil(texturesCount / atlasColumns);
+
+  // Calculate the dimensions of the atlas
+  const atlasWidth = atlasColumns * textureSize;
+  const atlasHeight = atlasRows * textureSize;
+
+  const container = document.getElementById('texturePanel');
+  container.innerHTML = `<canvas id="textureAtlas" width="${atlasWidth}px" height="${atlasHeight}px" data-type="create"></canvas>`
+
+  
+  
+  
+  const image = new Image();
+  image.src = textureAtlasURL
+
+  image.onload = function() {
+      const canvas = document.getElementById('textureAtlas');
+      const ctx = canvas.getContext('2d');
+      
+
+      // Draw the image onto the canvas
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      // Add a click event listener to the canvas
+      canvas.addEventListener('click', function(event) {
+        // Get the click coordinates
+        const rect = canvas.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
+
+        x = Math.floor(x / 64) * 64;
+        y = Math.floor(y / 64) * 64;
+          
+          Object.values(textureAtlasMapping).forEach((data, i) => {
+              if(data.x == x && data.y == y){
+                  blockTextureMaterial = data.name;
+              }
+          
+          });
+          console.log(blockTextureMaterial)
+
+        if (blockTextureMaterial){
+          middleItemBackground.innerHTML = `<canvas id="middleItemBackgroundCanvas" width="100%" height="100%" data-type="create"></canvas>`
+          const middleItemBackgroundCanvas = document.getElementById('middleItemBackgroundCanvas');
+          const middleItemBackgroundCtx = middleItemBackgroundCanvas.getContext('2d');
+
+          // Clear the highlight canvas
+          middleItemBackgroundCtx.clearRect(0, 0, middleItemBackgroundCanvas.width, middleItemBackgroundCanvas.height);
+
+          // Draw the 64x64 area on the highlight canvas
+          middleItemBackgroundCtx.drawImage(canvas, x, y, 64, 64, 0, 0, middleItemBackgroundCanvas.width, middleItemBackgroundCanvas.height);
+
+          const selectedMaterial = document.getElementById('selectedMaterial');
+          selectedMaterial.style.border = "solid 2px green";
+
+          selectedMaterial.innerHTML = `<canvas id="selectedMaterialCanvas" width="64px" height="64px" data-type="create"></canvas>`
+          const selectedMaterialCanvas = document.getElementById('selectedMaterialCanvas');
+          const selectedMaterialCtx = selectedMaterialCanvas.getContext('2d');
+
+          // Clear the highlight canvas
+          selectedMaterialCtx.clearRect(0, 0, selectedMaterialCanvas.width, selectedMaterialCanvas.height);
+
+          // Draw the 64x64 area on the highlight canvas
+          selectedMaterialCtx.drawImage(canvas, x, y, 64, 64, 0, 0, selectedMaterialCanvas.width, selectedMaterialCanvas.height);
+
+          toggleMouseState = "create"
+          $(`[data-type='destroy']`).css("border", "solid 2px red");
+        }
+      });
+  }
 
 
 
@@ -195,7 +275,7 @@ export function initToggleMouseOption(){
   })
 }
 
-initToggleMouseOption();
+// initToggleMouseOption();
 
 
 let scale = 0.5;
@@ -492,7 +572,7 @@ export function onMouseDownCreateBlock(data){
     success: function(resp) {
         console.log("success post");
         // Placing this here may be slower than expected, can we put outside of the ajax request and then undo it on error.
-        drawBlock(data.point.x, data.point.y, data.point.z, blockTextureUrl);
+        drawBlock(data.point.x, data.point.y, data.point.z, blockTextureMaterial);
         redrawObjects();
 
         // console.log(resp);
@@ -507,7 +587,7 @@ export function onMouseDownCreateBlock(data){
                     x: Math.round(data.point.x),
                     y: Math.round(data.point.y),
                     z: Math.round(data.point.z),
-                    textureName: blockTextureUrl,
+                    textureName: blockTextureMaterial,
                     'time': now.getTime(),
                 }))
             }

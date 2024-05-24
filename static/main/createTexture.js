@@ -1,4 +1,4 @@
-import { textureLoad } from '../main/initTexturePanel.js';
+import { fetchTextureAtlas } from '../main/redrawObjects.js';
 
 export function createTexture(){
     let title = $("#createTextureName").val()
@@ -17,7 +17,8 @@ export function createTexture(){
         success: function(resp) {
             console.log("success texture");
             // Reload texture panel
-            textureLoad();
+            // textureLoad();
+            fetchTextureAtlas();
             $("#loadingSpinner").hide()
             $("#generalToast .toast-body").html("Success at creating the new block.");
             $("#generalToast").toast("show");

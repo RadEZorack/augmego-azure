@@ -71,7 +71,7 @@ export function textureLoad(){
                     concreteTexture = fields["image_url"];
                 }
             }
-            initToggleMouseOption();
+            // initToggleMouseOption();
             initObjects();
         }
     })
