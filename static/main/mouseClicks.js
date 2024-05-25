@@ -495,7 +495,7 @@ export function onMouseDownDestoryBlock(data){
           textureName: ""
         },
         success: function(resp) {
-            console.log("success post");
+            console.log("success post rmove");
             // Placing this here may be slower than expected, can we put outside of the ajax request and then undo it on error.
             removeBlock(xyz[0], xyz[1], xyz[2]);
             redrawObjects();

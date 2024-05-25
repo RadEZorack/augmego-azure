@@ -30,6 +30,7 @@ def list_cubes(request):
 
     print("here 1")
 
+    # Should these be ints rather than str?
     x_range = (rg.get('min_x'), rg.get('max_x'))
     y_range = (rg.get('min_y'), rg.get('max_y'))
     z_range = (rg.get('min_z'), rg.get('max_z'))
@@ -43,6 +44,7 @@ def list_cubes(request):
     print("here 2")
 
     cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
+    print(cache_master_key)
     cache_keys = cache.get(cache_master_key, None)
     # print(cache_keys)
     
@@ -85,7 +87,7 @@ def list_cubes(request):
 
     print("here 8")
     cache_data = {"cube:{x}:{y}:{z}".format(x=data["x"],y=data["y"],z=data["z"]).replace(" ", "_"):data for data in serializer.data}
-    # print(cache_data)
+    print(cache_data)
     cache.set(cache_master_key, list(cache_data.keys()), 60*60*24*30)
 
     print("here 9")
@@ -98,6 +100,7 @@ def list_cubes(request):
 def post_cube(request):
     """ Create a cube via POST """
     if request.POST:
+        print("im in")
         rp = request.POST
 
         # Check if this user can modify the chunk
@@ -142,15 +145,18 @@ def post_cube(request):
         x=floor(int(rp.get("x"))/CHUNK_SIZE)*CHUNK_SIZE
         y=floor(int(rp.get("y"))/CHUNK_SIZE)*CHUNK_SIZE
         z=floor(int(rp.get("z"))/CHUNK_SIZE)*CHUNK_SIZE
-        x_range = (x, x + CHUNK_SIZE)
-        y_range = (y, y + CHUNK_SIZE)
-        z_range = (z, z + CHUNK_SIZE)
+        x_range = (str(x), str(x + CHUNK_SIZE))
+        y_range = (str(y), str(y + CHUNK_SIZE))
+        z_range = (str(z), str(z + CHUNK_SIZE))
 
         cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
+        # print(cache_master_key)
         current_cubes = cache.get(cache_master_key, [])
         current_cube_key = "cube:{x}:{y}:{z}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"]).replace(" ", "_")
+        # print(current_cube_key)
         current_cubes.append(current_cube_key)
-        current_cubes = list(set(current_cubes)) # untested
+        # print(current_cubes)
+        current_cubes = list(set(current_cubes))
 
         cache.set(current_cube_key, serializer.data, 60*60*24*30) # one month cache
 
