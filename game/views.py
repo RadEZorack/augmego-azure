@@ -15,7 +15,7 @@ from openai import OpenAI
 
 from quickstartproject import settings
 
-from texture.models import Texture  # Import your model
+from texture.models import Texture, TextureAtlas
 
 @xframe_options_sameorigin
 def webcam(request):
@@ -116,5 +116,8 @@ def generate_image(request):
 
         # Create an image file and save it to the ImageField
         texture.image.save(title+'.jpg', image_content, save=True)
+
+    t = TextureAtlas.objects.first()
+    t.update_atlas()
 
     return HttpResponse("ok")
