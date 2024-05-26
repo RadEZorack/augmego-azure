@@ -3,6 +3,7 @@ import { GLTFLoader } from '../three/GLTFLoader.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
 import { objectScene, camera, backgroundCanvas } from '../main/main.js';
 import { entities } from '../main/entity.js';
+import { initSocketConnection } from '../main/socketConnection.js'
 
 // Instantiate a loader
 let gltf_loader = new GLTFLoader();
@@ -59,7 +60,9 @@ export function loadPlayer(){
         // cameraRotator.lookAt(camera);
 
         objectScene.add( playerWrapper );
-        console.log("player loaded")
+        console.log("player loaded");
+
+        initSocketConnection();
     }
   );
 }

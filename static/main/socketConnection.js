@@ -1,5 +1,6 @@
 import { entities, update_entity, remove_entity } from '../main/entity.js';
 import { fetchAmica } from '../main/amica.js';
+import { playerWrapper } from '../main/player.js'
 
 console.log(window.location.host)
 
@@ -7,7 +8,7 @@ export let socket = undefined
 export let peerConnections = {}
 export let message_que = []
 
-function initSocketConnection(){
+export function initSocketConnection(){
   // $('#globalChatIframe').attr('src', 'https://' + window.location.host + '/chat/global/')
 
   socket = new WebSocket(
@@ -76,6 +77,10 @@ function initSocketConnection(){
       if ("sending-uuid" in message){
         myUuid = message["sending-uuid"].myUuid
         console.log("2. myUuid", myUuid)
+        playerWrapper.position.x = message["sending-uuid"].x
+        playerWrapper.position.y = message["sending-uuid"].y
+        playerWrapper.position.z = message["sending-uuid"].z
+        console.log(playerWrapper);
       }
 
       if ("refetch_amica" in message){
@@ -313,4 +318,4 @@ function initSocketConnection(){
   };
 }
 
-initSocketConnection();
+

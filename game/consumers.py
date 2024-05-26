@@ -6,15 +6,16 @@ from django.utils import timezone
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
+from cube.models import Chunk
 from monitor.models import UserLogin
 from monitor.utils import hash_ip
 
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('---connected---')
-        if self.scope['user'].person.is_guest:
-            # We don't want guests to be multiplayer
-            return
+        # if self.scope['user'].person.is_guest:
+        #     # We don't want guests to be multiplayer
+        #     return
 
         # Call the synchronous method in an async way
         self.user_login = await self.create_user_login(self.scope['user'])
@@ -41,17 +42,25 @@ class GameConsumer(AsyncWebsocketConsumer):
         # await self.send(text_data=json.dumps({
         #     'message': {"sending-uuid": {"myUuid": self.uuid}}
         # }))
+
+        
+
         await self.channel_layer.group_send(
             self.uuid,
             {
                 "type": "game.sending_uuid",
                 "from": self.uuid,
-                'message': {"sending-uuid": {"myUuid": self.uuid}}
+                'message': {"sending-uuid": {"myUuid": self.uuid, "x": (self.chunk.x + self.chunk.x2)/2, "y": (self.chunk.y + self.chunk.y2)/2, "z": (self.chunk.z + self.chunk.z2)/2}}
             },
         )
 
     @database_sync_to_async
     def create_user_login(self, user):
+        if user.person.is_guest:
+            # We don't want guests to be multiplayer
+            self.disconnect(403)
+            return
+        self.chunk = Chunk.objects.filter(owner=user.person).first()
         return UserLogin.objects.create(user=user)
     
     async def disconnect(self, close_code):

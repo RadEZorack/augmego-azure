@@ -130,6 +130,17 @@ def post_cube(request):
 
         #     if request.user.person != chunk.owner:
         #         return HttpResponseForbidden()
+        chunk_exists = Chunk.objects.filter(
+            x__lte=int(rp.get("x")),
+            x2__gte=int(rp.get("x")),
+            # We don't use y
+            z__lte=int(rp.get("z")),
+            z2__gte=int(rp.get("z")),
+        ).exclude(owner=request.user.person).exists()
+        if chunk_exists:
+            print("chunk owner mismatch")
+            return HttpResponseForbidden()
+
 
         cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"))
         if rp.get("textureName"):

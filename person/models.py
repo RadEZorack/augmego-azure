@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from cube.models import Chunk
+
 User = get_user_model()
 
 # Create your models here.
@@ -28,6 +30,9 @@ class Person(models.Model):
 @receiver(post_save, sender=User)
 def create_or_update_user_person(sender, instance, created, **kwargs):
     if created:
-        Person.objects.create(user=instance)
+        p = Person.objects.create(user=instance)
         instance.person.amica += Decimal(1.000)
+        c = Chunk.objects.filter(owner__isnull=True).first()
+        c.owner = p
+        c.save()
     instance.person.save()
