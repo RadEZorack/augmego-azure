@@ -13,7 +13,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('---connected---')
         if self.scope['user'].person.is_guest:
-            # We don't want guests to be multiplayerself.scope['user']
+            # We don't want guests to be multiplayer
             return
 
         # Call the synchronous method in an async way
