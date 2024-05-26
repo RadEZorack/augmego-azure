@@ -40,6 +40,7 @@ def nosignup(request):
                 user = User.objects.create_user("Guest-"+str(code), str(uuid.uuid4())+'@example.com', str(uuid.uuid4()))
                 person = user.person
                 person.code = code
+                person.is_guest = True
                 person.save()
 
             # Log the user in
