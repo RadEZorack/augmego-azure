@@ -12,6 +12,9 @@ from monitor.utils import hash_ip
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('---connected---')
+        if self.scope['user'].person.is_guest:
+            # We don't want guests to be multiplayerself.scope['user']
+            return
 
         # Call the synchronous method in an async way
         self.user_login = await self.create_user_login(self.scope['user'])

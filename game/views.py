@@ -78,6 +78,9 @@ def test(request):
     return render(request, 'game/test.html')
 
 def generate_image(request):
+    if request.user.person.is_guest:
+        return HttpResponseForbidden()
+    
     client = OpenAI()
 
     title = request.POST.get("title")
