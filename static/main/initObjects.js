@@ -125,9 +125,9 @@ export function initObjects() {
                 (z % 20) == 5 || (z % 20) == -15 
                 //  (z % 20) == 6 || (z % 20) == -14
                 ){
-                  drawBlock(x, 0, z, "White Gravel")
+                  drawBlock(x-3, 0, z-3, "White Gravel")
                 }else{
-                  drawBlock(x, 0, z, "Concrete")
+                  drawBlock(x-3, 0, z-3, "Concrete")
                 }
               }else if((x % 20) == 3 || (x % 20) == -17 || (z % 20) == 3 || (z % 20) == -17){
                 if(//X
@@ -143,9 +143,9 @@ export function initObjects() {
                 // X and Z
                 (((x % 20) == 3 || (x % 20) == -17) && ((z % 20) == 3 || (z % 20) == -17))
                 ){
-                  drawBlock(x, 0, z, "Black Gravel")
+                  drawBlock(x-3, 0, z-3, "Black Gravel")
                 }else{
-                  drawBlock(x, 0, z, "Yellow Gravel")
+                  drawBlock(x-3, 0, z-3, "Yellow Gravel")
                 }
               }else if(
                 // X
@@ -159,19 +159,19 @@ export function initObjects() {
                 (z % 20) == 4 || (z % 20) == -16 ||
                 (z % 20) == 5 || (z % 20) == -15
                 ){
-                drawBlock(x, 0, z, "Black Gravel")
+                drawBlock(x-3, 0, z-3, "Black Gravel")
               // }else if((x % 20) == 3 || (x % 20) == -3 || (x % 20) == 17 || (x % 20) == -17 ||
               //     (z % 20) == 3 || (z % 20) == -3 || (z % 20) == 17 || (z % 20) == -17
               //   ){
                 
               }else{
                 if (perlin2(x/5,z/5) >= 0){
-                  drawBlock(x, 0, z, "Grass")
-                  drawBlock(x, 1, z, "Grass")
+                  drawBlock(x-3, 0, z-3, "Grass")
+                  drawBlock(x-3, 1, z-3, "Grass")
                   // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
                 }else{
-                  drawBlock(x, 0, z, "Dirt")
-                  drawBlock(x, 1, z, "Dirt")
+                  drawBlock(x-3, 0, z-3, "Dirt")
+                  drawBlock(x-3, 1, z-3, "Dirt")
                   // drawBlock(x, 3*perlin2(x/10,z/10), z, textureUrl)
                 }
 
@@ -181,26 +181,26 @@ export function initObjects() {
                   // const ymin = 3*perlin2(x/10,z/10)
                   const ymax = (simplex2(x,z)+1)*4 + 1
                   for (let y2 = 0; y2 < ymax; y2++) {
-                    drawBlock(x, ymin+y2, z, "Bark")
+                    drawBlock(x-3, ymin+y2, z-3, "Bark")
                   }
                   //leaves
-                  drawBlock(x, ymin+ymax, z, "Pine Tree Leaves")
-                  drawBlock(x+1, ymin+ymax, z, "Pine Tree Leaves")
-                  drawBlock(x-1, ymin+ymax, z, "Pine Tree Leaves")
-                  drawBlock(x, ymin+ymax, z+1, "Pine Tree Leaves")
-                  drawBlock(x+1, ymin+ymax, z+1, "Pine Tree Leaves")
-                  drawBlock(x-1, ymin+ymax, z+1, "Pine Tree Leaves")
-                  drawBlock(x, ymin+ymax, z-1, "Pine Tree Leaves")
-                  drawBlock(x+1, ymin+ymax, z-1, "Pine Tree Leaves")
-                  drawBlock(x-1, ymin+ymax, z-1, "Pine Tree Leaves")
+                  drawBlock(x-3, ymin+ymax, z-3, "Pine Tree Leaves")
+                  drawBlock(x+1-3, ymin+ymax, z-3, "Pine Tree Leaves")
+                  drawBlock(x-1-3, ymin+ymax, z-3, "Pine Tree Leaves")
+                  drawBlock(x-3, ymin+ymax, z+1-3, "Pine Tree Leaves")
+                  drawBlock(x+1-3, ymin+ymax, z+1-3, "Pine Tree Leaves")
+                  drawBlock(x-1-3, ymin+ymax, z+1-3, "Pine Tree Leaves")
+                  drawBlock(x-3, ymin+ymax, z-1-3, "Pine Tree Leaves")
+                  drawBlock(x+1-3, ymin+ymax, z-1-3, "Pine Tree Leaves")
+                  drawBlock(x-1-3, ymin+ymax, z-1-3, "Pine Tree Leaves")
 
-                  drawBlock(x, ymin+ymax+1, z, "Pine Tree Leaves")
-                  drawBlock(x+1, ymin+ymax+1, z, "Pine Tree Leaves")
-                  drawBlock(x-1, ymin+ymax+1, z, "Pine Tree Leaves")
-                  drawBlock(x, ymin+ymax+1, z+1, "Pine Tree Leaves")
-                  drawBlock(x, ymin+ymax+1, z-1, "Pine Tree Leaves")
+                  drawBlock(x-3, ymin+ymax+1, z-3, "Pine Tree Leaves")
+                  drawBlock(x+1-3, ymin+ymax+1, z-3, "Pine Tree Leaves")
+                  drawBlock(x-1-3, ymin+ymax+1, z-3, "Pine Tree Leaves")
+                  drawBlock(x-3, ymin+ymax+1, z+1-3, "Pine Tree Leaves")
+                  drawBlock(x-3, ymin+ymax+1, z-1-3, "Pine Tree Leaves")
 
-                  drawBlock(x, ymin+ymax+2, z, "Pine Tree Leaves")
+                  drawBlock(x-3, ymin+ymax+2, z-3, "Pine Tree Leaves")
                 }
               }
           }
