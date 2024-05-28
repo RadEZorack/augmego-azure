@@ -44,15 +44,24 @@ class GameConsumer(AsyncWebsocketConsumer):
         # }))
 
         
-
-        await self.channel_layer.group_send(
-            self.uuid,
-            {
-                "type": "game.sending_uuid",
-                "from": self.uuid,
-                'message': {"sending-uuid": {"myUuid": self.uuid, "x": (self.chunk.x + self.chunk.x2)/2, "y": (self.chunk.y + self.chunk.y2)/2, "z": (self.chunk.z + self.chunk.z2)/2}}
-            },
-        )
+        if self.chunk:
+            await self.channel_layer.group_send(
+                self.uuid,
+                {
+                    "type": "game.sending_uuid",
+                    "from": self.uuid,
+                    'message': {"sending-uuid": {"myUuid": self.uuid, "x": (self.chunk.x + self.chunk.x2)/2, "y": (self.chunk.y + self.chunk.y2)/2, "z": (self.chunk.z + self.chunk.z2)/2}}
+                },
+            )
+        else:
+            await self.channel_layer.group_send(
+                self.uuid,
+                {
+                    "type": "game.sending_uuid",
+                    "from": self.uuid,
+                    'message': {"sending-uuid": {"myUuid": self.uuid, "x": 0.0, "y": 0.0, "z": 0.0}}
+                },
+            )
 
     @database_sync_to_async
     def create_user_login(self, user):
