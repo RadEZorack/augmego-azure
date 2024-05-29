@@ -44,7 +44,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         # }))
 
         
-        if hasattr(self, "chunk"):
+        if hasattr(self, "chunk") and self.chunk != None:
             await self.channel_layer.group_send(
                 self.uuid,
                 {
