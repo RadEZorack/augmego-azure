@@ -44,7 +44,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         # }))
 
         
-        if self.chunk:
+        if hasattr(self, "chunk"):
             await self.channel_layer.group_send(
                 self.uuid,
                 {

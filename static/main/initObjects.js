@@ -24,10 +24,11 @@ export function initObjects() {
 
     // let chunkKeysToRemove = []
     let chunkKeysToAdd = []
+    let chunkKeysToFetch = []
 
     for(let chunkX = -CHUNK_SIZE*2; chunkX <= CHUNK_SIZE*2; chunkX += CHUNK_SIZE){
-      // for(let chunkY = 0; chunkY <= 0; chunkY += CHUNK_SIZE){
-        let chunkY = 0;
+      for(let chunkY = -CHUNK_SIZE; chunkY <= CHUNK_SIZE*2; chunkY += CHUNK_SIZE){
+        // let chunkY = 0;
         for(let chunkZ = -CHUNK_SIZE*2; chunkZ <= CHUNK_SIZE*2; chunkZ += CHUNK_SIZE){
           const chunkKey = `${chunkX+thisPosition.x},${chunkY+thisPosition.y},${chunkZ+thisPosition.z}`
 
@@ -45,8 +46,9 @@ export function initObjects() {
             chunkKeysToAdd.push([chunkX,chunkY,chunkZ])
             // chunkKeysToAdd.push([chunkX+thisPosition.x,chunkY+thisPosition.y,chunkZ+thisPosition.z])
           // }
+          chunkKeysToFetch.push(`${chunkX},${chunkX+CHUNK_SIZE},${chunkY},${chunkY+CHUNK_SIZE},${chunkZ},${chunkZ+CHUNK_SIZE}`)
         }
-      // }
+      }
     }
 
     // const chunkKey = `${thisPosition.x},${thisPosition.y},${thisPosition.z}`
@@ -209,18 +211,20 @@ export function initObjects() {
       // drawBlock(0,0,0, grassTexture)
       // drawBlock(1,0,0, grassTexture)
       // drawBlock(0,0,1, dirtTexture)
+    })
 
       $.ajax({
         url: cubeLoadURL,
         type: 'GET',
         data: {
           csrfmiddlewaretoken: csrfmiddlewaretoken,
-          min_x: chunkX,// + thisPosition.x,
-          min_y: chunkY,// + thisPosition.y,
-          min_z: chunkZ,// + thisPosition.z,
-          max_x: chunkX+CHUNK_SIZE,// + thisPosition.x+CHUNK_SIZE,
-          max_y: chunkY+CHUNK_SIZE,// + thisPosition.y+CHUNK_SIZE,
-          max_z: chunkZ+CHUNK_SIZE,// + thisPosition.z+CHUNK_SIZE,
+          ranges: chunkKeysToFetch.join("_")
+          // min_x: chunkX,// + thisPosition.x,
+          // min_y: chunkY,// + thisPosition.y,
+          // min_z: chunkZ,// + thisPosition.z,
+          // max_x: chunkX+CHUNK_SIZE,// + thisPosition.x+CHUNK_SIZE,
+          // max_y: chunkY+CHUNK_SIZE,// + thisPosition.y+CHUNK_SIZE,
+          // max_z: chunkZ+CHUNK_SIZE,// + thisPosition.z+CHUNK_SIZE,
         },
         success: function(resp) {
             console.log("success get");
@@ -232,13 +236,13 @@ export function initObjects() {
                 drawBlock(data.x, data.y, data.z, data.texture_name);
               }
             }
-            redrawCount += 1;
-            if (redrawCount == chunkKeysToAdd.length){
+            // redrawCount += 1;
+            // if (redrawCount == chunkKeysToAdd.length){
               redrawObjects();
-            }
+            // }
         }
       })
-    })
+    
   
 
     // redrawObjects();
