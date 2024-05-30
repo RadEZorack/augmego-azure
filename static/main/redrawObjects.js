@@ -187,6 +187,7 @@ export function redrawObjects() {
         const roundingErrorFix = 0.5001;
 
         myCount = 0;
+        quadMeshInstanceIDKeys = []
         for (let i = 0; i < instanceData.length; i++) {
             if (typeof instanceData[i] == "string"){
                 // console.log(instanceData[i])
