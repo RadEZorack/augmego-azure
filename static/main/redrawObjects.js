@@ -171,7 +171,8 @@ export function redrawObjects() {
                 void main() {
                     gl_FragColor = texture2D(textureAtlas, vUv);
                 }
-            `
+            `,
+            transparent: true
         });
 
         // console.log(instanceData.length, myCount)
