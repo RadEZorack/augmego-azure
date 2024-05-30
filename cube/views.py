@@ -154,7 +154,7 @@ def post_cube(request):
             # We don't use y
             z__lte=int(rp.get("z")),
             z2__gte=int(rp.get("z")),
-        ).exclude(owner=request.user.person).exists()
+        ).exclude(owner=request.user.person, owner__isnull=True).exists()
         if chunk_exists:
             print("chunk owner mismatch")
             return HttpResponseForbidden()
