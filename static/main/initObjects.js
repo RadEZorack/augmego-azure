@@ -12,10 +12,15 @@ export function initObjects() {
     
     let thisPosition = new THREE.Vector3(0,0,0)
     if (!(playerWrapper === undefined)){
+      // console.log("hit")
       thisPosition.x = playerWrapper.position.x
       thisPosition.y = playerWrapper.position.y
       thisPosition.z = playerWrapper.position.z
+    }else{
+      setTimeout(initObjects, 1000 )
+      return
     }
+    // console.log(thisPosition)
     
     // Round to nearest 50
     thisPosition.x = Math.floor(thisPosition.x/CHUNK_SIZE)*CHUNK_SIZE
@@ -26,27 +31,28 @@ export function initObjects() {
     let chunkKeysToAdd = []
     let chunkKeysToFetch = []
 
-    for(let chunkX = -CHUNK_SIZE*2; chunkX <= CHUNK_SIZE*2; chunkX += CHUNK_SIZE){
-      for(let chunkY = -CHUNK_SIZE; chunkY <= CHUNK_SIZE*2; chunkY += CHUNK_SIZE){
+    for(let chunkX = -CHUNK_SIZE*5; chunkX <= CHUNK_SIZE*5; chunkX += CHUNK_SIZE){
+      for(let chunkY = -CHUNK_SIZE; chunkY <= CHUNK_SIZE*3; chunkY += CHUNK_SIZE){
         // let chunkY = 0;
-        for(let chunkZ = -CHUNK_SIZE*2; chunkZ <= CHUNK_SIZE*2; chunkZ += CHUNK_SIZE){
-          const chunkKey = `${chunkX+thisPosition.x},${chunkY+thisPosition.y},${chunkZ+thisPosition.z}`
+        for(let chunkZ = -CHUNK_SIZE*5; chunkZ <= CHUNK_SIZE*5; chunkZ += CHUNK_SIZE){
+          const chunkKey = `${chunkX},${chunkY},${chunkZ}`
 
-          // const distance = Math.sqrt(chunkX*chunkX + chunkY*chunkY + chunkZ*chunkZ)
-          // if(distance >= 3*CHUNK_SIZE/2){
-          //   if (chunkKey in chunkGameObjects){
-          //     chunkGameObjects[chunkKey].forEach(function(key) {
-          //       delete gameObjects[key]
-          //     });
-          //   }
-          //   continue
-          // }
-          
-          // if (!(chunkKey in chunkGameObjects)){
+          const distance = Math.sqrt(Math.pow(chunkX-thisPosition.x,2)+Math.pow(chunkY-thisPosition.y,2)+Math.pow(chunkZ-thisPosition.z,2))
+          // console.log(distance, chunkX, thisPosition.x, thisPosition.z);
+          if(distance >= 3*CHUNK_SIZE){
+            // console.log("eraser")
+            if (chunkKey in chunkGameObjects){
+              chunkGameObjects[chunkKey].forEach(function(key) {
+                // console.log(key)
+                delete gameObjects[key]
+              });
+              delete chunkGameObjects[chunkKey]
+            }
+            
+          }else if (distance < 3*CHUNK_SIZE && !(chunkKey in chunkGameObjects)){
             chunkKeysToAdd.push([chunkX,chunkY,chunkZ])
-            // chunkKeysToAdd.push([chunkX+thisPosition.x,chunkY+thisPosition.y,chunkZ+thisPosition.z])
-          // }
-          chunkKeysToFetch.push(`${chunkX},${chunkX+CHUNK_SIZE},${chunkY},${chunkY+CHUNK_SIZE},${chunkZ},${chunkZ+CHUNK_SIZE}`)
+            chunkKeysToFetch.push(`${chunkX},${chunkX+CHUNK_SIZE},${chunkY},${chunkY+CHUNK_SIZE},${chunkZ},${chunkZ+CHUNK_SIZE}`)
+          }
         }
       }
     }
@@ -261,7 +267,7 @@ function checkPlayerMovedPosition(){
                     Math.pow(playerWrapper.position.y - lastPlayerPosition.y, 2) +
                     Math.pow(playerWrapper.position.z - lastPlayerPosition.z, 2)
                   )
-    if (dist >= CHUNK_SIZE/4){
+    if (dist >= CHUNK_SIZE/2){
       lastPlayerPosition.x = playerWrapper.position.x
       lastPlayerPosition.y = playerWrapper.position.y
       lastPlayerPosition.z = playerWrapper.position.z
@@ -272,4 +278,4 @@ function checkPlayerMovedPosition(){
 }
 
 loadPlayer();
-// checkPlayerMovedPosition();
+checkPlayerMovedPosition();

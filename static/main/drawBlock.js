@@ -35,7 +35,7 @@ export function drawBlock(x, y, z, texture_name) {
     if (`block:${x},${y-1},${z}:top` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y-1},${z}:top`]
-        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:top`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y-1},${z}:top`)
         
     } else {
         // No adjancent block, draw the new BOTTOM face
@@ -47,7 +47,7 @@ export function drawBlock(x, y, z, texture_name) {
     if (`block:${x},${y+1},${z}:bottom` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y+1},${z}:bottom`]
-        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:bottom`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y+1},${z}:bottom`)
 
     } else {
         // No adjancent block, draw the new TOP face
@@ -59,7 +59,7 @@ export function drawBlock(x, y, z, texture_name) {
     if (`block:${x},${y},${z-1}:north` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y},${z-1}:north`]
-        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:north`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z-1}:north`)
 
     } else {
         // No adjancent block, draw the new SOUTH face
@@ -71,7 +71,7 @@ export function drawBlock(x, y, z, texture_name) {
     if (`block:${x},${y},${z+1}:south` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x},${y},${z+1}:south`]
-        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:south`)
+        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z+1}:south`)
         
     } else {
         gameObjects[`block:${x},${y},${z}:north`] = {x:x, y:y, z:z, direction:"north", texture_name:texture_name};
@@ -82,7 +82,7 @@ export function drawBlock(x, y, z, texture_name) {
     if (`block:${x-1},${y},${z}:west` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x-1},${y},${z}:west`]
-        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:west`)
+        chunkGameObjects[chunkKey].delete(`block:${x-1},${y},${z}:west`)
         
     } else {
         gameObjects[`block:${x},${y},${z}:east`] = {x:x, y:y, z:z, direction:"east", texture_name:texture_name};
@@ -93,7 +93,7 @@ export function drawBlock(x, y, z, texture_name) {
     if (`block:${x+1},${y},${z}:east` in gameObjects){
         // We have an adjancent block, hide it's face and don't draw the new face
         delete gameObjects[`block:${x+1},${y},${z}:east`]
-        chunkGameObjects[chunkKey].delete(`block:${x},${y},${z}:east`)
+        chunkGameObjects[chunkKey].delete(`block:${x+1},${y},${z}:east`)
         
     } else {
         gameObjects[`block:${x},${y},${z}:west`] = {x:x, y:y, z:z, direction:"west", texture_name:texture_name};
