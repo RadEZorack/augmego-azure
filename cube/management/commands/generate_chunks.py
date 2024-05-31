@@ -13,10 +13,10 @@ class Command(BaseCommand):
         for i in range(-r, r):
             for j in range(-r, r):
                 chunk, created = Chunk.objects.get_or_create(
-                    x=1 + 20*i,
+                    x=1 + 40*i,
                     y=0,
-                    z=1 + 20*j,
-                    x2=19 + 20*i,
+                    z=1 + 40*j,
+                    x2=39 + 40*i,
                     y2=0,
-                    z2=19 + 20*j,
+                    z2=39 + 40*j,
                 )

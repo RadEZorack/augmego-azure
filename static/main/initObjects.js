@@ -20,7 +20,7 @@ export function initObjects() {
       setTimeout(initObjects, 1000 )
       return
     }
-    // console.log(thisPosition)
+    console.log(thisPosition)
     
     // Round to nearest 50
     thisPosition.x = Math.floor(thisPosition.x/CHUNK_SIZE)*CHUNK_SIZE
@@ -30,20 +30,20 @@ export function initObjects() {
     // let chunkKeysToRemove = []
     let chunkKeysToAdd = []
     let chunkKeysToFetch = []
-
-    for(let chunkX = -CHUNK_SIZE*5; chunkX <= CHUNK_SIZE*5; chunkX += CHUNK_SIZE){
-      for(let chunkY = -CHUNK_SIZE; chunkY <= CHUNK_SIZE*3; chunkY += CHUNK_SIZE){
+0
+    for(let chunkX = -CHUNK_SIZE*5 + thisPosition.x; chunkX <= CHUNK_SIZE*5 + thisPosition.x; chunkX += CHUNK_SIZE){
+      for(let chunkY = -CHUNK_SIZE + thisPosition.y; chunkY <= CHUNK_SIZE*3 + thisPosition.y; chunkY += CHUNK_SIZE){
         // let chunkY = 0;
-        for(let chunkZ = -CHUNK_SIZE*5; chunkZ <= CHUNK_SIZE*5; chunkZ += CHUNK_SIZE){
+        for(let chunkZ = -CHUNK_SIZE*5 + thisPosition.z; chunkZ <= CHUNK_SIZE*5 + thisPosition.z; chunkZ += CHUNK_SIZE){
           const chunkKey = `${chunkX},${chunkY},${chunkZ}`
 
           const distance = Math.sqrt(Math.pow(chunkX-thisPosition.x,2)+Math.pow(chunkY-thisPosition.y,2)+Math.pow(chunkZ-thisPosition.z,2))
           // console.log(distance, chunkX, thisPosition.x, thisPosition.z);
           if(distance >= 3*CHUNK_SIZE){
-            // console.log("eraser")
+            console.log("eraser")
             if (chunkKey in chunkGameObjects){
               chunkGameObjects[chunkKey].forEach(function(key) {
-                // console.log(key)
+                console.log(key)
                 delete gameObjects[key]
               });
               delete chunkGameObjects[chunkKey]
@@ -93,10 +93,10 @@ export function initObjects() {
       const chunkX = key[0]
       const chunkY = key[1]
       const chunkZ = key[2]
-      for (let x = chunkX + thisPosition.x; x < chunkX + thisPosition.x + CHUNK_SIZE; x++) {
+      for (let x = chunkX; x < chunkX + CHUNK_SIZE; x++) {
         // for (let y = chunkY + thisPosition.y; y < chunkY + thisPosition.y + CHUNK_SIZE; y++) {
           let y=0;
-          for (let z = chunkZ + thisPosition.z; z < chunkZ + thisPosition.z + CHUNK_SIZE; z++) {
+          for (let z = chunkZ; z < chunkZ + CHUNK_SIZE; z++) {
             
             
             // if (y < 0){
@@ -255,7 +255,7 @@ export function initObjects() {
     
 }
 
-initObjects();
+// initObjects();
 
 let lastPlayerPosition = new THREE.Vector3(0,0,0);
 function checkPlayerMovedPosition(){
