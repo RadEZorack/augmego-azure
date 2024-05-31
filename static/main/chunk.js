@@ -29,7 +29,7 @@ export function drawChunkBounds(toggleLandClaimView){
         }, 1000)
     }else{
         const thisChunkPosition = new THREE.Vector3(
-            Math.floor(playerWrapper.position.x/10)*10,
+            Math.floor(playerWrapper.position.x/10)*10, // We dont really need to do this rounding now
             Math.floor(playerWrapper.position.y/10)*10,
             Math.floor(playerWrapper.position.z/10)*10
         );
@@ -44,21 +44,26 @@ export function drawChunkBounds(toggleLandClaimView){
             type: 'GET',
             data: {
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
-                x: Math.floor(x/10),
-                y: Math.floor(y/10),
-                z: Math.floor(z/10)
+                x: x,
+                y: y,
+                z: z
+                // x: Math.floor(x/10),
+                // y: Math.floor(y/10),
+                // z: Math.floor(z/10)
             },
             success: function(resp) {
-                // console.log(resp);
+                console.log(resp);
                 // returns { plane: plane, cssObject: cssObject, scale: s }
                 // console.log(Object.keys(resp).length)
                 for (let chunkKey in resp){
                     // console.log(chunkKey)
                     let chunkKeySplit = chunkKey.split(":")
                     chunkKeySplit = chunkKeySplit[1].split(",")
-                    const xChunk = Number.parseInt(chunkKeySplit[0].split("=")[1])
+                    const xChunk = Number.parseInt(chunkKeySplit[0])
+                    const xChunk2 = Number.parseInt(chunkKeySplit[1])
                     // const yChunk = Number.parseInt(chunkKeySplit[1].split("=")[1])
-                    const zChunk = Number.parseInt(chunkKeySplit[2].split("=")[1])
+                    const zChunk = Number.parseInt(chunkKeySplit[4])
+                    const zChunk2 = Number.parseInt(chunkKeySplit[5])
 
                     let color = resp[chunkKey];
                     if (color == "red"){
@@ -76,10 +81,10 @@ export function drawChunkBounds(toggleLandClaimView){
                         // opacity: 0                    
                     });
         
-                    const quadGeometry = new THREE.PlaneGeometry(9.9, 9.9);
+                    const quadGeometry = new THREE.PlaneGeometry(xChunk2-xChunk-0.1, zChunk2-zChunk-0.1);
         
                     const quadMesh = new THREE.Mesh(quadGeometry, quadMaterial);
-                    quadMesh.position.set(xChunk*10+5,100,zChunk*10+5); // Set position
+                    quadMesh.position.set((xChunk+xChunk2)/2,100,(zChunk+zChunk2)/2); // Set position
                     quadMesh.rotation.set(-Math.PI/2,0,0); // Set rotation
         
                     objectScene.add(quadMesh);

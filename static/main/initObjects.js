@@ -20,7 +20,7 @@ export function initObjects() {
       setTimeout(initObjects, 1000 )
       return
     }
-    console.log(thisPosition)
+    // console.log(thisPosition)
     
     // Round to nearest 50
     thisPosition.x = Math.floor(thisPosition.x/CHUNK_SIZE)*CHUNK_SIZE
@@ -40,10 +40,10 @@ export function initObjects() {
           const distance = Math.sqrt(Math.pow(chunkX-thisPosition.x,2)+Math.pow(chunkY-thisPosition.y,2)+Math.pow(chunkZ-thisPosition.z,2))
           // console.log(distance, chunkX, thisPosition.x, thisPosition.z);
           if(distance >= 3*CHUNK_SIZE){
-            console.log("eraser")
+            // console.log("eraser")
             if (chunkKey in chunkGameObjects){
               chunkGameObjects[chunkKey].forEach(function(key) {
-                console.log(key)
+                // console.log(key)
                 delete gameObjects[key]
               });
               delete chunkGameObjects[chunkKey]

@@ -199,6 +199,34 @@ def post_cube(request):
     
 def chunk_info(request):
     """ example: http://localhost:8000/cube/chunk_info?x=0&y=0&z=0 """
+    rg = request.GET
+
+    x = int(rg.get("x"))
+    y = 0
+    z = int(rg.get("z"))
+
+    SIZE = 50*5
+
+    chunks = Chunk.objects.filter(x__gte=x-SIZE, x2__lte=x+SIZE, z__gte=z-SIZE, z2__lte=z+SIZE)
+
+    final_data = {}
+    for chunk in chunks:
+        owner_name = chunk.owner
+        key = str(chunk)
+
+        if owner_name:
+            if (str(request.user.person) == str(owner_name)):
+                final_data[key] = "green"
+                continue
+            else:
+                final_data[key] = "red"
+                continue
+
+        # Fall back, can purchase
+        final_data[key] = "blue"
+
+    return HttpResponse(json.dumps(final_data), content_type='application/json')
+
     return
     # Define your range for each coordinate
     rg = request.GET
