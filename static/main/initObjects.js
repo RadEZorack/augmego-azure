@@ -255,7 +255,7 @@ export function initObjects() {
     
 }
 
-// initObjects();
+initObjects();
 
 let lastPlayerPosition = new THREE.Vector3(0,0,0);
 function checkPlayerMovedPosition(){
