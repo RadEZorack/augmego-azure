@@ -4,11 +4,12 @@ import { playerWrapper } from '../main/player.js';
 import { selectedObject } from '../main/raycaster.js';
 import { camera } from '../main/main.js';
 
-let toggleLandClaimView = false;
+let toggleLandClaimView = true;
 export let isWalk = true;
 export let isFirstPerson = false;
 
 $(document).ready(function() {
+    drawChunkBounds(true)
     $('.command').on("touchstart click", function(e) {
         // Prevent multiple handlers from firing. Remove if you need both touch and click events handled separately.
         e.stopPropagation(); 
