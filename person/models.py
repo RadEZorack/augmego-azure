@@ -31,8 +31,23 @@ class Person(models.Model):
 def create_or_update_user_person(sender, instance, created, **kwargs):
     if created:
         p = Person.objects.create(user=instance)
-        instance.person.amica += Decimal(1.000)
-        c = Chunk.objects.filter(owner__isnull=True).first()
-        c.owner = p
-        c.save()
+        if not str(p).startswith("Guest"):
+            instance.person.amica += Decimal(1.000)
+            c = None
+            r = 0
+            while not c:
+                r += 1
+                for i in range(-r, r):
+                    for j in range(-r, r):
+                        chunk, created = Chunk.objects.get_or_create(
+                            x=1 + 40*i,
+                            y=0,
+                            z=1 + 40*j,
+                            x2=39 + 40*i,
+                            y2=0,
+                            z2=39 + 40*j,
+                        )
+                c = Chunk.objects.filter(owner__isnull=True).first()
+            c.owner = p
+            c.save()
     instance.person.save()
