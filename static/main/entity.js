@@ -27,6 +27,7 @@ export function update_entity(entity_data){
     let ry = entity_data['ry']
     let rz = entity_data['rz']
     let animation = entity_data['animation']
+    let avatar_other = entity_data["avatar"]
 
     // console.log("----here");
     // console.log(entity_key);
@@ -74,8 +75,9 @@ export function update_entity(entity_data){
 
         gltf_loader.load(
             // resource URL
-            // "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
-            cesiumManUrl,
+            (avatar_other != "") ? avatar_other : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
+            // "https://models.readyplayer.me/665b1b74b490861c5f34db84.glb",
+            // cesiumManUrl,
             // called when the resource is loaded
             function ( gltf ) {
                 // console.log('gltf', gltf)

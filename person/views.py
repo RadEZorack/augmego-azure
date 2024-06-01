@@ -26,6 +26,10 @@ def profile_wall(request):
 
     return render(request, "_profile_wall.html", {"people": people})
 
+@xframe_options_sameorigin
+def ready_player_me(request):
+    return render(request, "ready_player_me.html")
+
 def nosignup(request):
     if True: #request.POST:
         # form = NoSignUpForm(request.POST)
@@ -75,3 +79,9 @@ def fetch_amica(request):
         'amica': str(request.user.person.amica)
     })
     return HttpResponse(data, content_type='application/json')
+
+def update_avatar(request):
+    person = request.user.person
+    person.avatar = request.GET.get("avatar")
+    person.save()
+    return HttpResponse("success: updated avatar", content_type='application/json')

@@ -206,14 +206,14 @@ function animate() {
         let animation = entities[entity_key]['animation']
         if (animation != undefined){
           // console.log("animating")
-          const gltf = entities[entity_key]['gltf']
-            let mixer = entities[entity_key]['mixer']
-            let clip = gltf.animations[animation]
-            let action = mixer.clipAction( clip );
-            action.play();
-            if (mixer){
-                mixer.update( 2 * clockDelta );
-            }
+        //   const gltf = entities[entity_key]['gltf']
+        //     let mixer = entities[entity_key]['mixer']
+        //     let clip = gltf.animations[animation]
+        //     let action = mixer.clipAction( clip );
+        //     action.play();
+        //     if (mixer){
+        //         mixer.update( 2 * clockDelta );
+        //     }
         }
     }
 }

@@ -10,6 +10,7 @@ function sendPlayerGlobalData(){
                 'type': 'playerping',
                 'name': my_name,
                 'myUuid': myUuid,
+                'avatar': avatar,
                 'x': playerWrapper.position.x,
                 'y': playerWrapper.position.y,
                 'z': playerWrapper.position.z,

@@ -20,6 +20,7 @@ class Person(models.Model):
     # image = models.ImageField(upload_to="media/person-image/")
     amica = models.DecimalField(default=0, max_digits=15, decimal_places=3)
     is_guest = models.BooleanField(default=False)
+    avatar = models.URLField(default="", blank=True, null=True)
 
     def __str__(self) -> str:
         if self.user:

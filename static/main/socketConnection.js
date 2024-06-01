@@ -31,6 +31,7 @@ export function initSocketConnection(){
           'type': 'my_keys',
           'my_name': my_name,
           'myUuid': myUuid,
+          'avatar': avatar,
           'keys': [],
           'time': now.getTime(),
           })
@@ -106,6 +107,7 @@ export function initSocketConnection(){
                       'rx': message.message_que[i].rx,
                       'ry': message.message_que[i].ry,
                       'rz': message.message_que[i].rz,
+                      'avatar': message.message_que[i].avatar,
                       'keys': {},
                   }
                   console.log("initialize player", update)

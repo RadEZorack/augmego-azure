@@ -61,8 +61,9 @@ def main(request):
         user_name = user_name[0:10]
     # user_name = uuid.uuid4()
     amica = request.user.person.amica
+    avatar = request.user.person.avatar
 
-    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica})
+    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica, 'avatar': avatar})
 
 @xframe_options_sameorigin
 def ad(request):

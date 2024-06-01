@@ -366,6 +366,7 @@
             const textureAtlasLoadURL = '{% url "texture:get_texture_atlas" %}'
             const fetchAmicaURL = '{% url "person:fetch_amica" %}'
             let my_name = "{{ user_name }}";
+            let avatar = "{{ avatar }}";
             let myUuid = Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
             const walkPng = "{% static 'images/walk.png' %}";
