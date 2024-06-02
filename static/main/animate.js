@@ -192,7 +192,7 @@ function animate() {
     for (const entity_key in entities){
         let mixer = entities[entity_key]['mixer']
         if (mixer){
-            mixer.update( clockDelta/4.0 );
+            mixer.update( clockDelta/2.0 );
         }
     }
 

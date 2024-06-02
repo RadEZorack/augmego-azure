@@ -103,16 +103,27 @@ export function update_entity(entity_data){
                 gltf.scene.position.y = y
                 gltf.scene.position.z = z
 
-                // gltf.scene.rotation.x = rx
+                gltf.scene.rotation.x = rx
                 gltf.scene.rotation.y = ry
-                // gltf.scene.rotation.z = rz
-                // gltf.scene.rotateY(Math.PI/2) // flip around
+                gltf.scene.rotation.z = rz
+                // gltf.scene.rotateX(Math.PI/2) // flip around
                 // gltf.scene.rotation.x = 0
                 // gltf.scene.rotation.z = 0
 
                 gltf.scene.scale.x = 1
                 gltf.scene.scale.y = 1
                 gltf.scene.scale.z = 1
+
+                gltf_loader.load(F_Jog_001, function (animGltf) {
+                    animGltf.animations.forEach(clip => {
+                      clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+                      const action = entities[entity_key].mixer.clipAction(clip);
+                      action.play();
+                    });
+                    console.log('Animations Loaded:', animGltf.animations);
+                }, undefined, function (error) {
+                    console.error(error);
+                });
 
                 // plane.translateZ(-50)
                 // plane.translateY(325)
@@ -158,20 +169,21 @@ export function update_entity(entity_data){
         const gltf = entities[entity_key]['gltf']
 
         gltf.scene.position.x = x
-        gltf.scene.position.y = y
-        gltf.scene.position.z = z
+        gltf.scene.position.y = y + 0.9;
+        gltf.scene.position.z = z;
 
         const gltfEuler = new THREE.Euler(0, 0, 0, "YXZ")
 
         gltf.scene.rotation.x = rx
         gltf.scene.rotation.y = ry;
         gltf.scene.rotation.z = rz
+        gltf.scene.rotateX(Math.PI/2) // flip around
 
         // flip around
         // not needed
         // gltfEuler.setFromQuaternion(gltf.scene.quaternion)
-        // gltfEuler.x = 0;
-        // gltfEuler.y += Math.PI;
+        // gltfEuler.x -= Math.PI/2.0;
+        // gltfEuler.y = 0;
         // gltfEuler.z = 0;
         // gltf.scene.quaternion.setFromEuler(gltfEuler)
 
@@ -183,7 +195,7 @@ export function update_entity(entity_data){
 
         plane.position.x = x
         plane.position.y = y + 2.5;
-        plane.position.z = z
+        plane.position.z = z;
 
         let camWorldPos = new THREE.Vector3();
         camera.getWorldPosition(camWorldPos);

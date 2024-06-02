@@ -35,7 +35,7 @@ export function loadPlayer(){
 
         myPlayer = gltf;
         const model = gltf.scene;
-        model.position.set(0, 0.9, 0); // after applying the animation mixer, we need to pull the character up
+        model.position.y = 0.9; // after applying the animation mixer, we need to pull the character up
         model.rotation.set(Math.PI/2.0, 0, 0); // same as above, just need to rotate
         let mixer = new THREE.AnimationMixer(model)
 
@@ -74,6 +74,8 @@ export function loadPlayer(){
 
         playerWrapper.add(myPlayer.scene);
         playerWrapper.add(cameraController);
+        // playerWrapper.position.y = 0.9; // after applying the animation mixer, we need to pull the character up
+
         // playerWrapper.add(cameraRotator);
         
         // cameraController.position.x = myPlayer.scene.position.x;

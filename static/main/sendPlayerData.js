@@ -14,9 +14,9 @@ function sendPlayerGlobalData(){
                 'x': playerWrapper.position.x,
                 'y': playerWrapper.position.y,
                 'z': playerWrapper.position.z,
-                'rx': myPlayer.scene.rotation.x,
-                'ry': myPlayer.scene.rotation.y,
-                'rz': myPlayer.scene.rotation.z,
+                'rx': playerWrapper.rotation.x,
+                'ry': playerWrapper.rotation.y,
+                'rz': playerWrapper.rotation.z,
                 'time': now.getTime(),
             })
         }
@@ -40,9 +40,9 @@ export function sendPlayerPeerData(){
                     'x': playerWrapper.position.x,
                     'y': playerWrapper.position.y,
                     'z': playerWrapper.position.z,
-                    'rx': myPlayer.scene.rotation.x,
-                    'ry': myPlayer.scene.rotation.y,
-                    'rz': myPlayer.scene.rotation.z,
+                    'rx': playerWrapper.rotation.x,
+                    'ry': playerWrapper.rotation.y,
+                    'rz': playerWrapper.rotation.z,
                     'time': now.getTime(),
                 }))
             }
