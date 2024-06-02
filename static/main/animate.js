@@ -187,6 +187,15 @@ function animate() {
     // required if controls.enableDamping or controls.autoRotate are set to true
 	// controls.update();
 
+    const clockDelta = clock.getDelta()
+
+    for (const entity_key in entities){
+        let mixer = entities[entity_key]['mixer']
+        if (mixer){
+            mixer.update( clockDelta/4.0 );
+        }
+    }
+
     let activeCamera = allCameras[activeCameraName];
 
     cssRenderer.render(cssScene, activeCamera);
@@ -199,22 +208,5 @@ function animate() {
 
     rendererMap.setRenderTarget(null);
     rendererMap.render(scene, allCameras["mapCamera"]);
-
-    const clockDelta = clock.getDelta()
-
-    for (const entity_key in entities){
-        let animation = entities[entity_key]['animation']
-        if (animation != undefined){
-          // console.log("animating")
-        //   const gltf = entities[entity_key]['gltf']
-        //     let mixer = entities[entity_key]['mixer']
-        //     let clip = gltf.animations[animation]
-        //     let action = mixer.clipAction( clip );
-        //     action.play();
-        //     if (mixer){
-        //         mixer.update( 2 * clockDelta );
-        //     }
-        }
-    }
 }
 animate();

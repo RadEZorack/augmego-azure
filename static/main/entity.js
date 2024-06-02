@@ -10,12 +10,12 @@ import { myPlayer } from '../main/player.js';
 export var entities = {}
 var my_position = undefined
 // Instantiate a loader
-var gltf_loader = new GLTFLoader();
+let gltf_loader = new GLTFLoader();
 
 // // Optional: Provide a DRACOLoader instance to decode compressed mesh data
-var dracoLoader = new DRACOLoader();
+let dracoLoader = new DRACOLoader();
 // dracoLoader.setDecoderPath( dracoLoaderUrl );
-gltf_loader.setDRACOLoader( dracoLoader );
+// gltf_loader.setDRACOLoader( dracoLoader );
 export function update_entity(entity_data){
   // console.log(entity_data.time, entity_data.z, entity_data.type)
     let entity_key = entity_data['entity_key']

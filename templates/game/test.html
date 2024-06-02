@@ -4,72 +4,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combine Images</title>
+    <title>Ready Player Me Character Animation</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <img id="combinedImage" style="display:block;"/>
-    <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
-    <script>
-        async function loadImages(imagePaths) {
-            const images = [];
-            for (let path of imagePaths) {
-                const img = new Image();
-                img.src = path;
-                await new Promise((resolve) => {
-                    img.onload = () => resolve();
+    <script type="module">
+        import * as THREE from "{% static 'three/three.module.min.js' %}";
+        import { GLTFLoader } from "{% static 'three/GLTFLoader.js' %}";
+
+        let scene, camera, renderer, mixer, clock;
+        let playerWrapper = new THREE.Object3D;
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            clock = new THREE.Clock();
+
+            const light = new THREE.AmbientLight(0xffffff, 1.0);
+            scene.add(light);
+
+            camera.position.set(0, 1.6, 3);
+
+            const gltfLoader = new GLTFLoader();
+            gltfLoader.load('https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb', function (gltf) {
+                playerWrapper = gltf.scene;
+                
+
+                // playerWrapper.add(model);
+                // playerWrapper.position.x = 1.0;
+                scene.add(playerWrapper);
+
+                mixer = new THREE.AnimationMixer(playerWrapper);
+
+                // Load animations
+                gltfLoader.load("{% static 'animations/F_Jog_001.glb' %}", function (animGltf) {
+                    animGltf.animations.forEach(clip => {
+                        // Adjust the clip to avoid affecting the root position
+                        clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+
+                        const action = mixer.clipAction(clip);
+                        action.play();
+                    });
+                    console.log("done", animGltf)
+                }, undefined, function (error) {
+                    console.error(error);
                 });
-                images.push(img);
-            }
-            return images;
+
+            }, undefined, function (error) {
+                console.error(error);
+            });
         }
 
-        async function combineImages(imagePaths) {
-            const images = await loadImages(imagePaths);
-            const canvas = document.getElementById('canvas');
-            
-            // Calculate total width and maximum height
-            let totalWidth = 0;
-            let maxHeight = 0;
-            images.forEach(img => {
-                totalWidth += img.width;
-                maxHeight = Math.max(maxHeight, img.height);
-            });
-
-            // Set canvas size
-            canvas.width = totalWidth;
-            canvas.height = maxHeight;
-            const ctx = canvas.getContext('2d');
-
-            // Draw images onto canvas
-            let x = 0;
-            images.forEach(img => {
-                ctx.drawImage(img, x, 0);
-                x += img.width;
-            });
-
-            // Export to image
-            const combinedImage = document.getElementById('combinedImage');
-            combinedImage.src = canvas.toDataURL('image/jpeg');
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            if (mixer) mixer.update(delta/4.0);
+            renderer.render(scene, camera);
+            playerWrapper.position.x += 0.005
         }
 
-        $.ajax({
-            url: '{% url "texture:list" %}',
-            type: 'GET',
-            success: function(resp) {
-                // console.log(resp);
-                allUrls = []
-                for(const i in resp){
-                    // const space = (i * 5).toString();
-                    const fields = resp[i]
-                    allUrls.push(fields["image_url"])
-                }
+        window.addEventListener('resize', onWindowResize, false);
 
-                combineImages(allUrls);
-            }
-        })
-
-
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
     </script>
 </body>
 </html>

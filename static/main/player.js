@@ -11,7 +11,7 @@ let gltf_loader = new GLTFLoader();
 // // Optional: Provide a DRACOLoader instance to decode compressed mesh data
 let dracoLoader = new DRACOLoader();
 // dracoLoader.setDecoderPath( "" );
-gltf_loader.setDRACOLoader( dracoLoader );
+// gltf_loader.setDRACOLoader( dracoLoader );
 
 export let myPlayer = undefined;
 export let cameraController = undefined;
@@ -34,14 +34,39 @@ export function loadPlayer(){
         });
 
         myPlayer = gltf;
+        const model = gltf.scene;
+        model.position.set(0, 0.9, 0); // after applying the animation mixer, we need to pull the character up
+        model.rotation.set(Math.PI/2.0, 0, 0); // same as above, just need to rotate
+        let mixer = new THREE.AnimationMixer(model)
 
         entities["player:"+myUuid] = {
           'gltf': gltf,
           // 'plane': page.plane,
           // 'cssObject': page.cssObject,
-          'mixer': new THREE.AnimationMixer(gltf.scene),
+          'mixer': mixer,
           'animation': 0,
         }
+
+        // Debugging: Log model details
+        // console.log('Model Loaded:', gltf.scene);
+        // console.log('Position:', gltf.scene.position);
+        // console.log('Scale:', gltf.scene.scale);
+
+        // const box = new THREE.Box3().setFromObject(gltf.scene);
+        // const size = box.getSize(new THREE.Vector3());
+        // console.log('Model Size:', size);
+
+        // const fbxLoader = new FBXLoader();
+        gltf_loader.load(F_Jog_001, function (animGltf) {
+            animGltf.animations.forEach(clip => {
+              clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+              const action = mixer.clipAction(clip);
+              action.play();
+            });
+            console.log('Animations Loaded:', animGltf.animations);
+        }, undefined, function (error) {
+            console.error(error);
+        });
 
         cameraController = new THREE.Object3D;
         cameraRotator = new THREE.Object3D;
