@@ -87,7 +87,7 @@ export function update_entity(entity_data){
                         // node.material.opacity = 0.5; // Adjust as needed, ranging from 0.0 (fully transparent) to 1.0 (fully opaque)
                     }
                 });
-                objectScene.add( gltf.scene );
+                
 
 
                 entities[entity_key] = {
@@ -96,16 +96,17 @@ export function update_entity(entity_data){
                     'cssObject': page.cssObject,
                     'mixer': new THREE.AnimationMixer(gltf.scene),
                     'animation': 0,
+                    'wrapper': new THREE.Object3D,
                 }
                 // console.log("passed")
 
-                gltf.scene.position.x = x
-                gltf.scene.position.y = y
-                gltf.scene.position.z = z
-
-                gltf.scene.rotation.x = rx
-                gltf.scene.rotation.y = ry
-                gltf.scene.rotation.z = rz
+                // gltf.scene.position.x = x
+                gltf.scene.position.y = + 0.9
+                gltf.scene.position.z = -0.9;
+        
+                gltf.scene.rotation.set(Math.PI/2.0, 0, 0); // same as above, just need to rotate
+                // gltf.scene.rotation.y = ry
+                // gltf.scene.rotation.z = rz
                 // gltf.scene.rotateX(Math.PI/2) // flip around
                 // gltf.scene.rotation.x = 0
                 // gltf.scene.rotation.z = 0
@@ -136,6 +137,11 @@ export function update_entity(entity_data){
                 // gltf.scenes; // Array<THREE.Group>
                 // gltf.cameras; // Array<THREE.Camera>
                 // gltf.asset; // Object
+
+                entities[entity_key].wrapper.add(gltf.scene)
+
+                objectScene.add( entities[entity_key].wrapper );
+
                 console.log("finished entity", entity_key, entities)
                 initWebcamPage(myUuid, entityUuid);
 
@@ -166,18 +172,20 @@ export function update_entity(entity_data){
         return
     }else{
         // console.log("entity moving", entity_data)
-        const gltf = entities[entity_key]['gltf']
+        const wrapper = entities[entity_key]['wrapper']
 
-        gltf.scene.position.x = x
-        gltf.scene.position.y = y + 0.9;
-        gltf.scene.position.z = z;
+        wrapper.position.x = x;
+        wrapper.position.y = y;
+        wrapper.position.z = z;
 
         const gltfEuler = new THREE.Euler(0, 0, 0, "YXZ")
 
-        gltf.scene.rotation.x = rx
-        gltf.scene.rotation.y = ry;
-        gltf.scene.rotation.z = rz
-        gltf.scene.rotateX(Math.PI/2) // flip around
+        wrapper.rotation.x = rx
+        wrapper.rotation.y = ry;
+        wrapper.rotation.z = rz
+        // gltf.scene.rotateX(Math.PI/2) // flip around
+        // gltf.scene.rotation.set(Math.PI/2.0, 0, 0); // same as above, just need to rotate
+
 
         // flip around
         // not needed
