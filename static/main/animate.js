@@ -1,6 +1,6 @@
 import * as THREE from '../three/three.module.min.js';
 import { myPlayer, singleClick, cameraController, playerWrapper, cameraRotator } from '../main/player.js';
-import { scene, objectScene, cssScene, camera, allCameras, activeCameraName, renderer, rendererBackground, rendererMap, threeJSContainer, backgroundCanvas } from '../main/main.js';
+import { scene, objectScene, cssScene, camera, allCameras, activeCameraName, renderer, rendererBackground, rendererMap, threeJSContainer, backgroundCanvas, positionMap } from '../main/main.js';
 import { create3dPage, cssRenderer } from '../main/webpage3d.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { myPlayerTargetPosition } from '../main/mouseClicks.js';
@@ -208,5 +208,10 @@ function animate() {
 
     rendererMap.setRenderTarget(null);
     rendererMap.render(scene, allCameras["mapCamera"]);
+
+    if (!(playerWrapper === undefined)){
+        // Note the multiplication by negative 1. This should be carried to any other UI components
+        positionMap.innerHTML = `<h1>(${-1 * Math.floor(playerWrapper.position.x)}, ${Math.floor(playerWrapper.position.y)}, ${Math.floor(playerWrapper.position.z)})</h1>`
+    }
 }
 animate();

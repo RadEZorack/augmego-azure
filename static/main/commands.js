@@ -39,6 +39,11 @@ $(document).ready(function() {
         }else if (command == "toogleWalkPerson"){
             // Activate keyboard walk
             isWalk = !isWalk;
+        }else if (command == "fastTravel"){
+            // Notice the -1 to account for the UI diff
+            playerWrapper.position.x = -1 * parseInt($("#fastTravelX").val())
+            playerWrapper.position.y = parseInt($("#fastTravelY").val())
+            playerWrapper.position.z = parseInt($("#fastTravelZ").val())
         }
     });
 });

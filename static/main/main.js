@@ -50,11 +50,20 @@ console.log("Creating renderer");
   rendererMap.setPixelRatio(window.devicePixelRatio);
   rendererMap.setSize(window.innerWidth/5, window.innerWidth/5);
   rendererMap.domElement.style.position = 'absolute';
-  rendererMap.domElement.style.top = 0;
+  rendererMap.domElement.style.top = '45px';
   rendererMap.domElement.style.right = 0;
   rendererMap.domElement.style.zIndex = 3;
   rendererMap.domElement.style.pointerEvents = 'none';
   rendererMap.domElement.id = "rendererMap";
+
+  export const positionMap = document.createElement("div");
+  positionMap.style.position = 'absolute';
+  positionMap.style.top = 0;
+  positionMap.style.right = 0;
+  positionMap.style.zIndex = 4;
+  positionMap.style.pointerEvents = 'none';
+  positionMap.style.background = 'white';
+  positionMap.id = "positionMap";
 
   // Not used
   // export const rendererColor = new THREE.WebGLRenderer({ antialias: false, alpha: true });
@@ -76,6 +85,7 @@ console.log("Creating renderer");
   export const mainCanvas = threeJSContainer.appendChild(renderer.domElement);
   export const backgroundCanvas = threeJSContainer.appendChild(rendererBackground.domElement);
   export const mapCanvas = threeJSContainer.appendChild(rendererMap.domElement);
+  threeJSContainer.appendChild(positionMap);
 
   // TODO: make the following work.
   // $("#rendererMap").on("touchstart click", function(e) {
