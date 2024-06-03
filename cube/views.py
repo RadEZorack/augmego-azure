@@ -117,8 +117,8 @@ def list_cubes(request):
 
 def post_cube(request):
     """ Create a cube via POST """
-    if request.user.person.is_guest:
-        return HttpResponseForbidden()
+    # if request.user.person.is_guest:
+    #     return HttpResponseForbidden()
 
     if request.POST:
         print("im in")

@@ -65,10 +65,10 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_user_login(self, user):
-        if user.person.is_guest:
-            # We don't want guests to be multiplayer
-            self.disconnect(403)
-            return
+        # if user.person.is_guest:
+        #     # We don't want guests to be multiplayer
+        #     self.disconnect(403)
+        #     return
         self.avatar = user.person.avatar
         self.chunk = Chunk.objects.filter(owner=user.person).first()
         return UserLogin.objects.create(user=user)
