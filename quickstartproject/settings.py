@@ -267,7 +267,7 @@ ACCOUNT_EMAIL_REQUIRED = False
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 LOGIN_REDIRECT_URL = "main"
-LOGOUT_REDIRECT_URL = "start"
+LOGOUT_REDIRECT_URL = ""
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

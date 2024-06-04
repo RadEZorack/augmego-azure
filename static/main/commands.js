@@ -1,6 +1,7 @@
 import { drawChunkBounds, buyLand } from '../main/chunk.js';
 import { createTexture } from '../main/createTexture.js';
 import { playerWrapper } from '../main/player.js';
+import { changeName } from '../main/changeName.js';
 import { selectedObject } from '../main/raycaster.js';
 import { camera } from '../main/main.js';
 
@@ -44,6 +45,8 @@ $(document).ready(function() {
             playerWrapper.position.x = -1 * parseInt($("#fastTravelX").val())
             playerWrapper.position.y = parseInt($("#fastTravelY").val())
             playerWrapper.position.z = parseInt($("#fastTravelZ").val())
+        }else if (command == "changeName"){
+            changeName();
         }
     });
 });

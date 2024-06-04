@@ -80,6 +80,16 @@ def fetch_amica(request):
     })
     return HttpResponse(data, content_type='application/json')
 
+def change_name(request):
+    rg = request.GET
+    name = rg.get("name")
+    
+    user = request.user
+    user.username = name
+    user.save()
+
+    return HttpResponse(str(user.username), content_type='application/text')
+
 def update_avatar(request):
     person = request.user.person
     person.avatar = request.GET.get("avatar")
