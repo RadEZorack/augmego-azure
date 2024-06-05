@@ -44,9 +44,17 @@
               </br></br>
 
               <h5>2. Authentication</h5>
+              <input type="password" id="changePasswordInput" name="changePasswordInput" placeholder="password">
+
+              <button class="btn btn-primary command" data-command="changePassword">Change Password</button>
+              </br></br>
 
 
               <h5>3. Recovery</h5>
+              <input type="email" id="changeEmailInput" name="changeEmailInput" placeholder="email">
+
+              <button class="btn btn-primary command" data-command="changeEmail">Change Email</button>
+              </br></br>
 
             </div>
             <div class="modal-footer">
@@ -431,6 +439,8 @@
             const textureAtlasLoadURL = '{% url "texture:get_texture_atlas" %}'
             const fetchAmicaURL = '{% url "person:fetch_amica" %}'
             const changeNameURL = '{% url "person:change_name" %}'
+            const changePasswordURL = '{% url "person:change_password" %}'
+            const changeEmailURL = '{% url "person:change_email" %}'
             let my_name = "{{ user_name }}";
             let avatar = "{{ avatar }}";
             let myUuid = Math.random().toString();
@@ -508,5 +518,7 @@
      <script src="{% static 'main/onWindowResize.js' %}" type="module"></script>
      <script src="{% static 'main/createTexture.js' %}" type="module"></script>
      <script src="{% static 'main/changeName.js' %}" type="module"></script>
+     <script src="{% static 'main/changePassword.js' %}" type="module"></script>
+     <script src="{% static 'main/changeEmail.js' %}" type="module"></script>
    </body>
 </html>

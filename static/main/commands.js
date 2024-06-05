@@ -2,6 +2,8 @@ import { drawChunkBounds, buyLand } from '../main/chunk.js';
 import { createTexture } from '../main/createTexture.js';
 import { playerWrapper } from '../main/player.js';
 import { changeName } from '../main/changeName.js';
+import { changePassword } from '../main/changePassword.js';
+import { changeEmail } from '../main/changeEmail.js';
 import { selectedObject } from '../main/raycaster.js';
 import { camera } from '../main/main.js';
 
@@ -47,6 +49,10 @@ $(document).ready(function() {
             playerWrapper.position.z = parseInt($("#fastTravelZ").val())
         }else if (command == "changeName"){
             changeName();
+        }else if (command == "changePassword"){
+            changePassword();
+        }else if (command == "changeEmail"){
+            changeEmail();
         }
     });
 });

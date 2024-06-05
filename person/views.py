@@ -9,8 +9,11 @@ from django.shortcuts import render, redirect
 from django.db.models import Sum, Value, Max
 from django.db.models.functions import Coalesce
 from django.views.decorators.clickjacking import xframe_options_sameorigin
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login
 from django.views.decorators.csrf import csrf_exempt
+
+from allauth.account.models import EmailAddress
+from allauth.account.utils import send_email_confirmation
 
 from person.models import Person
 from person.forms import NoSignUpForm
@@ -88,7 +91,45 @@ def change_name(request):
     user.username = name
     user.save()
 
+    # Re-authenticate the user and log them back in
+    login(request, user)
+
     return HttpResponse(str(user.username), content_type='application/text')
+
+def change_password(request):
+    rg = request.GET
+    password = rg.get("password")
+    
+    user = request.user
+    user.set_password(password)
+    user.save()
+
+    # Re-authenticate the user and log them back in
+    user = authenticate(username=user.username, password=password)
+    if user is not None:
+        login(request, user)
+
+    return HttpResponse("success changing password", content_type='application/text')
+
+def change_email(request):
+    rg = request.GET
+    email = rg.get("email")
+    
+    user = request.user
+    # Create or update the email address in the EmailAddress model
+    email_address, created = EmailAddress.objects.get_or_create(user=user, email=email)
+    if not created:
+        # Email address already exists, just send the verification email
+        send_email_confirmation(request, user, email=email)
+    else:
+        # Save the new email address and send the verification email
+        email_address.email = email
+        email_address.verified = False
+        email_address.primary = True
+        email_address.save()
+        send_email_confirmation(request, user, email=email)
+
+    return HttpResponse("success changing email", content_type='application/text')
 
 def update_avatar(request):
     person = request.user.person
