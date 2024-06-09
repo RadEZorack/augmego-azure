@@ -16,6 +16,7 @@ from openai import OpenAI
 from quickstartproject import settings
 
 from texture.models import Texture, TextureAtlas
+from tutorial.models import Tutorial
 
 @xframe_options_sameorigin
 def webcam(request):
@@ -63,7 +64,9 @@ def main(request):
     amica = request.user.person.amica
     avatar = request.user.person.avatar
 
-    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica, 'avatar': avatar})
+    tutorials = Tutorial.objects.all()
+
+    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica, 'avatar': avatar, 'tutorials': tutorials})
 
 @xframe_options_sameorigin
 def ad(request):
