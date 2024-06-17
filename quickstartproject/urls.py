@@ -18,8 +18,9 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
+from django.contrib.sitemaps.views import sitemap
 
-from game.views import main, ad, start, debug, test
+from game.views import main, ad, start, debug, test, robots_txt
 from person.views import nosignup, temp_login_for_mobile
 from payment.views import process_payment
 
@@ -27,6 +28,8 @@ urlpatterns = [
     path('main', main, name='main'),
     # path('api/', include('yourapp.api.urls')),  # Your API endpoints
     path('', TemplateView.as_view(template_name='index.html')),  # Serve Next.js app
+    path('robots.txt', robots_txt, name='robots_txt'),
+    path('sitemap.xml', sitemap, {'sitemaps': {}}, name='django.contrib.sitemaps.views.sitemap'),
     path("debug/", debug, name="debug"),
     path("test/", test, name="test"),
     path("start/", start, name="start"),

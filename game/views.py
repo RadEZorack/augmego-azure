@@ -18,6 +18,19 @@ from quickstartproject import settings
 from texture.models import Texture, TextureAtlas
 from tutorial.models import Tutorial
 
+from django.views.decorators.http import require_GET
+import os
+
+@require_GET
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        "Sitemap: https://augmego.com/sitemap.xml",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
 @xframe_options_sameorigin
 def webcam(request):
     entityUuid = request.GET.get("entityUuid")
