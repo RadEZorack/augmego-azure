@@ -19,17 +19,33 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 from django.contrib.sitemaps.views import sitemap
+from django.contrib import sitemaps
+from django.urls import reverse
 
 from game.views import main, ad, start, debug, test, robots_txt
 from person.views import nosignup, temp_login_for_mobile
 from payment.views import process_payment
 
+class StaticViewSitemap(sitemaps.Sitemap):
+    priority = 0.5
+    changefreq = "daily"
+
+    def items(self):
+        return ["index", "main"]
+
+    def location(self, item):
+        return reverse(item)
+    
+sitemaps = {
+    "static": StaticViewSitemap,
+}
+
 urlpatterns = [
     path('main', main, name='main'),
     # path('api/', include('yourapp.api.urls')),  # Your API endpoints
-    path('', TemplateView.as_view(template_name='index.html')),  # Serve Next.js app
+    path('', TemplateView.as_view(template_name='index.html'), name='index'),  # Serve Next.js app
     path('robots.txt', robots_txt, name='robots_txt'),
-    path('sitemap.xml', sitemap, {'sitemaps': {}}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("debug/", debug, name="debug"),
     path("test/", test, name="test"),
     path("start/", start, name="start"),
@@ -37,7 +53,7 @@ urlpatterns = [
     path("temp_login_for_mobile/", temp_login_for_mobile, name="temp_login_for_mobile"),
     path('ad/', ad, name='ad'),
     path('payment/process/', process_payment, name='process_payment'),
-    path("chat/", include("chat.urls")),
+    # path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),
     path("webpage/", include("webpage.urls")),
     path("cube/", include("cube.urls")),
