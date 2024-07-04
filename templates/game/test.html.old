@@ -4,70 +4,433 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combine Images</title>
+    <title>Ready Player Me Character Animation</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <img id="combinedImage" style="display:block;"/>
-    <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
-    <script>
-        async function loadImages(imagePaths) {
-            const images = [];
-            for (let path of imagePaths) {
-                const img = new Image();
-                img.src = path;
-                await new Promise((resolve) => {
-                    img.onload = () => resolve();
-                });
-                images.push(img);
+    <script type="module">
+        import * as THREE from "{% static 'three/three.module.min.js' %}";
+        import { dct } from "{% static 'main/dct.js' %}";
+        import { OrbitControls } from "{% static 'three/OrbitControls.js' %}"; // Import OrbitControls
+
+
+// Create a larger 16x16x16 voxel space with random colors
+const size = 16;
+const voxelSpace = Array.from({ length: size }, () =>
+  Array.from({ length: size }, () =>
+    Array.from({ length: size }, () => ({ color: Math.floor( 0x0000ff )}))
+  )
+);
+
+// Define block size
+const blockSize = 4;
+
+// Quantization factor
+const QUANTIZATION_FACTOR = 10;
+const THRESHOLD = 1;  // Threshold for zeroing small coefficients
+
+// Corrected function to flatten a 3D block to a 1D array for DCT
+function flattenBlock(block) {
+  const flattened = [];
+  for (let x = 0; x < block.length; x++) {
+    for (let y = 0; y < block[x].length; y++) {
+      for (let z = 0; z < block[x][y].length; z++) {
+        flattened.push(block[x][y][z]);
+      }
+    }
+  }
+  return flattened;
+}
+
+// Function to convert a 1D array back to a 3D block
+function unflattenBlock(flattened, blockSize) {
+  const block = [];
+  for (let i = 0; i < blockSize; i++) {
+    const plane = [];
+    for (let j = 0; j < blockSize; j++) {
+      const row = [];
+      for (let k = 0; k < blockSize; k++) {
+        row.push(flattened[i * blockSize * blockSize + j * blockSize + k]);
+      }
+      plane.push(row);
+    }
+    block.push(plane);
+  }
+  return block;
+}
+
+// 1D IDCT implementation with safeguards
+function idct(coefficients) {
+  const N = coefficients.length;
+  const result = new Array(N).fill(0);
+
+  for (let k = 0; k < N; k++) {
+    let sum = coefficients[0] / 2;
+    for (let n = 1; n < N; n++) {
+      sum += coefficients[n] * Math.cos((Math.PI / N) * n * (k + 0.5));
+    }
+    result[k] = sum;
+  }
+
+  return result.map(value => (isNaN(value) ? 0 : value)); // Ensure no NaN values
+}
+
+// Function to apply 1D DCT on a 3D block
+function applyDCT3D(block) {
+  const size = block.length;
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      block[x][y] = dct(block[x][y]);
+    }
+    for (let z = 0; z < size; z++) {
+      const temp = block[x].map(row => row[z]);
+      const dctResult = dct(temp);
+      for (let y = 0; y < size; y++) {
+        block[x][y][z] = dctResult[y];
+      }
+    }
+  }
+
+  for (let y = 0; y < size; y++) {
+    for (let z = 0; z < size; z++) {
+      const temp = block.map(plane => plane[y][z]);
+      const dctResult = dct(temp);
+      for (let x = 0; x < size; x++) {
+        block[x][y][z] = dctResult[x];
+      }
+    }
+  }
+
+  return block;
+}
+
+// Function to apply 1D IDCT on a 3D block
+function applyIDCT3D(block) {
+  const size = block.length;
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      block[x][y] = idct(block[x][y]);
+    }
+    for (let z = 0; z < size; z++) {
+      const temp = block[x].map(row => row[z]);
+      const idctResult = idct(temp);
+      for (let y = 0; y < size; y++) {
+        block[x][y][z] = idctResult[y];
+      }
+    }
+  }
+
+  for (let y = 0; y < size; y++) {
+    for (let z = 0; z < size; z++) {
+      const temp = block.map(plane => plane[y][z]);
+      const idctResult = idct(temp);
+      for (let x = 0; x < size; x++) {
+        block[x][y][z] = idctResult[x];
+      }
+    }
+  }
+
+  return block;
+}
+
+// Function to quantize DCT coefficients and zero out small values
+function quantize(coefficients, factor, threshold) {
+  return coefficients.map(value => {
+    const quantized = Math.round(value / factor);
+    return Math.abs(quantized) < threshold ? 0 : quantized;
+  });
+}
+
+// Function to dequantize DCT coefficients
+function dequantize(coefficients, factor) {
+  return coefficients.map(value => value * factor);
+}
+
+// Function to create sparse representation of non-zero coefficients
+function createSparseRepresentation(coefficients) {
+  const sparse = [];
+  coefficients.forEach((value, index) => {
+    // console.log(value)
+    if (value !== 0) {
+      sparse.push({ index, value });
+    }
+  });
+  return sparse;
+}
+
+// Function to reconstruct full array from sparse representation
+function reconstructFromSparse(sparse, length) {
+  const fullArray = new Array(length).fill(0);
+  sparse.forEach(({ index, value }) => {
+    fullArray[index] = value;
+  });
+  return fullArray;
+}
+
+// Function to validate an array of values
+function validateArray(arr, label) {
+  arr.forEach((value, index) => {
+    if (isNaN(value) || value === undefined || value === null) {
+      console.error(`Invalid value detected in ${label} at index ${index}: ${value}`);
+    }
+  });
+}
+
+// Function to divide voxel space into blocks, apply DCT, and store the transformed blocks
+function divideAndCompressVoxelSpace(voxelSpace, blockSize) {
+  const blocks = [];
+  const size = voxelSpace.length;
+  for (let x = 0; x < size; x += blockSize) {
+    for (let y = 0; y < size; y += blockSize) {
+      for (let z = 0; z < size; z += blockSize) {
+        const block = [];
+        for (let dx = 0; dx < blockSize; dx++) {
+          const plane = [];
+          for (let dy = 0; dy < blockSize; dy++) {
+            const row = [];
+            for (let dz = 0; dz < blockSize; dz++) {
+              const voxel = voxelSpace[x + dx]?.[y + dy]?.[z + dz];
+              row.push(voxel ? voxel.color : 0);
             }
-            return images;
+            plane.push(row);
+          }
+          block.push(plane);
         }
+        const dctBlock = applyDCT3D(block);
+        const flattenedBlock = flattenBlock(dctBlock);
+        validateArray(flattenedBlock, 'flattenedBlock'); // Validate before quantization
+        const quantizedBlock = quantize(flattenedBlock, QUANTIZATION_FACTOR, THRESHOLD);
+        validateArray(quantizedBlock, 'quantizedBlock'); // Validate after quantization
+        const sparseBlock = createSparseRepresentation(quantizedBlock);
+        blocks.push(sparseBlock);
+      }
+    }
+  }
+  return blocks;
+}
 
-        async function combineImages(imagePaths) {
-            const images = await loadImages(imagePaths);
-            const canvas = document.getElementById('canvas');
-            
-            // Calculate total width and maximum height
-            let totalWidth = 0;
-            let maxHeight = 0;
-            images.forEach(img => {
-                totalWidth += img.width;
-                maxHeight = Math.max(maxHeight, img.height);
-            });
+// Function to decompress blocks and reconstruct voxel space
+function decompressVoxelSpace(blocks, blockSize, originalSize) {
+  const voxelSpace = Array.from({ length: originalSize }, () =>
+    Array.from({ length: originalSize }, () =>
+      Array.from({ length: originalSize }, () => ({ color: 0 }))
+    )
+  );
 
-            // Set canvas size
-            canvas.width = totalWidth;
-            canvas.height = maxHeight;
-            const ctx = canvas.getContext('2d');
+  let blockIndex = 0;
+  for (let x = 0; x < originalSize; x += blockSize) {
+    for (let y = 0; y < originalSize; y += blockSize) {
+      for (let z = 0; z < originalSize; z += blockSize) {
+        const sparseBlock = blocks[blockIndex++];
+        const quantizedBlock = reconstructFromSparse(sparseBlock, blockSize * blockSize * blockSize);
+        validateArray(quantizedBlock, 'quantizedBlock (decompress)'); // Validate before dequantization
+        const dequantizedBlock = unflattenBlock(dequantize(quantizedBlock, QUANTIZATION_FACTOR), blockSize);
+        // validateArray(dequantizedBlock, 'dequantizedBlock'); // Validate after dequantization
+        const block = applyIDCT3D(dequantizedBlock);
 
-            // Draw images onto canvas
-            let x = 0;
-            images.forEach(img => {
-                ctx.drawImage(img, x, 0);
-                x += img.width;
-            });
-
-            // Export to image
-            const combinedImage = document.getElementById('combinedImage');
-            combinedImage.src = canvas.toDataURL('image/jpeg');
-        }
-
-        $.ajax({
-            url: '{% url "texture:list" %}',
-            type: 'GET',
-            success: function(resp) {
-                // console.log(resp);
-                allUrls = []
-                for(const i in resp){
-                    // const space = (i * 5).toString();
-                    const fields = resp[i]
-                    allUrls.push(fields["image_url"])
-                }
-
-                combineImages(allUrls);
+        for (let dx = 0; dx < blockSize; dx++) {
+          for (let dy = 0; dy < blockSize; dy++) {
+            for (let dz = 0; dz < blockSize; dz++) {
+              voxelSpace[x + dx][y + dy][z + dz].color = Math.round(block[dx][dy][dz]);
             }
-        })
+          }
+        }
+      }
+    }
+  }
+  return voxelSpace;
+}
+
+// Check original size
+const originalSize = voxelSpace.flat(2).length;
+console.log('Original size:', originalSize);
+
+const blocks = divideAndCompressVoxelSpace(voxelSpace, blockSize);
+console.log(blocks)
+const compressedSize = blocks.reduce((sum, block) => sum + block.length, 0);
+console.log('Compressed size:', compressedSize);
+
+// Function to reconstruct full array from sparse representation
+function reconstructFromSparse2(sparse, length) {
+  const fullArray = new Float32Array(length).fill(0);
+  // console.log(sparse)
+  sparse.forEach((value, index) => {
+    // console.log(index, value)
+    fullArray[index] = value[0].value;
+  });
+  return fullArray;
+}
+
+// Example compressed data (replace this with actual compressed data)
+const compressedData = reconstructFromSparse2(blocks, compressedSize)
+//  new Float32Array(blocks.forEach(({ index, value }))
+console.log(compressedData)
+//   // Add your compressed data here
+// ]);
+
+const compressedWidth = 8; // Width of the compressed data texture
+const compressedHeight = Math.ceil(compressedData.length / (compressedWidth * 3));
+console.log(compressedWidth, compressedHeight)
+
+// Create a texture to hold the compressed voxel data
+const compressedDataTexture = new THREE.DataTexture(
+  compressedData,
+  compressedWidth,
+  compressedHeight,
+  THREE.RGBFormat,
+  THREE.FloatType
+);
+compressedDataTexture.needsUpdate = true;
+
+
+// const decompressedVoxelSpace = decompressVoxelSpace(blocks, blockSize, size);
+
+// // Check decompressed size
+// const decompressedSize = decompressedVoxelSpace.flat(2).length;
+// console.log('Decompressed size:', decompressedSize);
+
+// Visualize the decompressed voxel space using Three.js
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Add OrbitControls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(size / 2, size / 2, size / 2);
+controls.update();
+
+camera.position.set(size * 1.5, size * 1.5, size * 1.5);
+camera.lookAt(size / 2, size / 2, size / 2);
+
+// decompressedVoxelSpace.forEach((plane, x) => {
+//   plane.forEach((row, y) => {
+//     row.forEach((voxel, z) => {
+//       if (voxel.color !== 0) {
+//         const geometry = new THREE.BoxGeometry(1, 1, 1);
+//         const material = new THREE.MeshBasicMaterial({ color: voxel.color });
+//         const cube = new THREE.Mesh(geometry, material);
+//         cube.position.set(x, y, z);
+//         scene.add(cube);
+//       }
+//     });
+//   });
+// });
+
+const vertexShader = `
+  varying vec3 vPosition;
+  
+  void main() {
+    vPosition = position;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const fragmentShader = `
+  varying vec3 vPosition;
+  uniform sampler2D compressedDataTexture;
+  uniform float quantizationFactor;
+  uniform float blockSize;
+  uniform float textureWidth;
+  uniform float textureHeight;
+  
+  // Function to perform 1D IDCT
+  float idct1D(float coeffs[8], int x) {
+    float result = coeffs[0] / 2.0;
+    for (int n = 1; n < 8; n++) {
+      result += coeffs[n] * cos((3.14159265 / 8.0) * float(n) * (float(x) + 0.5));
+    }
+    return result;
+  }
+
+  void main() {
+    vec2 uv = (vPosition.xy + 0.5) * vec2(textureWidth, textureHeight);
+
+    // Retrieve the quantized DCT coefficients for each color channel
+    float dctCoeffsR[8];
+    float dctCoeffsG[8];
+    float dctCoeffsB[8];
+    for (int i = 0; i < 8; i++) {
+      vec2 texCoord = vec2(mod(uv.x + float(i), textureWidth) / textureWidth, floor(uv.y) / textureHeight);
+      vec3 compressedValues = texture2D(compressedDataTexture, texCoord).rgb;
+      dctCoeffsR[i] = compressedValues.r * quantizationFactor;
+      dctCoeffsG[i] = compressedValues.g * quantizationFactor;
+      dctCoeffsB[i] = compressedValues.b * quantizationFactor;
+    }
+
+    // Apply IDCT to the coefficients
+    float blockR[8];
+    float blockG[8];
+    float blockB[8];
+    for (int x = 0; x < 8; x++) {
+      blockR[x] = idct1D(dctCoeffsR, x);
+      blockG[x] = idct1D(dctCoeffsG, x);
+      blockB[x] = idct1D(dctCoeffsB, x);
+    }
+
+    // Determine the color based on the decompressed values
+    float colorValueR = blockR[int(mod(vPosition.x * blockSize * 8.0, 8.0))];
+    float colorValueG = blockG[int(mod(vPosition.x * blockSize * 8.0, 8.0))];
+    float colorValueB = blockB[int(mod(vPosition.x * blockSize * 8.0, 8.0))];
+
+    // Apply the color value to the fragment
+    gl_FragColor = vec4(colorValueR, colorValueG, colorValueB, 1.0);
+  }
+`;
+
+// Create a material using the shaders
+const material = new THREE.ShaderMaterial({
+  vertexShader,
+  fragmentShader,
+  uniforms: {
+    compressedDataTexture: { value: compressedDataTexture },
+    quantizationFactor: { value: QUANTIZATION_FACTOR },
+    blockSize: { value: blockSize },
+    textureWidth: { value: compressedWidth },
+    textureHeight: { value: compressedHeight }
+  }
+});
+
+// Create a mesh with the material
+// const geometry = new THREE.BoxGeometry(64, 64, 64); // Or your voxel grid geometry
+// const mesh = new THREE.Mesh(geometry, material);
+// scene.add(mesh);
+
+const voxelSize = 1; // Size of each voxel
+const gridSize = 16; // Size of the voxel grid
+
+// Create a parent object to hold the voxel grid
+const voxelGrid = new THREE.Group();
+
+for (let x = 0; x < gridSize; x++) {
+  for (let y = 0; y < gridSize; y++) {
+    for (let z = 0; z < gridSize; z++) {
+      const geometry = new THREE.BoxGeometry(voxelSize, voxelSize, voxelSize);
+      const cube = new THREE.Mesh(geometry, material);
+      cube.position.set(
+        x * voxelSize - (gridSize * voxelSize) / 2,
+        y * voxelSize - (gridSize * voxelSize) / 2,
+        z * voxelSize - (gridSize * voxelSize) / 2
+      );
+      voxelGrid.add(cube);
+    }
+  }
+}
+
+scene.add(voxelGrid);
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update(); // Update controls
+  renderer.render(scene, camera);
+}
+
+animate();
+
 
 
     </script>

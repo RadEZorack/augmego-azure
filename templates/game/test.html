@@ -13,73 +13,160 @@
 <body>
     <script type="module">
         import * as THREE from "{% static 'three/three.module.min.js' %}";
-        import { GLTFLoader } from "{% static 'three/GLTFLoader.js' %}";
+        import { dct } from "{% static 'main/dct.js' %}";
+        import { OrbitControls } from "{% static 'three/OrbitControls.js' %}"; // Import OrbitControls
 
-        let scene, camera, renderer, mixer, clock;
-        let playerWrapper = new THREE.Object3D;
 
-        init();
-        animate();
+// Assuming we have a function to generate compressed data
+// Generate or load your actual compressed data here
+const generateCompressedData = () => {
+  const size = 16;
+  const compressedData = new Float32Array(size * size * size * 3);
+  for (let i = 0; i < compressedData.length; i++) {
+    compressedData[i] = Math.random();
+  }
+  return compressedData;
+};
 
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
+const compressedData = generateCompressedData();
+const numColorChannels = 3; // Number of color channels (red, green, blue)
+const compressedWidth = 16; // Width of the compressed data texture
+const compressedHeight = Math.ceil(compressedData.length / (compressedWidth * numColorChannels));
 
-            clock = new THREE.Clock();
+// Create a texture to hold the compressed voxel data
+const compressedDataTexture = new THREE.DataTexture(
+  compressedData,
+  compressedWidth,
+  compressedHeight,
+  THREE.RGBFormat,
+  THREE.FloatType
+);
+compressedDataTexture.needsUpdate = true;
 
-            const light = new THREE.AmbientLight(0xffffff, 1.0);
-            scene.add(light);
+const vertexShader = `
+  varying vec3 vPosition;
+  
+  void main() {
+    vPosition = position;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
 
-            camera.position.set(0, 1.6, 3);
+const fragmentShader = `
+  varying vec3 vPosition;
+  uniform sampler2D compressedDataTexture;
+  uniform float quantizationFactor;
+  uniform float blockSize;
+  uniform float textureWidth;
+  uniform float textureHeight;
+  
+  // Function to perform 1D IDCT
+  float idct1D(float coeffs[16], int x) {
+    float result = coeffs[0] / 2.0;
+    for (int n = 1; n < 16; n++) {
+      result += coeffs[n] * cos((3.14159265 / 16.0) * float(n) * (float(x) + 0.5));
+    }
+    return result;
+  }
 
-            const gltfLoader = new GLTFLoader();
-            gltfLoader.load('https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb', function (gltf) {
-                playerWrapper = gltf.scene;
-                
+  void main() {
+    vec2 uv = (vPosition.xy + 0.5) * vec2(textureWidth, textureHeight);
 
-                // playerWrapper.add(model);
-                // playerWrapper.position.x = 1.0;
-                scene.add(playerWrapper);
+    // Retrieve the quantized DCT coefficients for each color channel
+    float dctCoeffsR[16];
+    float dctCoeffsG[16];
+    float dctCoeffsB[16];
+    for (int i = 0; i < 16; i++) {
+      vec2 texCoord = vec2(mod(uv.x + float(i), textureWidth) / textureWidth, floor(uv.y) / textureHeight);
+      vec3 compressedValues = texture2D(compressedDataTexture, texCoord).rgb;
+      dctCoeffsR[i] = compressedValues.r * quantizationFactor;
+      dctCoeffsG[i] = compressedValues.g * quantizationFactor;
+      dctCoeffsB[i] = compressedValues.b * quantizationFactor;
+    }
 
-                mixer = new THREE.AnimationMixer(playerWrapper);
+    // Apply IDCT to the coefficients
+    float blockR[16];
+    float blockG[16];
+    float blockB[16];
+    for (int x = 0; x < 16; x++) {
+      blockR[x] = idct1D(dctCoeffsR, x);
+      blockG[x] = idct1D(dctCoeffsG, x);
+      blockB[x] = idct1D(dctCoeffsB, x);
+    }
 
-                // Load animations
-                gltfLoader.load("{% static 'animations/F_Jog_001.glb' %}", function (animGltf) {
-                    animGltf.animations.forEach(clip => {
-                        // Adjust the clip to avoid affecting the root position
-                        clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+    // Determine the color based on the decompressed values
+    float colorValueR = blockR[int(mod(vPosition.x * blockSize * 16.0, 16.0))];
+    float colorValueG = blockG[int(mod(vPosition.x * blockSize * 16.0, 16.0))];
+    float colorValueB = blockB[int(mod(vPosition.x * blockSize * 16.0, 16.0))];
 
-                        const action = mixer.clipAction(clip);
-                        action.play();
-                    });
-                    console.log("done", animGltf)
-                }, undefined, function (error) {
-                    console.error(error);
-                });
+    // Apply the color value to the fragment
+    gl_FragColor = vec4(colorValueR, colorValueG, colorValueB, 1.0);
+  }
+`;
 
-            }, undefined, function (error) {
-                console.error(error);
-            });
-        }
+// Create a material using the shaders
+const material = new THREE.ShaderMaterial({
+  vertexShader,
+  fragmentShader,
+  uniforms: {
+    compressedDataTexture: { value: compressedDataTexture },
+    quantizationFactor: { value: 10.0 }, // Adjust this value as needed
+    blockSize: { value: 1.0 }, // Size of each block
+    textureWidth: { value: compressedWidth },
+    textureHeight: { value: compressedHeight }
+  }
+});
 
-        function animate() {
-            requestAnimationFrame(animate);
-            const delta = clock.getDelta();
-            if (mixer) mixer.update(delta/4.0);
-            renderer.render(scene, camera);
-            playerWrapper.position.x += 0.005
-        }
 
-        window.addEventListener('resize', onWindowResize, false);
+// Set up the Three.js scene
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+// Add OrbitControls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0, 0);
+controls.update();
+
+camera.position.set(20, 20, 20);
+camera.lookAt(0, 0, 0);
+
+// Create a grid of boxes (voxels) and apply the shader material
+const voxelSize = 1; // Size of each voxel
+const gridSize = 16; // Size of the voxel grid
+
+// Create a parent object to hold the voxel grid
+const voxelGrid = new THREE.Group();
+
+for (let x = 0; x < gridSize; x++) {
+  for (let y = 0; y < gridSize; y++) {
+    for (let z = 0; z < gridSize; z++) {
+      const geometry = new THREE.BoxGeometry(voxelSize, voxelSize, voxelSize);
+      const cube = new THREE.Mesh(geometry, material);
+      cube.position.set(
+        x * voxelSize - (gridSize * voxelSize) / 2,
+        y * voxelSize - (gridSize * voxelSize) / 2,
+        z * voxelSize - (gridSize * voxelSize) / 2
+      );
+      voxelGrid.add(cube);
+    }
+  }
+}
+
+scene.add(voxelGrid);
+
+// Render the scene
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+animate();
+
+
     </script>
 </body>
 </html>
