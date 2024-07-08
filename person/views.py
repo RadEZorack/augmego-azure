@@ -136,3 +136,10 @@ def update_avatar(request):
     person.avatar = request.GET.get("avatar")
     person.save()
     return HttpResponse("success: updated avatar", content_type='application/json')
+
+def people_list(request):
+    people = list(Person.objects.exclude(user_id=request.user.id).filter(user__is_superuser=False, is_guest=False).values_list("user__username", flat=True))
+    data = json.dumps({
+        'people': people
+    })
+    return HttpResponse(data, content_type='application/json')
