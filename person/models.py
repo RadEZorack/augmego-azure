@@ -52,3 +52,18 @@ def create_or_update_user_person(sender, instance, created, **kwargs):
         #     c.owner = p
         #     c.save()
     instance.person.save()
+
+
+class Family(models.Model):
+    name = models.CharField(unique=True)
+
+    def __str__(self) -> str:
+        return self.name
+    
+class FamilyConnection(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    family = models.ForeignKey(Family, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self) -> str:
+        return str(self.family.name)+":"+str(self.person)

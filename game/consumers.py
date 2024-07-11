@@ -7,6 +7,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
 from cube.models import Chunk
+from person.models import FamilyConnection
 from monitor.models import UserLogin
 from monitor.utils import hash_ip
 
@@ -24,12 +25,22 @@ class GameConsumer(AsyncWebsocketConsumer):
         self.room_group_name = 'room_%s' % self.room_name
         # self.uuid = str(uuid.uuid4())
         self.uuid = str(self.scope['user'].id)
+        await self.list_user_families()
 
-        # Join room group
+        print("self.family_ids", self.family_ids)
+
+        # Join room group (global channel)
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
+
+        # Join Family channels that are active for this user
+        for fid in self.family_ids:
+            await self.channel_layer.group_add(
+                fid,
+                self.channel_name
+            )
 
         # Join self group
         await self.channel_layer.group_add(
@@ -73,6 +84,10 @@ class GameConsumer(AsyncWebsocketConsumer):
         self.chunk = Chunk.objects.filter(owner=user.person).first()
         return UserLogin.objects.create(user=user)
     
+    @database_sync_to_async
+    def list_user_families(self):
+        self.family_ids = ["family_"+str(x) for x in list(FamilyConnection.objects.filter(is_active=True, person_id=int(self.uuid)).values_list("family_id", flat=True))]
+    
     async def disconnect(self, close_code):
         # Leave room group
         print('disconnected')
@@ -92,6 +107,12 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
+        for fid in self.family_ids:
+            await self.channel_layer.group_discard(
+                fid,
+                self.channel_name
+            )
+
         # Update time stamp
         self.user_login = await self.update_user_login()
 
@@ -107,14 +128,23 @@ class GameConsumer(AsyncWebsocketConsumer):
         #     print(text_data_json)
 
         if "message_que" in text_data_json:
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    "type": "game.message_que",
-                    "from": self.uuid,
-                    "message": text_data,
-                },
-            )
+            # await self.channel_layer.group_send(
+            #     self.room_group_name,
+            #     {
+            #         "type": "game.message_que",
+            #         "from": self.uuid,
+            #         "message": text_data,
+            #     },
+            # )
+            for fid in self.family_ids:
+                await self.channel_layer.group_send(
+                    fid,
+                    {
+                        "type": "game.message_que",
+                        "from": self.uuid,
+                        "message": text_data,
+                    },
+                )
 
         elif "request-media" in text_data_json:
             await self.channel_layer.group_send(
