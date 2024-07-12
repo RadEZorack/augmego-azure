@@ -168,6 +168,29 @@
         </div>
       </div>
 
+      <!-- Family Modal -->
+      <div class="modal" id="familyModal" aria-labelledby="familyModalLabel">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="familyModalLabel">Families</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h5>Create a Family</h5>
+              <input type="text" id="addFamilyBtn" name="addFamilyBtn" placeholder="family name">
+              <button type="button" class="btn btn-success" >Create <i class="fas fa-plus"></i></button>
+              <hr>
+              <h5>Current Families <button id="refreshFamilies" type="button" class="btn btn-warning" >Refresh <i class="fas fa-sync"></i></button></h5>
+              <div id="familiesListing"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close <i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- generalToast -->
       <div id="generalToast" class="toast" style="position: absolute; z-index: 20; top: 10px; right: 10px;" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
@@ -237,6 +260,11 @@
 
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#blocksModal">
                     Blocks
+                  </button>
+                  </br></br>
+
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#familyModal">
+                    Family
                   </button>
                 </span>
                 <!-- <iframe id="globalChatIframe" title="Global Chat" style="display: none; position: absolute; top: 45px; left: 0; width: 25vw; height: 20vh; z-index: 4;"></iframe> -->
@@ -482,6 +510,7 @@
             const changePasswordURL = '{% url "person:change_password" %}'
             const changeEmailURL = '{% url "person:change_email" %}'
             const peopleListURL = '{% url "person:people_list" %}'
+            const familyListURL = '{% url "person:family_list" %}'
             let my_name = "{{ user_name }}";
             let avatar = "{{ avatar }}";
             let myUuid = Math.random().toString();
@@ -561,5 +590,6 @@
      <script src="{% static 'main/changeName.js' %}" type="module"></script>
      <script src="{% static 'main/changePassword.js' %}" type="module"></script>
      <script src="{% static 'main/changeEmail.js' %}" type="module"></script>
+     <script src="{% static 'main/family.js' %}" type="module"></script>
    </body>
 </html>

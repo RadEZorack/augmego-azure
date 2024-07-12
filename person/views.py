@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from allauth.account.models import EmailAddress
 from allauth.account.utils import send_email_confirmation
 
-from person.models import Person
+from person.models import Person, FamilyConnection
 from person.forms import NoSignUpForm
 
 from game.views import main
@@ -142,4 +142,19 @@ def people_list(request):
     data = json.dumps({
         'people': people
     })
+    return HttpResponse(data, content_type='application/json')
+
+def family_list(request):
+    # fetch my current families
+    fcids = list(FamilyConnection.objects.filter(is_active=True, person_id=request.user.id).values_list("family_id", flat=True))
+    # Get all connections of my families
+    fcs = FamilyConnection.objects.filter(is_active=True, family_id__in=fcids)
+    data = {}
+    for fc in fcs:
+        key = fc.family.name
+        if key not in data:
+            data[key] = []
+        data[key].append(str(fc.person))
+    
+    data = json.dumps(data)
     return HttpResponse(data, content_type='application/json')
