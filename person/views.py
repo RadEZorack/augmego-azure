@@ -4,7 +4,7 @@ import json
 from decimal import Decimal
 from django.contrib.auth import login
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.db.models import Sum, Value, Max
 from django.db.models.functions import Coalesce
@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from allauth.account.models import EmailAddress
 from allauth.account.utils import send_email_confirmation
 
-from person.models import Person, FamilyConnection
+from person.models import Person, FamilyConnection, Family
 from person.forms import NoSignUpForm
 
 from game.views import main
@@ -158,3 +158,70 @@ def family_list(request):
     
     data = json.dumps(data)
     return HttpResponse(data, content_type='application/json')
+
+def create_family(request):
+    if not request.POST:
+        return HttpResponseForbidden("You must post data.")
+    
+    name = request.POST.get("name")
+    if not name:
+        return HttpResponseForbidden("You must provide a name.")
+    
+    if Family.objects.filter(name=name).exists():
+        return HttpResponseForbidden("A family already has this name.")
+    
+    password = request.POST.get("password", "")
+
+    family = Family.objects.create(name=name, password=password)
+
+    fc = FamilyConnection.objects.create(person_id=request.user.id, family_id=family.id, is_owner=True)
+
+    return HttpResponse("success")
+
+def join_family(request):
+    if not request.POST:
+        return HttpResponseForbidden("You must post data.")
+    
+    name = request.POST.get("name")
+    if not name:
+        return HttpResponseForbidden("You must provide a name.")
+    
+    if not Family.objects.filter(name=name).exists():
+        return HttpResponseForbidden("A family does not have this name.")
+    
+    password = request.POST.get("password", "")
+
+    families = Family.objects.filter(name=name, password=password)
+    if not families:
+        return HttpResponseForbidden("Wrong password.")
+    
+    family = families.first()
+
+    fc = FamilyConnection.objects.create(person_id=request.user.id, family_id=family.id)
+
+    return HttpResponse("success")
+
+def add_person(request):
+    if not request.POST:
+        return HttpResponseForbidden("You must post data.")
+    
+    family_name = request.POST.get("familyName")
+    if not family_name:
+        return HttpResponseForbidden("You must provide a family name.")
+    
+    person_name = request.POST.get("personName")
+    if not person_name:
+        return HttpResponseForbidden("You must provide a user's name.")
+    
+    if not Family.objects.filter(name=family_name).exists():
+        return HttpResponseForbidden("No family has this name.")
+    
+    if not Person.objects.filter(user__username=person_name).exists():
+        return HttpResponseForbidden("No user has this name.")
+
+    family = Family.objects.get(name=family_name)
+    person = Person.objects.get(user__username=person_name)
+
+    fc = FamilyConnection.objects.create(person=person, family=family)
+
+    return HttpResponse("success")

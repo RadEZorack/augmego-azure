@@ -15,4 +15,7 @@ urlpatterns = [
     path('update_avatar/', views.update_avatar, name='update_avatar'),
     path('people_list/', views.people_list, name='people_list'),
     path('family_list/', views.family_list, name='family_list'),
+    path('create_family/', views.create_family, name='create_family'),
+    path('add_person/', views.add_person, name='add_person'),
+    path('join_family/', views.join_family, name='join_family'),
 ]

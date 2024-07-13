@@ -178,8 +178,14 @@
             </div>
             <div class="modal-body">
               <h5>Create a Family</h5>
-              <input type="text" id="addFamilyBtn" name="addFamilyBtn" placeholder="family name">
-              <button type="button" class="btn btn-success" >Create <i class="fas fa-plus"></i></button>
+              <input type="text" id="addFamilyName" name="addFamilyName" placeholder="family name">
+              <input type="password" id="addFamilyPassword" name="addFamilyPassword" placeholder="password">
+              <button id="createFamily" type="button" class="btn btn-success" >Create <i class="fas fa-plus"></i></button>
+              <hr>
+              <h5>Join a Family</h5>
+              <input type="text" id="joinFamilyName" name="joinFamilyName" placeholder="family name">
+              <input type="password" id="joinFamilyPassword" name="joinFamilyPassword" placeholder="password">
+              <button id="joinFamily" type="button" class="btn btn-success" >Join <i class="fas fa-plus"></i></button>
               <hr>
               <h5>Current Families <button id="refreshFamilies" type="button" class="btn btn-warning" >Refresh <i class="fas fa-sync"></i></button></h5>
               <div id="familiesListing"></div>
@@ -511,6 +517,9 @@
             const changeEmailURL = '{% url "person:change_email" %}'
             const peopleListURL = '{% url "person:people_list" %}'
             const familyListURL = '{% url "person:family_list" %}'
+            const createFamilyURL = '{% url "person:create_family" %}'
+            const addPersonURL = '{% url "person:add_person" %}'
+            const joinFamilyURL = '{% url "person:join_family" %}'
             let my_name = "{{ user_name }}";
             let avatar = "{{ avatar }}";
             let myUuid = Math.random().toString();
