@@ -145,16 +145,23 @@ def people_list(request):
     return HttpResponse(data, content_type='application/json')
 
 def family_list(request):
-    # fetch my current families
-    fcids = list(FamilyConnection.objects.filter(is_active=True, person_id=request.user.id).values_list("family_id", flat=True))
-    # Get all connections of my families
-    fcs = FamilyConnection.objects.filter(is_active=True, family_id__in=fcids)
     data = {}
+    # fetch my current families
+    my_fcs = FamilyConnection.objects.filter(person_id=request.user.id)
+    for fc in my_fcs:
+        key = fc.family.name
+        data[key] = {
+            "is_active": fc.is_active,
+            "people": []
+        }
+                 
+    fcids = list(my_fcs.values_list("family_id", flat=True))
+    # Get all connections of my families
+    fcs = FamilyConnection.objects.filter(family_id__in=fcids)
+    
     for fc in fcs:
         key = fc.family.name
-        if key not in data:
-            data[key] = []
-        data[key].append(str(fc.person))
+        data[key]["people"].append(str(fc.person))
     
     data = json.dumps(data)
     return HttpResponse(data, content_type='application/json')

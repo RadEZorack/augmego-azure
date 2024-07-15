@@ -11,7 +11,7 @@ function refreshFamilies(){
                 <input type="text" id="addPersonInput-${key}" data-for"${key}" name="addPersonInput-${key}" placeholder="user name">
                 <button id="addPersonBtn-${key}" data-forFamily="${key}"type="button" class="btn btn-success addPersonBtn" >Add <i class="fas fa-plus"></i></button>
                 <ul>`
-                value.forEach(element => {
+                value.people.forEach(element => {
                     html += `<li>${element}</li>`
                 });
                 html += "</ul><br>"
