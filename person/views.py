@@ -232,3 +232,25 @@ def add_person(request):
     fc = FamilyConnection.objects.create(person=person, family=family)
 
     return HttpResponse("success")
+
+def set_active_family(request):
+    if not request.POST:
+        return HttpResponseForbidden("You must post data.")
+    
+    family_name = request.POST.get("familyName")
+    if not family_name:
+        return HttpResponseForbidden("You must provide a family name.")
+    
+    if not Family.objects.filter(name=family_name).exists():
+        return HttpResponseForbidden("No family has this name.")
+
+    family = Family.objects.get(name=family_name)
+    person = Person.objects.get(user=request.user)
+
+    FamilyConnection.objects.filter(person=person).update(is_active=False)
+
+    fc = FamilyConnection.objects.get(person=person, family=family)
+    fc.is_active = True
+    fc.save()
+
+    return HttpResponse("success")

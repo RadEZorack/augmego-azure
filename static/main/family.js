@@ -7,7 +7,17 @@ function refreshFamilies(){
             console.log(resp)
             let html = ""
             for (const [key, value] of Object.entries(resp)) {
-                html += `<h5>${key}</h5>
+                let isActiveData = "false";
+                let isActiveText = "Activate"
+                let isActiveIcon = '<i class="fas fa-play"></i>'
+                let isActiveColor = 'warning'
+                if (value.is_active == true){
+                    isActiveData = "true";
+                    isActiveText = "Active";
+                    isActiveIcon = '';
+                    isActiveColor = 'success'
+                }
+                html += `<h5>${key} <button id="setActiveFamilyBtn-${key}" data-forFamily="${key}" data-isActiveData="${isActiveData}" type="button" class="btn btn-${isActiveColor} setActiveFamilyBtn" >${isActiveText} ${isActiveIcon}</button></h5>
                 <input type="text" id="addPersonInput-${key}" data-for"${key}" name="addPersonInput-${key}" placeholder="user name">
                 <button id="addPersonBtn-${key}" data-forFamily="${key}"type="button" class="btn btn-success addPersonBtn" >Add <i class="fas fa-plus"></i></button>
                 <ul>`
@@ -22,6 +32,13 @@ function refreshFamilies(){
 
             $(".addPersonBtn").on("click", function(){
                 addPerson($(this).attr("data-forFamily"));
+            })
+
+            $(".setActiveFamilyBtn").on("click", function(){
+                if ($(this).attr("data-isActiveData") == "true"){
+                    return;
+                }
+                setActiveFamily($(this).attr("data-forFamily"));
             })
         }
     })
@@ -98,21 +115,21 @@ function addPerson(familyName){
     })
 }
 
-// function setActiveFamily(familyName){
-//     $.ajax({
-//         url: setActiveFamilyURL,
-//         type: 'POST',
-//         data: {
-//             csrfmiddlewaretoken: csrfmiddlewaretoken,
-//             familyName: familyName
-//             },
-//         success: function(resp) {
-//             refreshFamilies();
-//         },
-//         error: function (request, status, error) {
-//             $("#generalToast .toast-body").html(status+": "+request.responseText);
-//             $("#generalToast").toast("show");
-//         }
-//     })
-// }
+function setActiveFamily(familyName){
+    $.ajax({
+        url: setActiveFamilyURL,
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: csrfmiddlewaretoken,
+            familyName: familyName
+            },
+        success: function(resp) {
+            refreshFamilies();
+        },
+        error: function (request, status, error) {
+            $("#generalToast .toast-body").html(status+": "+request.responseText);
+            $("#generalToast").toast("show");
+        }
+    })
+}
 

@@ -18,4 +18,5 @@ urlpatterns = [
     path('create_family/', views.create_family, name='create_family'),
     path('add_person/', views.add_person, name='add_person'),
     path('join_family/', views.join_family, name='join_family'),
+    path('set_active_family/', views.set_active_family, name='set_active_family'),
 ]
