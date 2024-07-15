@@ -126,8 +126,10 @@ function setActiveFamily(familyName){
             familyName: familyName
             },
         success: function(resp) {
-            refreshFamilies();
-            initSocketConnection();
+            // refreshFamilies();
+            // initSocketConnection();
+            // For simplicity, we simply reload the page. It may be cool to see everything rebuilding around the player, but this is low priority.
+            window.location.reload()
         },
         error: function (request, status, error) {
             $("#generalToast .toast-body").html(status+": "+request.responseText);
