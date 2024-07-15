@@ -10,6 +10,17 @@ export let message_que = []
 
 export function initSocketConnection(){
   // $('#globalChatIframe').attr('src', 'https://' + window.location.host + '/chat/global/')
+  if (socket != undefined){
+    socket.close()
+    for (const [key, value] of Object.entries(peerConnections)) {
+      peerConnections[key].peerConnection.close()
+      delete peerConnections[key]
+    }
+
+    for (const [key, value] of Object.entries(entities)) {
+      remove_entity(key)
+    }
+  }
 
   socket = new WebSocket(
       'wss://' + window.location.host +
@@ -36,7 +47,7 @@ export function initSocketConnection(){
           'time': now.getTime(),
           })
 
-      if (my_name != undefined){
+      if (my_name != undefined && socket.readyState == WebSocket.OPEN){
           // console.log("sending", message_que)
           socket.send(JSON.stringify({'message_que': message_que}));
           // socket.emit('message_que', message_que)
@@ -55,7 +66,7 @@ export function initSocketConnection(){
   }
 
   socket.onclose = function(e) {
-      console.error('Chat socket closed unexpectedly', e);
+      console.log('Chat socket closed unexpectedly', e);
   };
 
   socket.onerror = function(e) {

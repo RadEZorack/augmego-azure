@@ -1,3 +1,5 @@
+import { initSocketConnection } from '../main/socketConnection.js';
+
 function refreshFamilies(){
     console.log("refreshFamilies")
     $.ajax({
@@ -125,6 +127,7 @@ function setActiveFamily(familyName){
             },
         success: function(resp) {
             refreshFamilies();
+            initSocketConnection();
         },
         error: function (request, status, error) {
             $("#generalToast .toast-body").html(status+": "+request.responseText);

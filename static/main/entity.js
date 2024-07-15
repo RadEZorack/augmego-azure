@@ -272,6 +272,8 @@ export function remove_entity(entity_key){
     if (entities[entity_key] && !(entities[entity_key] == "loading")){
         const gltf = entities[entity_key]['gltf']
         objectScene.remove( gltf.scene );
+        const wrapper = entities[entity_key]['wrapper']
+        objectScene.remove( wrapper );
         const plane = entities[entity_key]['plane']
         objectScene.remove(plane);
         const cssObject = entities[entity_key]['cssObject']
