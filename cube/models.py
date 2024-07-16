@@ -6,6 +6,7 @@ class Cube(models.Model):
     y = models.BigIntegerField()
     z = models.BigIntegerField()
     texture = models.ForeignKey("texture.Texture", on_delete=models.SET_NULL, null=True, blank=True)
+    family = models.ForeignKey("person.Family", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self) -> str:
         return "block:{x},{y},{z}:0".format(x=self.x, y=self.y, z=self.z)

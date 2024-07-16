@@ -1,4 +1,4 @@
-import { initSocketConnection } from '../main/socketConnection.js';
+export let familyName = undefined
 
 function refreshFamilies(){
     console.log("refreshFamilies")
@@ -14,6 +14,7 @@ function refreshFamilies(){
                 let isActiveIcon = '<i class="fas fa-play"></i>'
                 let isActiveColor = 'warning'
                 if (value.is_active == true){
+                    familyName = key;
                     isActiveData = "true";
                     isActiveText = "Active";
                     isActiveIcon = '';

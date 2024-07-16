@@ -4,6 +4,7 @@ import { drawBlock, chunkGameObjects } from "./drawBlock.js";
 import { removeBlock } from "./removeBlock.js";
 import { perlin2, simplex2 } from '../main/perlin.js';
 import { loadPlayer, playerWrapper } from '../main/player.js';
+import { familyName } from '../main/family.js';
 
 const CHUNK_SIZE = 50
 
@@ -11,7 +12,7 @@ export function initObjects() {
     console.log("initObjects");
     
     let thisPosition = new THREE.Vector3(0,0,0)
-    if (!(playerWrapper === undefined)){
+    if (!(playerWrapper === undefined) && !(familyName == undefined)){
       // console.log("hit")
       thisPosition.x = playerWrapper.position.x
       thisPosition.y = playerWrapper.position.y
@@ -224,6 +225,7 @@ export function initObjects() {
         type: 'GET',
         data: {
           csrfmiddlewaretoken: csrfmiddlewaretoken,
+          familyName: familyName,
           ranges: chunkKeysToFetch.join("_")
           // min_x: chunkX,// + thisPosition.x,
           // min_y: chunkY,// + thisPosition.y,
@@ -236,6 +238,7 @@ export function initObjects() {
             console.log("success get");
             for(let i = 0; i < resp.length; i++){
               const data = resp[i];
+              // console.log(data)
               if (data.texture_name == ""){
                 removeBlock(data.x, data.y, data.z);
               } else {

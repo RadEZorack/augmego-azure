@@ -9,6 +9,7 @@ from django.core.cache import cache
 from cube.models import Chunk, Cube
 from texture.models import Texture
 from texture.views import TextureSerializer
+from person.models import Family
 
 class CubeSerializer(serializers.ModelSerializer):
     texture_name = serializers.SerializerMethodField()
@@ -23,7 +24,7 @@ class CubeSerializer(serializers.ModelSerializer):
         return ""
 
 def list_cubes(request):
-    """ example: http://localhost:8000/cube/list?ranges=0,50,0,50,0,50_50,100,0,50,0,50 """
+    """ example: http://localhost:8000/cube/list?familyName=familyName&ranges=0,50,0,50,0,50_50,100,0,50,0,50 """
     # Define your range for each coordinate
     final_data = []
 
@@ -32,6 +33,7 @@ def list_cubes(request):
 
     print("here 1")
     ranges = rg.get('ranges')
+    family_name = rg.get('familyName')
     ranges_split = ranges.split("_")
     print(ranges_split)
 
@@ -55,7 +57,7 @@ def list_cubes(request):
 
         print("here 2")
 
-        cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
+        cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}:{family_name}".format(x_range=x_range,y_range=y_range,z_range=z_range,family_name=family_name).replace(" ", "_")
         print(cache_master_key)
         cache_keys = cache.get(cache_master_key, None)
         # print(cache_keys)
@@ -90,7 +92,8 @@ def list_cubes(request):
         cubes_within_range = Cube.objects.filter(
             x__range=x_range,
             y__range=y_range,
-            z__range=z_range
+            z__range=z_range,
+            family__name=family_name
         )
 
         print("here 6")
@@ -100,7 +103,7 @@ def list_cubes(request):
         serializer = CubeSerializer(cubes_within_range, many=True, context={"request":request})
 
         print("here 8")
-        cache_data = {"cube:{x}:{y}:{z}".format(x=data["x"],y=data["y"],z=data["z"]).replace(" ", "_"):data for data in serializer.data}
+        cache_data = {"cube:{x}:{y}:{z}:{family_name}".format(x=data["x"],y=data["y"],z=data["z"],family_name=family_name).replace(" ", "_"):data for data in serializer.data}
         print(cache_data)
         cache.set(cache_master_key, list(cache_data.keys()), 60*60*24*30)
 
@@ -148,19 +151,22 @@ def post_cube(request):
 
         #     if request.user.person != chunk.owner:
         #         return HttpResponseForbidden()
-        chunk_exists = Chunk.objects.filter(
-            x__lte=int(rp.get("x")),
-            x2__gte=int(rp.get("x")),
-            # We don't use y
-            z__lte=int(rp.get("z")),
-            z2__gte=int(rp.get("z")),
-        ).exclude(owner=request.user.person).exclude(owner__isnull=True).exists()
-        if chunk_exists:
-            print("chunk owner mismatch")
-            return HttpResponseForbidden()
 
+        #### WE ARE NOT USING CHUNKS CURRENTLY. Instead use families
+        # chunk_exists = Chunk.objects.filter(
+        #     x__lte=int(rp.get("x")),
+        #     x2__gte=int(rp.get("x")),
+        #     # We don't use y
+        #     z__lte=int(rp.get("z")),
+        #     z2__gte=int(rp.get("z")),
+        # ).exclude(owner=request.user.person).exclude(owner__isnull=True).exists()
+        # if chunk_exists:
+        #     print("chunk owner mismatch")
+        #     return HttpResponseForbidden()
 
-        cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"))
+        family_name = rp.get("familyName")
+        family = Family.objects.get(name=family_name)
+        cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"),family=family)
         if rp.get("textureName"):
             texture = Texture.objects.get(name=rp.get("textureName"))
             cube.texture = texture
@@ -181,10 +187,10 @@ def post_cube(request):
         y_range = (str(y), str(y + CHUNK_SIZE))
         z_range = (str(z), str(z + CHUNK_SIZE))
 
-        cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}".format(x_range=x_range,y_range=y_range,z_range=z_range).replace(" ", "_")
+        cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}:{family_name}".format(x_range=x_range,y_range=y_range,z_range=z_range,family_name=family_name).replace(" ", "_")
         # print(cache_master_key)
         current_cubes = cache.get(cache_master_key, [])
-        current_cube_key = "cube:{x}:{y}:{z}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"]).replace(" ", "_")
+        current_cube_key = "cube:{x}:{y}:{z}:{family_name}".format(x=serializer.data["x"],y=serializer.data["y"],z=serializer.data["z"],family_name=family_name).replace(" ", "_")
         # print(current_cube_key)
         current_cubes.append(current_cube_key)
         # print(current_cubes)

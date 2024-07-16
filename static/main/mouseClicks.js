@@ -8,7 +8,7 @@ import { drawBlock } from '../main/drawBlock.js';
 import { removeBlock } from '../main/removeBlock.js';
 import { peerConnections } from '../main/socketConnection.js';
 import { isFirstPerson } from '../main/commands.js';
-
+import { familyName } from '../main/family.js';
 
 
 export let myPlayerTargetPosition = new THREE.Vector3(0,0,0);
@@ -492,6 +492,7 @@ export function onMouseDownDestoryBlock(data){
           x: Math.round(xyz[0]),
           y: Math.round(xyz[1]),
           z: Math.round(xyz[2]),
+          familyName: familyName,
           textureName: ""
         },
         success: function(resp) {
@@ -566,6 +567,7 @@ export function onMouseDownCreateBlock(data){
       x: Math.round(data.point.x),
       y: Math.round(data.point.y),
       z: Math.round(data.point.z),
+      familyName: familyName,
       // TODO: replace with a dynamic texture
       textureName: blockTextureMaterial
     },
