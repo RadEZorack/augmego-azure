@@ -16,6 +16,7 @@ from allauth.account.models import EmailAddress
 from allauth.account.utils import send_email_confirmation
 
 from person.models import Person, FamilyConnection, Family
+from texture.models import TextureAtlas
 from person.forms import NoSignUpForm
 
 from game.views import main
@@ -180,6 +181,15 @@ def create_family(request):
     password = request.POST.get("password", "")
 
     family = Family.objects.create(name=name, password=password)
+
+    texture_atlas = TextureAtlas.objects.create(family=family)
+    texture_atlas.update_atlas()
+    texture_atlas.save()
+
+    fcs = FamilyConnection.objects.filter(person_id=request.user.id)
+    for fc in fcs:
+        fc.is_active = False
+        fc.save()
 
     fc = FamilyConnection.objects.create(person_id=request.user.id, family_id=family.id, is_owner=True)
 

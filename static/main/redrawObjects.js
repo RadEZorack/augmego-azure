@@ -1,6 +1,7 @@
 import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 import { vs, fs } from '../main/shaders.js';
+import { familyName } from '../main/family.js';
 import { initToggleMouseOption, blockTextureMaterial } from '../main/mouseClicks.js';
 
 function createDefaultObject(defaultValue) {
@@ -52,6 +53,9 @@ export function fetchTextureAtlas(){
     $.ajax({
         url: textureAtlasLoadURL,
         type: 'GET',
+        data: {
+            familyName: familyName
+        },
         success: function(resp) {
             textureAtlasURL = resp[0];
             textureAtlasMapping = resp[1];

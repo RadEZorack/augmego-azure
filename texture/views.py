@@ -29,5 +29,5 @@ def list_textures(request):
     return HttpResponse(json.dumps(serializer.data), content_type='application/json')
 
 def get_texture_atlas(request):
-    t = TextureAtlas.objects.first()
+    t = TextureAtlas.objects.filter(family__name=request.GET.get("familyName")).first()
     return HttpResponse(json.dumps([t.image.url, t.data_json]), content_type='application/json')
