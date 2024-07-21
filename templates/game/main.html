@@ -109,15 +109,12 @@
             </div>
             <div class="modal-body">
               
-              <button class="btn btn-primary command" data-command="toggleLandClaimView">Toggle Land Owner View</button>
-              </br></br>
+              <!-- <button class="btn btn-primary command" data-command="toggleLandClaimView">Toggle Land Owner View</button>
+              </br></br> -->
               <!-- <button class="btn btn-primary command" data-command="buyLand">Buy The Land I'm Standing On.</button>
               </br></br> -->
               
-              <input type="text" id="createTextureName" name="createTextureName" placeholder="Name">
-              <input type="text" id="createTextureDescription" name="createTextureDescription" rows="2" cols="50" placeholder="description">
-              </br>
-              <button class="btn btn-primary command" data-command="createTexture">Create A Block Texture From the Description Above</button>
+              
               
               </br></br>
               <button class="btn btn-primary command" data-command="toogleFirstPerson">Toggle First/Third Person</button>
@@ -151,6 +148,12 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <input type="text" id="createTextureName" name="createTextureName" placeholder="Name">
+              <input type="text" id="createTextureDescription" name="createTextureDescription" rows="2" cols="50" placeholder="description">
+              </br>
+              <button class="btn btn-primary command" data-command="createTexture">Create A Block Texture From the Description Above</button>
+              <hr>
+
               <div class="toggleMouse mb-3">
                   <img class="toggleMouseOption" data-type="destroy" style="border: solid 2px green;" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on">
                   <br><br>

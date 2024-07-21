@@ -10,7 +10,7 @@ import math
 
 # Create your models here.
 class Texture(models.Model):
-    name = models.CharField(max_length=100, default="My Web Page", unique=True)
+    name = models.CharField(max_length=100, default="My Web Page")
     image = models.ImageField(upload_to="media/texture-image/")
     family = models.ForeignKey("person.Family", on_delete=models.CASCADE, null=True, blank=True)
 

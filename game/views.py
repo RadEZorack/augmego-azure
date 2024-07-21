@@ -17,6 +17,7 @@ from quickstartproject import settings
 
 from texture.models import Texture, TextureAtlas
 from tutorial.models import Tutorial
+from person.models import Family
 
 from django.views.decorators.http import require_GET
 import os
@@ -102,10 +103,12 @@ def generate_image(request):
 
     title = request.POST.get("title")
     description = request.POST.get("description")
+    family_name = request.POST.get("familyName")
+    family = Family.objects.get(name=family_name)
 
     texture = None
     try:
-        texture = Texture.objects.create(name=title)
+        texture = Texture.objects.create(name=title, family=family)
     except Exception as e:
         return HttpResponseForbidden("A block with this name already exists.")
 
@@ -137,7 +140,7 @@ def generate_image(request):
         # Create an image file and save it to the ImageField
         texture.image.save(title+'.jpg', image_content, save=True)
 
-    t = TextureAtlas.objects.first()
+    t = TextureAtlas.objects.get(family__name=family_name)
     t.update_atlas()
 
     return HttpResponse("ok")
