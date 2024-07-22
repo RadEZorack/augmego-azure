@@ -119,6 +119,8 @@ def change_email(request):
     email = rg.get("email")
     
     user = request.user
+    user.email = email
+    user.save()
     # Create or update the email address in the EmailAddress model
     email_address, created = EmailAddress.objects.get_or_create(user=user, email=email)
     if not created:
