@@ -1,5 +1,6 @@
 import uuid
 import json
+import requests
 
 from decimal import Decimal
 from django.contrib.auth import login
@@ -11,6 +12,7 @@ from django.db.models.functions import Coalesce
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth import get_user_model, authenticate, login
 from django.views.decorators.csrf import csrf_exempt
+from django.core.files.base import ContentFile
 
 from allauth.account.models import EmailAddress
 from allauth.account.utils import send_email_confirmation
@@ -134,8 +136,16 @@ def change_email(request):
 
 def update_avatar(request):
     person = request.user.person
-    person.avatar = request.GET.get("avatar")
+    person.avatar_url = request.GET.get("avatar")
     person.save()
+
+    response = requests.get(person.avatar_url)
+    if response.status_code == 200:
+        filename = person.avatar_url.split("/")[-1]
+        person.avatar.save(filename, ContentFile(response.content), save=True)
+        person.save()
+    else:
+        print(f"Failed to retrieve the file. Status code: {response.status_code}")
     return HttpResponse("success: updated avatar", content_type='application/json')
 
 def people_list(request):

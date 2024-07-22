@@ -80,7 +80,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         #     # We don't want guests to be multiplayer
         #     self.disconnect(403)
         #     return
-        self.avatar = user.person.avatar
+        self.avatar = user.person.avatar.url
         self.chunk = Chunk.objects.filter(owner=user.person).first()
         return UserLogin.objects.create(user=user)
     
