@@ -200,6 +200,25 @@
         </div>
       </div>
 
+      <!-- Donate Modal -->
+      <div class="modal" id="donateModal" aria-labelledby="donateModalLabel">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="donateModalLabel">Donate</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Iframe -->
+               <iframe src='{% url "person:profile_wall" %}' title="Donate Iframe" width="100%" height="100%"></iframe>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close <i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- generalToast -->
       <div id="generalToast" class="toast" style="position: absolute; z-index: 2000; top: 10px; right: 10px;" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
@@ -274,6 +293,11 @@
 
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#familyModal">
                     Family
+                  </button>
+                  </br></br>
+
+                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#donateModal">
+                    Donate
                   </button>
                 </span>
                 <!-- <iframe id="globalChatIframe" title="Global Chat" style="display: none; position: absolute; top: 45px; left: 0; width: 25vw; height: 20vh; z-index: 4;"></iframe> -->

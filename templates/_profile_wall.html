@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Donation Wall</h1>
-    <p>Want to help the cause? <a href="https://www.paypal.com/donate/?hosted_button_id=98FYJVMM54RKE" target="_blank">Donate with Paypal!</a></p>
+    <!-- <h1>Donation Wall</h1> -->
+    <p>Want to help the cause?
+    <br>Donating helps keep this appication free for everyone!  
+    <br><a href="https://www.paypal.com/donate/?hosted_button_id=98FYJVMM54RKE" target="_blank">Donate with Paypal</a></p>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -13,6 +15,7 @@
         </thead>
         <tbody>
             {% for person in people %}
+            {% if person.total_payments %}
                 <tr>
                     <td>
                         {{ person.user }}
@@ -24,6 +27,7 @@
                         {{ person.most_recent_payment_date }}
                     </td>
                 </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>
