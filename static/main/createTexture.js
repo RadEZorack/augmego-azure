@@ -32,3 +32,37 @@ export function createTexture(){
         }
     })
 }
+
+$('#uploadTextureForm').on('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    $("#loadingSpinner").show()
+
+    let title = $("#uploadTextureName").val()
+    var formData = new FormData();
+    var fileInput = $('#uploadTextureInput')[0].files[0];
+    formData.append('textureFile', fileInput);
+    formData.append('csrfmiddlewaretoken', csrfmiddlewaretoken);
+    formData.append('title', title);
+    formData.append('familyName', familyName);
+
+    $.ajax({
+        url: textureUploadURL,
+        type: 'POST',
+        data: formData,
+        processData: false, // Important!
+        contentType: false, // Important!
+        success: function(response) {
+            $("#loadingSpinner").hide();
+            window.location.reload()
+            $("#generalToast .toast-body").html("File uploaded successfully!");
+            $("#generalToast").toast("show");
+        },
+        error: function(request, status, error) {
+            $("#loadingSpinner").hide()
+            // $('#result').html('<p>File upload failed: ' + error + '</p>');
+            $("#generalToast .toast-body").html(status+": "+request.responseText);
+            $("#generalToast").toast("show");
+        }
+    });
+});

@@ -152,9 +152,18 @@
             </div>
             <div class="modal-body">
               <input type="text" id="createTextureName" name="createTextureName" placeholder="Name">
-              <input type="text" id="createTextureDescription" name="createTextureDescription" rows="2" cols="50" placeholder="description">
+              <br>
+              <textarea id="createTextureDescription" name="createTextureDescription" rows="2" cols="50" placeholder="description"></textarea>
               </br>
               <button class="btn btn-primary command" data-command="createTexture">Use AI to Create a Block</button>
+              <hr>
+
+              <form id="uploadTextureForm">
+                <input type="text" id="uploadTextureName" name="uploadTextureName" placeholder="Name">
+                  <input type="file" id="uploadTextureInput" name="uploadTextureInput">
+                  <br>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+              </form>
               <hr>
 
               <div class="toggleMouse mb-3">
@@ -538,6 +547,7 @@
             const chunkInfoURL = '{% url "cube:chunk_info" %}';
             const chunkPurchaseURL = '{% url "cube:chunk_purchase" %}';
             const textureLoadURL = '{% url "texture:list" %}'
+            const textureUploadURL = '{% url "texture:upload_texture" %}'
             const textureAtlasLoadURL = '{% url "texture:get_texture_atlas" %}'
             const fetchAmicaURL = '{% url "person:fetch_amica" %}'
             const changeNameURL = '{% url "person:change_name" %}'

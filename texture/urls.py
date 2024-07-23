@@ -6,4 +6,5 @@ app_name = 'texture'
 urlpatterns = [
     path('list', views.list_textures, name='list'),
     path('get_texture_atlas', views.get_texture_atlas, name='get_texture_atlas'),
+    path('upload_texture', views.upload_texture, name='upload_texture'),
 ]
