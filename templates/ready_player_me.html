@@ -12,8 +12,10 @@
         html,
         body,
         .frame {
-            width: 1000px;
-            height: 950px;
+            /* width: 1000px;
+            height: 950px; */
+            width: 100%;
+            height: 100%;
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
                 Droid Sans, Helvetica Neue, sans-serif;
@@ -29,15 +31,28 @@
             color: white;
         }
     </style>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 </head>
 
 <body>
     <!-- <input class="btn btn-success" type="button" value="Open Ready Player Me" onClick="displayIframe()" />
     <p id="avatarUrl">Avatar URL:</p> -->
 
+    <!-- generalToast -->
+    <div id="generalToast" class="toast" style="position: absolute; z-index: 2000; top: 10px; right: 10px;" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+        </div>
+      </div>
+
+    <!-- loadingSpinner -->
+    <div id="loadingSpinner" class="spinner-border text-primary" style="display: none; position: absolute; z-index: 2500; top: 30px; right: 30px; height: 200px; width: 200px;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+
     <iframe id="frame" class="frame" allow="camera *; microphone *; clipboard-write" hidden></iframe>
 
     <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script>
         const subdomain = 'demo'; // Replace with your custom subdomain
         const frame = document.getElementById('frame');
@@ -69,6 +84,7 @@
             // Get avatar GLB URL
             if (json.eventName === 'v1.avatar.exported') {
                 console.log(`Avatar URL: ${json.data.url}`);
+                $("#loadingSpinner").show()
                 // document.getElementById('avatarUrl').innerHTML = `Avatar URL: ${json.data.url}`;
                 // const csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                 $.ajax({
@@ -80,6 +96,15 @@
                     },
                     success: function(resp) {
                         console.log("success update avatar")
+                        $("#loadingSpinner").hide()
+                        $("#generalToast .toast-body").html("Success! Refresh your browser window to have the changes apply.");
+                        $("#generalToast").toast("show");
+                    },
+                    error: function (request, status, error) {
+                        $("#loadingSpinner").hide()
+                        console.log(status+": "+request.responseText)
+                        $("#generalToast .toast-body").html(status+": "+request.responseText);
+                        $("#generalToast").toast("show");
                     }
                 })
                 // document.getElementById('frame').hidden = true;

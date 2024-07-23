@@ -91,6 +91,9 @@
               <button class="btn btn-primary command" data-command="changeEmail">Change Email</button>
               </br></br>
 
+              <h5>4. Avatar</h5>
+              <iframe src='{% url "person:ready_player_me" %}' title="Avatar Iframe" width="200%" height="900px" style="transform: scale(0.5) translate(-50%, -50%)"></iframe>
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
@@ -151,7 +154,7 @@
               <input type="text" id="createTextureName" name="createTextureName" placeholder="Name">
               <input type="text" id="createTextureDescription" name="createTextureDescription" rows="2" cols="50" placeholder="description">
               </br>
-              <button class="btn btn-primary command" data-command="createTexture">Create A Block Texture From the Description Above</button>
+              <button class="btn btn-primary command" data-command="createTexture">Use AI to Create a Block</button>
               <hr>
 
               <div class="toggleMouse mb-3">

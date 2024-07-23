@@ -148,7 +148,7 @@ def update_avatar(request):
         person.save()
     else:
         print(f"Failed to retrieve the file. Status code: {response.status_code}")
-    return HttpResponse("success: updated avatar", content_type='application/json')
+    return HttpResponse("success: updated avatar")
 
 def people_list(request):
     people = list(Person.objects.exclude(user_id=request.user.id).filter(user__is_superuser=False, is_guest=False).values_list("user__username", flat=True))
