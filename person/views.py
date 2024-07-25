@@ -251,6 +251,10 @@ def add_person(request):
     family = Family.objects.get(name=family_name)
     person = Person.objects.get(user__username=person_name)
 
+    my_fc = FamilyConnection.objects.filter(person_id=request.user.id, family=family).first()
+    if not my_fc.is_owner:
+        return HttpResponseForbidden("You must be the owner to add family members.")
+
     fc = FamilyConnection.objects.create(person=person, family=family)
 
     return HttpResponse("success")
