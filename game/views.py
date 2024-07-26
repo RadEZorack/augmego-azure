@@ -4,6 +4,8 @@ import uuid
 from PIL import Image
 from io import BytesIO
 
+from datetime import timedelta
+from django.utils import timezone
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
 from django.http import HttpResponse, HttpResponseForbidden
@@ -18,6 +20,7 @@ from quickstartproject import settings
 from texture.models import Texture, TextureAtlas
 from tutorial.models import Tutorial
 from person.models import Family
+from payment.models import Payment
 
 from django.views.decorators.http import require_GET
 import os
@@ -76,7 +79,18 @@ def main(request):
         user_name = user_name[0:10]
     # user_name = uuid.uuid4()
     amica = request.user.person.amica
-    avatar = request.user.person.avatar
+    
+    # Get the current time
+    now = timezone.now()
+
+    # Calculate the date one month ago
+    one_month_ago = now - timedelta(days=31)
+
+    payments = Payment.objects.filter(person__user_id=request.user.id, created_at__gte=one_month_ago)
+    if payments:
+        avatar = request.user.person.avatar
+    else:
+        avatar = ""
 
     tutorials = Tutorial.objects.all()
 

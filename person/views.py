@@ -3,6 +3,8 @@ import json
 import requests
 
 from decimal import Decimal
+from datetime import timedelta
+from django.utils import timezone
 from django.contrib.auth import login
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseForbidden
@@ -20,6 +22,7 @@ from allauth.account.utils import send_email_confirmation
 from person.models import Person, FamilyConnection, Family
 from texture.models import TextureAtlas
 from person.forms import NoSignUpForm
+from payment.models import Payment
 
 from game.views import main
 
@@ -34,7 +37,19 @@ def profile_wall(request):
 
 @xframe_options_sameorigin
 def ready_player_me(request):
-    return render(request, "ready_player_me.html")
+    # Get the current time
+    now = timezone.now()
+
+    # Calculate the date one month ago
+    one_month_ago = now - timedelta(days=31)
+
+    payments = Payment.objects.filter(person__user_id=request.user.id, created_at__gte=one_month_ago)
+    if payments:
+        return render(request, "ready_player_me.html")
+    else:
+        # "person:profile_wall"
+        return render(request, "_profile_wall.html")
+
 
 def nosignup(request):
     if True: #request.POST:
@@ -137,6 +152,16 @@ def change_email(request):
     return HttpResponse("success changing email", content_type='application/text')
 
 def update_avatar(request):
+    # Get the current time
+    now = timezone.now()
+
+    # Calculate the date one month ago
+    one_month_ago = now - timedelta(days=31)
+
+    payments = Payment.objects.filter(person__user_id=request.user.id, created_at__gte=one_month_ago)
+    if not payments:
+        return HttpResponseForbidden("You must have donated within the last month to gain access to avatars")
+
     person = request.user.person
     person.avatar_url = request.GET.get("avatar")
     person.save()
