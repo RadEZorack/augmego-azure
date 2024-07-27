@@ -7,6 +7,7 @@ import { loadPlayer, playerWrapper } from '../main/player.js';
 import { familyName } from '../main/family.js';
 
 const CHUNK_SIZE = 50
+let firstDraw = true
 
 export function initObjects() {
     console.log("initObjects");
@@ -248,9 +249,13 @@ export function initObjects() {
             // redrawCount += 1;
             // if (redrawCount == chunkKeysToAdd.length){
               redrawObjects();
-              playerWrapper.position.x = 0
-              playerWrapper.position.y = 0
-              playerWrapper.position.z = 0
+              if(firstDraw == true){
+                // solves the problem of the player falling through the world before it's drawn.
+                playerWrapper.position.x = 0
+                playerWrapper.position.y = 0
+                playerWrapper.position.z = 0
+                firstDraw = false;
+              }
             // }
         }
       })
