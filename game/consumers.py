@@ -89,7 +89,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         # Calculate the date one month ago
         one_month_ago = now - timedelta(days=31)
 
-        payments = Payment.objects.filter(person__user_id=request.user.id, created_at__gte=one_month_ago)
+        payments = Payment.objects.filter(person__user_id=user.id, created_at__gte=one_month_ago)
         if payments:
             self.avatar = user.person.avatar.url
         else:

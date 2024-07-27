@@ -58,7 +58,7 @@ def list_cubes(request):
         print("here 2")
 
         cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}:{family_name}".format(x_range=x_range,y_range=y_range,z_range=z_range,family_name=family_name).replace(" ", "_")
-        print(cache_master_key)
+        # print(cache_master_key)
         cache_keys = cache.get(cache_master_key, None)
         # print(cache_keys)
         
@@ -104,7 +104,7 @@ def list_cubes(request):
 
         print("here 8")
         cache_data = {"cube:{x}:{y}:{z}:{family_name}".format(x=data["x"],y=data["y"],z=data["z"],family_name=family_name).replace(" ", "_"):data for data in serializer.data}
-        print(cache_data)
+        # print(cache_data)
         cache.set(cache_master_key, list(cache_data.keys()), 60*60*24*30)
 
         print("here 9")

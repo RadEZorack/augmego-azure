@@ -34,6 +34,8 @@ class Person(models.Model):
 def create_or_update_user_person(sender, instance, created, **kwargs):
     if created:
         p = Person.objects.create(user=instance)
+        f = Family.objects.get(name="Lobby")
+        FamilyConnection.objects.create(person=p, family=f)
         # if not str(p).startswith("Guest"):
         #     instance.person.amica += Decimal(1.000)
         #     c = None
