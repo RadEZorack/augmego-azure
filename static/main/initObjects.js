@@ -248,6 +248,9 @@ export function initObjects() {
             // redrawCount += 1;
             // if (redrawCount == chunkKeysToAdd.length){
               redrawObjects();
+              playerWrapper.position.x = thisPosition.x
+              playerWrapper.position.y = thisPosition.y
+              playerWrapper.position.z = thisPosition.z
             // }
         }
       })
