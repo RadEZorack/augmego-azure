@@ -28,9 +28,10 @@ User = get_user_model()
 # Create your views here.
 @xframe_options_sameorigin
 def profile_wall(request):
-    people = Person.objects.filter(user__is_superuser=False, user__person__is_guest=False).annotate(total_payments=Coalesce(Sum("payment__amount"), Value(Decimal(0.00)))).annotate(most_recent_payment_date=Max('payment__created_at')).order_by("-total_payments")
+    # people = Person.objects.filter(user__is_superuser=False, user__person__is_guest=False).annotate(total_payments=Coalesce(Sum("payment__amount"), Value(Decimal(0.00)))).annotate(most_recent_payment_date=Max('payment__created_at')).order_by("-total_payments")
 
-    return render(request, "_profile_wall.html", {"people": people})
+    # return render(request, "_profile_wall.html", {"people": people})
+    return render(request, "_profile_wall.html", {})
 
 @xframe_options_sameorigin
 def ready_player_me(request):
