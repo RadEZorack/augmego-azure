@@ -147,7 +147,7 @@ def update_avatar(request):
         person.avatar.save(filename, ContentFile(response.content), save=True)
         person.save()
     else:
-        print(f"Failed to retrieve the file. Status code: {response.status_code}")
+        raise(f"Failed to retrieve the file. Status code: {response.status_code}")
     return HttpResponse("success: updated avatar")
 
 def people_list(request):
