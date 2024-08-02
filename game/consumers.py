@@ -7,9 +7,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
 from cube.models import Chunk
-from payment.models import Payment
-from datetime import timedelta
-from django.utils import timezone
 from person.models import FamilyConnection
 from monitor.models import UserLogin
 from monitor.utils import hash_ip
@@ -83,18 +80,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         #     # We don't want guests to be multiplayer
         #     self.disconnect(403)
         #     return
-        # Get the current time
-        now = timezone.now()
 
-        # Calculate the date one month ago
-        one_month_ago = now - timedelta(days=31)
-
-        payments = Payment.objects.filter(person__user_id=user.id, created_at__gte=one_month_ago)
-        if payments:
-            self.avatar = user.person.avatar.url
-        else:
-            self.avatar = ""
-
+        self.avatar = user.person.avatar.url
         self.chunk = Chunk.objects.filter(owner=user.person).first()
         return UserLogin.objects.create(user=user)
     
