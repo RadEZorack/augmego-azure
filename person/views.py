@@ -169,13 +169,13 @@ def family_list(request):
             "people": []
         }
                  
-    fcids = list(my_fcs.values_list("family_id", flat=True))
-    # Get all connections of my families
-    fcs = FamilyConnection.objects.filter(family_id__in=fcids)
+    # fcids = list(my_fcs.values_list("family_id", flat=True))
+    # # Get all connections of my families
+    # fcs = FamilyConnection.objects.filter(family_id__in=fcids)
     
-    for fc in fcs:
-        key = fc.family.name
-        data[key]["people"].append(str(fc.person))
+    # for fc in fcs:
+    #     key = fc.family.name
+    #     data[key]["people"].append(str(fc.person))
     
     data = json.dumps(data)
     return HttpResponse(data, content_type='application/json')
