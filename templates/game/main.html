@@ -47,14 +47,7 @@
             </div>
             <div class="modal-body">
               Please contact <a href="mailto:support@augmego.com">support</a> if the following tutorials do not answer your questions.
-              {% for t in tutorials %}
-                <br>
-                <br>
-                <hr>
-                <h5>{{t.name}}</h5>
-                <p>{{t.text}}</p>
-                <img src="{{ t.image.url }}" alt="{{t.name}}" width="450">
-              {% endfor %}
+              
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
@@ -91,9 +84,9 @@
               <button class="btn btn-primary command" data-command="changeEmail">Change Email</button>
               </br></br>
 
-              <h5>4. Avatar</h5>
+              <!-- <h5>4. Avatar</h5>
               <p>Change your outfit, click next, wait for the spinner to finish, refresh the page.</p>
-              <iframe src='{% url "person:ready_player_me" %}' title="Avatar Iframe" width="200%" height="900px" style="transform: scale(0.5) translate(-50%, -50%)"></iframe>
+              <iframe src='{% url "person:ready_player_me" %}' title="Avatar Iframe" width="200%" height="900px" style="transform: scale(0.5) translate(-50%, -50%)"></iframe> -->
 
             </div>
             <div class="modal-footer">

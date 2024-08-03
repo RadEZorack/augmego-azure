@@ -80,9 +80,9 @@ def main(request):
     if request.user.person.avatar:
         avatar = request.user.person.avatar.url
 
-    tutorials = Tutorial.objects.all()
+    # tutorials = Tutorial.objects.all()
 
-    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica, 'avatar': avatar, 'tutorials': tutorials})
+    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica, 'avatar': avatar, 'tutorials': []})
 
 @xframe_options_sameorigin
 def ad(request):
