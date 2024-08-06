@@ -35,11 +35,11 @@ def list_cubes(request):
     ranges = rg.get('ranges')
     family_name = rg.get('familyName')
     ranges_split = ranges.split("_")
-    print(ranges_split)
+    # print(ranges_split)
 
     for range in ranges_split:
         xyz_split = range.split(",")
-        print(xyz_split)
+        # print(xyz_split)
 
         # Should these be ints rather than str?
         # x_range = (rg.get('min_x'), rg.get('max_x'))

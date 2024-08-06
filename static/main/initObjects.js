@@ -221,13 +221,15 @@ export function initObjects() {
       // drawBlock(0,0,1, dirtTexture)
     })
 
+    for(let j = 0; j < chunkKeysToFetch.length; j++){
       $.ajax({
         url: cubeLoadURL,
         type: 'GET',
         data: {
           csrfmiddlewaretoken: csrfmiddlewaretoken,
           familyName: familyName,
-          ranges: chunkKeysToFetch.join("_")
+          ranges: chunkKeysToFetch[j]
+          // ranges: chunkKeysToFetch.join("_")
           // min_x: chunkX,// + thisPosition.x,
           // min_y: chunkY,// + thisPosition.y,
           // min_z: chunkZ,// + thisPosition.z,
@@ -246,8 +248,8 @@ export function initObjects() {
                 drawBlock(data.x, data.y, data.z, data.texture_name);
               }
             }
-            // redrawCount += 1;
-            // if (redrawCount == chunkKeysToAdd.length){
+            redrawCount += 1;
+            if (redrawCount == chunkKeysToFetch.length){
               redrawObjects();
               if(firstDraw == true){
                 // solves the problem of the player falling through the world before it's drawn.
@@ -256,13 +258,14 @@ export function initObjects() {
                 playerWrapper.position.z = 0
                 firstDraw = false;
               }
-            // }
+            }
         }
       })
+    }
     
   
 
-    // redrawObjects();
+    redrawObjects();
     
 }
 
