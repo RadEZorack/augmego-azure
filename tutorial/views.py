@@ -26,4 +26,6 @@ def list_tutorials(request):
 
     serializer = TutorialSerializer(tutorials, many=True, context={"request":request})
 
-    return HttpResponse(json.dumps(serializer.data), content_type='application/json')
+    print(serializer.data)
+    # return HttpResponse(json.dumps(serializer.data), content_type='application/json')
+    return render(request, "list_tutorials.html", {"tutorials": serializer.data})

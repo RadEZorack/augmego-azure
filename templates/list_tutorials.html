@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+        html,
+        body,
+        .frame {
+            /* width: 1000px;
+            height: 950px; */
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
+                Droid Sans, Helvetica Neue, sans-serif;
+            padding: 0px;
+            font-size: 14px;
+            border: none;
+        }
+
+        .warning {
+            background-color: #df68a2;
+            padding: 3px;
+            border-radius: 5px;
+            color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+</head>
+
+<body>
+    Please contact <a href="mailto:support@augmego.com">support</a> if the following tutorials do not answer your questions.
+    {% for t in tutorials %}
+    <br>
+    <br>
+    <hr>
+    <h5>{{t.name}}</h5>
+    <p>{{t.text}}</p>
+    <img src="{{ t.image_url }}" alt="{{t.name}}" width="450">
+    {% endfor %}
+</body>
