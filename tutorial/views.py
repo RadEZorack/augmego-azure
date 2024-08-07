@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import serializers
 import json
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from tutorial.models import Tutorial
 
@@ -20,12 +21,12 @@ class TutorialSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(obj.image.url)
         else:
             return None
-        
+
+@xframe_options_sameorigin        
 def list_tutorials(request):
     tutorials = Tutorial.objects.all()
 
     serializer = TutorialSerializer(tutorials, many=True, context={"request":request})
 
-    print(serializer.data)
     # return HttpResponse(json.dumps(serializer.data), content_type='application/json')
     return render(request, "list_tutorials.html", {"tutorials": serializer.data})
