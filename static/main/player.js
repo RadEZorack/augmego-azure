@@ -21,7 +21,8 @@ export let playerWrapper = undefined;
 export function loadPlayer(){
   gltf_loader.load(
     // resource URL
-    (avatar != "") ? avatar : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
+    (avatar != "") ? avatar : readyPlayerMeDefaultUrl,
+    // (avatar != "") ? avatar : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
     // "https://models.readyplayer.me/665b1b74b490861c5f34db84.glb",
     // cesiumManUrl,
     // called when the resource is loaded
