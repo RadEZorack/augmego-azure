@@ -219,9 +219,10 @@ export function create3dPage(w, h, s, position, rotation, url, html, image) {
 
   const plane = createPlane(w, h, s, position, rotation);
 
-  // Manually call this when you want.
-  // console.log(plane);
-  objectScene.add(plane);
+  // This needs to be added to "scene" and not "objectScene". This is so that see through portions correctly show through the
+  // "forground" scene and not the "background" objectScene.
+  scene.add(plane);
+  // objectScene.add(plane);
 
   const cssObject = createCssObject(w, h, s, position, rotation, url, html, image);
 
