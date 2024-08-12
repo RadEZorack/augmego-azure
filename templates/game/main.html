@@ -113,11 +113,13 @@
               
               
               <!-- </br></br> -->
-              <button class="btn btn-primary command" data-command="toogleFirstPerson">Toggle First/Third Person</button>
+               <h5>Change from First/Third Person</h5>
+              <button class="btn btn-primary command" data-command="toogleFirstPerson">Toggle</button>
               <!-- </br></br>
               <button class="btn btn-primary command" data-command="toogleWalkPerson">Toggle Walk/Run</button> -->
 
               <hr>
+              <h5>Fast Travel</h5>
               x = <input type="number" id="fastTravelX" name="fastTravelX" placeholder="X" value="0">
               </br>
               y = <input type="number" id="fastTravelY" name="fastTravelY" placeholder="Y" value="0">
@@ -125,7 +127,7 @@
               z = <input type="number" id="fastTravelZ" name="fastTravelZ" placeholder="Z" value="0">
               </br>
               </br>
-              <button class="btn btn-primary command" data-command="fastTravel">Fast Travel</button>
+              <button class="btn btn-primary command" data-command="fastTravel">Go</button>
               
                
             </div>
@@ -145,13 +147,16 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <h5>Use AI to Create a Block</h5>
               <input type="text" id="createTextureName" name="createTextureName" placeholder="Name">
               <br>
               <textarea id="createTextureDescription" name="createTextureDescription" rows="2" cols="50" placeholder="description"></textarea>
               </br>
-              <button class="btn btn-primary command" data-command="createTexture">Use AI to Create a Block</button>
+              <button class="btn btn-primary command" data-command="createTexture">Create</button>
               <hr>
 
+              <h5>Upload Your Own Texture</h5>
+              <p>Must be a 64x64px jpeg.</p>
               <form id="uploadTextureForm">
                 <input type="text" id="uploadTextureName" name="uploadTextureName" placeholder="Name">
                   <input type="file" id="uploadTextureInput" name="uploadTextureInput">
@@ -161,11 +166,14 @@
               <hr>
 
               <div class="toggleMouse mb-3">
+                <h5>Remove Block</h5>
                   <img class="toggleMouseOption" data-type="destroy" style="border: solid 2px green;" src="{% static 'images/destory-block.png' %}" alt="Toggle block destory on">
                   <br><br>
+                <h5>Selected Block Texture</h5>
                   <div id="selectedMaterial" style="border: solid 2px red;"></div>
                   
               </div>
+              <h5>Choose a Texture</h5>
               <div id="texturePanel" class="toggleMouse" style="overflow: scroll;">
               </div>
                
