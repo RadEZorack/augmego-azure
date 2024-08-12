@@ -22,7 +22,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib import sitemaps
 from django.urls import reverse
 
-from game.views import main, ad, start, debug, test, robots_txt
+from game.views import main, ad, start, debug, test, robots_txt, trixie
 from person.views import nosignup, temp_login_for_mobile
 from payment.views import process_payment
 
@@ -52,6 +52,7 @@ urlpatterns = [
     path("nosignup/", nosignup, name="nosignup"),
     path("temp_login_for_mobile/", temp_login_for_mobile, name="temp_login_for_mobile"),
     path('ad/', ad, name='ad'),
+    path('trixie/', trixie, name='trixie'),
     path('payment/process/', process_payment, name='process_payment'),
     # path("chat/", include("chat.urls")),
     path("game/", include("game.urls")),

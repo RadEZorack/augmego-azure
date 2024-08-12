@@ -88,6 +88,10 @@ def main(request):
 def ad(request):
     return render(request, 'ad.html', {})
 
+@xframe_options_sameorigin
+def trixie(request):
+    return render(request, 'trixie.html', {})
+
 def start(request):
     return render(request, 'account/start.html', {})
 
