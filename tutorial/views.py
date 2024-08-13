@@ -24,7 +24,7 @@ class TutorialSerializer(serializers.ModelSerializer):
 
 @xframe_options_sameorigin        
 def list_tutorials(request):
-    tutorials = Tutorial.objects.all()
+    tutorials = Tutorial.objects.all().order_by("order_id")
 
     serializer = TutorialSerializer(tutorials, many=True, context={"request":request})
 
