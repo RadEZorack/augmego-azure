@@ -130,11 +130,13 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
           $(`#expandButton-${timeuuid}`).html("EXPAND THIS PAGE");
           rendererMap.domElement.style.display = "block";
           $("#globalChatIframe").css("display", "block")
+          $("#hud").css("display", "block")
         }else{
           modifyActiveCameraName(timeuuid);
           $(`#expandButton-${timeuuid}`).html("RETURN TO PLAYER VIEW");
           rendererMap.domElement.style.display = "none";
           $("#globalChatIframe").css("display", "none")
+          $("#hud").css("display", "none")
         }
         active = !active
       })
