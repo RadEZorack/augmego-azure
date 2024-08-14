@@ -166,7 +166,8 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
       }, 500)
     }
     
-    playerLoadProximity()
+    // Disabled for now
+    // playerLoadProximity()
 
   }else{
     html = [
