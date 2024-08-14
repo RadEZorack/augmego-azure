@@ -20,10 +20,14 @@ function refreshFamilies(){
                     isActiveIcon = '';
                     isActiveColor = 'success'
                 }
-                html += `<h5>${key} <button id="setActiveFamilyBtn-${key}" data-forFamily="${key}" data-isActiveData="${isActiveData}" type="button" class="btn btn-${isActiveColor} setActiveFamilyBtn" >${isActiveText} ${isActiveIcon}</button></h5>
-                <input type="text" id="addPersonInput-${key}" data-for"${key}" name="addPersonInput-${key}" placeholder="user name">
-                <button id="addPersonBtn-${key}" data-forFamily="${key}"type="button" class="btn btn-success addPersonBtn" >Add <i class="fas fa-plus"></i></button>
-                <ul>`
+                html += `<h5>${key} <button id="setActiveFamilyBtn-${key}" data-forFamily="${key}" data-isActiveData="${isActiveData}" type="button" class="btn btn-${isActiveColor} setActiveFamilyBtn" >${isActiveText} ${isActiveIcon}</button></h5>`
+                
+                if(key != "Lobby"){
+                    html += `<input type="text" id="addPersonInput-${key}" data-for"${key}" name="addPersonInput-${key}" placeholder="user name">
+                    <button id="addPersonBtn-${key}" data-forFamily="${key}"type="button" class="btn btn-success addPersonBtn" >Add <i class="fas fa-plus"></i></button>
+                    <ul>`
+                }
+                
                 value.people.forEach(element => {
                     html += `<li>${element}</li>`
                 });
