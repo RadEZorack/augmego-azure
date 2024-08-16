@@ -146,24 +146,28 @@ export function initSocketConnection(){
         const onBehalfOf = data["onBehalfOf"]
         console.log("3.b. is requesting media:", onBehalfOf)
 
-        // const configuration = {
-        //   offerToReceiveAudio: true,
-        //   offerToReceiveVideo: true,
-        //   iceServers: [     // Information about ICE servers - Use your own!
-        //       {
-        //         'urls':'stun:stun.l.google.com:19302'
-        //       },{
-        //         'urls':'stun:stun1.l.google.com:19302'
-        //       },{
-        //         'urls':'stun:stun2.l.google.com:19302'
-        //       },{
-        //         'urls':'stun:stun3.l.google.com:19302'
-        //       },{
-        //         'urls':'stun:stun4.l.google.com:19302'
-        //       }
-        //   ]};
+        const configuration = {
+          offerToReceiveAudio: true,
+          offerToReceiveVideo: true,
+          iceServers: [     // Information about ICE servers - Use your own!
+              {
+                'urls':'stun:stun.l.google.com:19302'
+              },{
+                'urls':'stun:stun1.l.google.com:19302'
+              },{
+                'urls':'stun:stun2.l.google.com:19302'
+              },{
+                'urls':'stun:stun3.l.google.com:19302'
+              },{
+                'urls':'stun:stun4.l.google.com:19302'
+              }
+          ]};
   
         // const peerConnection = new RTCPeerConnection(configuration)
+        if (peerConnections[onBehalfOf] == undefined){
+          console.log("Im in")
+          peerConnections[onBehalfOf] =  {peerConnection: new RTCPeerConnection(configuration)};
+        }
         let peerConnection = peerConnections[onBehalfOf].peerConnection;
         
 
