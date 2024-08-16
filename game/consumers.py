@@ -81,7 +81,11 @@ class GameConsumer(AsyncWebsocketConsumer):
         #     self.disconnect(403)
         #     return
 
-        self.avatar = user.person.avatar.url
+        if user.person.avatar:
+            self.avatar = user.person.avatar.url
+        else:
+            self.avatar = ""
+            
         self.chunk = Chunk.objects.filter(owner=user.person).first()
         return UserLogin.objects.create(user=user)
     
