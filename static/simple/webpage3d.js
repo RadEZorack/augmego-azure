@@ -143,32 +143,8 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
       })
     }
 
-    // Because player web cams break at a distance, we just always load.
-    // loadPage();
 
     $(divImage).on( "click", loadPage)
-
-    // function playerLoadProximity(){
-    //   const player_load_proximity_xhr = setTimeout(function(){
-    //     if (playerWrapper != undefined){
-    //       const distance = Math.sqrt(
-    //         Math.pow(position.x - playerWrapper.position.x, 2) +
-    //         Math.pow(position.y - playerWrapper.position.y, 2) +
-    //         Math.pow(position.z - playerWrapper.position.z, 2)
-    //       )
-
-    //       if (distance < 5) {
-    //         // This number should be more dynamic and based on the scale of the web page.
-    //         loadPage();
-    //         return;
-    //       }
-    //     }
-    //     playerLoadProximity();
-    //   }, 500)
-    // }
-    
-    // Disabled for now
-    // playerLoadProximity()
 
   }else{
     html = [
@@ -178,14 +154,6 @@ function createCssObject(w, h, s, position, rotation, url, html, image) {
     ].join("\n");
     $(div).html(html);
   }
-  
-
-  
-
-    
-
-    
-  
 
   const cssObject = new CSS3DObject(div);
 

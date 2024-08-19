@@ -65,7 +65,8 @@ export function update_entity(entity_data){
             // 1.5m wide
             100, 100,
             0.01,
-            new THREE.Vector3(Object.keys(entities).length, 0, -5),
+            new THREE.Vector3(5 * Math.sin(Math.PI * (Object.keys(entities).length - 1)/10), 0, -5 * Math.cos(Math.PI * (Object.keys(entities).length - 1)/10)),
+            // new THREE.Vector3(-5 * Math.sin(Math.PI * Object.keys(entities).length / 10), 0, -5 * Math.cos(Math.PI * Object.keys(entities).length) / 10),
             new THREE.Vector3(0, 0, 0),
             "",
             webcamHtml);

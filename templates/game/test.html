@@ -16,156 +16,35 @@
         import { dct } from "{% static 'main/dct.js' %}";
         import { OrbitControls } from "{% static 'three/OrbitControls.js' %}"; // Import OrbitControls
 
-
-// Assuming we have a function to generate compressed data
-// Generate or load your actual compressed data here
-const generateCompressedData = () => {
-  const size = 16;
-  const compressedData = new Float32Array(size * size * size * 3);
-  for (let i = 0; i < compressedData.length; i++) {
-    compressedData[i] = Math.random();
-  }
-  return compressedData;
-};
-
-const compressedData = generateCompressedData();
-const numColorChannels = 3; // Number of color channels (red, green, blue)
-const compressedWidth = 16; // Width of the compressed data texture
-const compressedHeight = Math.ceil(compressedData.length / (compressedWidth * numColorChannels));
-
-// Create a texture to hold the compressed voxel data
-const compressedDataTexture = new THREE.DataTexture(
-  compressedData,
-  compressedWidth,
-  compressedHeight,
-  THREE.RGBFormat,
-  THREE.FloatType
-);
-compressedDataTexture.needsUpdate = true;
-
-const vertexShader = `
-  varying vec3 vPosition;
-  
-  void main() {
-    vPosition = position;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const fragmentShader = `
-  varying vec3 vPosition;
-  uniform sampler2D compressedDataTexture;
-  uniform float quantizationFactor;
-  uniform float blockSize;
-  uniform float textureWidth;
-  uniform float textureHeight;
-  
-  // Function to perform 1D IDCT
-  float idct1D(float coeffs[16], int x) {
-    float result = coeffs[0] / 2.0;
-    for (int n = 1; n < 16; n++) {
-      result += coeffs[n] * cos((3.14159265 / 16.0) * float(n) * (float(x) + 0.5));
-    }
-    return result;
-  }
-
-  void main() {
-    vec2 uv = (vPosition.xy + 0.5) * vec2(textureWidth, textureHeight);
-
-    // Retrieve the quantized DCT coefficients for each color channel
-    float dctCoeffsR[16];
-    float dctCoeffsG[16];
-    float dctCoeffsB[16];
-    for (int i = 0; i < 16; i++) {
-      vec2 texCoord = vec2(mod(uv.x + float(i), textureWidth) / textureWidth, floor(uv.y) / textureHeight);
-      vec3 compressedValues = texture2D(compressedDataTexture, texCoord).rgb;
-      dctCoeffsR[i] = compressedValues.r * quantizationFactor;
-      dctCoeffsG[i] = compressedValues.g * quantizationFactor;
-      dctCoeffsB[i] = compressedValues.b * quantizationFactor;
-    }
-
-    // Apply IDCT to the coefficients
-    float blockR[16];
-    float blockG[16];
-    float blockB[16];
-    for (int x = 0; x < 16; x++) {
-      blockR[x] = idct1D(dctCoeffsR, x);
-      blockG[x] = idct1D(dctCoeffsG, x);
-      blockB[x] = idct1D(dctCoeffsB, x);
-    }
-
-    // Determine the color based on the decompressed values
-    float colorValueR = blockR[int(mod(vPosition.x * blockSize * 16.0, 16.0))];
-    float colorValueG = blockG[int(mod(vPosition.x * blockSize * 16.0, 16.0))];
-    float colorValueB = blockB[int(mod(vPosition.x * blockSize * 16.0, 16.0))];
-
-    // Apply the color value to the fragment
-    gl_FragColor = vec4(colorValueR, colorValueG, colorValueB, 1.0);
-  }
-`;
-
-// Create a material using the shaders
-const material = new THREE.ShaderMaterial({
-  vertexShader,
-  fragmentShader,
-  uniforms: {
-    compressedDataTexture: { value: compressedDataTexture },
-    quantizationFactor: { value: 10.0 }, // Adjust this value as needed
-    blockSize: { value: 1.0 }, // Size of each block
-    textureWidth: { value: compressedWidth },
-    textureHeight: { value: compressedHeight }
-  }
-});
-
-
-// Set up the Three.js scene
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Add OrbitControls
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+const cube2 = new THREE.Mesh(geometry, material);
+scene.add(cube2);
+
+cube2.position.z = -5;
+camera.position.z = 5;
+
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.target.set(0, 0, 0);
-controls.update();
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
 
-camera.position.set(20, 20, 20);
-camera.lookAt(0, 0, 0);
-
-// Create a grid of boxes (voxels) and apply the shader material
-const voxelSize = 1; // Size of each voxel
-const gridSize = 16; // Size of the voxel grid
-
-// Create a parent object to hold the voxel grid
-const voxelGrid = new THREE.Group();
-
-for (let x = 0; x < gridSize; x++) {
-  for (let y = 0; y < gridSize; y++) {
-    for (let z = 0; z < gridSize; z++) {
-      const geometry = new THREE.BoxGeometry(voxelSize, voxelSize, voxelSize);
-      const cube = new THREE.Mesh(geometry, material);
-      cube.position.set(
-        x * voxelSize - (gridSize * voxelSize) / 2,
-        y * voxelSize - (gridSize * voxelSize) / 2,
-        z * voxelSize - (gridSize * voxelSize) / 2
-      );
-      voxelGrid.add(cube);
-    }
-  }
-}
-
-scene.add(voxelGrid);
-
-// Render the scene
 function animate() {
-  requestAnimationFrame(animate);
-  controls.update();
-  renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
 }
 
 animate();
-
 
     </script>
 </body>

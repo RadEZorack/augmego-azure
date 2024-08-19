@@ -20,7 +20,7 @@
 </head>
 <html>
     <body>
-        <video autoplay muted playsinline class="local-video" id="local-video-1" style="background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; z-index: 10;"></video>
+        <video autoplay muted playsinline class="local-video" id="local-video-1" style="background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; z-index: 10; position: absolute;"></video>
         
         <div allow="autoplay">
             <div id="threeJSContainer">
@@ -32,6 +32,7 @@
         <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
         <script src="{% static 'three/three.module.min.js' %}" type="module"></script>
         <script src="{% static 'three/CSS3DRenderer.js' %}" type="module"></script>
+        <script src="{% static 'three/OrbitControls.js' %}" type="module"></script>
         <!-- Context specific variables-->
             <script type="text/javascript">
                 let my_name = "{{ user_name }}";
@@ -43,10 +44,10 @@
         <!-- Scripts -->
      <script src="{% static 'simple/initSelfCam.js' %}" type="module"></script>
      <script src="{% static 'simple/initWebcamPage.js' %}" type="module"></script>
+     <script src="{% static 'simple/main.js' %}" type="module"></script>
      <script src="{% static 'simple/webpage3d.js' %}" type="module"></script>
      <script src="{% static 'simple/socketConnection.js' %}" type="module"></script>
      <script src="{% static 'simple/entity.js' %}" type="module"></script>
-     <script src="{% static 'simple/main.js' %}" type="module"></script>
      <script src="{% static 'simple/sendPlayerData.js' %}" type="module"></script>
      <script src="{% static 'simple/animate.js' %}" type="module"></script>
     </body>
