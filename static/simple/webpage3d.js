@@ -1,5 +1,5 @@
 import * as THREE from '../three/three.module.min.js';
-import { objectScene, cssScene } from '../simple/main.js';
+import { objectScene, cssScene, threeJSContainer } from '../simple/main.js';
 // import { playerWrapper } from '../simple/player.js';
 import { CSS3DObject, CSS3DRenderer } from '../three/CSS3DRenderer.js';
 import { allCameras, modifyActiveCameraName } from '../simple/main.js';
@@ -240,3 +240,4 @@ export function create3dPage(w, h, s, position, rotation, url, html, image) {
 
 export const cssRenderer = new CSS3DRenderer();
 cssRenderer.setSize(window.innerWidth, window.innerHeight);
+threeJSContainer.appendChild(cssRenderer.domElement);
