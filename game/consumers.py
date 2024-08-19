@@ -35,12 +35,13 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        # Join Family channels that are active for this user
-        for fid in self.family_ids:
-            await self.channel_layer.group_add(
-                fid,
-                self.channel_name
-            )
+        if self.room_name == "room_name":
+            # Join Family channels that are active for this user
+            for fid in self.family_ids:
+                await self.channel_layer.group_add(
+                    fid,
+                    self.channel_name
+                )
 
         # Join self group
         await self.channel_layer.group_add(
@@ -133,23 +134,26 @@ class GameConsumer(AsyncWebsocketConsumer):
         #     print(text_data_json)
 
         if "message_que" in text_data_json:
-            # await self.channel_layer.group_send(
-            #     self.room_group_name,
-            #     {
-            #         "type": "game.message_que",
-            #         "from": self.uuid,
-            #         "message": text_data,
-            #     },
-            # )
-            for fid in self.family_ids:
+            if self.room_name == "room_name":
+                for fid in self.family_ids:
+                    await self.channel_layer.group_send(
+                        fid,
+                        {
+                            "type": "game.message_que",
+                            "from": self.uuid,
+                            "message": text_data,
+                        },
+                    )
+            else:
                 await self.channel_layer.group_send(
-                    fid,
+                    self.room_group_name,
                     {
                         "type": "game.message_que",
                         "from": self.uuid,
                         "message": text_data,
                     },
                 )
+
 
         elif "request-media" in text_data_json:
             await self.channel_layer.group_send(

@@ -24,7 +24,7 @@ export function initSocketConnection(){
 
   socket = new WebSocket(
       'wss://' + window.location.host +
-      '/ws/game/room_name/' // TODO make multiple rooms
+      '/ws/game/simple/' // TODO make multiple rooms
   );
 
   // WebRTC
