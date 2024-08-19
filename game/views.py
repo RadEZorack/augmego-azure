@@ -95,6 +95,13 @@ def trixie(request):
 def start(request):
     return render(request, 'account/start.html', {})
 
+def simple(request):
+    user_name = str(request.user.person)
+    if user_name.startswith("Guest"):
+        user_name = user_name[0:10]
+
+    return render(request, 'game/simple.html', {'user_name': user_name})
+
 def debug(request):
     return render(request, 'game/debug.html')
 

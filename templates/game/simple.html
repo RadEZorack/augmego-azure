@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M2FMRW5T68"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M2FMRW5T68');
+    </script>
+    <!-- <link rel="manifest" href="{% static 'manifest.json' %}"> -->
+    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>Augmego</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'css/fontawesome-free-5.15.2-web/css/all.min.css' %}" rel="stylesheet" ></link>
+    <link rel="icon"href="{% static 'favicon.ico' %}">
+</head>
+<html>
+    <body>
+        <video autoplay muted playsinline class="local-video" id="local-video-1" style="background: black; width: 15vw; height: 15vw; max-height: 15vh; max-width: 15vh; z-index: 10;"></video>
+        
+        <div allow="autoplay">
+            <div id="threeJSContainer">
+            </div>
+        </div>
+
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+        <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'three/three.module.min.js' %}" type="module"></script>
+        <script src="{% static 'three/CSS3DRenderer.js' %}" type="module"></script>
+        <!-- Context specific variables-->
+            <script type="text/javascript">
+                let my_name = "{{ user_name }}";
+                let myUuid = Math.random().toString();
+            </script>
+        <!-- Start script-->
+            <script type="text/javascript">
+            </script>
+        <!-- Scripts -->
+     <script src="{% static 'simple/initSelfCam.js' %}" type="module"></script>
+     <script src="{% static 'simple/initWebcamPage.js' %}" type="module"></script>
+     <script src="{% static 'simple/webpage3d.js' %}" type="module"></script>
+     <script src="{% static 'simple/socketConnection.js' %}" type="module"></script>
+     <script src="{% static 'simple/entity.js' %}" type="module"></script>
+     <script src="{% static 'simple/main.js' %}" type="module"></script>
+     <script src="{% static 'simple/animate.js' %}" type="module"></script>
+    </body>
+</html>
