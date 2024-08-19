@@ -79,7 +79,7 @@ console.log("Creating renderer");
 
 camera.position.set( 0, 0, 5 );
 
-export const controls = new OrbitControls( camera, rendererBackground.domElement );
+export const controls = new OrbitControls( camera, renderer.domElement );
 // controls.autoRotate = true
 controls.update();
 controls.target.set(0, 0, 0); // Set to the center of your scene or object
