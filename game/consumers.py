@@ -219,7 +219,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         }))
 
     async def game_refetch_data(self, event):
-        print("forwarding a refetch_data request", event)
+        print("forwarding a refetch_data request")
         message = event['message']
         await self.send(text_data=json.dumps({
             'from': event['from'],
@@ -229,7 +229,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     # WebRTC
     # Video requests media from room
     async def game_request_media(self, event):
-        print("forwarding a request media", event)
+        print("forwarding a request media")
         # TODO: make api call to see if permissions and room match
         message = json.loads(event['message'])
         await self.send(text_data=json.dumps({
@@ -239,9 +239,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Video calls room
     async def game_call_user(self, event):
-        print("forwarding a call", event)
+        print("forwarding a call")
         message = json.loads(event['message'])
-        print(message["call-user"])
+        # print(message["call-user"])
         await self.send(text_data=json.dumps({
             'from': event['from'],
             'message': {"call-made": {"socket": event['from'], "onBehalfOf": message["call-user"]["onBehalfOf"], "offer": json.dumps(message["call-user"]["offer"])}}
@@ -249,7 +249,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Room answers video
     async def game_make_answer(self, event):
-        print("forwarding a answer", event)
+        print("forwarding a answer")
         message = json.loads(event['message'])
         await self.send(text_data=json.dumps({
             'from': event['from'],
