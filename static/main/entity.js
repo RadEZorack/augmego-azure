@@ -281,11 +281,11 @@ export function remove_entity(entity_key){
         cssScene.remove(cssObject);
 
         // When changing names we need to give some time tolerance before readding the same player.
-        entities[entity_key] = "loading"
-        setTimeout(function(){
+        // entities[entity_key] = "loading"
+        // setTimeout(function(){
             // Delete the player to allow them to rejoin.
             delete entities[entity_key]
-        }, 1000)
+        // }, 1000)
     }
 }
 
