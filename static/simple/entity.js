@@ -207,8 +207,9 @@ export function update_entity(entity_data){
         // plane.position.y = y + 2.5;
         // plane.position.z = z;
 
-        let camWorldPos = new THREE.Vector3();
-        camera.getWorldPosition(camWorldPos);
+        let camWorldPos = new THREE.Vector3(0,0,0);
+        // Disabled so faces look at the center
+        // camera.getWorldPosition(camWorldPos);
         plane.lookAt(camWorldPos);
 
 
