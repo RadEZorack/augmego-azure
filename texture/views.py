@@ -55,8 +55,8 @@ class TextureUploadForm(forms.Form):
         return textureFile
 
 def upload_texture(request):
-    if request.user.person.is_guest:
-        return HttpResponseForbidden()
+    # if request.user.person.is_guest:
+    #     return HttpResponseForbidden()
 
     if request.method == 'POST':
         print("in one")
