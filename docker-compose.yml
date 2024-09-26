@@ -37,6 +37,9 @@ services:
     environment:
       REDIS_HOST: augmego-redis
       MEMCACHED_HOST: augmego-memcached
+      SECRET_KEY: "${SECRET_KEY}"
+      EMAIL_HOST_USER: "${EMAIL_HOST_USER}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD}"
       PAYPAL_BUSINESS_LIVE: "${PAYPAL_BUSINESS_LIVE}"
       PAYPAL_BUSINESS_TEST: "${PAYPAL_BUSINESS_TEST}"
       PAYPAL_TEST: "${PAYPAL_TEST}"
