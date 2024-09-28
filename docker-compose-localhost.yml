@@ -1,0 +1,152 @@
+services:
+  augmego-redis:
+    container_name: augmego-redis
+    image: redis:latest
+    expose:
+      - "6379"
+    networks:
+      - webnet
+    
+  # augmego-memcached:
+  #   container_name: augmego-memcached
+  #   image: memcached:latest
+  #   ports:
+  #     - "11211:11211"
+
+  augmego-postgres:
+    container_name: augmego-postgres
+    environment:
+      POSTGRES_DB: augmego-postgres
+      POSTGRES_USER: augmego-postgres
+      POSTGRES_PASSWORD: changeme
+    image: postgres:15
+    expose:
+      - "5432"
+    networks:
+      - webnet
+
+  augmego-django:
+    build: .
+    # command: daphne -b 0.0.0.0 -p 8000 quickstartproject.asgi:application
+    command: python manage.py runserver 0.0.0.0:8000 # We use this because of hotreload
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`augmego.com`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=le"
+    environment:
+      REDIS_HOST: augmego-redis
+      MEMCACHED_HOST: augmego-memcached
+      SECRET_KEY: "${SECRET_KEY}"
+      EMAIL_HOST_USER: "${EMAIL_HOST_USER}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD}"
+      PAYPAL_BUSINESS_LIVE: "${PAYPAL_BUSINESS_LIVE}"
+      PAYPAL_BUSINESS_TEST: "${PAYPAL_BUSINESS_TEST}"
+      PAYPAL_TEST: "${PAYPAL_TEST}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - webnet
+
+  # augmego-nextjs:
+  #   build:
+  #     context: ./my-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./my-frontend:/app
+  #     - /app/node_modules
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - augmego-django
+
+  augmego-celery:
+    build: .
+    command: celery -A quickstartproject worker --loglevel=info
+    environment:
+      REDIS_HOST: augmego-redis
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - augmego-django
+      - augmego-redis
+    networks:
+      - webnet
+
+  augmego-celerybeat:
+    build: .
+    command: celery -A quickstartproject beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      REDIS_HOST: augmego-redis
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - augmego-django
+      - augmego-redis
+    networks:
+      - webnet
+
+  augmego-nginx:
+    image: nginx:latest
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/nginx/certs
+      # - ./nginx/conf.d:/etc/nginx/conf.d
+      # - ./certbot/conf:/etc/letsencrypt
+      # - ./certbot/www:/var/www/certbot
+    depends_on:
+      - augmego-django
+    networks:
+      - webnet
+
+  # augmego-certbot:
+  #   image: certbot/certbot
+  #   volumes:
+  #     - ./certbot/conf:/etc/letsencrypt
+  #     - ./certbot/www:/var/www/certbot
+  #   depends_on:
+  #     - augmego-nginx
+  #   command: certonly --webroot --webroot-path=/var/www/certbot --email radezorack@gmail.com --agree-tos --no-eff-email -d augmego.com -d www.augmego.com
+
+  # traefik:
+  #   image: traefik:v2.10
+  #   container_name: traefik
+  #   command:
+  #     - "--providers.docker=true"
+  #     - "--entrypoints.web.address=:80"
+  #     - "--entrypoints.websecure.address=:443"
+  #     - "--certificatesresolvers.le.acme.tlschallenge=true"
+  #     - "--certificatesresolvers.le.acme.email=radezorack@gmail.com"
+  #     - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #     - "./letsencrypt:/letsencrypt"
+  #   networks:
+  #     - webnet
+
+networks:
+  webnet:
+
+  # augmego-ngrok:
+  #   container_name: augmego-ngrok
+  #   image: ngrok/ngrok:latest
+  #   command:
+  #     - "start"
+  #     - "--all"
+  #     - "--config"
+  #     - "/ngrok.yaml"
+  #   volumes:
+  #     - ./ngrok.yaml:/ngrok.yaml
+  #   ports:
+  #       - 4040:4040
+    
