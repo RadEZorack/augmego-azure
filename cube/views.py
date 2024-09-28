@@ -33,7 +33,7 @@ def list_cubes(request):
 
     print("here 1")
     ranges = rg.get('ranges')
-    family_name = rg.get('familyName')
+    family_name = "Lobby" #rg.get('familyName')
     ranges_split = ranges.split("_")
     # print(ranges_split)
 
@@ -164,7 +164,7 @@ def post_cube(request):
         #     print("chunk owner mismatch")
         #     return HttpResponseForbidden()
 
-        family_name = rp.get("familyName")
+        family_name = "Lobby" #rg.get('familyName')
         family = Family.objects.get(name=family_name)
         cube, created = Cube.objects.get_or_create(x=rp.get("x"),y=rp.get("y"),z=rp.get("z"),family=family)
         if rp.get("textureName"):

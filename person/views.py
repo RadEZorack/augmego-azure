@@ -199,10 +199,10 @@ def create_family(request):
     texture_atlas.update_atlas()
     texture_atlas.save()
 
-    fcs = FamilyConnection.objects.filter(person_id=request.user.id)
-    for fc in fcs:
-        fc.is_active = False
-        fc.save()
+    # fcs = FamilyConnection.objects.filter(person_id=request.user.id)
+    # for fc in fcs:
+    #     fc.is_active = False
+    #     fc.save()
 
     fc = FamilyConnection.objects.create(person_id=request.user.id, family_id=family.id, is_owner=True)
 
@@ -274,10 +274,10 @@ def set_active_family(request):
     family = Family.objects.get(name=family_name)
     person = Person.objects.get(user=request.user)
 
-    FamilyConnection.objects.filter(person=person).update(is_active=False)
+    # FamilyConnection.objects.filter(person=person).update(is_active=False)
 
     fc = FamilyConnection.objects.get(person=person, family=family)
-    fc.is_active = True
+    fc.is_active = not fc.is_active
     fc.save()
 
     return HttpResponse("success")

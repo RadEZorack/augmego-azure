@@ -1,4 +1,5 @@
-export let familyName = undefined
+// export let familyName = undefined
+export let familyName = "Lobby"
 
 function refreshFamilies(){
     console.log("refreshFamilies")
@@ -14,10 +15,10 @@ function refreshFamilies(){
                 let isActiveIcon = '<i class="fas fa-play"></i>'
                 let isActiveColor = 'warning'
                 if (value.is_active == true){
-                    familyName = key;
+                    // familyName = key;
                     isActiveData = "true";
                     isActiveText = "Active";
-                    isActiveIcon = '';
+                    isActiveIcon = '<i class="fas fa-times"></i>';
                     isActiveColor = 'success'
                 }
                 html += `<h5>${key} <button id="setActiveFamilyBtn-${key}" data-forFamily="${key}" data-isActiveData="${isActiveData}" type="button" class="btn btn-${isActiveColor} setActiveFamilyBtn" >${isActiveText} ${isActiveIcon}</button></h5>`
@@ -42,9 +43,9 @@ function refreshFamilies(){
             })
 
             $(".setActiveFamilyBtn").on("click", function(){
-                if ($(this).attr("data-isActiveData") == "true"){
-                    return;
-                }
+                // if ($(this).attr("data-isActiveData") == "true"){
+                //     return;
+                // }
                 setActiveFamily($(this).attr("data-forFamily"));
             })
         }

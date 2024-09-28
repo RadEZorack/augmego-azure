@@ -190,21 +190,22 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="familyModalLabel">Servers</h5>
+              <h5 class="modal-title" id="familyModalLabel">Groups</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <h5>Create a Server</h5>
-              <input type="text" id="addFamilyName" name="addFamilyName" placeholder="family name">
+              <h5>Create a Group</h5>
+              <input type="text" id="addFamilyName" name="addFamilyName" placeholder="group name">
               <input type="password" id="addFamilyPassword" name="addFamilyPassword" placeholder="password">
               <button id="createFamily" type="button" class="btn btn-success" >Create <i class="fas fa-plus"></i></button>
               <hr>
-              <h5>Join a Server</h5>
-              <input type="text" id="joinFamilyName" name="joinFamilyName" placeholder="family name">
+              <h5>Join a Group</h5>
+              <input type="text" id="joinFamilyName" name="joinFamilyName" placeholder="group name">
               <input type="password" id="joinFamilyPassword" name="joinFamilyPassword" placeholder="password">
               <button id="joinFamily" type="button" class="btn btn-success" >Join <i class="fas fa-plus"></i></button>
               <hr>
-              <h5>Current Servers <button id="refreshFamilies" type="button" class="btn btn-warning" >Refresh <i class="fas fa-sync"></i></button></h5>
+              <h5>Active Groups <button id="refreshFamilies" type="button" class="btn btn-warning" >Refresh <i class="fas fa-sync"></i></button></h5>
+              <p>Active groups allow you to chat with players who also have that group active. Changing the active status of a group will reload the page.</p>
               <div id="familiesListing"></div>
             </div>
             <div class="modal-footer">
@@ -304,7 +305,7 @@
                   </br></br>
 
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#familyModal">
-                    Server
+                    Groups
                   </button>
                   </br></br>
 

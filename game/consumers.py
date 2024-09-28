@@ -92,7 +92,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     
     @database_sync_to_async
     def list_user_families(self):
-        self.family_ids = ["family_"+str(x) for x in list(FamilyConnection.objects.filter(is_active=True, person_id=int(self.uuid)).values_list("family_id", flat=True))]
+        self.family_ids = ["family_"+str(x) for x in list(FamilyConnection.objects.filter(person_id=int(self.uuid)).values_list("family_id", flat=True))]
     
     async def disconnect(self, close_code):
         # Leave room group
