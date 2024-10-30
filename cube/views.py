@@ -82,7 +82,7 @@ def list_cubes(request):
         if cache_keys != None:# and len(cache_value) == cubes_count:
             cache_value = cache.get_many(cache_keys)
             # print(cache_value)
-            print("cache_hit")
+            # print("cache_hit")
             # return HttpResponse(json.dumps(list(cache_value.values())), content_type='application/json')
             final_data += list(cache_value.values())
             continue
@@ -115,7 +115,7 @@ def list_cubes(request):
         # return HttpResponse(data, content_type='application/json')
         final_data += list(serializer.data)
 
-    print("here 11")
+    # print("here 11")
     return HttpResponse(json.dumps(final_data), content_type='application/json')
 
 def post_cube(request):
