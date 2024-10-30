@@ -27,8 +27,8 @@ services:
 
   augmego-django:
     build: .
-    # command: daphne -b 0.0.0.0 -p 8000 quickstartproject.asgi:application
-    command: python manage.py runserver 0.0.0.0:8000 # We use this because of hotreload
+    command: daphne -b 0.0.0.0 -p 8000 quickstartproject.asgi:application
+    # command: python manage.py runserver 0.0.0.0:8000 # We use this because of hotreload
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app.rule=Host(`augmego.com`)"
@@ -45,6 +45,7 @@ services:
       PAYPAL_BUSINESS_TEST: "${PAYPAL_BUSINESS_TEST}"
       PAYPAL_TEST: "${PAYPAL_TEST}"
       OPENAI_API_KEY: "${OPENAI_API_KEY}"
+      DJANGO_DEBUG: "${DJANGO_DEBUG}"
     volumes:
       - .:/code
     ports:
