@@ -35,7 +35,7 @@ def list_textures(request):
 
 def get_texture_atlas(request):
     t = TextureAtlas.objects.filter(family__name=request.GET.get("familyName")).first()
-    print(json.dumps([t.image.url, t.data_json]))
+    # print(json.dumps([t.image.url, t.data_json]))
     return HttpResponse(json.dumps([t.image.url, t.data_json]), content_type='application/json')
 
 class TextureUploadForm(forms.Form):

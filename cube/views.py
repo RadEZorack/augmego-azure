@@ -31,7 +31,7 @@ def list_cubes(request):
     rg = request.GET
     # cache.clear()
 
-    print("here 1")
+    # print("here 1")
     ranges = rg.get('ranges')
     family_name = "Lobby" #rg.get('familyName')
     ranges_split = ranges.split("_")
@@ -55,14 +55,14 @@ def list_cubes(request):
         #     z__range=z_range
         # ).count()
 
-        print("here 2")
+        # print("here 2")
 
         cache_master_key = "cubes_to_fetch:{x_range}:{y_range}:{z_range}:{family_name}".format(x_range=x_range,y_range=y_range,z_range=z_range,family_name=family_name).replace(" ", "_")
         # print(cache_master_key)
         cache_keys = cache.get(cache_master_key, None)
         # print(cache_keys)
         
-        print("here 3")
+        # print("here 3")
         # Not needed
         # cache_value = []
         # if not cache_keys:
@@ -78,7 +78,7 @@ def list_cubes(request):
         #     print("here 3.4")
         #     cache.set(cache_master_key, list(cache_value.keys()), 60*60*24*30) # one month cache
         # else:
-        print("here 4")
+        # print("here 4")
         if cache_keys != None:# and len(cache_value) == cubes_count:
             cache_value = cache.get_many(cache_keys)
             # print(cache_value)
@@ -87,7 +87,7 @@ def list_cubes(request):
             final_data += list(cache_value.values())
             continue
 
-        print("here 5")
+        # print("here 5")
         # Query using the ORM
         cubes_within_range = Cube.objects.filter(
             x__range=x_range,
@@ -96,21 +96,21 @@ def list_cubes(request):
             family__name=family_name
         )
 
-        print("here 6")
+        # print("here 6")
         # cache.set(cache_master_key, list(cubes_within_range), 60*60*24*30)
         
-        print("here 7")
+        # print("here 7")
         serializer = CubeSerializer(cubes_within_range, many=True, context={"request":request})
 
-        print("here 8")
+        # print("here 8")
         cache_data = {"cube:{x}:{y}:{z}:{family_name}".format(x=data["x"],y=data["y"],z=data["z"],family_name=family_name).replace(" ", "_"):data for data in serializer.data}
         # print(cache_data)
         cache.set(cache_master_key, list(cache_data.keys()), 60*60*24*30)
 
-        print("here 9")
+        # print("here 9")
         cache.set_many(cache_data, 60*60*24*30) # one month cache
 
-        print("here 10")
+        # print("here 10")
         # data = json.dumps(serializer.data)
         # return HttpResponse(data, content_type='application/json')
         final_data += list(serializer.data)
