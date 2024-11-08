@@ -134,19 +134,21 @@ services:
   #   networks:
   #     - webnet
 
+  augmego-ngrok:
+    container_name: augmego-ngrok
+    image: ngrok/ngrok:latest
+    command:
+      - "start"
+      - "--all"
+      - "--config"
+      - "/ngrok.yaml"
+    volumes:
+      - ./ngrok.yaml:/ngrok.yaml
+    ports:
+        - 4040:4040
+
 networks:
   webnet:
 
-  # augmego-ngrok:
-  #   container_name: augmego-ngrok
-  #   image: ngrok/ngrok:latest
-  #   command:
-  #     - "start"
-  #     - "--all"
-  #     - "--config"
-  #     - "/ngrok.yaml"
-  #   volumes:
-  #     - ./ngrok.yaml:/ngrok.yaml
-  #   ports:
-  #       - 4040:4040
+
     
