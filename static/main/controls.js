@@ -36,6 +36,8 @@ export let middle2JoystickYPercent = 0;
 
 export let middleItemTouch = undefined;
 
+export let isOrientationActive = false;
+
 export function updateJoystickSymbols() {
   let leftJoystickSymbolTop =
     leftJoystickBoundingBox.top +
@@ -338,6 +340,10 @@ export function initControls() {
   /////////////////// RIGHT JOYSTICK ////////////////
   let rightJoystickTouch = undefined;
   function rightJoystickTouchstart(event) {
+    if (isOrientationActive == false){
+      getOrientation();
+      isOrientationActive = true;
+    }
     event.preventDefault();
     event.stopPropagation();
     // If there's exactly one finger inside this element
@@ -966,12 +972,14 @@ export function initControls() {
   updateJoystickSymbols();
 }
 
-export let rotationDegrees = 0.0;
-export let frontToBack_degrees = 0.0;
-export let leftToRight_degrees = 0.0;
+export let rotationDegrees = undefined;
+export let frontToBack_degrees = undefined;
+export let leftToRight_degrees = undefined;
 
-function getAccel(){
+
+function getOrientation(){
   console.log("Trying to get motion");
+  isOrientationActive = true;
   try{
     DeviceMotionEvent.requestPermission().then(response => {
       if (response == 'granted') {
@@ -987,7 +995,7 @@ function getAccel(){
   });
   }catch(e){
     console.log("motion with out perms.", e);
-    console.log("This does not work for android");
+    console.log("This does not work for your device");
     // window.addEventListener('deviceorientation',(event) => {
     //   // Expose each orientation angle in a more readable way
     //   console.log(event.alpha, event.beta, event.gamma);
@@ -999,7 +1007,15 @@ function getAccel(){
   
 }
 
-getAccel();
+// document.body.addEventListener(
+//   "touchstart",
+//   function(event){
+//     if (isOrientationActive == false){
+//       getOrientation();
+//       isOrientationActive = true;
+//     }
+//   }
+// )
 
 initControls();
 updateJoystickSymbols();
