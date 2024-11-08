@@ -7,7 +7,7 @@ import { myPlayerTargetPosition } from '../main/mouseClicks.js';
 import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { gameObjects, startRedrawObjectsSpinner } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
-import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent } from '../main/controls.js';
+import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent, rotationDegrees, frontToBack_degrees, leftToRight_degrees } from '../main/controls.js';
 import { qDown, wDown, eDown, aDown, sDown, dDown, spaceDown } from '../main/QWEASD.js'
 import { isWalk } from '../main/commands.js'
 
@@ -22,6 +22,7 @@ const clock = new THREE.Clock()
 let moveDownXHR = undefined;
 let lastTime = 0;
 const euler = new THREE.Euler(0, 0, 0, "YXZ");
+const savedEuler = new THREE.Euler(0, 0, 0, "YXZ");
 const PI_2 = Math.PI / 2;
 let stopSpinner = false;
 
@@ -60,18 +61,30 @@ function animate() {
 
         euler.setFromQuaternion(playerWrapper.quaternion);
 
-        euler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
+        savedEuler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
         if (isWalk){
             if(aDown){
-                euler.y += 0.0004 * delta * PI_2;
+                savedEuler.y += 0.0004 * delta * PI_2;
             }
             if(dDown){
-                euler.y -= 0.0004 * delta * PI_2;
+                savedEuler.y -= 0.0004 * delta * PI_2;
             }
         }
 
+        euler.y = rotationDegrees * Math.PI / 22.5; // TODO: This fraction should be made into a user option.
+        euler.y += savedEuler.y;
 
-        euler.x -= 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
+        savedEuler.x -= 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
+        // savedEuler.x = Math.max(-PI_2, Math.min(PI_2, savedEuler.x));
+
+        if(leftToRight_degrees != 0.0){
+            if(leftToRight_degrees <= 0.0){
+                euler.x = (leftToRight_degrees + 90.0 - 22.5)* Math.PI / 90.0; // TODO: This fraction should be made into a user option.
+            }else{
+                euler.x = (leftToRight_degrees - 90.0 - 22.5)* Math.PI / 90.0; // TODO: This fraction should be made into a user option.
+            }
+        }
+        euler.x += savedEuler.x;
         euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
 
         playerWrapper.quaternion.setFromEuler(euler);

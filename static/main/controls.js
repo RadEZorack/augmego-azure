@@ -966,7 +966,40 @@ export function initControls() {
   updateJoystickSymbols();
 }
 
+export let rotationDegrees = 0.0;
+export let frontToBack_degrees = 0.0;
+export let leftToRight_degrees = 0.0;
 
+function getAccel(){
+  console.log("Trying to get motion");
+  try{
+    DeviceMotionEvent.requestPermission().then(response => {
+      if (response == 'granted') {
+     // Add a listener to get smartphone orientation 
+         // in the alpha-beta-gamma axes (units in degrees)
+          window.addEventListener('deviceorientation',(event) => {
+              // Expose each orientation angle in a more readable way
+              rotationDegrees = event.alpha;
+              frontToBack_degrees = event.beta;
+              leftToRight_degrees = event.gamma;
+          });
+      }
+  });
+  }catch(e){
+    console.log("motion with out perms.", e);
+    console.log("This does not work for android");
+    // window.addEventListener('deviceorientation',(event) => {
+    //   // Expose each orientation angle in a more readable way
+    //   console.log(event.alpha, event.beta, event.gamma);
+    //   rotationDegrees = event.gamma;
+    //   leftToRight_degrees = event.beta;
+    //   // leftToRight_degrees = event.gamma;
+    // });
+  }
+  
+}
+
+getAccel();
 
 initControls();
 updateJoystickSymbols();
