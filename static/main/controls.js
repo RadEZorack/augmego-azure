@@ -340,12 +340,10 @@ export function initControls() {
   /////////////////// RIGHT JOYSTICK ////////////////
   let rightJoystickTouch = undefined;
   function rightJoystickTouchstart(event) {
-    if (isOrientationActive == false){
-      getOrientation();
-      isOrientationActive = true;
-    }
+    
     event.preventDefault();
     event.stopPropagation();
+    
     // If there's exactly one finger inside this element
     if (event.targetTouches && event.targetTouches.length == 1) {
       rightJoystickTouch = event.targetTouches[0];
@@ -377,6 +375,11 @@ export function initControls() {
     );
     // update_sigmoids();
     updateJoystickSymbols();
+
+    if (isOrientationActive == false){
+      getOrientation();
+      isOrientationActive = true;
+    }
   }
 
   function rightJoystickTouchmove(event) {
