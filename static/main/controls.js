@@ -1004,7 +1004,7 @@ export function getOrientation(){
 }
 
 const btn = document.getElementById( "toogleOrientation" );
-btn.addEventListener( "click", getOrientation );
+btn.addEventListener( "touchstart", getOrientation );
 
 // document.body.addEventListener(
 //   "touchstart",

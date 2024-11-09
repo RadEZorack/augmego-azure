@@ -32,8 +32,8 @@ $(document).ready(function() {
             buyLand(playerWrapper.position)
         }else if (command == "createTexture"){
             createTexture()
-        }else if (command == "toogleOrientation"){
-            getOrientation()
+        // }else if (command == "toogleOrientation"){
+        //     getOrientation()
         }else if (command == "toogleFirstPerson"){
             // Activate first person
             isFirstPerson = !isFirstPerson;
