@@ -973,11 +973,44 @@ export let frontToBack_degrees = undefined;
 export let leftToRight_degrees = undefined;
 
 
-export function getOrientation(){
+// export function getOrientation(){
+//   console.log("Trying to get motion");
+//   isOrientationActive = true;
+//   if ( typeof( DeviceOrientationEvent ) !== "undefined" && typeof( DeviceOrientationEvent.requestPermission ) === "function" ){
+//     DeviceOrientationEvent.requestPermission().then(response => {
+
+//       if (response == 'granted') {
+//      // Add a listener to get smartphone orientation 
+//          // in the alpha-beta-gamma axes (units in degrees)
+//           window.addEventListener('deviceorientation',(event) => {
+//               // Expose each orientation angle in a more readable way
+//               rotationDegrees = event.alpha;
+//               frontToBack_degrees = event.beta;
+//               leftToRight_degrees = event.gamma;
+//           });
+//       }
+//     }).catch(console.error)
+//   }else{
+//     console.log("motion with out perms.", e);
+//     console.log("This does not work for your device");
+//     // window.addEventListener('deviceorientation',(event) => {
+//     //   // Expose each orientation angle in a more readable way
+//     //   console.log(event.alpha, event.beta, event.gamma);
+//     //   rotationDegrees = event.gamma;
+//     //   leftToRight_degrees = event.beta;
+//     //   // leftToRight_degrees = event.gamma;
+//     // });
+//   }
+  
+// }
+
+const btn = document.getElementById( "toogleOrientation" );
+btn.addEventListener( "click", function(){
   console.log("Trying to get motion");
   isOrientationActive = true;
   if ( typeof( DeviceOrientationEvent ) !== "undefined" && typeof( DeviceOrientationEvent.requestPermission ) === "function" ){
     DeviceOrientationEvent.requestPermission().then(response => {
+      
       if (response == 'granted') {
      // Add a listener to get smartphone orientation 
          // in the alpha-beta-gamma axes (units in degrees)
@@ -999,12 +1032,8 @@ export function getOrientation(){
     //   leftToRight_degrees = event.beta;
     //   // leftToRight_degrees = event.gamma;
     // });
-  }
-  
-}
-
-const btn = document.getElementById( "toogleOrientation" );
-btn.addEventListener( "touchstart", getOrientation );
+  } 
+});
 
 // document.body.addEventListener(
 //   "touchstart",
