@@ -976,7 +976,7 @@ export let leftToRight_degrees = undefined;
 export function getOrientation(){
   console.log("Trying to get motion");
   isOrientationActive = true;
-  try{
+  if ( typeof( DeviceOrientationEvent ) !== "undefined" && typeof( DeviceOrientationEvent.requestPermission ) === "function" ){
     DeviceOrientationEvent.requestPermission().then(response => {
       if (response == 'granted') {
      // Add a listener to get smartphone orientation 
@@ -988,8 +988,8 @@ export function getOrientation(){
               leftToRight_degrees = event.gamma;
           });
       }
-  });
-  }catch(e){
+    }).catch(console.error)
+  }else{
     console.log("motion with out perms.", e);
     console.log("This does not work for your device");
     // window.addEventListener('deviceorientation',(event) => {
@@ -1002,6 +1002,9 @@ export function getOrientation(){
   }
   
 }
+
+const btn = document.getElementById( "toogleOrientation" );
+btn.addEventListener( "click", getOrientation );
 
 // document.body.addEventListener(
 //   "touchstart",
