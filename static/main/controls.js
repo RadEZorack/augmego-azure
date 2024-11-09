@@ -981,7 +981,7 @@ function getOrientation(){
   console.log("Trying to get motion");
   isOrientationActive = true;
   try{
-    DeviceMotionEvent.requestPermission().then(response => {
+    DeviceOrientationEvent.requestPermission().then(response => {
       if (response == 'granted') {
      // Add a listener to get smartphone orientation 
          // in the alpha-beta-gamma axes (units in degrees)
