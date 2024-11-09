@@ -340,10 +340,6 @@ export function initControls() {
   /////////////////// RIGHT JOYSTICK ////////////////
   let rightJoystickTouch = undefined;
   function rightJoystickTouchstart(event) {
-    if (isOrientationActive == false){
-      getOrientation();
-      isOrientationActive = true;
-    }
     event.preventDefault();
     event.stopPropagation();
     // If there's exactly one finger inside this element
@@ -977,7 +973,7 @@ export let frontToBack_degrees = undefined;
 export let leftToRight_degrees = undefined;
 
 
-function getOrientation(){
+export function getOrientation(){
   console.log("Trying to get motion");
   isOrientationActive = true;
   try{
