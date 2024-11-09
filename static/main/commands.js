@@ -6,7 +6,7 @@ import { changePassword } from '../main/changePassword.js';
 import { changeEmail } from '../main/changeEmail.js';
 import { selectedObject } from '../main/raycaster.js';
 import { camera } from '../main/main.js';
-import { getOrientation } from '../main/controls.js';
+// import { getOrientation } from '../main/controls.js';
 
 let toggleLandClaimView = true;
 export let isWalk = true;
