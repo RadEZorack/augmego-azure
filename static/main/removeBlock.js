@@ -46,8 +46,11 @@ export function removeBlock(x, y, z) {
             && gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`] != ""){
                 drawBlock(xyz[0], xyz[1], xyz[2], gameObjects[`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}`])
 
-        }else if (!(`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects)
-            && (3*perlin2(xyz[0]/10,xyz[2]/10) >= xyz[1])){
+        }else if (
+            !(`blockVisibility:${xyz[0]},${xyz[1]},${xyz[2]}` in gameObjects) &&
+            (3*perlin2(xyz[0]/10,xyz[2]/10) >= xyz[1]) &&
+            xyz[1] <= 0
+        ){
                 let textureUrl = "Grass";
                 if (perlin2(xyz[0]/5,xyz[2]/5) >= 0){
                     textureUrl = "Grass";
