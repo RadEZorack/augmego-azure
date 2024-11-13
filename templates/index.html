@@ -59,6 +59,24 @@
         </div> -->
     </nav>
 
+
+    <!-- Eighteen Modal -->
+    <div class="modal" id="eighteenModal" aria-labelledby="eighteenModalLabel">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="eighteenModalLabel">Disclaimer</h5>
+          </div>
+          <div class="modal-body">
+            By entering, you affirm that you are at least 18 years of age or the age of majority in the jurisdiction you are accessing the website from.
+            <br />
+            <br />
+            <button type="button" class="btn btn-primary" data-dismiss="modal">I am 18+ years of age, enter!</button>  <button class="btn btn-danger" onClick="history.back()">Take me away from here!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
         <div class="jumbotron">
             <p class="lead">Are you on the go and want people to know?</p>
@@ -99,6 +117,7 @@
                 console.log('ServiceWorker registration failed: ', error);
             });
         }
+        $('#eighteenModal').modal('show')
       </script>
 </body>
 </html>
