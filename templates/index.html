@@ -39,27 +39,6 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Augmego</a>
-        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> -->
-        <!-- <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
-        </div> -->
-    </nav>
-
-
     <!-- Eighteen Modal -->
     <div class="modal" id="eighteenModal" aria-labelledby="eighteenModalLabel">
       <div class="modal-dialog modal-dialog-centered">
@@ -83,13 +62,13 @@
             <h1 class="display-4">Welcome to Augmego!</h1>
             <p class="lead">The augmented friendship network.</p>
             <hr class="my-4">
-            <p>Click the button below to start your adventure instantly. No personal information required. (You will need to sign up and login to save your progress.)</p>
+            <!-- <p>Click the button below to start your adventure instantly. No personal information required. (You will need to sign up and login to save your progress.)</p>
             <a class="btn btn-success btn-lg" href="{% url 'nosignup' %}" role="button">Play Now</a>
-            <hr class="my-4">
+            <hr class="my-4"> -->
             <p>Already have an account?</p>
-            <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg" style="color: white;">Login</a>
+            <a href="{% url 'account_login' %}" class="btn btn-success btn-lg" style="color: white;">Login</a>
             <hr class="my-4">
-            <p>Sign up to save your progress.</p>
+            <p>Sign up! Email is not required, but encouraged in case you forget your password.</p>
             <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg" style="color: white;">Sign Up</a>
             <hr class="my-4">
             <p>Check out the following tutorials for an example of the application.</p>
