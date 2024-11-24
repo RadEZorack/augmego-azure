@@ -6,7 +6,7 @@ version: 2
 tunnels:
   augmego:
     proto: http
-    domain: 369de4cfa06e-7199118840071997290.ngrok-free.app
+    domain: augmego.ngrok.app
     addr: host.docker.internal:8000
 
     # -------------------------
