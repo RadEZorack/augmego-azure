@@ -13,6 +13,17 @@ services:
   #   ports:
   #     - "11211:11211"
 
+  augmego-socketio:
+    container_name: augmego-socketio
+    build: ./socketio
+    ports:
+      - '5001:5001'
+    volumes:
+      - ./socketio:/app
+    restart: unless-stopped
+    networks:
+      - webnet
+
   augmego-postgres:
     container_name: augmego-postgres
     environment:
