@@ -1,3 +1,5 @@
+import * as THREE from '../three/three.module.min.js';
+
 import { drawBlock, drawTempBlock, removeTempBlock } from "./drawBlock.js";
 import { onMouseDownCreateBlock, onMouseDownDestoryBlock, toggleMouseState } from "./mouseClicks.js";
 import { redrawObjects } from './redrawObjects.js';
@@ -1001,9 +1003,85 @@ export let leftToRight_degrees = undefined;
 //     //   // leftToRight_degrees = event.gamma;
 //     // });
 //   }
+
+function isIOSOld() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent)
+}
+
+function isIOSNewiPad() {
+  return (navigator.userAgent.includes('Macintosh') && navigator.maxTouchPoints > 1) &&
+  !window.MSStream
+}
+
+function isAndroid() {
+  return /Android/.test(navigator.userAgent);
+}
   
 // }
+// Function to handle device orientation changes
+function onDeviceOrientation(event) {
+  // Convert degrees to radians and handle undefined values
+  let alpha = event.alpha ? THREE.MathUtils.degToRad(event.alpha) : 0; // Z-axis rotation
+  let beta = event.beta ? THREE.MathUtils.degToRad(event.beta) : 0;    // X-axis rotation
+  let gamma = event.gamma ? THREE.MathUtils.degToRad(event.gamma) : 0; // Y-axis rotation
 
+  // Get the current screen orientation angle
+  let orient = 0;
+  if (typeof screen.orientation !== 'undefined') {
+      orient = THREE.MathUtils.degToRad(screen.orientation.angle || 0);
+  } else if (typeof window.orientation !== 'undefined') {
+      orient = THREE.MathUtils.degToRad(window.orientation || 0);
+  }
+
+  // Call the function to set the object's quaternion
+  setObjectQuaternion(finalQuaternion, alpha, beta, gamma, orient);
+}
+
+// Function to convert device orientation to object quaternion
+function setObjectQuaternion(quaternion, alpha, beta, gamma, orient) {
+  let zee = new THREE.Vector3(0, 0, 1);
+  let euler = new THREE.Euler();
+  let q0 = new THREE.Quaternion();
+  let q1 = new THREE.Quaternion();
+  let q2 = new THREE.Quaternion();
+
+    if (isAndroid()) {
+        // Android adjustments
+        // q1.set(Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // -90 degrees around the X-axis
+        q1.setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI/2.0); // 90 degrees around the X-axis
+        q2.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI);
+        euler.set(beta, alpha - Math.PI/2.0, -gamma, 'YXZ');
+    } else if (isIOSNewiPad()) {
+        // iOS adjustments
+        // q1.set(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // -90 degrees around the X-axis
+        q1.setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI/2.0); // 90 degrees around the X-axis
+        q2.setFromAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI/2.0);
+        euler.set(beta, alpha - Math.PI/2.0, -gamma, 'YXZ');
+    } else if (isIOSOld()) {
+        // iOS adjustments
+        // q1.set(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // -90 degrees around the X-axis
+        q1.setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI/2.0); // 90 degrees around the X-axis
+        q2.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI);
+        euler.set(beta, alpha - Math.PI, -gamma, 'YXZ');
+    } else {
+        // Fallback for other platforms
+        // UnTested
+        // q1.setFromAxisAngle(new THREE.Vector3(0, 0, 0), 0);
+        // euler.set(beta, alpha, gamma, 'YXZ');
+    }
+
+  // Convert the Euler angles to a quaternion
+  quaternion.setFromEuler(euler);
+
+  // Adjust for device orientation
+  quaternion.multiply(q1);
+  quaternion.multiply(q2);
+
+  // Adjust for screen orientation
+  quaternion.multiply(q0.setFromAxisAngle(zee, -orient));
+}
+
+export let finalQuaternion = new THREE.Quaternion();
 const btn = document.getElementById( "toogleOrientation" );
 btn.addEventListener( "click", function(){
   console.log("Trying to get motion");
@@ -1014,24 +1092,13 @@ btn.addEventListener( "click", function(){
       if (response == 'granted') {
      // Add a listener to get smartphone orientation 
          // in the alpha-beta-gamma axes (units in degrees)
-          window.addEventListener('deviceorientation',(event) => {
-              // Expose each orientation angle in a more readable way
-              rotationDegrees = event.alpha;
-              frontToBack_degrees = event.beta;
-              leftToRight_degrees = event.gamma;
-          });
+          // Add the device orientation event listener
+        window.addEventListener('deviceorientation', onDeviceOrientation);
       }
     }).catch(console.error)
   }else{
-    console.log("motion with out perms.", e);
-    console.log("This does not work for your device");
-    // window.addEventListener('deviceorientation',(event) => {
-    //   // Expose each orientation angle in a more readable way
-    //   console.log(event.alpha, event.beta, event.gamma);
-    //   rotationDegrees = event.gamma;
-    //   leftToRight_degrees = event.beta;
-    //   // leftToRight_degrees = event.gamma;
-    // });
+    console.log("motion with out perms.");
+        window.addEventListener('deviceorientation', onDeviceOrientation);
   } 
 });
 
