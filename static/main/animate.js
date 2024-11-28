@@ -7,7 +7,7 @@ import { myPlayerTargetPosition } from '../main/mouseClicks.js';
 import { sendPlayerPeerData } from '../main/sendPlayerData.js';
 import { gameObjects, startRedrawObjectsSpinner } from '../main/redrawObjects.js';
 import { entities } from '../main/entity.js';
-import { rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent, rotationDegrees, frontToBack_degrees, leftToRight_degrees } from '../main/controls.js';
+import { finalQuaternion, rightJoystickXPercent, rightJoystickYPercent, leftJoystickYPercent, leftJoystickXPercent, rotationDegrees, frontToBack_degrees, leftToRight_degrees } from '../main/controls.js';
 import { qDown, wDown, eDown, aDown, sDown, dDown, spaceDown } from '../main/QWEASD.js'
 import { isWalk } from '../main/commands.js'
 
@@ -59,21 +59,22 @@ function animate() {
         // let deltaY = 0;
         // let deltaK = 0;
 
-        euler.setFromQuaternion(playerWrapper.quaternion);
+        // savedEuler.setFromQuaternion(playerWrapper.quaternion);
+        euler.setFromQuaternion(finalQuaternion);
 
 
-        if (rotationDegrees == undefined){
-            euler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
-            if (isWalk){
-                if(aDown){
-                    euler.y += 0.0004 * delta * PI_2;
-                }
-                if(dDown){
-                    euler.y -= 0.0004 * delta * PI_2;
-                }
-            }
-        }else{
-          euler.y = rotationDegrees * Math.PI / 22.5; // TODO: This fraction should be made into a user option.
+        // if (rotationDegrees == undefined){
+        //     euler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
+        //     if (isWalk){
+        //         if(aDown){
+        //             euler.y += 0.0004 * delta * PI_2;
+        //         }
+        //         if(dDown){
+        //             euler.y -= 0.0004 * delta * PI_2;
+        //         }
+        //     }
+        // }else{
+        //   euler.y = rotationDegrees * Math.PI / 22.5; // TODO: This fraction should be made into a user option.
         
           savedEuler.y -= 0.0002 * delta * (Math.round(2*rightJoystickXPercent) * PI_2);
           if (isWalk){
@@ -86,31 +87,32 @@ function animate() {
           }
 
           euler.y += savedEuler.y;
-        }
+        // }
         
 
 
 
-        if (rotationDegrees == undefined){
-            euler.x -= 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
+        // if (rotationDegrees == undefined){
+        //     euler.x -= 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
 
-            euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
-        }else{
+        //     euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
+        // }else{
             savedEuler.x -= 0.0002 * delta * (Math.round(2*rightJoystickYPercent) * PI_2);
             // savedEuler.x = Math.max(-PI_2, Math.min(PI_2, savedEuler.x));
 
-            if(leftToRight_degrees != undefined){
-                if(leftToRight_degrees <= 0.0){
-                    euler.x = (leftToRight_degrees + 90.0 - 22.5)* Math.PI / 90.0; // TODO: This fraction should be made into a user option.
-                }else{
-                    euler.x = (leftToRight_degrees - 90.0 - 22.5)* Math.PI / 90.0; // TODO: This fraction should be made into a user option.
-                }
-            }
+            // if(leftToRight_degrees != undefined){
+            //     if(leftToRight_degrees <= 0.0){
+            //         euler.x = (leftToRight_degrees + 90.0 - 22.5)* Math.PI / 90.0; // TODO: This fraction should be made into a user option.
+            //     }else{
+            //         euler.x = (leftToRight_degrees - 90.0 - 22.5)* Math.PI / 90.0; // TODO: This fraction should be made into a user option.
+            //     }
+            // }
             euler.x += savedEuler.x;
-            euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
-        }
+            // euler.x = Math.max(-PI_2, Math.min(PI_2, euler.x));
+        // }
 
         playerWrapper.quaternion.setFromEuler(euler);
+        // playerWrapper.quaternion.copy(finalQuaternion);
 
         // Forward and backward
         deltaZ +=
