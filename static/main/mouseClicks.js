@@ -8,7 +8,9 @@ import { drawBlock } from '../main/drawBlock.js';
 import { removeBlock } from '../main/removeBlock.js';
 import { peerConnections } from '../main/socketConnection.js';
 import { isFirstPerson } from '../main/commands.js';
-import { familyName } from '../main/family.js';
+// import { familyName } from '../main/family.js';
+
+const familyName = 'Lobby'
 
 
 export let myPlayerTargetPosition = new THREE.Vector3(0,0,0);

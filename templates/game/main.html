@@ -187,7 +187,7 @@
       </div>
 
       <!-- Family Modal -->
-      <div class="modal" id="familyModal" aria-labelledby="familyModalLabel">
+      <!-- <div class="modal" id="familyModal" aria-labelledby="familyModalLabel">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -214,7 +214,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Donate Modal -->
       <!-- <div class="modal" id="donateModal" aria-labelledby="donateModalLabel">
@@ -302,12 +302,12 @@
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#blocksModal">
                     Blocks
                   </button>
-                  </br></br>
+                  <!-- </br></br> -->
 
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#familyModal">
+                  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#familyModal">
                     Groups
                   </button>
-                  </br></br>
+                  </br></br> -->
 
                   <!-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#donateModal">
                     Donate
@@ -558,7 +558,7 @@
             const changePasswordURL = '{% url "person:change_password" %}'
             const changeEmailURL = '{% url "person:change_email" %}'
             const peopleListURL = '{% url "person:people_list" %}'
-            const familyListURL = '{% url "person:family_list" %}'
+            // const familyListURL = '{% url "person:family_list" %}'
             const createFamilyURL = '{% url "person:create_family" %}'
             const addPersonURL = '{% url "person:add_person" %}'
             const joinFamilyURL = '{% url "person:join_family" %}'
@@ -643,6 +643,6 @@
      <script src="{% static 'main/changeName.js' %}" type="module"></script>
      <script src="{% static 'main/changePassword.js' %}" type="module"></script>
      <script src="{% static 'main/changeEmail.js' %}" type="module"></script>
-     <script src="{% static 'main/family.js' %}" type="module"></script>
+     <!-- <script src="{% static 'main/family.js' %}" type="module"></script> -->
    </body>
 </html>

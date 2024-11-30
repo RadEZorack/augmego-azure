@@ -1,8 +1,10 @@
 import * as THREE from '../three/three.module.min.js';
 import { objectScene } from '../main/main.js';
 import { vs, fs } from '../main/shaders.js';
-import { familyName } from '../main/family.js';
+// import { familyName } from '../main/family.js';
 import { initToggleMouseOption, blockTextureMaterial } from '../main/mouseClicks.js';
+
+const familyName = 'Lobby'
 
 function createDefaultObject(defaultValue) {
 return new Proxy({}, {

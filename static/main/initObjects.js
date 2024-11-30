@@ -4,7 +4,8 @@ import { drawBlock, chunkGameObjects } from "./drawBlock.js";
 import { removeBlock } from "./removeBlock.js";
 import { perlin2, simplex2 } from '../main/perlin.js';
 import { loadPlayer, playerWrapper } from '../main/player.js';
-import { familyName } from '../main/family.js';
+// import { familyName } from '../main/family.js';
+const familyName = 'Lobby'
 
 const CHUNK_SIZE = 50
 let firstDraw = true

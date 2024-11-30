@@ -69,7 +69,7 @@ def webcam(request):
 # @csrf_exempt
 def main(request):
     if not request.user.is_authenticated:
-        return redirect("start")
+        return redirect("index")
     
     user_name = str(request.user.person)
     if user_name.startswith("Guest"):

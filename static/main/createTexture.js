@@ -1,5 +1,5 @@
 import { fetchTextureAtlas } from '../main/redrawObjects.js';
-import { familyName } from '../main/family.js';
+// import { familyName } from '../main/family.js';
 
 export function createTexture(){
     let title = $("#createTextureName").val()
@@ -14,7 +14,7 @@ export function createTexture(){
         csrfmiddlewaretoken: csrfmiddlewaretoken,
         title: title,
         description: description,
-        familyName: familyName
+        familyName: 'Lobby'
         },
         success: function(resp) {
             console.log("success texture");
