@@ -75,7 +75,7 @@ export function update_entity(entity_data){
 
         gltf_loader.load(
             // resource URL
-            (avatar_other != "") ? avatar_other : readyPlayerMeDefaultUrl,
+            (avatar_other != "") ? avatar_other : catUrl,
             // (avatar_other != "") ? avatar_other : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
             // "https://models.readyplayer.me/665b1b74b490861c5f34db84.glb",
             // cesiumManUrl,
@@ -102,10 +102,10 @@ export function update_entity(entity_data){
                 // console.log("passed")
 
                 // gltf.scene.position.x = x
-                gltf.scene.position.y = + 0.9
-                gltf.scene.position.z = -0.9;
+                gltf.scene.position.y = 0.5;
+                // gltf.scene.position.z = -0.9;
         
-                gltf.scene.rotation.set(Math.PI/2.0, 0, 0); // same as above, just need to rotate
+                // gltf.scene.rotation.set(Math.PI/2.0, 0, 0); // same as above, just need to rotate
                 // gltf.scene.rotation.y = ry
                 // gltf.scene.rotation.z = rz
                 // gltf.scene.rotateX(Math.PI/2) // flip around
@@ -116,16 +116,17 @@ export function update_entity(entity_data){
                 gltf.scene.scale.y = 1
                 gltf.scene.scale.z = 1
 
-                gltf_loader.load(F_Jog_001, function (animGltf) {
-                    animGltf.animations.forEach(clip => {
-                      clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
-                      const action = entities[entity_key].mixer.clipAction(clip);
-                      action.play();
-                    });
-                    console.log('Animations Loaded:', animGltf.animations);
-                }, undefined, function (error) {
-                    console.error(error);
-                });
+                // TODO
+                // gltf_loader.load(F_Jog_001, function (animGltf) {
+                //     animGltf.animations.forEach(clip => {
+                //       clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+                //       const action = entities[entity_key].mixer.clipAction(clip);
+                //       action.play();
+                //     });
+                //     console.log('Animations Loaded:', animGltf.animations);
+                // }, undefined, function (error) {
+                //     console.error(error);
+                // });
 
                 // plane.translateZ(-50)
                 // plane.translateY(325)

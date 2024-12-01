@@ -225,14 +225,15 @@ function animate() {
     // required if controls.enableDamping or controls.autoRotate are set to true
 	// controls.update();
 
-    const clockDelta = clock.getDelta()
+    // TODO
+    // const clockDelta = clock.getDelta()
 
-    for (const entity_key in entities){
-        let mixer = entities[entity_key]['mixer']
-        if (mixer){
-            mixer.update( clockDelta/2.0 );
-        }
-    }
+    // for (const entity_key in entities){
+    //     let mixer = entities[entity_key]['mixer']
+    //     if (mixer){
+    //         mixer.update( clockDelta/2.0 );
+    //     }
+    // }
 
     let activeCamera = allCameras[activeCameraName];
 
