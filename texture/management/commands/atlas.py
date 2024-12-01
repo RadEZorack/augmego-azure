@@ -16,7 +16,7 @@ class Command(BaseCommand):
         if running_in_production:
             # List of image URLs from the CDN
             image_urls = [
-                "https://cdn.example.com/media/texture-image/pine-tree-leaves-texture.png",
+                # "https://cdn.example.com/media/texture-image/pine-tree-leaves-texture.png",
                 # Add other image URLs here...
             ]
         else:

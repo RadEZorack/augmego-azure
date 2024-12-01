@@ -48,7 +48,7 @@ def nosignup(request):
                     code=code
                 )
             except Person.DoesNotExist:
-                user = User.objects.create_user("Guest-"+str(code), str(uuid.uuid4())+'@example.com', str(uuid.uuid4()))
+                user = User.objects.create_user("Guest-"+str(code), str(uuid.uuid4())+'@augmego.com', str(uuid.uuid4()))
                 person = user.person
                 person.code = code
                 person.is_guest = True
@@ -69,7 +69,7 @@ def temp_login_for_mobile(request):
             code=code
         )
     except Person.DoesNotExist:
-        user = User.objects.create_user("Guest-"+str(code), str(uuid.uuid4())+'@example.com', str(uuid.uuid4()))
+        user = User.objects.create_user("Guest-"+str(code), str(uuid.uuid4())+'@augmego.com', str(uuid.uuid4()))
         person = user.person
         person.code = code
         person.save()
