@@ -21,7 +21,7 @@ export let playerWrapper = undefined;
 export function loadPlayer(){
   gltf_loader.load(
     // resource URL
-    (avatar != "") ? avatar : catUrl,
+    (avatar != "") ? avatar : JeremyHUrl,
     // (avatar != "") ? avatar : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
     // "https://models.readyplayer.me/665b1b74b490861c5f34db84.glb",
     // cesiumManUrl,
@@ -36,16 +36,16 @@ export function loadPlayer(){
 
         myPlayer = gltf;
         const model = gltf.scene;
-        model.position.y = 0.5; // after applying the animation mixer, we need to pull the character up
+        // model.position.y = 0.5; // after applying the animation mixer, we need to pull the character up
         // model.position.z = -0.9;
-        // model.rotation.set(Math.PI/2.0, 0, 0); // same as above, just need to rotate
-        // let mixer = new THREE.AnimationMixer(model)
+        model.rotation.set(0, -Math.PI/2.0, 0); // same as above, just need to rotate
+        let mixer = new THREE.AnimationMixer(model)
 
         entities["player:"+myUuid] = {
           'gltf': gltf,
           // 'plane': page.plane,
           // 'cssObject': page.cssObject,
-          // 'mixer': mixer,
+          'mixer': mixer,
           'animation': 0,
         }
 
@@ -61,16 +61,16 @@ export function loadPlayer(){
         // const fbxLoader = new FBXLoader();
 
         // TODO
-        // gltf_loader.load(F_Jog_001, function (animGltf) {
-        //     animGltf.animations.forEach(clip => {
-        //       clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
-        //       const action = mixer.clipAction(clip);
-        //       action.play();
-        //     });
-        //     console.log('Animations Loaded:', animGltf.animations);
-        // }, undefined, function (error) {
-        //     console.error(error);
-        // });
+        gltf_loader.load(JeremyHUrl, function (animGltf) {
+            animGltf.animations.forEach(clip => {
+              clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+              const action = mixer.clipAction(clip);
+              action.play();
+            });
+            console.log('Animations Loaded:', animGltf.animations);
+        }, undefined, function (error) {
+            console.error(error);
+        });
 
         cameraController = new THREE.Object3D;
         cameraRotator = new THREE.Object3D;

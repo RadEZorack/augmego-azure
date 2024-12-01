@@ -226,14 +226,14 @@ function animate() {
 	// controls.update();
 
     // TODO
-    // const clockDelta = clock.getDelta()
+    const clockDelta = clock.getDelta()
 
-    // for (const entity_key in entities){
-    //     let mixer = entities[entity_key]['mixer']
-    //     if (mixer){
-    //         mixer.update( clockDelta/2.0 );
-    //     }
-    // }
+    for (const entity_key in entities){
+        let mixer = entities[entity_key]['mixer']
+        if (mixer){
+            mixer.update( clockDelta/2.0 );
+        }
+    }
 
     let activeCamera = allCameras[activeCameraName];
 
