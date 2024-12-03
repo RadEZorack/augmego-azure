@@ -147,8 +147,8 @@ export function initSocketConnection(){
         console.log("3.b. is requesting media:", onBehalfOf)
 
         const configuration = {
-          offerToReceiveAudio: true,
-          offerToReceiveVideo: true,
+          offerToReceiveAudio: (use_mic == "True"),
+          offerToReceiveVideo: (use_webcam == "True"),
           iceServers: [     // Information about ICE servers - Use your own!
               {
                 'urls':'stun:stun.l.google.com:19302'
@@ -173,7 +173,7 @@ export function initSocketConnection(){
 
         
         // const answer = await peerConnection.createAnswer();
-        const offer = await peerConnection.createOffer({offerToReceiveAudio: true, offerToReceiveVideo: true,});
+        const offer = await peerConnection.createOffer({offerToReceiveAudio: (use_mic == "True"), offerToReceiveVideo: (use_webcam == "True"),});
         await peerConnection.setLocalDescription(
           new RTCSessionDescription(offer)
         );
@@ -209,6 +209,7 @@ export function initSocketConnection(){
       if ("call-made" in message){
         console.log("5.b call-made", from)
         let peerConnection = peerConnections[from].peerConnection;
+        console.log(" Am I Here", peerConnection)
 
         const data = message["call-made"]
         await peerConnection.setRemoteDescription(
@@ -226,6 +227,27 @@ export function initSocketConnection(){
 
         sendChannel.onmessage = (event) => {
           // console.log("Got Send Channel Message:", event);
+          let edata = event.data;
+            try{
+                edata = JSON.parse(edata);
+                if("type" in edata && edata.type == "Hello World!"){
+                    console.log("Hellow world receiveChannel")
+                }else if("type" in edata && edata.type == "playermove"){
+                    // console.log("receive playermove")
+                    update_entity(edata)
+                }else if("type" in edata && edata.type == "removeBlock"){
+                    console.log("removeBlock")
+                    removeBlock(edata.x, edata.y, edata.z);
+                    redrawObjects();
+                }else if("type" in edata && edata.type == "drawBlock"){
+                    console.log("drawBlock")
+                    drawBlock(edata.x, edata.y, edata.z, edata.textureName);
+                    redrawObjects();
+                }
+            }catch(e){
+                // this is not json
+                console.error("data channel error", e);
+            }
         };
 
         sendChannel.onopen = () => {
@@ -265,16 +287,17 @@ export function initSocketConnection(){
           }
         }
 
-        await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-          .then(function(stream) {
-                console.log("here", stream, stream.getTracks())
-                stream.getTracks().forEach(async track => {
-                    console.log("sending tracks", track)
-                    peerConnection.addTrack(track, stream)
-                })
-          })
-          .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
-
+        if ((use_webcam == "True") || (use_mic == "True")){
+          await navigator.mediaDevices.getUserMedia({ video: (use_webcam == "True"), audio: (use_mic == "True") })
+            .then(function(stream) {
+                  console.log("here", stream, stream.getTracks())
+                  stream.getTracks().forEach(async track => {
+                      console.log("sending tracks", track)
+                      peerConnection.addTrack(track, stream)
+                  })
+            })
+            .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
+        }
         const answer = await peerConnection.createAnswer();
         await peerConnection.setLocalDescription(
             new RTCSessionDescription(answer)
@@ -327,7 +350,7 @@ export function initSocketConnection(){
         console.log("6.b receiving-candidate from:", onBehalfOf)
         let peerConnection = peerConnections[onBehalfOf].peerConnection
         let candidate = new RTCIceCandidate(JSON.parse(data.candidate));
-        peerConnection.addIceCandidate(candidate,
+        await peerConnection.addIceCandidate(candidate,
           function(){console.log('7.b success')},
           function(error){console.log('error',error)}
         )

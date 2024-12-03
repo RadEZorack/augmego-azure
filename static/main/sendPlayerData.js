@@ -32,11 +32,13 @@ export function sendPlayerPeerData(){
         for (let uuid in peerConnections){
             let sendChannel = peerConnections[uuid].sendChannel
             if (sendChannel != undefined && sendChannel.readyState == "open"){
+                // console.log("send playermove", uuid)
                 sendChannel.send(JSON.stringify({
                     'type': 'playermove',
                     'name': my_name,
                     'entity_key': "player:"+myUuid,
                     'myUuid': myUuid,
+                    'avatar': avatar,
                     'x': playerWrapper.position.x,
                     'y': playerWrapper.position.y,
                     'z': playerWrapper.position.z,
@@ -47,9 +49,10 @@ export function sendPlayerPeerData(){
                 }))
             }
             let receiveChannel = peerConnections[uuid].receiveChannel
+            // console.log(receiveChannel.readyState)
             if (receiveChannel != undefined && receiveChannel.readyState == "open"){
-                console.log("keep alive")
-                receiveChannel.send("keep alive")
+                // console.log("keep alive")
+                receiveChannel.send(JSON.stringify({"keep alive": "keep alive"}));
             }
         }
     //     sendPlayerPeerData()

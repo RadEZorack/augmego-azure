@@ -84,7 +84,10 @@ def main(request):
 
     # tutorials = Tutorial.objects.all()
 
-    return render(request, 'game/main.html', {'user_name': user_name, 'amica': amica, 'avatar': avatar, 'tutorials': []})
+    return render(request, 'game/main.html', {
+            'user_name': user_name, 'amica': amica, 'avatar': avatar, 'tutorials': [],
+            'use_webcam': False, 'use_mic': False
+        })
 
 @xframe_options_sameorigin
 def ad(request):

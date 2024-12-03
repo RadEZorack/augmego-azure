@@ -17,6 +17,7 @@ import { textureLoad } from '../main/initTexturePanel.js';
 //  })
 
 function initSelfCam(){
+  
     let videoCount = 0;
   
     // Older browsers might not implement mediaDevices at all, so we set an empty object first
@@ -46,6 +47,10 @@ function initSelfCam(){
       }
     }
   
+    console.log("here... ", use_webcam, use_mic)
+    if (use_webcam == "False" && use_mic == "False"){
+      return;
+    }
     navigator.mediaDevices.enumerateDevices()
       .then(function(devices) {
         devices.forEach(function(device) {
@@ -53,7 +58,7 @@ function initSelfCam(){
                       // " id = " + device.deviceId);
           if(device.kind == "videoinput"){
             console.log("trying")
-            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            navigator.mediaDevices.getUserMedia({ video: (use_webcam == "True"), audio: (use_mic == "True") })
               .then(function(stream) {
                 if (videoCount >= 1){
                   return null;

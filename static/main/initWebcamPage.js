@@ -12,8 +12,8 @@ export function initWebcamPage(myUuid, entityUuid){
 
     const { RTCPeerConnection, RTCSessionDescription, RTCIceCandidate } = window;
     const configuration = {
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
+        offerToReceiveAudio: (use_mic == "True"),
+        offerToReceiveVideo: (use_webcam == "True"),
         iceServers: [     // Information about ICE servers - Use your own!
             {
             'urls':'stun:stun.l.google.com:19302'
@@ -28,9 +28,44 @@ export function initWebcamPage(myUuid, entityUuid){
             }
     ]};
     if (peerConnections[entityUuid] == undefined){
+        console.log("right hasjfdhhuds")
         peerConnections[entityUuid] =  {peerConnection: new RTCPeerConnection(configuration)};
     }
     let peerConnection = peerConnections[entityUuid].peerConnection;
+    console.log("left", peerConnection)
+
+    peerConnection.onicecandidate = async function(event) {
+        console.log("onicecandidate", event)
+      if (event.candidate) {
+        // Send the candidate to the remote peer
+        socket.send(JSON.stringify({"send-candidate": {
+          candidate: event.candidate,
+          to: entityUuid,
+          onBehalfOf: myUuid
+        }}));
+      } else {
+        console.log("All ICE candidates have been sent");
+      }
+    }
+    // End onicecanfidate
+
+    peerConnection.onnegotiationneeded = async function(){
+        console.log("renegotiating")
+        await peerConnection.createOffer({offerToReceiveAudio: (use_mic == "True"), offerToReceiveVideo: (use_webcam == "True"),}).then(function(offer) {
+            return peerConnection.setLocalDescription(offer);
+          })
+          .then(function() {
+            socket.send(JSON.stringify({"call-user": {
+              offer: peerConnection.localDescription,
+              to: entityUuid,
+              onBehalfOf: myUuid
+            }}));
+          })
+          .catch(function(err){
+            console.log(err)
+          });
+    };
+    // End onnegotiationneeded
 
     peerConnection.ondatachannel = (event) => {
         let receiveChannel = event.channel;
@@ -45,8 +80,10 @@ export function initWebcamPage(myUuid, entityUuid){
             let edata = event.data;
             try{
                 edata = JSON.parse(edata);
-                if("type" in edata && edata.type == "playermove"){
-                    // console.log("playermove")
+                if("type" in edata && edata.type == "Hello World!"){
+                    console.log("Hellow world receiveChannel")
+                }else if("type" in edata && edata.type == "playermove"){
+                    // console.log("receive playermove")
                     update_entity(edata)
                 }else if("type" in edata && edata.type == "removeBlock"){
                     console.log("removeBlock")
@@ -70,7 +107,7 @@ export function initWebcamPage(myUuid, entityUuid){
             const keep_alive_xhr = setTimeout(function(){
                 // console.log("keep alive")
                 try {
-                    receiveChannel.send("keep alive")
+                    receiveChannel.send(JSON.stringify({"keep alive": "keep alive"}))
                     
                 } catch (error) {
                     console.log("receiveChannel closed")
@@ -105,38 +142,7 @@ export function initWebcamPage(myUuid, entityUuid){
     };
     // End ontrack
 
-    peerConnection.onicecandidate = function(event) {
-        // console.log("onicecandidate", event)
-      if (event.candidate) {
-        // Send the candidate to the remote peer
-        socket.send(JSON.stringify({"send-candidate": {
-          candidate: event.candidate,
-          to: entityUuid,
-          onBehalfOf: myUuid
-        }}));
-      } else {
-        console.log("All ICE candidates have been sent");
-      }
-    }
-    // End onicecanfidate
-
-    peerConnection.onnegotiationneeded = function(){
-        console.log("renegotiating")
-        peerConnection.createOffer({offerToReceiveAudio: true, offerToReceiveVideo: true,}).then(function(offer) {
-            return peerConnection.setLocalDescription(offer);
-          })
-          .then(function() {
-            socket.send(JSON.stringify({"call-user": {
-              offer: peerConnection.localDescription,
-              to: entityUuid,
-              onBehalfOf: myUuid
-            }}));
-          })
-          .catch(function(err){
-            console.log(err)
-          });
-    };
-    // End onnegotiationneeded
+    
 
     console.log("5.a calling:", entityUuid)
 

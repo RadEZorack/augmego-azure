@@ -1,3 +1,5 @@
+// NOT IN USE!
+
 document.addEventListener("DOMContentLoaded", function() {
     // Some browsers partially implement mediaDevices. We can't just assign an object
     // with getUserMedia as it would overwrite existing properties.
@@ -24,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Check if the browser supports getUserMedia
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         // Request camera and microphone access
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        navigator.mediaDevices.getUserMedia({ video: (use_webcam == "True"), audio: (use_mic == "True") })
         .then(function(stream) {
             // Permissions granted
             console.log("Permissions granted");

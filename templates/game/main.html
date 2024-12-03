@@ -2,14 +2,14 @@
 <!doctype html>
 <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M2FMRW5T68"></script>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-M2FMRW5T68"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
       gtag('config', 'G-M2FMRW5T68');
-    </script>
+    </script> -->
     <!-- <link rel="manifest" href="{% static 'manifest.json' %}"> -->
     <meta name="theme-color" content="#000000">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -563,6 +563,8 @@
             const addPersonURL = '{% url "person:add_person" %}'
             const joinFamilyURL = '{% url "person:join_family" %}'
             const setActiveFamilyURL = '{% url "person:set_active_family" %}'
+            const use_webcam = "{{use_webcam}}"
+            const use_mic = "{{use_mic}}"
             let my_name = "{{ user_name }}";
             let avatar = "{{ avatar }}";
             let myUuid = Math.random().toString();
