@@ -4,14 +4,14 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M2FMRW5T68"></script>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-M2FMRW5T68"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
       gtag('config', 'G-M2FMRW5T68');
-    </script>
+    </script> -->
     <meta charset="UTF-8">
     <link rel="manifest" href="{% static 'manifest.json' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
@@ -66,8 +66,8 @@
             <hr class="my-4">
             <p>With your permission, Augmego can use your webcam to interact with other players; no webcam data is saved.</p>
             <hr class="my-4">
-            <p>Click the button below to start your adventure instantly, no personal information required. However, you may experience a limited experience.</p>
-            <a class="btn btn-success btn-lg" href="{% url 'nosignup' %}" role="button">Play Now</a>
+            <p>Click the button below to start your adventure instantly, no personal information required. However, you may have a limited experience.</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'nosignup' %}" role="button">Play Now</a>
             <hr class="my-4">
             <p>Choose to sign in with discord to create and save settings such as your avatar!</p>
             <form method="post" action="{% provider_login_url 'discord' %}">
@@ -119,16 +119,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('{% static "serviceworker.js" %}')
-            .then(function(registration) {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch(function(error) {
-                console.log('ServiceWorker registration failed: ', error);
-            });
-        }
-        $('#eighteenModal').modal('show')
+        // if ('serviceWorker' in navigator) {
+        //     navigator.serviceWorker.register('{% static "serviceworker.js" %}')
+        //     .then(function(registration) {
+        //         console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        //     })
+        //     .catch(function(error) {
+        //         console.log('ServiceWorker registration failed: ', error);
+        //     });
+        // }
+        // $('#eighteenModal').modal('show')
       </script>
 </body>
 </html>
