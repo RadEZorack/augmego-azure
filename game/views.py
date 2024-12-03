@@ -74,6 +74,8 @@ def main(request):
     user_name = str(request.user.person)
     if user_name.startswith("Guest"):
         user_name = user_name[0:10]
+    else:
+        user_name = str(request.user.first_name)
     # user_name = uuid.uuid4()
     amica = request.user.person.amica
     avatar = ""

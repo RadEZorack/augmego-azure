@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% load socialaccount %}
 
-{% block content %}
-</br>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-success" type="submit">Login</button>
-</form>
-{% endblock %}
+<h2>Login</h2>
+
+{% providers_media_js %}
+<ul>
+    {% for provider in socialaccount_providers %}
+    <li><a href="{% provider_login_url provider.id %}">Sign in with {{ provider.name }}</a></li>
+    {% endfor %}
+</ul>

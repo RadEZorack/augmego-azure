@@ -46,6 +46,7 @@ services:
       PAYPAL_TEST: "${PAYPAL_TEST}"
       OPENAI_API_KEY: "${OPENAI_API_KEY}"
       DJANGO_DEBUG: "${DJANGO_DEBUG}"
+      DISCORD_SECRET: "${DISCORD_SECRET}"
     volumes:
       - .:/code
     ports:

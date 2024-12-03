@@ -73,6 +73,9 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount.providers.microsoft',
 
+    # Discord provider
+    'allauth.socialaccount.providers.discord',
+
     'quickstartproject',
     'chat',
     'game',
@@ -125,16 +128,17 @@ TEMPLATES = [
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
-    # 'google': {
-    #     # For each OAuth based provider, either add a ``SocialApp``
-    #     # (``socialaccount`` app) containing the required client
-    #     # credentials, or list them here:
-    #     'APP': {
-    #         'client_id': '123',
-    #         'secret': '456',
-    #         'key': ''
-    #     }
-    # }
+    'discord': {
+        'APP': {
+            'client_id': '1313305604181332048',
+            'secret': os.environ.get('DISCORD_SECRET', ''),
+            'key': ''
+        },
+        'SCOPE': [
+            'identify',
+            # 'email'  # Include 'email' if you need the user's email
+        ],
+    }
 }
 
 WSGI_APPLICATION = 'quickstartproject.wsgi.application'
@@ -259,17 +263,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication backends
 AUTHENTICATION_BACKENDS = [
-    # 'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 # Allauth settings
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_REQUIRED = False
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_AUTHENTICATION_METHOD = 'username'
+# ACCOUNT_EMAIL_REQUIRED = False
+# ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 LOGIN_REDIRECT_URL = "main"
-LOGOUT_REDIRECT_URL = ""
+LOGOUT_REDIRECT_URL = "index"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

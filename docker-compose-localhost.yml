@@ -45,6 +45,7 @@ services:
       PAYPAL_BUSINESS_TEST: "${PAYPAL_BUSINESS_TEST}"
       PAYPAL_TEST: "${PAYPAL_TEST}"
       OPENAI_API_KEY: "${OPENAI_API_KEY}"
+      DISCORD_SECRET: "${DISCORD_SECRET}"
     volumes:
       - .:/code
     ports:
