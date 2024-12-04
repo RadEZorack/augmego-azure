@@ -71,6 +71,8 @@ def main(request):
     if not request.user.is_authenticated:
         return redirect("index")
     
+    rg = request.GET
+    
     user_name = str(request.user.person)
     if user_name.startswith("Guest"):
         user_name = user_name[0:10]
@@ -83,10 +85,12 @@ def main(request):
         avatar = request.user.person.avatar.url
 
     # tutorials = Tutorial.objects.all()
+    use_webcam = rg.get("webcam", False)
+    use_mic = rg.get("mic", False)
 
     return render(request, 'game/main.html', {
             'user_name': user_name, 'amica': amica, 'avatar': avatar, 'tutorials': [],
-            'use_webcam': False, 'use_mic': False
+            'use_webcam': use_webcam, 'use_mic': use_mic
         })
 
 @xframe_options_sameorigin
