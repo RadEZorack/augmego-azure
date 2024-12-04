@@ -10,6 +10,7 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import get_user_model, login
 
 from openai import OpenAI
 
@@ -17,10 +18,12 @@ from quickstartproject import settings
 
 from texture.models import Texture, TextureAtlas
 from tutorial.models import Tutorial
-from person.models import Family
+from person.models import Family, Person
 
 from django.views.decorators.http import require_GET
 import os
+
+User = get_user_model()
 
 @require_GET
 def robots_txt(request):
@@ -69,7 +72,25 @@ def webcam(request):
 # @csrf_exempt
 def main(request):
     if not request.user.is_authenticated:
-        return redirect("index")
+        code = str(uuid.uuid4())
+        try:
+            person = Person.objects.get(
+                code=code
+            )
+        except Person.DoesNotExist:
+            user = User.objects.create_user("Guest-"+str(code), str(uuid.uuid4())+'@augmego.com', str(uuid.uuid4()))
+            person = user.person
+            person.code = code
+            person.is_guest = True
+            person.save()
+
+        # Log the user in
+        user = person.user
+        user.backend = settings.AUTHENTICATION_BACKENDS[0]
+        login(request, person.user)
+        
+        # Update request.user to the new user
+        request.user = user
     
     rg = request.GET
     
