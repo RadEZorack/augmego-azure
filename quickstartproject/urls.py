@@ -41,9 +41,9 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('main', main, name='main'),
+    path('', main, name='main'),
     # path('api/', include('yourapp.api.urls')),  # Your API endpoints
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),  # Serve Next.js app
+    path('index', TemplateView.as_view(template_name='index.html'), name='index'),  # Serve Next.js app
     path('robots.txt', robots_txt, name='robots_txt'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("debug/", debug, name="debug"),
