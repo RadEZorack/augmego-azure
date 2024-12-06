@@ -27,6 +27,8 @@ let savedEuler = new THREE.Euler(0, 0, 0, "YXZ");
 const PI_2 = Math.PI / 2;
 let stopSpinner = false;
 
+let timeSinceStop = 0;
+
 function animate() {
     // if (stopAnimate == true){
     //     // We need the player to interact with the page before things will work correctly.
@@ -37,6 +39,10 @@ function animate() {
     //     return null
     // }
 	requestAnimationFrame( animate );
+
+    const clockDelta = clock.getDelta()
+
+    timeSinceStop += clockDelta;
     
     if (!(playerWrapper === undefined)){
         if (startRedrawObjectsSpinner == true){
@@ -166,10 +172,17 @@ function animate() {
         const playerSpeed = Math.sqrt(deltaX*deltaX + deltaZ*deltaZ);
         // console.log(playerSpeed)
         if (playerSpeed == 0.0){
-            playerAnimation = 'idle'
+            if (timeSinceStop >= 10){
+                playerAnimation = 'dance'
+            }else{
+                playerAnimation = 'idle'
+            }
+            
         }else if (playerSpeed <= 0.03){
+            timeSinceStop = 0
             playerAnimation = 'walk'
         }else{
+            timeSinceStop = 0
             playerAnimation = 'run'
         }
 
@@ -237,7 +250,6 @@ function animate() {
 	// controls.update();
 
     // TODO
-    const clockDelta = clock.getDelta()
 
     entities["player:"+myUuid]['animation'] = playerAnimation;
 
