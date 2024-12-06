@@ -27,6 +27,7 @@ export function update_entity(entity_data){
     let ry = entity_data['ry']
     let rz = entity_data['rz']
     let animation = entity_data['animation']
+    let avatar_animations = entity_data['avatar_animations']
     let avatar_other = entity_data["avatar"]
 
     // console.log("----here");
@@ -73,14 +74,38 @@ export function update_entity(entity_data){
         // parseScript(resp);
         // initWebcamPage(myUuid, entityUuid);
 
-        gltf_loader.load(
-            // resource URL
-            (avatar_other != "") ? avatar_other : JeremyHUrl,
-            // (avatar_other != "") ? avatar_other : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
-            // "https://models.readyplayer.me/665b1b74b490861c5f34db84.glb",
-            // cesiumManUrl,
-            // called when the resource is loaded
-            function ( gltf ) {
+        // gltf_loader.load(
+        //     // resource URL
+        //     (avatar_other != "") ? avatar_other : JeremyHUrl,
+        //     // (avatar_other != "") ? avatar_other : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
+        //     // "https://models.readyplayer.me/665b1b74b490861c5f34db84.glb",
+        //     // cesiumManUrl,
+        //     // called when the resource is loaded
+        gltf_loader.load((avatar_animations != {}) ? avatar_animations["idle"] : avatar, (gltf) => {
+            const mainModel = gltf.scene;
+            // entities["player:"+myUuid].gltf = gltf;
+            // animations.push(...gltf.animations);
+            entities[entity_key] = {
+                'gltf': gltf,
+                'plane': page.plane,
+                'cssObject': page.cssObject,
+                'mixer': {},
+                'animation': "idle",
+                'wrapper': new THREE.Object3D,
+            }
+          
+            for (const [key, value] of Object.entries(avatar_animations)) {
+              gltf_loader.load(value, (gltfAnim) => {
+                gltfAnim.animations.forEach(clip => {
+                  let mixer = new THREE.AnimationMixer(mainModel)
+                  const action = mixer.clipAction(clip);
+                  entities[entity_key]['mixer'][key] = mixer;
+                  action.play();
+                });
+              })
+            }
+
+            // function ( gltf ) {
                 // console.log('gltf', gltf)
                 gltf.scene.traverse((node) => {
                     if (node.isMesh && node.material) {
@@ -91,21 +116,14 @@ export function update_entity(entity_data){
                 
 
 
-                entities[entity_key] = {
-                    'gltf': gltf,
-                    'plane': page.plane,
-                    'cssObject': page.cssObject,
-                    'mixer': new THREE.AnimationMixer(gltf.scene),
-                    'animation': 0,
-                    'wrapper': new THREE.Object3D,
-                }
+                
                 // console.log("passed")
 
                 // gltf.scene.position.x = x
                 // gltf.scene.position.y = 0.5;
                 // gltf.scene.position.z = -0.9;
         
-                gltf.scene.rotation.set(0, -Math.PI/2.0, 0); // same as above, just need to rotate
+                // gltf.scene.rotation.set(0, -Math.PI/2.0, 0); // same as above, just need to rotate
                 // gltf.scene.rotation.y = ry
                 // gltf.scene.rotation.z = rz
                 // gltf.scene.rotateX(Math.PI/2) // flip around
@@ -117,16 +135,16 @@ export function update_entity(entity_data){
                 gltf.scene.scale.z = 1
 
                 // TODO
-                gltf_loader.load(JeremyH2Url, function (animGltf) {
-                    animGltf.animations.forEach(clip => {
-                      clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
-                      const action = entities[entity_key].mixer.clipAction(clip);
-                      action.play();
-                    });
-                    console.log('Animations Loaded:', animGltf.animations);
-                }, undefined, function (error) {
-                    console.error(error);
-                });
+                // gltf_loader.load(JeremyH2Url, function (animGltf) {
+                //     animGltf.animations.forEach(clip => {
+                //       clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+                //       const action = entities[entity_key].mixer.clipAction(clip);
+                //       action.play();
+                //     });
+                //     console.log('Animations Loaded:', animGltf.animations);
+                // }, undefined, function (error) {
+                //     console.error(error);
+                // });
 
                 // plane.translateZ(-50)
                 // plane.translateY(325)

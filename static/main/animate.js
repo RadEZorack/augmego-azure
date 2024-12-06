@@ -242,10 +242,13 @@ function animate() {
     entities["player:"+myUuid]['animation'] = playerAnimation;
 
     for (const entity_key in entities){
-        let mixer = entities[entity_key]['mixer'][entities[entity_key]['animation']]
-        // console.log("mixer", mixer)
-        if (mixer){
-            mixer.update( clockDelta/2.0 );
+        if (entities[entity_key]['mixer']){
+            let mixer = entities[entity_key]['mixer'][entities[entity_key]['animation']]
+            // console.log("mixer", mixer)
+            if (mixer){
+                mixer.update( clockDelta/2.0 );
+            
+            }
         }
     }
 

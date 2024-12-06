@@ -119,6 +119,8 @@ export function initSocketConnection(){
                       'ry': message.message_que[i].ry,
                       'rz': message.message_que[i].rz,
                       'avatar': message.message_que[i].avatar,
+                      'avatar_animations': message.message_que[i].avatar_animations,
+                      'animation': message.message_que[i].animation,
                       'keys': {},
                   }
                   console.log("initialize player", update)

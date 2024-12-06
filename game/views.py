@@ -110,7 +110,7 @@ def main(request):
 
     avatar_animations = {
         # static('animations/JeremyH/JeremyH.glb'),
-        "idle": static('animations/JeremyH/biped/Animation_Idle_withSkin.glb'),
+        "idle": static('animations/JeremyH/biped/Animation_Idle_02_withSkin.glb'),
         "walk": static('animations/JeremyH/biped/Animation_Walking_withSkin.glb'),
         "run": static('animations/JeremyH/biped/Animation_Running_withSkin.glb'),
     }

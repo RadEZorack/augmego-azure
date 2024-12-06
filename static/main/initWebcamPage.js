@@ -102,7 +102,7 @@ export function initWebcamPage(myUuid, entityUuid){
 
         receiveChannel.onopen = () => {
             console.log("Webcam Data receive opened")
-            receiveChannel.send("Webcam opened your data channel!");
+            // receiveChannel.send("Webcam opened your data channel!");
             function sendKeepAlive(){
             const keep_alive_xhr = setTimeout(function(){
                 // console.log("keep alive")
