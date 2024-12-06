@@ -1,5 +1,6 @@
 import * as THREE from '../three/three.module.min.js';
 import { GLTFLoader } from '../three/GLTFLoader.js';
+import { GLTFExporter } from '../three/GLTFExporter.js';
 import { DRACOLoader } from '../three/DRACOLoader.js';
 import { objectScene, camera, backgroundCanvas } from '../main/main.js';
 import { entities } from '../main/entity.js';
@@ -7,6 +8,7 @@ import { initSocketConnection } from '../main/socketConnection.js'
 
 // Instantiate a loader
 let gltf_loader = new GLTFLoader();
+const exporter = new GLTFExporter();
 
 // // Optional: Provide a DRACOLoader instance to decode compressed mesh data
 let dracoLoader = new DRACOLoader();
@@ -18,15 +20,59 @@ export let cameraController = undefined;
 export let cameraRotator = undefined;
 export let playerWrapper = undefined;
 
+let mainModel = null;
+const animations = [];
+
+
 export function loadPlayer(){
-  gltf_loader.load(
-    // resource URL
-    (avatar != "") ? avatar : JeremyHUrl,
+
+  // gltf_loader.load(
+  //   // resource URL
+  //   (avatar != "") ? avatar : JeremyH2Url,
     // (avatar != "") ? avatar : "https://models.readyplayer.me/64ea136842c59d7dceab60d8.glb",
     // "https://models.readyplayer.me/665b1b74b490861c5f34db84.glb",
     // cesiumManUrl,
     // called when the resource is loaded
-    function ( gltf ) {
+    // function ( gltf ) {
+      entities["player:"+myUuid] = {
+        'gltf': undefined,
+        // 'plane': page.plane,
+        // 'cssObject': page.cssObject,
+        'mixer': {},
+        'animation': 'idle',
+      }
+
+gltf_loader.load((avatar_animations != {}) ? avatar_animations["idle"] : avatar, (gltf) => {
+  mainModel = gltf.scene;
+  entities["player:"+myUuid].gltf = gltf;
+  // animations.push(...gltf.animations);
+
+  
+
+  for (const [key, value] of Object.entries(avatar_animations)) {
+    gltf_loader.load(value, (gltfAnim) => {
+      gltfAnim.animations.forEach(clip => {
+        let mixer = new THREE.AnimationMixer(mainModel)
+        const action = mixer.clipAction(clip);
+        entities["player:"+myUuid]['mixer'][key] = mixer;
+        action.play();
+      });
+    })
+  }
+
+  // mainModel.animations = animations;
+  // console.log(mainModel.animations)
+
+
+  // mainModel.animations.forEach(clip => {
+  //   console.log("here")
+  //   // clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+  //   let mixer = new THREE.AnimationMixer(mainModel)
+  //   const action = mixer.clipAction(clip);
+  //   entities["player:"+myUuid].mixer.push(mixer);
+  //   action.play();
+  //   console.log(mixer)
+  // });
         gltf.scene.traverse((node) => {
             if (node.isMesh && node.material) {
                 node.material.transparent = true;
@@ -35,19 +81,19 @@ export function loadPlayer(){
         });
 
         myPlayer = gltf;
-        const model = gltf.scene;
+        // const model = gltf.scene;
         // model.position.y = 0.5; // after applying the animation mixer, we need to pull the character up
         // model.position.z = -0.9;
-        model.rotation.set(0, -Math.PI/2.0, 0); // same as above, just need to rotate
-        let mixer = new THREE.AnimationMixer(model)
+        // model.rotation.set(0, -Math.PI/2.0, 0); // same as above, just need to rotate
+        // let mixer = new THREE.AnimationMixer(model)
 
-        entities["player:"+myUuid] = {
-          'gltf': gltf,
-          // 'plane': page.plane,
-          // 'cssObject': page.cssObject,
-          'mixer': mixer,
-          'animation': 0,
-        }
+        // entities["player:"+myUuid] = {
+        //   'gltf': gltf,
+        //   // 'plane': page.plane,
+        //   // 'cssObject': page.cssObject,
+        //   'mixer': mixer,
+        //   'animation': 0,
+        // }
 
         // Debugging: Log model details
         // console.log('Model Loaded:', gltf.scene);
@@ -61,16 +107,16 @@ export function loadPlayer(){
         // const fbxLoader = new FBXLoader();
 
         // TODO
-        gltf_loader.load(JeremyHUrl, function (animGltf) {
-            animGltf.animations.forEach(clip => {
-              clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
-              const action = mixer.clipAction(clip);
-              action.play();
-            });
-            console.log('Animations Loaded:', animGltf.animations);
-        }, undefined, function (error) {
-            console.error(error);
-        });
+        // gltf_loader.load(JeremyH1Url, function (animGltf) {
+          // mainModel.animations.forEach(clip => {
+          //     clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
+          //     const action = mixer.clipAction(clip);
+          //     action.play();
+          //   });
+            // console.log('Animations Loaded:', animGltf.animations);
+        // }, undefined, function (error) {
+        //     console.error(error);
+        // });
 
         cameraController = new THREE.Object3D;
         cameraRotator = new THREE.Object3D;
@@ -96,8 +142,9 @@ export function loadPlayer(){
 
         initSocketConnection();
     }
-  );
-}
+  // )}
+  // )}
+)}
 
 // export let myPlayerTargetPosition = undefined;
 

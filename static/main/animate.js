@@ -11,6 +11,7 @@ import { finalQuaternion, rightJoystickXPercent, rightJoystickYPercent, leftJoys
 import { qDown, wDown, eDown, aDown, sDown, dDown, spaceDown } from '../main/QWEASD.js'
 import { isWalk } from '../main/commands.js'
 
+export let playerAnimation = 'idle';
 
 const stepDistance = 0.01;
 
@@ -162,6 +163,16 @@ function animate() {
         // window.playerXZHigh[1] -= deltaZ; // / size_of_pixel
         playerWrapper.position.z += deltaZ;
 
+        const playerSpeed = Math.sqrt(deltaX*deltaX + deltaZ*deltaZ);
+        // console.log(playerSpeed)
+        if (playerSpeed == 0.0){
+            playerAnimation = 'idle'
+        }else if (playerSpeed <= 0.03){
+            playerAnimation = 'walk'
+        }else{
+            playerAnimation = 'run'
+        }
+
         allCameras["mapCamera"].position.x = playerWrapper.position.x;
         allCameras["mapCamera"].position.y = Math.max(150, playerWrapper.position.y);
         allCameras["mapCamera"].position.z = playerWrapper.position.z-0.1;
@@ -228,8 +239,11 @@ function animate() {
     // TODO
     const clockDelta = clock.getDelta()
 
+    entities["player:"+myUuid]['animation'] = playerAnimation;
+
     for (const entity_key in entities){
-        let mixer = entities[entity_key]['mixer']
+        let mixer = entities[entity_key]['mixer'][entities[entity_key]['animation']]
+        // console.log("mixer", mixer)
         if (mixer){
             mixer.update( clockDelta/2.0 );
         }

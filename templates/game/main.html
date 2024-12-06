@@ -627,7 +627,11 @@
             const use_mic = "{{use_mic}}"
             let my_name = "{{ user_name }}";
             let avatar = "{{ avatar }}";
-            let myUuid = Math.random().toString();
+            let avatar_animations = {};
+            {% for key, value in avatar_animations.items %}
+              avatar_animations["{{key}}"] = "{{value}}";
+            {% endfor %}
+            let myUuid = "{{myUuid}}"; //Math.random().toString();
             let favicon = "{% static 'favicon.ico' %}";
             const walkPng = "{% static 'images/walk.png' %}";
             const wwwPng = "{% static 'images/www.png' %}";
@@ -649,7 +653,10 @@
             let concreteTexture = ""
             const cesiumManUrl = "{% static 'animations/cesium_man/CesiumMan.gltf' %}";
             const catUrl = "{% static 'animations/cat.glb' %}";
-            const JeremyHUrl = "{% static 'animations/JeremyH/biped/Animation_FunnyDancing_03_withSkin.glb' %}";
+            const JeremyH0Url = "{% static 'animations/JeremyH/JeremyH.glb' %}";
+            const JeremyH1Url = "{% static 'animations/JeremyH/biped/Animation_Idle_withSkin.glb' %}";
+            const JeremyH2Url = "{% static 'animations/JeremyH/biped/Animation_Walking_withSkin.glb' %}";
+            const JeremyH3Url = "{% static 'animations/JeremyH/biped/Animation_Running_withSkin.glb' %}";
             const readyPlayerMeDefaultUrl = "{% static 'animations/readyPlayerMeDefault.glb' %}";
             const F_Jog_001 = "{% static 'animations/F_Jog_001.glb' %}";
          </script>

@@ -1,5 +1,6 @@
 import { myPlayer, playerWrapper } from '../main/player.js';
 import { peerConnections, message_que } from '../main/socketConnection.js';
+import { playerAnimation } from '../main/animate.js';
 
 function sendPlayerGlobalData(){
     // console.log('player_send_xhr')
@@ -18,6 +19,7 @@ function sendPlayerGlobalData(){
                 'ry': playerWrapper.rotation.y,
                 'rz': playerWrapper.rotation.z,
                 'time': now.getTime(),
+                'animation': playerAnimation,
             })
         }
         // console.log('message_que', myPlayer.scene, message_que)
@@ -46,6 +48,7 @@ export function sendPlayerPeerData(){
                     'ry': playerWrapper.rotation.y,
                     'rz': playerWrapper.rotation.z,
                     'time': now.getTime(),
+                    'animation': playerAnimation,
                 }))
             }
             let receiveChannel = peerConnections[uuid].receiveChannel

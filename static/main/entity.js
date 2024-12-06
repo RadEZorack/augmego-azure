@@ -117,7 +117,7 @@ export function update_entity(entity_data){
                 gltf.scene.scale.z = 1
 
                 // TODO
-                gltf_loader.load(JeremyHUrl, function (animGltf) {
+                gltf_loader.load(JeremyH2Url, function (animGltf) {
                     animGltf.animations.forEach(clip => {
                       clip.tracks = clip.tracks.filter(track => !track.name.includes('position'));
                       const action = entities[entity_key].mixer.clipAction(clip);

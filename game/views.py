@@ -11,6 +11,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model, login
+from django.templatetags.static import static
 
 from openai import OpenAI
 
@@ -104,13 +105,25 @@ def main(request):
     avatar = ""
     if request.user.person.avatar:
         avatar = request.user.person.avatar.url
+    else:
+        avatar = static('animations/JeremyH/JeremyH.glb')
+
+    avatar_animations = {
+        # static('animations/JeremyH/JeremyH.glb'),
+        "idle": static('animations/JeremyH/biped/Animation_Idle_withSkin.glb'),
+        "walk": static('animations/JeremyH/biped/Animation_Walking_withSkin.glb'),
+        "run": static('animations/JeremyH/biped/Animation_Running_withSkin.glb'),
+    }
 
     # tutorials = Tutorial.objects.all()
     use_webcam = rg.get("webcam", False)
     use_mic = rg.get("mic", False)
 
     return render(request, 'game/main.html', {
-            'user_name': user_name, 'amica': amica, 'avatar': avatar, 'tutorials': [],
+            'user_name': user_name,
+            'amica': amica,
+            'myUuid': request.user.id,
+            'avatar': avatar, 'avatar_animations': avatar_animations, 'tutorials': [],
             'use_webcam': use_webcam, 'use_mic': use_mic
         })
 
