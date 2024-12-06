@@ -105,15 +105,28 @@ def main(request):
     avatar = ""
     if request.user.person.avatar:
         avatar = request.user.person.avatar.url
+        avatar_animations = {}
+        if request.user.person.avatar_idle:
+            avatar_animations["idle"] = request.user.person.avatar_idle.url
+        
+        if request.user.person.avatar_walk:
+            avatar_animations["walk"] = request.user.person.avatar_walk.url
+
+        if request.user.person.avatar_run:
+            avatar_animations["run"] = request.user.person.avatar_run.url
+
+        if request.user.person.avatar_dance:
+            avatar_animations["dance"] = request.user.person.avatar_dance.url
     else:
         avatar = static('animations/JeremyH/JeremyH.glb')
 
-    avatar_animations = {
-        # static('animations/JeremyH/JeremyH.glb'),
-        "idle": static('animations/JeremyH/biped/Animation_Idle_02_withSkin.glb'),
-        "walk": static('animations/JeremyH/biped/Animation_Walking_withSkin.glb'),
-        "run": static('animations/JeremyH/biped/Animation_Running_withSkin.glb'),
-    }
+        avatar_animations = {
+            # static('animations/JeremyH/JeremyH.glb'),
+            "idle": static('animations/JeremyH/biped/Animation_Idle_02_withSkin.glb'),
+            "walk": static('animations/JeremyH/biped/Animation_Walking_withSkin.glb'),
+            "run": static('animations/JeremyH/biped/Animation_Running_withSkin.glb'),
+            "dance": static('animations/JeremyH/biped/Animation_FunnyDancing_03_withSkin.glb'),
+        }
 
     # tutorials = Tutorial.objects.all()
     use_webcam = rg.get("webcam", False)

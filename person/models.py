@@ -4,10 +4,16 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ValidationError
 
 from cube.models import Chunk
 
 User = get_user_model()
+
+def file_size_validator(file):
+    max_size = 104857600  # 100 MB
+    if file.size > max_size:
+        raise ValidationError(f"File size should not exceed 100 MB.")
 
 # Create your models here.
 class Person(models.Model):
@@ -21,8 +27,11 @@ class Person(models.Model):
     amica = models.DecimalField(default=0, max_digits=15, decimal_places=3)
     is_guest = models.BooleanField(default=False)
     avatar_url = models.URLField(default="", blank=True, null=True)
-    avatar = models.FileField(upload_to="media/person-avatar/", blank=True, null=True)
-
+    avatar = models.FileField(upload_to="media/person-avatar/", blank=True, null=True, validators=[file_size_validator])
+    avatar_idle = models.FileField(upload_to="media/person-avatar-idle/", blank=True, null=True, validators=[file_size_validator])
+    avatar_walk = models.FileField(upload_to="media/person-avatar-walk/", blank=True, null=True, validators=[file_size_validator])
+    avatar_run = models.FileField(upload_to="media/person-avatar-run/", blank=True, null=True, validators=[file_size_validator])
+    avatar_dance = models.FileField(upload_to="media/person-avatar-dance/", blank=True, null=True, validators=[file_size_validator])
 
     def __str__(self) -> str:
         if self.user:
