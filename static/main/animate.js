@@ -119,8 +119,8 @@ function animate() {
         // }
 
         // We want the player to stand up right all the time, so we need both of these.
-        cameraController.quaternion.setFromEuler(new THREE.Euler(euler.x, 0 , 0, "YXZ"));
-        playerWrapper.quaternion.setFromEuler(new THREE.Euler(0, euler.y, euler.z, "YXZ"));
+        cameraController.quaternion.setFromEuler(new THREE.Euler(euler.x, 0, euler.z, "YXZ"));
+        playerWrapper.quaternion.setFromEuler(new THREE.Euler(0, euler.y, 0, "YXZ"));
         // playerWrapper.quaternion.copy(finalQuaternion);
 
         // Forward and backward
