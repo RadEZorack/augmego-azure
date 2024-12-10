@@ -38,14 +38,45 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.25;
 
+
+const renderer2 = new THREE.WebGLRenderer();
+
+// const mapCamera = new THREE.OrthographicCamera( -25, 25, 25, -25, 10, 1000 );
+const mapCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+mapCamera.position.z = 5;
+
+renderer2.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer2.domElement);
+
+const stream = renderer2.domElement.captureStream();
+
+const video = document.createElement('video');
+video.srcObject = stream;
+// Mute is often required to ensure video can play without user interaction
+// video.muted = true; 
+video.play();
+
+const videoTexture = new THREE.VideoTexture(video);
+videoTexture.minFilter = THREE.LinearFilter;
+videoTexture.magFilter = THREE.LinearFilter;
+videoTexture.format = THREE.RGBAFormat;
+
+const geometry2 = new THREE.PlaneGeometry(5, 5);
+const material2 = new THREE.MeshBasicMaterial({ map: videoTexture });
+const mesh = new THREE.Mesh(geometry2, material2);
+mesh.position.x = 5;
+scene.add(mesh);
+
+
 function animate() {
     requestAnimationFrame(animate);
     controls.update();
     renderer.render(scene, camera);
+    renderer2.render(scene, mapCamera);
+    cube2.position.z += 0.1;
 }
 
 animate();
-
     </script>
 </body>
 </html>
